@@ -21,16 +21,15 @@ const ContentWidget = (props) => {
         contentDescription: "",
         openDate: "",
         closeDate: "",
-        playlist: [{
-            id: "",
-            playlistTitle: "",
-            totalTime: "",
-            videos: [{
-
-            }],
-        }],
+        playlist: [
+            {
+                id: "",
+                playlistTitle: "",
+                totalTime: "",
+                videos: [{}],
+            },
+        ],
     };
-
 
     const [contentData, setContentData] = useState(initContentData);
     const [contentId, setContentId] = useState(props.content.contentId);
@@ -44,16 +43,16 @@ const ContentWidget = (props) => {
     const [endTime, setEndTime] = useState(null);
     const [defaultVideo, setDefaultVideo] = useState();
     const opts = {
-        height: '100',
-        width: '150',
+        height: "100",
+        width: "150",
         playerVars: {
             // https://developers.google.com/youtube/player_parameters
             autoplay: 0,
         },
     };
     const opts2 = {
-        height: '400',
-        width: '600',
+        height: "400",
+        width: "600",
         playerVars: {
             autoplay: 0,
             start: startTime,
@@ -66,32 +65,36 @@ const ContentWidget = (props) => {
         setClickedVideo(video);
         setStartTime(video.start_s);
         setEndTime(video.end_s);
-    }
+    };
     const toHHMMSS = (secs) => {
-        var sec_num = parseInt(secs, 10)
-        var hours = Math.floor(sec_num / 3600)
-        var minutes = Math.floor(sec_num / 60) % 60
-        var seconds = sec_num % 60
+        var sec_num = parseInt(secs, 10);
+        var hours = Math.floor(sec_num / 3600);
+        var minutes = Math.floor(sec_num / 60) % 60;
+        var seconds = sec_num % 60;
 
         return [hours, minutes, seconds]
-            .map(v => v < 10 ? "0" + v : v)
+            .map((v) => (v < 10 ? "0" + v : v))
             .filter((v, i) => v !== "00" || i > 0)
-            .join(":")
-    }
+            .join(":");
+    };
+    useEffect(() => {
+        if (isSelected == false) console.log("aaa");
+        console.log(isSelected);
+    }, [isSelected]);
 
     useEffect(() => {
         const fetchContent = async () => {
             // setContentId(props.content.contentId);
             console.log(contentId);
             try {
-                const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/content?contentId=${contentId}`).then((res) => setContentData(res.data)); 
+                const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/content?contentId=${contentId}`).then((res) => setContentData(res.data));
                 console.log(contentData);
                 //console.log(response.data);
                 //setContentData(response.data);
             } catch (err) {
                 console.log("err >> ", err);
             }
-            //  if(typeof contentData.playlist != "undefined") 
+            //  if(typeof contentData.playlist != "undefined")
             // setDefaultVideo(contentData.playlist.videos[0]);
         };
         fetchContent();
@@ -100,30 +103,34 @@ const ContentWidget = (props) => {
     return (
         <div className="mb-50">
             <div class="d-flex">
-                <h3 className="text-start pt-50">{props.className}</h3>
-                <h3 className="text-start ps-5 pt-50">{'>'}</h3>
-                <h3 className="text-start ps-5 pt-50">{lectureNum}강 </h3>
+                <h4 className="text-start pt-50 mb-0">{props.className}</h4>
+                <h4 className="text-start ps-3 pt-50 mb-0">{lectureNum}강 </h4>
+                <h4 className="text-start ps-3 pt-50 mb-0">{"-"}</h4>
+                {/* {contentData ? <h3 className="text-start ps-5 pt-50 orange-color">{contentData.contentName}</h3> : null} */}
+                {contentData ? <h4 className="text-start ps-3 pt-50 mb-0">{contentData.contentName}</h4> : null}
             </div>
             <div>
-                {contentData ?
+                {contentData ? (
                     <div>
-                        <div className="row">
-                            <h3 className="text-start pt-5 mb-0 orange-color">{contentData.contentName}</h3>
-                            {contentData.openDate 
-                            ?  
-                            <div className="text-start mt-5">학습 기간 : {contentData.openDate.split("T")[0]} | {contentData.openDate.split("T")[1].substring(0, 5)} ~ {contentData.closeDate.split("T")[0]} | {contentData.closeDate.split("T")[1].substring(0, 5)}</div>
-                            :<div></div> }
-                           
+                        {/* <h3 className="text-start pt-5 mb-0 orange-color">{contentData.contentName}</h3> */}
+                        <div className="row ">
+                            {contentData.openDate ? (
+                                <div className="text-start mt-5">
+                                    학습 기간 : {contentData.openDate.split("T")[0]} {contentData.openDate.split("T")[1].substring(0, 5)} ~ {contentData.closeDate.split("T")[0]}{" "}
+                                    {contentData.closeDate.split("T")[1].substring(0, 5)}
+                                </div>
+                            ) : (
+                                <div></div>
+                            )}
                         </div>
-                        {contentData.contentDescription ?
+                        {contentData.contentDescription ? (
                             <div className="row text-start pt-50">
                                 <div className="pt-5 fs-4">{contentData.contentDescription}</div>
                             </div>
-                            : null}
-
+                        ) : null}
                     </div>
-                    : null}
-                {contentData ?
+                ) : null}
+                {contentData ? (
                     <div>
                         <hr class="solid mt-50 mb-50"></hr>
                         <div className="row text-start">
@@ -131,7 +138,7 @@ const ContentWidget = (props) => {
                             <div className="pt-20">
                                 <div className="row">
                                     <div className="col-md-8 col-sm-12">
-                                        {isSelected ?
+                                        {isSelected ? (
                                             <div>
                                                 <div className="row">
                                                     <YouTube videoId={clickedVideo.youtubeId} opts={opts2} />
@@ -140,57 +147,88 @@ const ContentWidget = (props) => {
                                                     <div className="row text-start pt-30">
                                                         <div className="pt-5 fs-4">{clickedVideo.videoTitle}</div>
                                                     </div>
-                                                    <div className="d-flex fw-light ms-0">
-                                                        전체 재생 시간: {toHHMMSS(clickedVideo.duration) ? toHHMMSS(clickedVideo.duration) : 'duration 없음'}</div>
-                                                    <div className="d-flex fw-light"> 시작 시간: {toHHMMSS(clickedVideo.start_s) ? toHHMMSS(clickedVideo.start_s) : '영상제목'} ~ 끝시간: {toHHMMSS(clickedVideo.end_s) ? toHHMMSS(clickedVideo.end_s) : '영상제목'} </div>
-                                                </div>
-                                            </div>
-                                            :
-                                            <div>
-                                            {contentData.playlist.videos === null
-                                            ?
-                                                <div>
-                                                <div className="row">
-                                                    <YouTube videoId={contentData.playlist.videos[0].youtubeId} opts={opts2} />
-                                                </div>
-                                                <div className="row">
-                                                    <div className="row text-start pt-30">
-                                                        <div className="pt-5 fs-4">{contentData.playlist.videos[0].videoTitle}</div>
+                                                    <div className="d-flex fw-light ms-0">전체 재생 시간: {toHHMMSS(clickedVideo.duration) ? toHHMMSS(clickedVideo.duration) : "duration 없음"}</div>
+                                                    <div className="d-flex fw-light">
+                                                        {" "}
+                                                        시작 시간: {toHHMMSS(clickedVideo.start_s) ? toHHMMSS(clickedVideo.start_s) : "영상제목"} ~ 끝시간:{" "}
+                                                        {toHHMMSS(clickedVideo.end_s) ? toHHMMSS(clickedVideo.end_s) : "영상제목"}{" "}
                                                     </div>
-                                                    <div className="d-flex fw-light ms-0">
-                                                        전체 재생 시간: {toHHMMSS(contentData.playlist.videos[0].duration) ? toHHMMSS(contentData.playlist.videos[0].duration) : 'duration 없음'}</div>
-                                                    <div className="d-flex fw-light"> 시작 시간: {toHHMMSS(contentData.playlist.videos[0].start_s) ? toHHMMSS(contentData.playlist.videos[0].start_s) : '영상제목'} ~ 끝시간: {toHHMMSS(contentData.playlist.videos[0].end_s) ? toHHMMSS(contentData.playlist.videos[0].end_s) : '영상제목'} </div>
                                                 </div>
-                                            </div> 
-                                            : '비디오가 없습니다.'}
                                             </div>
-
-
-                                        }
+                                        ) : (
+                                            <div>
+                                                {contentData.playlist.videos === null ? (
+                                                    <div>
+                                                        <div className="row">
+                                                            <YouTube videoId={contentData.playlist.videos[0].youtubeId} opts={opts2} />
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="row text-start pt-30">
+                                                                <div className="pt-5 fs-4">{contentData.playlist.videos[0].videoTitle}</div>
+                                                            </div>
+                                                            <div className="d-flex fw-light ms-0">
+                                                                전체 재생 시간:{" "}
+                                                                {toHHMMSS(contentData.playlist.videos[0].duration) ? toHHMMSS(contentData.playlist.videos[0].duration) : "duration 없음"}
+                                                            </div>
+                                                            <div className="d-flex fw-light">
+                                                                {" "}
+                                                                시작 시간: {toHHMMSS(contentData.playlist.videos[0].start_s) ? toHHMMSS(contentData.playlist.videos[0].start_s) : "영상제목"} ~ 끝시간:{" "}
+                                                                {toHHMMSS(contentData.playlist.videos[0].end_s) ? toHHMMSS(contentData.playlist.videos[0].end_s) : "영상제목"}{" "}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <>
+                                                        {contentData.playlist.videos ? (
+                                                            <>
+                                                                <div>
+                                                                    <div className="row">
+                                                                        <YouTube videoId={contentData.playlist.videos[0].youtubeId} opts={opts2} />
+                                                                    </div>
+                                                                    <div className="row">
+                                                                        <div className="row text-start pt-30">
+                                                                            <div className="pt-5 fs-4">{contentData.playlist.videos[0].videoTitle}</div>
+                                                                        </div>
+                                                                        <div className="d-flex fw-light ms-0">
+                                                                            전체 재생 시간:{" "}
+                                                                            {toHHMMSS(contentData.playlist.videos[0].duration) ? toHHMMSS(contentData.playlist.videos[0].duration) : "duration 없음"}
+                                                                        </div>
+                                                                        <div className="d-flex fw-light">
+                                                                            {" "}
+                                                                            시작 시간:{" "}
+                                                                            {toHHMMSS(contentData.playlist.videos[0].start_s) ? toHHMMSS(contentData.playlist.videos[0].start_s) : "영상제목"} ~ 끝시간:{" "}
+                                                                            {toHHMMSS(contentData.playlist.videos[0].end_s) ? toHHMMSS(contentData.playlist.videos[0].end_s) : "영상제목"}{" "}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </>
+                                                        ) : (
+                                                            <></>
+                                                        )}
+                                                    </>
+                                                )}
+                                            </div>
+                                        )}
                                     </div>
                                     <div className="col-md-4 col-sm-12">
-                                        {contentData.playlist.videos
-                                        ?
-                                        <>
-                                            {contentData.playlist.videos.map((data, i) => (
-                                                <div className="d-flex" onClick={() => selectVideo(data)}>
-                                                    <YouTube videoId={contentData.playlist.videos[i].youtubeId} opts={opts} />
-                                                    <div className="ms-3">
-                                                        {contentData.playlist.videos[i].videoTitle}
+                                        {contentData.playlist.videos ? (
+                                            <>
+                                                {contentData.playlist.videos.map((data, i) => (
+                                                    <div className="d-flex" onClick={() => selectVideo(data)}>
+                                                        <YouTube videoId={contentData.playlist.videos[i].youtubeId} opts={opts} />
+                                                        <div className="ms-3">{contentData.playlist.videos[i].videoTitle}</div>
                                                     </div>
-                                                </div>
-                                            ))
-                                            }
-                                        </>
-                                        : <></>
-                                        }
-
+                                                ))}
+                                            </>
+                                        ) : (
+                                            <></>
+                                        )}
                                     </div>
                                 </div>
                             </div>
-
-                        </div></div>
-                    : null}
+                        </div>
+                    </div>
+                ) : null}
             </div>
         </div>
     );
