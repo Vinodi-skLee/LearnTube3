@@ -35,39 +35,35 @@ const CourseOne = (props) => {
                 CanvasClass="right_menu_togle hidden-md"
                 headerClass="full-width-header header-style1 home8-style4"
             />
-            {userId === null ? (
-                alert("로그인 후 이용이 가능합니다.")((window.location.href = "/learntube/"))
-            ) : (
-                <div class="container text-center dashboard-tabs">
-                    <div className="intro-info-tabs border-none">
-                        <Tabs>
-                            <TabList className={tabStyle}>
-                                <Tab>
-                                    <button>{tab1}</button>
-                                </Tab>
-                                <Tab>
-                                    <button>{tab2}</button>
-                                </Tab>
-                                <Tab>
-                                    <button>{tab3}</button>
-                                </Tab>
-                            </TabList>
+            <div class="container text-center dashboard-tabs">
+                <div className="intro-info-tabs border-none">
+                    <Tabs>
+                        <TabList className={tabStyle}>
+                            <Tab>
+                                <button>{tab1}</button>
+                            </Tab>
+                            <Tab>
+                                <button>{tab2}</button>
+                            </Tab>
+                            <Tab>
+                                <button>{tab3}</button>
+                            </Tab>
+                        </TabList>
 
-                            <TabPanel>
-                                <CourseMain userId={userId} />
-                            </TabPanel>
+                        <TabPanel>
+                            <CourseMain userId={userId} />
+                        </TabPanel>
 
-                            <TabPanel>
-                                <CourseMainAdmin userId={userId} />
-                            </TabPanel>
+                        <TabPanel>
+                            <CourseMainAdmin userId={userId} />
+                        </TabPanel>
 
-                            <TabPanel>
-                                <CourseMainClosed userId={userId} />
-                            </TabPanel>
-                        </Tabs>
-                    </div>
+                        <TabPanel>
+                            <CourseMainClosed userId={userId} />
+                        </TabPanel>
+                    </Tabs>
                 </div>
-            )}
+            </div>
 
             <Footer footerClass="rs-footer home9-style main-home" footerLogo={footerLogo} />
             <SearchModal />
