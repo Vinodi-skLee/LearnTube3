@@ -38,6 +38,7 @@ const DeleteNotice = (props) => {
                         padding: "5px",
                         paddingTop: "14px",
                         zIndex: "0",
+                        cursor: "pointer",
                     }}
                 ></i>
             </span>

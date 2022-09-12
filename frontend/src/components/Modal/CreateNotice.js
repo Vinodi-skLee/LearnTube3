@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Modal from "react-modal";
+import { Button } from "react-bootstrap";
 import axios from "axios";
 
 const CreateNotice = (props) => {
@@ -92,7 +93,7 @@ const CreateNotice = (props) => {
                         <div className="container">
                             <div className="py-3 px-5">
                                 <div className="sec-title text-center mb-10">
-                                    <h2 className="title mt-3 mb-10">공지 생성</h2>
+                                    <h3 className="title mt-3 mb-10">공지 생성</h3>
                                 </div>
                                 <div className="styled-form">
                                     <div id="form-messages"></div>
@@ -143,26 +144,28 @@ const CreateNotice = (props) => {
                 </div> */}
                                         </div>
                                         <div className="row d-flex justify-content-end ms-3 me-1 mt-3">
-                                            <button
+                                            <Button
                                                 type="submit"
                                                 className="canclebtn"
+                                                style={{ padding: "10.5px" }}
                                                 onClick={() => {
                                                     cancleCreateNotice();
                                                     noticeCancelHandler();
                                                 }}
                                             >
-                                                <span className="txt">취소</span>
-                                            </button>
-                                            <button
-                                                type="submit"
-                                                className="createbtn text-center pt-2"
+                                                취소
+                                            </Button>
+                                            <Button
+                                                className="createbtn"
+                                                type="button"
                                                 onClick={() => {
                                                     createNotice();
                                                     noticeCreateHandler();
                                                 }}
+                                                style={{ padding: "10.5px" }}
                                             >
                                                 저장
-                                            </button>
+                                            </Button>
                                         </div>
                                     </form>
                                 </div>
@@ -185,6 +188,7 @@ const CreateNotice = (props) => {
                             display: "flex",
                             padding: "3px",
                             zIndex: "0",
+                            cursor: "pointer",
                         }}
                     ></i>
                 </span>

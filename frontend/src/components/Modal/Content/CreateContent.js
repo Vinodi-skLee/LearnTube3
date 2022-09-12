@@ -21,7 +21,6 @@ const CreateContent = (props) => {
     };
     const [newPlaylistContentData, setNewPlaylistContentData] = useState(initCreateContentData);
 
-
     const initPlaylistsData = [{ playlistId: "", playlistName: "" }];
 
     const [createContentData, setCreateContentData] = useState(initCreateContentData);
@@ -46,10 +45,10 @@ const CreateContent = (props) => {
             [e.target.name]: e.target.value,
             lectureId: props.lectureId,
         });
-        
+
         console.log(createContentData);
     };
-    
+
     const handlePlaylistChange = (e) => {
         setCreatePlaylist({
             ...createPlaylist,
@@ -59,25 +58,23 @@ const CreateContent = (props) => {
     };
     const handleSubmit = async () => {
         //console.log(playlistId);
-        if(newPlaylistOpen) {
+        if (newPlaylistOpen) {
             setCreateContentData({
                 ...createContentData,
             });
         }
-        const response = await axios
-            .post(`${process.env.REACT_APP_SERVER_URL}/api/content`, JSON.stringify(createContentData), {
-                method: "POST",
-                headers: {
-                    // Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-            })
-            //.then((res) => console.log(res));
+        const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/content`, JSON.stringify(createContentData), {
+            method: "POST",
+            headers: {
+                // Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+        });
+        //.then((res) => console.log(res));
         openModal();
         window.location.reload();
     };
     const handleNewSubmit = async () => {
-
         //console.log(JSON.stringify(createPlaylist));
         let temp;
         const response = await axios
@@ -98,8 +95,7 @@ const CreateContent = (props) => {
                 //handleSubmit();
             });
 
-            //handleSubmit();
-
+        //handleSubmit();
     };
     //console.log(playlistId);
 
@@ -140,7 +136,7 @@ const CreateContent = (props) => {
                         <div className="container">
                             <div className="py-3 px-5">
                                 <div className="sec-title text-center mb-10">
-                                    <h2 className="title mt-3 mb-10">Content 추가</h2>
+                                    <h3 className="title mt-3 mb-10">Content 추가</h3>
                                 </div>
                                 <div className="styled-form">
                                     <div id="form-messages"></div>
@@ -219,17 +215,20 @@ const CreateContent = (props) => {
                                                             height: "30px",
                                                             margin: "10px",
                                                             padding: "8.4px",
+                                                            cursor: "pointer",
                                                         }}
                                                     ></li>
-                                                    Playlist 선택하기
+                                                    Playlist 불러오기
                                                 </div>
-                                                <div className="col-6">
+                                                <div
+                                                    className="col-6"
+                                                    onClick={() => {
+                                                        setPlaylistOpen(false);
+                                                        setNewPlaylistOpen(true);
+                                                    }}
+                                                >
                                                     <li
                                                         className="fa fa-plus"
-                                                        onClick={() => {
-                                                            setPlaylistOpen(false);
-                                                            setNewPlaylistOpen(true); 
-                                                        }}
                                                         style={{
                                                             backgroundColor: "#6483d8",
                                                             border: "0px",
@@ -239,16 +238,19 @@ const CreateContent = (props) => {
                                                             height: "30px",
                                                             margin: "10px",
                                                             padding: "8.4px",
+                                                            cursor: "pointer",
                                                         }}
                                                     ></li>
-                                                    Playlist 생성하기
+                                                    Playlist 만들기
                                                 </div>
                                             </div>
                                             {playlistOpen === true ? (
                                                 <div>
                                                     <div class="dropdown show" style={{ marginBottom: "20px" }}>
                                                         <FormSelect aria-label="SelectBox" id="playlistId" name="playlistId" onChange={handleChange}>
-                                                        <option value="------playlist를 선택해주세요-------" name="default">------playlist를 선택해주세요-------</option>
+                                                            <option value="------playlist를 선택해주세요-------" name="default">
+                                                                ------playlist를 선택해주세요-------
+                                                            </option>
                                                             {Array.isArray(playlistsData)
                                                                 ? playlistsData.map((playlists, i) => (
                                                                       <option value={playlistsData[i].playlistId} name={playlistsData[i].playlistId}>
@@ -273,11 +275,27 @@ const CreateContent = (props) => {
                                                     </div>
                                                     <div className="form-group col-lg-12">
                                                         <div className="my-2">Playlist 설명</div>
-                                                        <textarea type="textarea" id="description" name="description" onChange={handlePlaylistChange} placeholder="설명을 입력하세요" />
+                                                        <textarea
+                                                            type="textarea"
+                                                            id="description"
+                                                            name="description"
+                                                            onChange={handlePlaylistChange}
+                                                            placeholder="설명을 입력하세요"
+                                                            style={{
+                                                                position: "relative",
+                                                                borderRadius: "0px",
+                                                                padding: "6px 30px",
+                                                                width: "100%",
+                                                                color: "#222222",
+                                                                fontSize: "16px",
+                                                                transition: "all 500ms ease",
+                                                                border: "none",
+                                                                boxShadow: "0 0 30px #eee",
+                                                            }}
+                                                        />
                                                     </div>
                                                 </div>
                                             ) : null}
-
                                         </div>
 
                                         <div className="row d-flex justify-content-end ms-3 me-1 mt-3">
@@ -292,17 +310,20 @@ const CreateContent = (props) => {
                                             >
                                                 취소
                                             </Button>
-                                            <Button className="createbtn" type="button" onClick=
-                                            {()=> {
-                                                if(newPlaylistOpen) {
-                                                    handleNewSubmit();
-                                                    
-                                                    createContentData.playlistId(playlistId);
-                                                    //console.log(createContentData);
-                                                    // handleSubmit();
-                                                } else handleSubmit();
-                                                
-                                            }} style={{ padding: "10.5px" }}>
+                                            <Button
+                                                className="createbtn"
+                                                type="button"
+                                                onClick={() => {
+                                                    if (newPlaylistOpen) {
+                                                        handleNewSubmit();
+
+                                                        createContentData.playlistId(playlistId);
+                                                        //console.log(createContentData);
+                                                        // handleSubmit();
+                                                    } else handleSubmit();
+                                                }}
+                                                style={{ padding: "10.5px" }}
+                                            >
                                                 저장
                                             </Button>
                                         </div>
