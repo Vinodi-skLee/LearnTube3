@@ -12,7 +12,7 @@ const MenuItems = (props) => {
                 <Link to="/learntube/">Main</Link>
             </li>
             <li className={parentMenu === "dashboard" ? "rs-mega-menu menu-item-has-children current-menu-item" : "rs-mega-menu menu-item-has-children"}>
-                {userId === null ? <Link to="/learntube/dashboard">Dashboard</Link> : <Link to="/learntube/">Dashboard</Link>}
+                <Link to="/learntube/dashboard">Dashboard</Link>
                 {/* <ul className="mega-menu">
                     <li className="mega-menu-container"> */}
                 {/* <div className="single-megamenu">
