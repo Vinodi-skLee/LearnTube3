@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 const MenuItems = (props) => {
     const { parentMenu, secondParentMenu, userId } = props;
     const location = useLocation();
+    let id = window.sessionStorage.getItem("userId");
 
     return (
         <React.Fragment>

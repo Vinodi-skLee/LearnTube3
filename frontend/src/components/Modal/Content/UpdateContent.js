@@ -7,6 +7,7 @@ const UpdateContent = (props) => {
     const [isOpen, setIsOpen] = useState(false);
     const openModal = () => setIsOpen(!isOpen);
     const [playlistOpen, setPlaylistOpen] = useState(false);
+    const [newPlaylistOpen, setNewPlaylistOpen] = useState(false);
     const userId = props.userId;
 
     const initUpdateContentData = {
@@ -22,6 +23,7 @@ const UpdateContent = (props) => {
 
     const [updateContentData, setUpdateContentData] = useState(initUpdateContentData);
     const [playlistsData, setPlaylists] = useState(initPlaylistsData);
+    const [createPlaylist, setCreatePlaylist] = useState();
 
     const loadPlaylists = async () => {
         try {
@@ -37,6 +39,14 @@ const UpdateContent = (props) => {
         setUpdateContentData({
             ...updateContentData,
             [e.target.name]: e.target.value,
+        });
+    };
+
+    const handlePlaylistChange = (e) => {
+        setCreatePlaylist({
+            ...createPlaylist,
+            [e.target.name]: e.target.value.trim(),
+            userId: props.userId,
         });
     };
 
@@ -90,7 +100,7 @@ const UpdateContent = (props) => {
                         <div className="container">
                             <div className="py-3 px-5">
                                 <div className="sec-title text-center mb-10">
-                                    <h2 className="title mt-3 mb-10">Content 수정</h2>
+                                    <h3 className="title mt-3 mb-10">Content 수정</h3>
                                 </div>
                                 <div className="styled-form">
                                     <div id="form-messages"></div>
@@ -159,12 +169,13 @@ const UpdateContent = (props) => {
                                                 </div>
                                                 <input type="datetime-local" id="closeDate" name="closeDate" value={updateContentData.closeDate} onChange={handleChange} />
                                             </div>
-                                            <div>
-                                                <div>
+                                            <div className="row">
+                                                <div className="col-6">
                                                     <li
-                                                        className="fa fa-plus"
+                                                        className="fa fa-check"
                                                         onClick={() => {
                                                             setPlaylistOpen(true);
+                                                            setNewPlaylistOpen(false);
                                                             loadPlaylists();
                                                         }}
                                                         style={{
@@ -176,15 +187,42 @@ const UpdateContent = (props) => {
                                                             height: "30px",
                                                             margin: "10px",
                                                             padding: "8.4px",
+                                                            cursor: "pointer",
                                                         }}
                                                     ></li>
-                                                    Playlist 수정하기
+                                                    Playlist 불러오기
+                                                </div>
+                                                <div
+                                                    className="col-6"
+                                                    onClick={() => {
+                                                        setPlaylistOpen(false);
+                                                        setNewPlaylistOpen(true);
+                                                    }}
+                                                >
+                                                    <li
+                                                        className="fa fa-plus"
+                                                        style={{
+                                                            backgroundColor: "#6483d8",
+                                                            border: "0px",
+                                                            borderRadius: "10px",
+                                                            color: "white",
+                                                            width: "30px",
+                                                            height: "30px",
+                                                            margin: "10px",
+                                                            padding: "8.4px",
+                                                            cursor: "pointer",
+                                                        }}
+                                                    ></li>
+                                                    Playlist 만들기
                                                 </div>
                                             </div>
                                             {playlistOpen === true ? (
-                                                <div style={{ marginBottom: "50px" }}>
-                                                    <div class="dropdown show">
+                                                <div>
+                                                    <div class="dropdown show" style={{ marginBottom: "20px" }}>
                                                         <FormSelect aria-label="SelectBox" id="playlistId" name="playlistId" onChange={handleChange}>
+                                                            <option value="------playlist를 선택해주세요-------" name="default">
+                                                                ------playlist를 선택해주세요-------
+                                                            </option>
                                                             {Array.isArray(playlistsData)
                                                                 ? playlistsData.map((playlists, i) => (
                                                                       <option value={playlistsData[i].playlistId} name={playlistsData[i].playlistId}>
@@ -193,6 +231,40 @@ const UpdateContent = (props) => {
                                                                   ))
                                                                 : null}
                                                         </FormSelect>
+                                                    </div>
+                                                </div>
+                                            ) : null}
+                                            {newPlaylistOpen === true ? (
+                                                <div className="row clearfix">
+                                                    <div className="form-group col-lg-12 mb-25">
+                                                        <div className="my-2">
+                                                            Playlist 이름
+                                                            <span className="ms-1" style={{ color: "red" }}>
+                                                                *
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" id="title" name="playlistName" placeholder="제목을 입력하세요" onChange={handlePlaylistChange} required />
+                                                    </div>
+                                                    <div className="form-group col-lg-12">
+                                                        <div className="my-2">Playlist 설명</div>
+                                                        <textarea
+                                                            type="textarea"
+                                                            id="description"
+                                                            name="description"
+                                                            onChange={handlePlaylistChange}
+                                                            placeholder="설명을 입력하세요"
+                                                            style={{
+                                                                position: "relative",
+                                                                borderRadius: "0px",
+                                                                padding: "6px 30px",
+                                                                width: "100%",
+                                                                color: "#222222",
+                                                                fontSize: "16px",
+                                                                transition: "all 500ms ease",
+                                                                border: "none",
+                                                                boxShadow: "0 0 30px #eee",
+                                                            }}
+                                                        />
                                                     </div>
                                                 </div>
                                             ) : null}
@@ -226,6 +298,7 @@ const UpdateContent = (props) => {
                     style={{
                         padding: "5px",
                         zIndex: "0",
+                        cursor: "pointer",
                     }}
                 ></i>
             </span>
