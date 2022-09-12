@@ -88,6 +88,7 @@ public class ClassRoom extends BaseEntity {
         this.isOpened = dto.getIsOpened();
         this.entryCode = dto.getEntryCode();
         this.isActive = dto.getIsActive();
+        this.image = dto.getIamge();
     }
 
     public String getLastestNoticeTitle() {
