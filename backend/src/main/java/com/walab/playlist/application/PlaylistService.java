@@ -3,10 +3,7 @@ package com.walab.playlist.application;
 import com.walab.content.application.dto.ContentPlaylistDto;
 import com.walab.exception.playlist.PlaylistNotFoundException;
 import com.walab.exception.user.UserNotFoundException;
-import com.walab.playlist.application.dto.MyPlaylistDto;
-import com.walab.playlist.application.dto.PlaylistCUDto;
-import com.walab.playlist.application.dto.PlaylistDeleteDto;
-import com.walab.playlist.application.dto.PlaylistNameDto;
+import com.walab.playlist.application.dto.*;
 import com.walab.playlist.domain.Playlist;
 import com.walab.playlist.domain.repository.PlaylistRepository;
 import com.walab.user.domain.User;
@@ -45,9 +42,10 @@ public class PlaylistService {
         Playlist savedPlaylist = playlistRepository.save(newPlaylist);
         return savedPlaylist.toCreateResponseDto();
     }
-    public MyPlaylistDto update(Long playlistId, PlaylistCUDto playlistCUDto) {
+    @Transactional
+    public MyPlaylistDto update(Long playlistId, PlaylistUDto playlistUDto) {
         Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(PlaylistNotFoundException::new);
-        playlist.update(playlistCUDto);
+        playlist.update(playlistUDto);
         return playlist.toCreateResponseDto();
     }
     public List<PlaylistNameDto> getPlaylistName(Long userId) {

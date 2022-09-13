@@ -50,7 +50,7 @@ public class PlaylistController {
 
     @PostMapping("/update")
     public ResponseEntity<PlaylistCUResponse> updatePlaylist(@RequestBody PlaylistUpdateRequest request) {
-        MyPlaylistDto updatedPlaylist = playlistService.update(request.getPlaylistId(), request.playlistCUDto());
+        MyPlaylistDto updatedPlaylist = playlistService.update(request.getPlaylistId(), request.playlistUDto());
         PlaylistCUResponse response = updatedPlaylist.playlistCUResponse();
         return ResponseEntity.ok(response);
     }
