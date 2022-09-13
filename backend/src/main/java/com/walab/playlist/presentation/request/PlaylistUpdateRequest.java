@@ -1,13 +1,13 @@
 package com.walab.playlist.presentation.request;
 
 import com.walab.playlist.application.dto.PlaylistCUDto;
+import com.walab.playlist.application.dto.PlaylistUDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 public class PlaylistUpdateRequest {
     private Long playlistId;
     private String playlistName;
@@ -16,4 +16,5 @@ public class PlaylistUpdateRequest {
     public PlaylistCUDto playlistCUDto() {
         return new PlaylistCUDto(playlistId, playlistName, description);
     }
+    public PlaylistUDto playlistUDto(){return new PlaylistUDto(this);}
 }
