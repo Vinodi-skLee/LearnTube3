@@ -4,6 +4,7 @@ import ReactTooltip from "react-tooltip";
 
 const CourseSingleTwoCopy = (props) => {
     const { courseId, courseClass, courseImg, courseTitle, newCourse, userCount, openDate, creatorName } = props;
+
     return (
         <div className={courseClass ? courseClass : "courses-item"}>
             <div className="img-part content-part">

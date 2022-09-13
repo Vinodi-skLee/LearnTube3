@@ -52,7 +52,7 @@ function CourseDetailsPart(props) {
                         const res1 = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom?userId=${userId}&classId=${cid}`);
                         const res2 = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/user/students?classId=${cid}`);
 
-                        // console.log(res1.data);
+                        console.log(res1.data);
                         setClassRoomData(res1.data);
                         // console.log("classRoomData", classRoomData);
                         // console.log("isTake", classRoomData.isTake);
