@@ -22,7 +22,6 @@ const CurriculumPart = (props) => {
     const openModal = () => setIsOpen(!isOpen);
 
     const [noticeIdx, setNoticeIdx] = useState(0);
-    // const isTake = false;
 
     const isTakeCheck = () => {
         if (props.classRoomData.isTake === false && props.classRoomData.instructor.userId != userId) {
@@ -89,6 +88,24 @@ const CurriculumPart = (props) => {
                 .then((res) => console.log(res));
             window.location.reload();
         }
+    };
+
+    const getDateDiff = (date) => {
+        let today = new Date();
+        let year = today.getFullYear();
+        let month = ("0" + (1 + today.getMonth())).slice(-2);
+        let day = ("0" + today.getDate()).slice(-2);
+
+        let secondDate = year + month + day;
+        let firstDate = date.split("-").join("");
+        var firstDateObj = new Date(firstDate.substring(0, 4), firstDate.substring(4, 6) - 1, firstDate.substring(6, 8));
+        var secondDateObj = new Date(secondDate.substring(0, 4), secondDate.substring(4, 6) - 1, secondDate.substring(6, 8));
+        var betweenTime = Math.abs(secondDateObj.getTime() - firstDateObj.getTime());
+
+        let result = Math.floor(betweenTime / (1000 * 60 * 60 * 24));
+        console.log(result);
+        if (result > 7) return "";
+        else return "New";
     };
 
     return (
@@ -188,7 +205,7 @@ const CurriculumPart = (props) => {
                                                                               </div>
                                                                               <br></br>
                                                                               <p className="text-muted">
-                                                                                  최종 수정시간:
+                                                                                  최종 업로드:
                                                                                   {props.classRoomData.notices[noticeIdx].modDate.split("T")[0] +
                                                                                       " " +
                                                                                       props.classRoomData.notices[noticeIdx].modDate.split("T")[1].split(":")[0] +
@@ -222,7 +239,13 @@ const CurriculumPart = (props) => {
                                                           clickModalHandler(i);
                                                       }}
                                                   >
-                                                      <i className="fa fa-list" style={{ zIndex: "0" }}></i>
+                                                      {getDateDiff(props.classRoomData.notices[i].modDate.split("T")[0]) === "New" ? (
+                                                          <i className="fa" style={{ zIndex: "0" }}>
+                                                              <span style={{ fontWeight: "bold", fontSize: "13px" }}>NEW</span>
+                                                          </i>
+                                                      ) : (
+                                                          <i className="fa fa-list" style={{ zIndex: "0" }} />
+                                                      )}
                                                       {props.classRoomData.notices[i].title}
                                                   </div>
                                                   <div className="pull-right">
@@ -251,7 +274,7 @@ const CurriculumPart = (props) => {
                                                               paddingRight: "15px",
                                                           }}
                                                       >
-                                                          최종 수정시간:
+                                                          최종 업로드:
                                                           {props.classRoomData.notices[i].modDate.split("T")[0] +
                                                               " " +
                                                               props.classRoomData.notices[i].modDate.split("T")[1].split(":")[0] +
