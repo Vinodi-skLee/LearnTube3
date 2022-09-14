@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import ModalVideo from 'react-modal-video';
 import cartImg from '../../assets/img/icon/addVideo.png';
 import outOfCart from '../../assets/img/icon/minus.png';
+import { Button } from "react-bootstrap";
 
 const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, onVideoClick,addVideoToCart,deleteVideoFromCart ,isAlreadyIncart,cart}) => {
 
@@ -18,22 +19,23 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, onVideoC
 
     //const [isSelected, setIsSelected] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
+    const [isMouseOn, setIsMouseOn] = useState(0);
 
     const [searchedVideos, setSearchedVideos] = useState([]);
     useEffect(function () {
         setSearchedVideos(video);
     });
 
-    const addCart = useCallback(() =>{
-        console.log("add to cart");
-            addVideoToCart(video);
-            setIsAdded(true);
-    },[]);
+    // const addCart = useCallback(() =>{
+    //     console.log("add to cart");
+    //         addVideoToCart(video);
+    //         setIsAdded(true);
+    // },[]);
 
-    const deleteCart = useCallback(()=>{
-        setIsAdded(false);
-        deleteVideoFromCart(video.id);
-    },[]);
+    // const deleteCart = useCallback(()=>{
+    //     setIsAdded(false);
+    //     deleteVideoFromCart(video.id);
+    // },[]);
 
     // useEffect(function(){
     //     isAlreadyIncart = cart.hasOwnProperty(video.id);
@@ -41,7 +43,8 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, onVideoC
     // },[cart]);
 
     return (
-        <div className="p-0 row " >
+        <>
+        <div className="row" onMouseOver={() => setIsMouseOn(1)} onMouseOut={() => setIsMouseOn(0)} style = {isMouseOn ? {backgroundColor: '#e4e8f5', borderTop: '1px solid lightgray', padding: '10px 5px'} : {backgroundColor: '#fff', borderTop: '1px solid lightgray', padding: '10px 5px'}}>
                 <div className="m-0 col-md-3 col-sm-12 d-flex justify-content-center">
                     <img className="img-fluid" style={{ minWidth: '100px',marginBottom: '10%'}}
                         src={snippet.thumbnails.medium.url}
@@ -63,11 +66,12 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, onVideoC
                 </div>
                 <div className='col-md-1 d-flex justify-content-center align-items-center'>
                     {isAdded || isAlreadyIncart
-                    ? <img src={outOfCart} className='cart m-2' alt='delete from cart' onClick={deleteCart}></img>
-                    : <img src={cartImg} className='cart m-2' alt='add to cart' onClick={addCart}></img>}
+                    ? <Button onClick={onClick} style={{backgroundColor: '#6c757d', width: '60px', padding:'5px'}}>-</Button>
+                    : <Button onClick={onClick} style={{backgroundColor: '#6483d8', width: '60px', padding:'5px'}}>담기</Button>
+                    }
                 </div>
-                <hr></hr>
         </div>
+        </>
     );
 });
 
