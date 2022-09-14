@@ -23,6 +23,7 @@ const CoursePart = (props) => {
         const courseData = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/courses`, {
             params: filterStatus,
         });
+        console.log(courseData.data);
         setCourse(courseData.data);
         setIsLoading(false);
     };
@@ -107,7 +108,7 @@ const CoursePart = (props) => {
                                             courseImg={course.image}
                                             courseTitle={course.className}
                                             userCount={course.numberOfTake}
-                                            openDate={course.regDate}
+                                            openDate={course.classRoomRegDate.split("T")[0]}
                                             creatorName={course.instructorName}
                                         />
                                     </div>
