@@ -214,7 +214,7 @@ const ContentWidget = (props) => {
                                         {contentData.playlist.videos ? (
                                             <>
                                                 {contentData.playlist.videos.map((data, i) => (
-                                                    <div className="d-flex" onClick={() => selectVideo(data)}>
+                                                    <div className="d-flex" onClick={() => selectVideo(data)} style={data === clickedVideo ? {background: '#e4e8f5', borderTop: '1px solid lightgray', padding: '25px 20px'} : {background: '#fff', borderTop: '1px solid lightgray', padding: '25px 20px'}}>
                                                         <YouTube videoId={contentData.playlist.videos[i].youtubeId} opts={opts} />
                                                         <div className="ms-3">{contentData.playlist.videos[i].videoTitle}</div>
                                                     </div>
