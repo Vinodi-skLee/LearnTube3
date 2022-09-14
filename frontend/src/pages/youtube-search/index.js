@@ -189,6 +189,7 @@ const YoutubeSearch = () => {
             console.log(cart[prop]);
         }
         setIsChanged(true);
+        alert("저장되었습니다.");
     };
 
     const deleteVideoFromCart = (id) => {
@@ -394,10 +395,10 @@ const YoutubeSearch = () => {
                                             <div class="mx-3 my-3 border-bottom"></div>
                                             <div class="mt-5 mx-md-3 fs-5 text-start text-muted">{selectedVideo.snippet.description}</div>
                                         </div>
-                                        <div className="row d-flex justify-content-end ms-3 me-1 mt-3">
+                                        {/* <div className="row d-flex justify-content-end ms-3 me-1 mt-3">
                                             {isSelected == false ? <button className="createbtn text-center me-3" onClick={onToggle}>저장</button> : null}
-                                        </div>
-                                        <div className={isSelected ? "col-12 register-section mx-md-4" : "col-12 register-section mx-md-4 d-none"} >
+                                        </div> */}
+                                        <div className={selectedVideo ? "col-12 register-section mx-md-4" : "col-12 register-section mx-md-4 d-none"} >
                                             <div className="">
                                                 <div className="py-3">
                                                     <div className="text-start mb-10">
@@ -434,7 +435,7 @@ const YoutubeSearch = () => {
                                                                 </div>
                                                             </div>
                                                             <div className="col-12 d-flex justify-content-center mt-4 align-items-center">
-                                                                <div className="createbtn ms-0 pt-1" onClick={(e) => addVideoToCart(selectedVideo)} alert={"저장되었습니다!"}>
+                                                                <div className="createbtn ms-0 pt-1" onClick={(e) => addVideoToCart(selectedVideo)}>
                                                                     {/* <button className=" text-center" onClick={() => addVideoToCart(selectedVideo)}>저장</button> */}
                                                                     저장
                                                                 </div>
