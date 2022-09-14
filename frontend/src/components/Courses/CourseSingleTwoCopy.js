@@ -5,14 +5,32 @@ import ReactTooltip from "react-tooltip";
 const CourseSingleTwoCopy = (props) => {
     const { courseId, courseClass, courseImg, courseTitle, newCourse, userCount, openDate, creatorName } = props;
 
+    const getDateDiff = (date) => {
+        let today = new Date();
+        let year = today.getFullYear();
+        let month = ("0" + (1 + today.getMonth())).slice(-2);
+        let day = ("0" + today.getDate()).slice(-2);
+
+        let secondDate = year + month + day;
+        let firstDate = date.split("-").join("");
+        var firstDateObj = new Date(firstDate.substring(0, 4), firstDate.substring(4, 6) - 1, firstDate.substring(6, 8));
+        var secondDateObj = new Date(secondDate.substring(0, 4), secondDate.substring(4, 6) - 1, secondDate.substring(6, 8));
+        var betweenTime = Math.abs(secondDateObj.getTime() - firstDateObj.getTime());
+
+        let result = Math.floor(betweenTime / (1000 * 60 * 60 * 24));
+        console.log(result);
+        if (result > 30) return "";
+        else return "New";
+    };
+
     return (
         <div className={courseClass ? courseClass : "courses-item"}>
             <div className="img-part content-part">
                 <img src={courseImg} alt={courseTitle} style={{ width: "400px", height: "200px" }} />
-                {newCourse ? (
+                {getDateDiff(openDate) === "New" ? (
                     <ul className="meta-part new-part">
                         <li>
-                            <span className="price">{newCourse ? "New" : null}</span>
+                            <span className="price">New</span>
                         </li>
                     </ul>
                 ) : null}
@@ -38,7 +56,7 @@ const CourseSingleTwoCopy = (props) => {
                                 <i className="fa fa-user"></i> {userCount}
                             </li>
                             <li className="ratings">
-                                <span>{openDate ? openDate : "-"}</span>
+                                <span>{openDate ? "생성일 : " + openDate : "-"}</span>
                             </li>
                         </ul>
                     </div>
