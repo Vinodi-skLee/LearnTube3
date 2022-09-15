@@ -192,6 +192,10 @@ const YoutubeSearch = () => {
         alert("저장되었습니다.");
     };
 
+    const cancelCart = () => {
+        setSelectedVideo(null);
+    }
+
     const deleteVideoFromCart = (id) => {
         console.log(id);
         delete cart[id];
@@ -408,13 +412,13 @@ const YoutubeSearch = () => {
 
                                                     <div className="d-flex mb-4">
                                                         <div className="d-flex justify-content-start">
-                                                            <button className="createbtn text-center ms-0" onClick={() => onClickStartTime(currentPlayTime)}>시작 시간</button>
+                                                            <button className="createbtn text-center ms-0 rounded-3" onClick={() => onClickStartTime(currentPlayTime)}>시작 시간</button>
                                                         </div>
                                                         <div className="d-flex justify-content-start ms-3 mt-1">
                                                             <div className="">{startTime ?? currentPlayTime}</div>
                                                         </div>
                                                         <div className="d-flex justify-content-start ms-4">
-                                                            <button className="createbtn text-center ms-0" onClick={() => onClickEndTime(currentPlayTime)}>종료 시간</button>
+                                                            <button className="createbtn text-center ms-0 rounded-3" onClick={() => onClickEndTime(currentPlayTime)}>종료 시간</button>
                                                         </div>
                                                         <div className="d-flex justify-content-start ms-3 mt-1">
                                                             <div className="d-flex">{endTime ?? currentPlayTime}</div>
@@ -435,7 +439,11 @@ const YoutubeSearch = () => {
                                                                 </div>
                                                             </div>
                                                             <div className="col-12 d-flex justify-content-center mt-4 align-items-center">
-                                                                <div className="createbtn ms-0 pt-1" onClick={(e) => addVideoToCart(selectedVideo)}>
+                                                                <div className="createbtn mr-20 rounded-3" role="button" onClick={(e) => cancelCart()}>
+                                                                    {/* <button className=" text-center" onClick={() => addVideoToCart(selectedVideo)}>저장</button> */}
+                                                                    취소
+                                                                </div>
+                                                                <div className="createbtn ml-20 rounded-3" role="button" onClick={(e) => addVideoToCart(selectedVideo)}>
                                                                     {/* <button className=" text-center" onClick={() => addVideoToCart(selectedVideo)}>저장</button> */}
                                                                     저장
                                                                 </div>
