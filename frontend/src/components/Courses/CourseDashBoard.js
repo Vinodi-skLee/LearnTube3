@@ -4,11 +4,14 @@ import { ProgressBar } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 const CourseDashBoard = (props) => {
     const { courseClass, courseImg, courseTitle, progress, userCount, notice, creatorName, openDate, classId } = props;
+    // const [noImg, setNoImg] = useState(false);
+
+
 
     return (
         <div className={courseClass ? courseClass : "courses-item"}>
             <div className="img-part">
-                <img style={{ height: "150px" }} src={courseImg} alt={courseTitle} />
+                {courseImg ? <img style={{ height: "150px" }} src={courseImg} alt={courseTitle} /> : <div style={{display: "inline-block", height: "150px", width: "100%", minWidth:"250px", lineHeight:"150px", textAlign:"center", backgroundColor: "#6483d8", color:"white"}}>{courseTitle}</div>}
             </div>
 
             <div className="content-part" style={{ width: "80%" }}>
