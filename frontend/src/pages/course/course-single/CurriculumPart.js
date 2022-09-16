@@ -430,16 +430,16 @@ const CurriculumPart = (props) => {
                                           </div>
                                       ))
                                     : null}
-                            </AccordionItemPanel>
-                            <div className="text-center">
-                                <Button 
-                                    className="text-center"
-                                    onClick={() => setShowMore(!showMore)}
-                                    style={{ backgroundColor: "#6483d8" }}
+                                <div className="text-center">
+                                    <Button 
+                                        className="text-center"
+                                        onClick={() => setShowMore(!showMore)}
+                                        style={{ backgroundColor: "#6483d8" }}
 
-                                >   {showMore ? "접기" : "더 보기"}
-                                </Button>
-                            </div>
+                                    >   {showMore ? "접기" : "더 보기"}
+                                    </Button>
+                                </div>
+                            </AccordionItemPanel>
                         </AccordionItem>
                         {/* 강의 */}
                         {props.classRoomData.instructor.userId === userId ? (
