@@ -156,8 +156,6 @@ const CurriculumPart = (props) => {
                                 {Array.isArray(notices)
                                     ? showMore? notices.map((notices, i) => (
                                         <div className="content">
-                                          {/* {showMore ? notices: props.classRoomData.notices.slice(3)} */}
-                                          
                                             <div className="clearfix">
                                                 {/* 공지 모달 open */}
                                                 <Modal
