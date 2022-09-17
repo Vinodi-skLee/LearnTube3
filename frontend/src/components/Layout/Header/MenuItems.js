@@ -1,18 +1,31 @@
 import React from "react";
 import Login from "../../../pages/login";
+import { useHistory } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
 const MenuItems = (props) => {
     const { parentMenu, secondParentMenu, userId } = props;
     const location = useLocation();
     let id = window.sessionStorage.getItem("userId");
+    const history = useHistory();
+    
+
+    const clickDashBoard = () => {
+        if (id) {
+            history.replace({
+                pathname: "/learntube/dashboard",
+            });
+        } else {
+            alert("로그인이 필요합니다.");
+        }
+    };
 
     return (
         <React.Fragment>
             <li className={parentMenu === "main" ? "rs-mega-menu menu-item-has-children current-menu-item" : "rs-mega-menu menu-item-has-children"}>
                 <Link to="/learntube/">Main</Link>
             </li>
-            <li className={parentMenu === "dashboard" ? "rs-mega-menu menu-item-has-children current-menu-item" : "rs-mega-menu menu-item-has-children"}>
-                <Link to="/learntube/dashboard">Dashboard</Link>
+            <li className={parentMenu === "dashboard" ? "rs-mega-menu menu-item-has-children current-menu-item" : "rs-mega-menu menu-item-has-children"} onClick={clickDashBoard}>
+                <Link>Dashboard</Link>
                 {/* <ul className="mega-menu">
                     <li className="mega-menu-container"> */}
                 {/* <div className="single-megamenu">
