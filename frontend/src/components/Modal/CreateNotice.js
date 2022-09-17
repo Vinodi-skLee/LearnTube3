@@ -18,6 +18,7 @@ const CreateNotice = (props) => {
     const createNotice = () => setNoticeCreateOpen(!isNoticeCreateOpen);
     const cancleCreateNotice = () => setNoticeCreateOpen(!isNoticeCreateOpen);
 
+
     const [noticeTitle, setNoticeTitle] = useState("");
     const [noticeContent, setNoticeContent] = useState("");
 
@@ -25,6 +26,7 @@ const CreateNotice = (props) => {
         setNoticeTitle("");
         setNoticeContent("");
     };
+
 
     const noticeTitleHandler = (e) => {
         setNoticeTitle(e.target.value);
@@ -106,7 +108,8 @@ const CreateNotice = (props) => {
                                                         *
                                                     </span>
                                                 </div>
-                                                <input type="text" id="title" name="title" value={noticeTitle} onChange={noticeTitleHandler} placeholder="제목을 입력하세요" required />
+                                                <input type="text" id="title" name="title" value={noticeTitle} onChange={noticeTitleHandler} 
+                                                onKeyDown={e => {e.stopPropagation();}} placeholder="제목을 입력하세요" required />
                                             </div>
                                             <div className="form-group col-lg-12">
                                                 <div className="my-4">공지 내용</div>
@@ -117,6 +120,7 @@ const CreateNotice = (props) => {
                                                     name="description"
                                                     value={noticeContent}
                                                     onChange={noticeContentHandler}
+                                                    onKeyDown={e => {e.stopPropagation();}}
                                                     placeholder="설명을 입력하세요"
                                                     refs={inputRef}
                                                     style={{
