@@ -1,5 +1,6 @@
 import React, { memo, useRef } from 'react';
 import { useState } from 'react';
+import 'rc-slider/assets/index.css'
 
 const YoutubeVideoSearchWidget = memo(({ onSearch }) => {
     // const [query,setQuery] = useState('');
@@ -36,10 +37,14 @@ const YoutubeVideoSearchWidget = memo(({ onSearch }) => {
         //         <button type="submit" value="Search" onClick={onClick}><i className="fa fa-search"></i></button>
         //     </div>
         // </div>
-        <div className="col search-wrap searchbtn">
+        <>
+        <div className="search-bar-border-left" />
+        <div className="col search-wrap searchbtn search-bar">
             <input type="search" placeholder="플레이리스트에 추가할 영상을 검색하세요" name="s" className="search-input" ref={inputRef} onKeyPress={onKeyPress} />
-            <button type="submit" value="Search" onClick={onClick}><i className="fa fa-search"></i></button>
+            <button type="submit" value="Search" onClick={onClick}><i className="fa fa-search" style={{margin: "20px 20px 0px 0px"}}></i></button>
         </div>
+        <div className="search-bar-border-right" />
+        </>
     )
 });
 
