@@ -26,13 +26,10 @@ const CourseSingleTwoCopy = (props) => {
     return (
         <div className={courseClass ? courseClass : "courses-item"}>
             <div className="img-part content-part">
-<<<<<<< HEAD
                 <img src={courseImg} alt={courseTitle} style={{ width: "400px", height: "200px" }} />
                 {getDateDiff(openDate) === "New" ? (
-=======
                 {courseImg ? <img src={courseImg} alt={courseTitle} style={{ width: "400px", height: "200px" }} /> : <div style={{margin: "auto", width:"100%", height: "200px", lineHeight:"200px", textAlign:"center", backgroundColor: "#6483d8", color:"white"}}>{courseTitle}</div>}
                 {newCourse ? (
->>>>>>> 6a29b069d3127ece53fa5192135dee2a52054533
                     <ul className="meta-part new-part">
                         <li>
                             <span className="price">New</span>
