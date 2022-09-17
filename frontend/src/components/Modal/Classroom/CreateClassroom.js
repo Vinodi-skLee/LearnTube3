@@ -143,6 +143,12 @@ const ClassroomContent = (props) => {
                                             </div>
                                             <input type="datetime-local" id="closeDate" name="closeDate" onChange={handleChange} required />
                                         </div>
+                                        <div className="col-lg-12 mb-25">
+                                            <span className="my-2">
+                                                시청 시간 기능 사용 &nbsp;     
+                                            </span>
+                                            <input type="checkbox" required />
+                                        </div>
 
                                         <div className="row d-flex justify-content-end ms-3 me-1 mt-3">
                                             <Button
