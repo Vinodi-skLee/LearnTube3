@@ -2,6 +2,7 @@ package com.walab.classroom.domain;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -141,6 +142,7 @@ public class ClassRoom extends BaseEntity {
                                                     .map(Lecture::toDto)
                                                     .collect(Collectors.toList());
         List<NoticeDetailDto> noticeDetailDtos = this.notices.stream()
+                                                             .sorted(Comparator.comparing(Notice::getModDate).reversed())
                                                              .map(NoticeDetailDto::new)
                                                              .collect(Collectors.toList());
         return ClassRoomDetailDto.builder()
