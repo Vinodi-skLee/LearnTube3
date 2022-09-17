@@ -8,9 +8,12 @@ const CourseSidebar = (props) => {
     const [isOpen, setIsOpen] = useState(false);
     const openModal = () => setIsOpen(!isOpen);
     const [classRoomData, setClassRoomData] = useState();
+    const [managesData, setManagesData] = useState(null);
 
     const [visible, setVisible] = useState(false);
     const { userId } = props;
+
+    const user = window.sessionStorage.getItem("userId");
 
     const initUpdateClassRoomData = {
         classId: props.classRoomData.classId,
@@ -77,7 +80,7 @@ const CourseSidebar = (props) => {
             .then((res) => console.log(res));
         window.location.href=`${process.env.REACT_APP_REDIRECT_URL}`
         alert('강의실이 삭제되었습니다');
-    };
+    };  
 
     return (
         <>
@@ -197,26 +200,28 @@ const CourseSidebar = (props) => {
                 </div>
             </Modal>
         <div>
-            <div className="row mb-20">
-                <div className="d-grid col-6 mx-auto">
-                    <Button
-                        onClick={openModal}
-                        style={{ backgroundColor: "#6483d8" }}
-                    >
-                        강의실 수정
-                    </Button>
-                </div>
-                <div className="d-grid col-6 mx-auto">
-                  <Button
-                    onClick={() => {
-                        onDelete();
-                    }}
+        {props.classRoomData.instructor.userId === parseInt(userId) 
+    ?   (<div className="row mb-20">
+            <div className="d-grid col-6 mx-auto">
+                <Button
+                    onClick={openModal}
                     style={{ backgroundColor: "#6483d8" }}
-                  >
-                    강의실 삭제
-                  </Button>
-                </div>
+            >
+                강의실 수정
+                </Button>
             </div>
+            <div className="d-grid col-6 mx-auto">
+                <Button
+                    onClick={() => {
+                    onDelete();
+                }}
+                    style={{ backgroundColor: "#6483d8" }}
+                    >
+                강의실 삭제
+                </Button>
+            </div>
+        </div>)
+        : null}
         </div>
         <div className="inner-column">
             <div className="course-features-info">
