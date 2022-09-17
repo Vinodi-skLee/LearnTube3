@@ -8,7 +8,7 @@ const CourseSingleTwoCopy = (props) => {
     return (
         <div className={courseClass ? courseClass : "courses-item"}>
             <div className="img-part content-part">
-                <img src={courseImg} alt={courseTitle} style={{ width: "400px", height: "200px" }} />
+                {courseImg ? <img src={courseImg} alt={courseTitle} style={{ width: "400px", height: "200px" }} /> : <div style={{margin: "auto", width:"100%", height: "200px", lineHeight:"200px", textAlign:"center", backgroundColor: "#6483d8", color:"white"}}>{courseTitle}</div>}
                 {newCourse ? (
                     <ul className="meta-part new-part">
                         <li>
