@@ -7,6 +7,7 @@ import ModalVideo from 'react-modal-video';
 import cartImg from '../../assets/img/icon/addVideo.png';
 import outOfCart from '../../assets/img/icon/minus.png';
 import { Button } from "react-bootstrap";
+import 'rc-slider/assets/index.css'
 
 const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, onVideoClick,addVideoToCart,deleteVideoFromCart ,isAlreadyIncart,cart}) => {
 
@@ -44,14 +45,15 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, onVideoC
 
     return (
         <>
-        <div className="row" onMouseOver={() => setIsMouseOn(1)} onMouseOut={() => setIsMouseOn(0)} style = {isMouseOn ? {backgroundColor: '#e4e8f5', borderTop: '1px solid lightgray', padding: '10px 5px'} : {backgroundColor: '#fff', borderTop: '1px solid lightgray', padding: '10px 5px'}}>
+        
+        <div className={isMouseOn ? "search-block mouse-on" : "search-block mouse-out"} onMouseOver={() => setIsMouseOn(1)} onMouseOut={() => setIsMouseOn(0)}>
                 <div className="m-0 col-md-3 col-sm-12 d-flex justify-content-center">
-                    <img className="img-fluid" style={{ minWidth: '100px',marginBottom: '10%'}}
+                    <img className="img-fluid search-img"
                         src={snippet.thumbnails.medium.url}
                         alt={snippet.title} onClick={onClick}
                     />
                 </div>
-                <div className="col-md-8 col-sm-12" >
+                <div className="col-md-8 col-sm-12 search-text" >
                     <div className="d-flex h4" onClick={onClick}>
                         {snippet.title ? snippet.title : '영상제목'}
                     </div>

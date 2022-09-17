@@ -59,6 +59,8 @@ const YoutubeSearch = () => {
     const [updatePlaylist, setUpdatePlaylist] = useState(false);
     const [updatePlaylistTitle, setUpdatePlaylistTitle] = useState(playlistName);
     const [duration, setDuration] = useState('');
+    const [isSearchShown, setIsSearchShown] = useState(true);
+    const [isMouseOver, setIsMouseOver] = useState(false);
 
     const httpClient = axios.create({
         baseURL: 'https://www.googleapis.com/youtube/v3',
@@ -321,9 +323,9 @@ const YoutubeSearch = () => {
 
 
             {/* <div className="rs-event orange-style pt-50 pb-100 md-pt-80 md-pb-80"> */}
-            <div className="rs-event orange-style pb-100 md-pb-80">
-                <div className="px-5">
-                    <div className="container d-flex align-items-center">
+            <div className="rs-event orange-style pb-100 md-pb-80" style={{backgroundColor: "#eef0ff"}}>
+                <div>
+                    <div className="d-flex align-items-center" style={{backgroundColor: "#eef0ff", position: "relative", zIndex: "2", width: "100vw", padding: "10px 50px"}}>
                         {updatePlaylist 
                         ? <h3 className="ps-2 mb-0 col-4"><i className="fa fa-play-circle-o pe-1 pt-3"></i>
                         <input type="text" id="updatedTitle" name="updatedTitle" placeholder={playlistName} className="border-0"
@@ -336,7 +338,7 @@ const YoutubeSearch = () => {
                         {/* <i className="fa fa-pencil ps-3 pt-3 orange-color" onClick={()=>setUpdatePlaylist(!updatePlaylist)}></i> */}
                         </h3>}
                         <div className="col-8 widget-area d-flex align-items-center justify-content-end">
-                            < YoutubeVideoSearchWidget onSearch={search} />
+                            {/* < YoutubeVideoSearchWidget onSearch={search} /> */}
                             <Link
                                 className=" pt-2"
                                 to={{
@@ -349,6 +351,11 @@ const YoutubeSearch = () => {
                             </Link>
                         </div>
                     </div>
+                    <div style={{backgroundColor: "#eef0ff", position: "relative", zIndex: "2", width: "100vw", height: "58px"}}>
+                        <button className={isMouseOver ? "search-button search-mouse-on" : "search-button search-mouse-out"} role="button" onClick={() => setIsSearchShown(!isSearchShown)} onMouseOver={() => setIsMouseOver(true)} onMouseLeave={() => setIsMouseOver(false)}>
+                            <i className="fa fa-search" style={{fontSize:"25px"}}></i>
+                        </button>
+                    </div>
                     <div class="text-center dashboard-tabs">
                         <div className="intro-info-tabs border-none row">
                             {/* <div className="col-md-4">
@@ -360,9 +367,19 @@ const YoutubeSearch = () => {
                                 </div>
                             </div> */}
                             {/* video를 선택했을 경우 화면 반으로 나눠서 구성 */}
-                            {selectedVideo ?
-                                (<div className="col-lg-6 col-md-7">
-                                    <div className="widget-area">
+                            <div className="col-md-6 col-6 col-md-offset-2">
+                                    <div className={isSearchShown ? "widget-area search-window search-window-fade-in" : "widget-area search-window search-window-fade-out"}>
+                                    < YoutubeVideoSearchWidget onSearch={search} />
+                                        <YoutubeVideoListWidget videos={searchedVideos.items}
+                                            onVideoClick={selectVideo} nextPageToken={searchedVideos.nextPageToken}
+                                            prevPageToken={searchedVideos.prevPageToken} getToken={getToken}
+                                            cartClick={addVideoToCart} cartUnclick={deleteVideoFromCart} cart={cart} />
+                                    </div>
+                                </div>
+                            {/* {isSearchShown ?
+                                (<div className="col-md-12 col-12">
+                                    <div className={isSearchShown ? "widget-area search-window search-window-fade-out" : "widget-area search-window search-window-fade-in"}>
+                                    < YoutubeVideoSearchWidget onSearch={search} />
                                         <YoutubeVideoListWidget videos={searchedVideos.items}
                                             onVideoClick={selectVideo} nextPageToken={searchedVideos.nextPageToken}
                                             prevPageToken={searchedVideos.prevPageToken} getToken={getToken}
@@ -370,14 +387,15 @@ const YoutubeSearch = () => {
 
                                     </div>
                                 </div>)
-                                : <div className="col-md-12 col-12">
-                                    <div className="widget-area">
+                                : <div className="col-lg-6 col-md-7">
+                                    <div className="widget-area search-window">
+                                    < YoutubeVideoSearchWidget onSearch={search} />
                                         <YoutubeVideoListWidget videos={searchedVideos.items}
                                             onVideoClick={selectVideo} nextPageToken={searchedVideos.nextPageToken}
                                             prevPageToken={searchedVideos.prevPageToken} getToken={getToken}
                                             cartClick={addVideoToCart} cartUnclick={deleteVideoFromCart} cart={cart} />
                                     </div>
-                                </div>}
+                                </div>} */}
                             {selectedVideo ? (
                                 <div className="col-lg-6 col-md-5 col-sm-12 mb-500">
                                     <YouTube videoId={selectedVideo.id} opts={opts} onStateChange={(e) => checkElapsedTime(e)} />
@@ -456,7 +474,17 @@ const YoutubeSearch = () => {
                                     </div>
                                 </div>
                             ) :
-                                <div></div>
+                                <>
+                                <div className="col-md-1">
+
+                                </div>
+                                    <div className="col-md-4 d-block bg-white">
+                                        <span>playlist</span>
+                                    </div>
+                                    <div className="col-md-1">
+                                        
+                                    </div>
+                                </>
                             }
                         </div>
                     </div>

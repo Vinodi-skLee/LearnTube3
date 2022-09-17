@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import YoutubeBoard from '../../components/Events/YoutubeBoard';
+import 'rc-slider/assets/index.css'
 
 const YoutubeVideoListWidget = ({ videos, onVideoClick, nextPageToken, prevPageToken, getToken,cartClick,cartUnclick,cart }) => {
     const [searchedVideos, setSearchedVideos] = useState([]);
@@ -22,9 +23,9 @@ const YoutubeVideoListWidget = ({ videos, onVideoClick, nextPageToken, prevPageT
     },[cart]);
 
     return searchedVideos ? (
-        <div className=" mb-50 py-3 ">
-            <div id="rs-popular-course" className="rs-popular-courses list-view style1 course-view-style orange-style rs-inner-blog white-bg pb-100 md-pt-70 md-pb-80 text-start">
-                <div className="container">
+        <div className="search-box">
+            <div id="rs-popular-course" className="rs-popular-courses list-view style1 course-view-style orange-style rs-inner-blog md-pt-70 text-start">
+                <div>
                     <div className="course-part clearfix m-0">
                         {searchedVideos.map(function(video){
                             //console.log(video.id);                            
@@ -47,16 +48,16 @@ const YoutubeVideoListWidget = ({ videos, onVideoClick, nextPageToken, prevPageT
                     })}
                     </div>
                 </div>
-                <div className="pagination-area orange-color text-center mt-30 md-mt-0">
+                {/* <div className="pagination-area orange-color text-center mt-30 md-mt-0">
                     <ul className="pagination-part">
                         {prevPageToken ? <li onClick={(e) => clickPageToken(prevPageToken)} ><Link to="#"><i className="fa fa-long-arrow-left"></i>&nbsp;&nbsp;Prev</Link></li> : null}
                         {nextPageToken ? <li onClick={(e) => clickPageToken(nextPageToken)} ><Link to="#">Next <i className="fa fa-long-arrow-right"></i></Link></li> : null}
 
                     </ul>
-                </div>
+                </div> */}
             </div>
         </div>
-    ) : (<div>검색중...</div>)
+    ) : (<div className="search-box">검색중...</div>)
 }
 
 export default YoutubeVideoListWidget;
