@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
+import logo from "../../assets/img/logo/img-background.png";
 
 const CourseSingleTwoCopy = (props) => {
-    const { courseId, courseClass, courseImg, courseTitle, newCourse, userCount, openDate, creatorName } = props;
+    const { courseId, courseClass, courseImg, courseTitle, userCount, openDate, creatorName } = props;
 
     const getDateDiff = (date) => {
         let today = new Date();
@@ -26,7 +27,27 @@ const CourseSingleTwoCopy = (props) => {
     return (
         <div className={courseClass ? courseClass : "courses-item"}>
             <div className="img-part content-part">
-                <img src={courseImg} alt={courseTitle} style={{ width: "400px", height: "200px" }} />
+                {courseImg ? (
+                    <img style={{ width: "400px", height: "200px" }} src={courseImg} alt={courseTitle} />
+                ) : (
+                    <div className="background-wrap" style={{ display: "flex", backgroundSize: "cover", backgroundImage: `url(${logo})`, width: "338px", height: "200px", borderRadius: "5px" }}>
+                        <span
+                            style={{
+                                display: "inline-block",
+                                width: "400px",
+                                height: "200px",
+                                lineHeight: "200px",
+                                textAlign: "center",
+                                color: "#404040",
+                                fontWeight: "bold",
+                                fontSize: "20px",
+                                fontFamily: "Nunito, sans-serif;",
+                            }}
+                        >
+                            {courseTitle}
+                        </span>
+                    </div>
+                )}
                 {getDateDiff(openDate) === "New" ? (
                     <ul className="meta-part new-part">
                         <li>
