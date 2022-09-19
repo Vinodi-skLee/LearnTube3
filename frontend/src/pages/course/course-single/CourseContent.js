@@ -11,28 +11,30 @@ import favIcon from "../../../assets/img/fav-orange.png";
 import Logo from "../../../assets/img/logo/Learntube-logos_transparent.png";
 import footerLogo from "../../../assets/img/logo/lite-logo.png";
 
-const CourseContent = () => {
+const CourseContent = (props) => {
   const location = useLocation();
-  const [classRoomData, setClassRoomData] = useState();
+  const [classRoomData, setClassRoomData] = useState(props.classRoomData);
+  console.log(classRoomData);
   const initCreatePlaylist = {
     title: "",
     description: "",
     tag: "",
   };
-
   const { state } = useLocation();
   const cid = state.classId;
   const userId = window.sessionStorage.getItem("userId");
-  console.log(cid);
+  console.log("cid", cid);
+  // console.log(state.classRoomData.lectures);
+  const [lectures, setLectures] = useState(state.classRoomData.lectures);
+  // console.log("lectures", lectures);
   useEffect(() => {
-    console.log(cid);
     const fetchClassRoom = async () => {
       try {
         const response = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/api/classroom?userId=${userId}&classId=${cid}`
         );
-        // console.log(response.data);
-        setClassRoomData(response.data);
+        console.log(response.data);
+        // setClassRoomData(response.data);
       } catch (err) {
         console.log("err >> ", err);
       }
@@ -72,6 +74,9 @@ const CourseContent = () => {
                       location.state.classRoomData.lectures[location.state.i]
                         .contents[location.state.j]
                     }
+                    i={location.state.i}
+                    j={location.state.j}
+                    lectures={lectures}
                   />
                 </div>
               </div>
