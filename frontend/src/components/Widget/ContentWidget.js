@@ -10,7 +10,6 @@ import YouTube from "react-youtube";
 import courseImg1 from "../../assets/img/courses/1.jpg";
 import courseImg2 from "../../assets/img/courses/2.jpg";
 import courseImg3 from "../../assets/img/courses/3.jpg";
-
 const ContentWidget = (props) => {
   console.log(props.i);
   console.log(props.content.contentId);
@@ -34,6 +33,7 @@ const ContentWidget = (props) => {
 
   const [contentData, setContentData] = useState(initContentData);
   const [contentId, setContentId] = useState(props.content.contentId);
+  const [contentNum, setContentNum] = useState(0);
   const [lectureNum, setLectureNum] = useState(props.lecture.lectureNum);
   const [selectedPlaylist, setSelectedPlaylist] = useState();
   const [selectedVideo, setSelectedVideo] = useState();
@@ -51,14 +51,20 @@ const ContentWidget = (props) => {
       autoplay: 0,
     },
   };
+
   const opts2 = {
-    height: "400",
-    width: "600",
+    height: "500",
+    width: "750",
     playerVars: {
       autoplay: 0,
       start: startTime,
       end: endTime,
     },
+  };
+
+  const disabled = {
+    PointerEvent: null, //This makes it not clickable
+    opacity: 0.6, //This grays it out to look disabled
   };
 
   const selectVideo = (video) => {
@@ -79,10 +85,10 @@ const ContentWidget = (props) => {
       .join(":");
   };
 
-  useEffect(() => {
-    if (isSelected == false) console.log("aaa");
-    console.log(isSelected);
-  }, [isSelected]);
+  //   useEffect(() => {
+  //     if (isSelected == false) console.log("aaa");
+  //     console.log(isSelected);
+  //   }, [isSelected]);
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -95,7 +101,7 @@ const ContentWidget = (props) => {
           )
           .then((res) => setContentData(res.data));
         console.log(contentData);
-        //console.log(response.data);
+        console.log(response.data);
         //setContentData(response.data);
       } catch (err) {
         console.log("err >> ", err);
@@ -107,7 +113,7 @@ const ContentWidget = (props) => {
   }, [contentId, lectureNum]);
   //   console.log("length", props.lectures.length);
   //   console.log("lecNum", lectureNum);
-  const prevHandler = () => {
+  const prevLectureHandler = () => {
     if (lectureNum != 1) {
       //   console.log(props.lectures[lectureNum - 2].contents[0].contentId);
       setContentId(props.lectures[lectureNum - 2].contents[0].contentId);
@@ -115,12 +121,32 @@ const ContentWidget = (props) => {
       //   console.log(contentId);
     }
   };
-  const nextHandler = () => {
+  const nextLectureHandler = () => {
     if (lectureNum <= props.lectures.length) {
       setContentId(props.lectures[lectureNum].contents[0].contentId);
       setLectureNum(lectureNum + 1);
       //   console.log(contentId);
     }
+  };
+  const prevContentHandler = () => {
+    if (contentNum < 0) setContentNum(0);
+    if (contentNum > 0) setContentNum(contentNum - 1);
+    console.log("contentNum", contentNum);
+    console.log("lecNum", lectureNum);
+    setContentId(
+      props.lectures[lectureNum - 1].contents[contentNum - 1].contentId
+    );
+    console.log("contentId", contentId);
+  };
+  const nextContentHandler = () => {
+    if (contentNum < 0) setContentNum(0);
+    setContentNum(contentNum + 1);
+    console.log("lecNum", lectureNum);
+    console.log("contentNum", contentNum);
+    setContentId(
+      props.lectures[lectureNum - 1].contents[contentNum + 1].contentId
+    );
+    console.log("contentId", contentId);
   };
 
   return (
@@ -212,6 +238,9 @@ const ContentWidget = (props) => {
                                   contentData.playlist.videos[0].youtubeId
                                 }
                                 opts={opts2}
+                                onStateChange={(e) => {
+                                  console.log(e);
+                                }}
                               />
                             </div>
                             <div className="row">
@@ -351,27 +380,51 @@ const ContentWidget = (props) => {
             </div>
           </div>
         ) : null}
-        <div className="d-flex justify-content-between">
-          {lectureNum != 1 ? (
-            <div className="pagination-area orange-color text-center mt-30 md-mt-0">
-              <ul className="pagination-part">
-                <li onClick={prevHandler}>
-                  <i className="fa fa-long-arrow-left"></i> &nbsp;이전 강
+        <div className="d-flex justify-content-center">
+          <div className="pagination-area pagination-part orange-color text-center md-mt-0 p-3">
+            {lectureNum != 1 ? (
+              <ul className="pagination-part shadow-none border-0">
+                <li onClick={prevLectureHandler}>
+                  <i className="fa fa-step-backward"></i>
                 </li>
               </ul>
-            </div>
-          ) : (
-            <div></div>
-          )}
-          {lectureNum + 1 != props.lectures.length ? (
-            <div className="pagination-area orange-color text-center mt-30 md-mt-0">
-              <ul className="pagination-part">
-                <li onClick={nextHandler}>
-                  다음 강 <i className="fa fa-long-arrow-right"></i>
+            ) : (
+              <div></div>
+            )}
+            {props.lectures[lectureNum - 1].contents.length != 1 ? (
+              <>
+                {/* {!props.lectures[lectureNum - 1].contents[0] ? ( */}
+                {contentNum != 0 ? (
+                  <ul className="pagination-part shadow-none border-0">
+                    <li onClick={prevContentHandler}>
+                      <i
+                        className="fa fa-play"
+                        style={{ transform: "rotate(180deg)" }}
+                      ></i>
+                    </li>
+                  </ul>
+                ) : null}
+                {/* <h>{props.lectures[lectureNum - 1].contents.length}</h>
+                {contentNum} */}
+                {props.lectures[lectureNum - 1].contents.length !=
+                contentNum + 1 ? (
+                  <ul className="pagination-part shadow-none border-0">
+                    <li onClick={nextContentHandler}>
+                      <i className="fa fa-play"></i>
+                    </li>
+                  </ul>
+                ) : null}
+              </>
+            ) : null}
+
+            {lectureNum + 1 != props.lectures.length ? (
+              <ul className="pagination-part shadow-none border-0">
+                <li onClick={nextLectureHandler}>
+                  <i className="fa fa-step-forward"></i>
                 </li>
               </ul>
-            </div>
-          ) : null}
+            ) : null}
+          </div>
         </div>
       </div>
     </div>
