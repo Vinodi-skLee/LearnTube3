@@ -271,18 +271,36 @@
     max-height: 100px;
 }
 
-.cart-left{
+.cart-right{
     width: 100%;
+    margin-top: 20px;
     margin-left: 100px;
-    margin-right: 50px;
     min-height: 500px;
-    transition: all .4 ease;
+    animation: slide-right .5s forwards;
 }
 
 .cart-center{
     width: 100%;
+    margin-top: 20px;
     margin-left: 50px;
-    margin-right: 50px;
     min-height: 500px;
-    transition: all .4 ease;
+    animation: slide-left .5s forwards;
+}
+
+@keyframes slide-right {
+    0% {
+        transform: translateX(-60%);
+    }
+    100% {
+        transform: translate(0%);
+    }
+}
+
+@keyframes slide-left {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
 }

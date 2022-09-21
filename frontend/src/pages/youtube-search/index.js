@@ -462,7 +462,7 @@ const YoutubeSearch = () => {
                                 </Modal>
                             ) : null}
                                 <>
-                                    <div className={isSearchShown ? "col-md-6 d-block bg-white cart-left" : "cold-md-12 d-block bg-white cart-center"}>
+                                    <div className={isSearchShown ? "col-6 bg-white cart-right" : "d-block bg-white cart-center"}>
                                         <Cart cart={cart} playlistTitle={playlistName} playlistId={playlistId}></Cart>
                                     </div>
                                 </>
