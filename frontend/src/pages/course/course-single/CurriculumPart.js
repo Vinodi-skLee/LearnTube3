@@ -20,12 +20,13 @@ import UpdateNotice from "../../../components/Modal/UpdateNotice";
 import DeleteNotice from "../../../components/Modal/DeleteNotice";
 
 const CurriculumPart = (props) => {
-  // console.log(props);
+
   const userId = parseInt(window.sessionStorage.getItem("userId"));
   // console.log("curi userID", userId);
 
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => setIsOpen(!isOpen);
+
 
   const [isViewOpen, setViewOpen] = useState(false);
   const openView = () => setViewOpen(!isViewOpen);
@@ -35,13 +36,16 @@ const CurriculumPart = (props) => {
   const [showMore, setShowMore] = useState(false);
 
   let notices = props.classRoomData.notices;
+  let lectures = props.classRoomData.lectures;
 
   const isTakeCheck = () => {
+
     if (
       props.classRoomData.isTake === false &&
       props.classRoomData.instructor.userId != userId
     ) {
       alert("수강 신청이 필요합니다. ");
+
       window.reload();
       return;
     }
@@ -619,6 +623,7 @@ const CurriculumPart = (props) => {
                                           </button>
                                         </div>
                                       </form>
+
                                     </div>
                                   </div>
                                 </div>
@@ -714,6 +719,7 @@ const CurriculumPart = (props) => {
                       </div>
                     ))
                   : null}
+
               </AccordionItemPanel>
             </AccordionItem>
             {/* 강의 */}
@@ -796,6 +802,9 @@ const CurriculumPart = (props) => {
                                       to={{
                                         pathname: "/learntube/content",
                                         state: {
+
+                                          lectures: lectures,
+
                                           classRoomData: props.classRoomData,
                                           i: i,
                                           j: j,

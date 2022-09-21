@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import { useState, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
@@ -18,11 +18,12 @@ import Logo from "../../assets/img/logo/Learntube-logos_transparent.png";
 import footerLogo from "../../assets/img/logo/lite-logo.png";
 import save from "../../assets/img/icon/save.png";
 
-const Cart = () => {
+const Cart = memo(({cart, playlistTitle, playlistId}) => {
     const location = useLocation();
     const videos = location.state.cart;
     //console.log(videos);
     const [videoList, setVideoList] = useState(location.state.cart);
+    console.log("haha: " + playlistId + ", " + playlistTitle + ", " + cart);
     const [cartList, setCartList] = useState([]);
     const [playlistName, setPlaylistName] = useState("");
     const [createResponse, setCreateResponse] = useState();
@@ -134,7 +135,7 @@ const Cart = () => {
 
     return (
         <React.Fragment>
-            <Helmet>
+            {/* <Helmet>
                 <link rel="icon" href={favIcon} />
             </Helmet>
             <OffWrap />
@@ -147,7 +148,7 @@ const Cart = () => {
                 mobileNormalLogo={Logo}
                 CanvasClass="right_menu_togle hidden-md"
                 headerClass="full-width-header header-style1 home8-style4"
-            />
+            /> */}
 
             <div className="rs-event orange-style pb-100 md-pb-80">
                 <div className="px-5">
@@ -171,9 +172,9 @@ const Cart = () => {
                                     </div>
                             </Link>
                             </div>
-                            {/* <div className="pt-2" onClick={saveCart}>
+                            <div className="pt-2" onClick={saveCart}>
                                 <img src={save} className="save" alt="save"></img>
-                            </div> */}
+                            </div>
                         </div>
                         <div className="row mt-5">
                             {cartList.map(function (video, i) {
@@ -208,7 +209,7 @@ const Cart = () => {
                     </div>
                 </div>
             </div>
-            <Footer footerClass="rs-footer home9-style main-home" footerLogo={footerLogo} />
+            {/* <Footer footerClass="rs-footer home9-style main-home" footerLogo={footerLogo} /> */}
 
             {/* scrolltop-start */}
             <ScrollToTop scrollClassName="scrollup orange-color" />
@@ -217,6 +218,6 @@ const Cart = () => {
             <SearchModal />
         </React.Fragment>
     );
-};
+});
 
 export default Cart;

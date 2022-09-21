@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import CourseSidebar from "./CourseSidebar";
 import CurriculumPart from "./CurriculumPart";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import Dropdown from "../../../components/Dropdown/DropDown";
 
-function CourseDetailsPart(props) {
+function CourseDetailsPart() {
     const location = useLocation();
     const [userId, SetUserId] = useState("");
 
     const [classRoomData, setClassRoomData] = useState();
     const cid = useLocation().state.classId;
+    const [clicked, setClicked] = useState(false);
     const [students, setStudents] = useState([{ userId: "", name: "", email: "" }]);
 
     const uid = location.state.userId;
@@ -54,12 +56,7 @@ function CourseDetailsPart(props) {
 
                         console.log(res1.data);
                         setClassRoomData(res1.data);
-                        // console.log("classRoomData", classRoomData);
-                        // console.log("isTake", classRoomData.isTake);
-                        // console.log("cid", cid);
-                        // console.log("res2", res2.data);
                         setStudents(res2.data);
-                        // console.log("students", students);
                     } catch (err) {
                         console.log("err >> ", err);
                     }
@@ -76,16 +73,26 @@ function CourseDetailsPart(props) {
                     <h5>커리큘럼</h5>
 
                     {classRoomData ? (
-                        <div className="">
-                            <div>
-                                <h3>{classRoomData.className}</h3>
-                                <p>⇣ {classRoomData.classDescription} </p>
+                        <div className="row">
+                            <div className="col">
+                                <div className="row">
+                                    <h3>{classRoomData.className}</h3>
+                                    <p>⇣ {classRoomData.classDescription}</p>
+                                </div>
                             </div>
-                            {classRoomData.instructor.userId != userId && classRoomData.isTake === false ? (
-                                <button id="joinBtn" className="readon2 banner-style flex-fill  align-items-end flex-column bd-highlight mb-3" onClick={joinClass}>
-                                    수강 신청
-                                </button>
+                            {classRoomData.instructor.userId == userId ? (
+                                <div className="col">
+                                    <Dropdown classRoomData={classRoomData} students={students} userId={userId} />
+                                </div>
                             ) : null}
+                            {classRoomData.instructor.userId != userId && classRoomData.isTake === false ? (
+                                <div className="col">
+                                    <Button id="joinBtn" className="" onClick={joinClass} style={{ float: "right", width: "8rem", minWidth: "6rem", marginRight: "1.5rem", marginTop: "3rem" }}>
+                                        수강신청
+                                    </Button>
+                                </div>
+                            ) : null}
+
                             <div className="row clearfix">
                                 <div className="col-lg-8 md-mb-50">
                                     <CurriculumPart classRoomData={classRoomData} userId={userId} />
