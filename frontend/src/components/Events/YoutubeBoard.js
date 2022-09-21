@@ -9,7 +9,7 @@ import outOfCart from '../../assets/img/icon/minus.png';
 import { Button } from "react-bootstrap";
 import 'rc-slider/assets/index.css'
 
-const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, onVideoClick,addVideoToCart,deleteVideoFromCart ,isAlreadyIncart,cart}) => {
+const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, key, onVideoClick,addVideoToCart,deleteVideoFromCart ,isAlreadyIncart,cart}) => {
 
 
     const onClick = useCallback(() => {
@@ -46,15 +46,15 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, onVideoC
     return (
         <>
         
-        <div className={isMouseOn ? "search-block mouse-on" : "search-block mouse-out"} onMouseOver={() => setIsMouseOn(1)} onMouseOut={() => setIsMouseOn(0)}>
+        <div className={isMouseOn ? "search-block mouse-on" : "search-block mouse-out"} onMouseDown={onClick} onMouseOver={() => setIsMouseOn(1)} onMouseOut={() => setIsMouseOn(0)}>
                 <div className="m-0 col-md-3 col-sm-12 d-flex justify-content-center">
                     <img className="img-fluid search-img"
                         src={snippet.thumbnails.medium.url}
-                        alt={snippet.title} onClick={onClick}
+                        alt={snippet.title} onMouseDown={onClick}
                     />
                 </div>
                 <div className="col-md-8 col-sm-12 search-text" >
-                    <div className="d-flex h4" onClick={onClick}>
+                    <div className="d-flex h4" onMouseDown={onClick}>
                         {snippet.title ? snippet.title : '영상제목'}
                     </div>
                     <div className="d-flex fw-light ms-0 ps-0">
@@ -68,8 +68,8 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, onVideoC
                 </div>
                 <div className='col-md-1 d-flex justify-content-center align-items-center'>
                     {isAdded || isAlreadyIncart
-                    ? <Button onClick={onClick} style={{backgroundColor: '#6c757d', width: '60px', padding:'5px'}}>-</Button>
-                    : <Button onClick={onClick} style={{backgroundColor: '#6483d8', width: '60px', padding:'5px'}}>담기</Button>
+                    ? <Button onMouseDown={onClick} style={{backgroundColor: '#6c757d', width: '60px', padding:'5px'}}>-</Button>
+                    : <Button onMouseDown={onClick} style={{backgroundColor: '#6483d8', width: '60px', padding:'5px'}}>담기</Button>
                     }
                 </div>
         </div>
