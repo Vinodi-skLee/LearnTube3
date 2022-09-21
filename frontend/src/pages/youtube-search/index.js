@@ -16,7 +16,8 @@ import YouTube from 'react-youtube';
 import Range from 'rc-slider';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css'
-
+import Cart from './cart';
+import Modal from "react-modal";
 
 // Image
 import favIcon from '../../assets/img/fav-orange.png';
@@ -24,9 +25,10 @@ import Logo from '../../assets/img/logo/Learntube-logos_transparent.png';
 import footerLogo from '../../assets/img/logo/lite-logo.png';
 import cartPage from '../../assets/img/icon/trolley.png';
 
+
 const YoutubeSearch = () => {
     const location = useLocation();
-
+    console.log("playlist name: " + location.state.playlistName);
     const opts = {
         height: '360',
         width: '600',
@@ -47,7 +49,7 @@ const YoutubeSearch = () => {
     const [cart, setCart] = useState({});
     const [isChanged, setIsChanged] = useState(false);
     const [newDescription, setNewDescription] = useState('');
-    const [playlistName, setPlaylistName] = useState('');
+    const [playlistName, setPlaylistName] = useState(location.state.playlistName);
     const [newTitle, setNewTitle] = useState(playlistName);
     const [currentPlayTime, setCurrentPlayTime] = useState();
     const [currentFloatTime, setCurrentFloatTime] = useState();
@@ -191,7 +193,7 @@ const YoutubeSearch = () => {
             console.log(cart[prop]);
         }
         setIsChanged(true);
-        alert("저장되었습니다.");
+        window.alert("저장되었습니다.");
     };
 
     const cancelCart = () => {
@@ -325,37 +327,20 @@ const YoutubeSearch = () => {
             {/* <div className="rs-event orange-style pt-50 pb-100 md-pt-80 md-pb-80"> */}
             <div className="rs-event orange-style pb-100 md-pb-80" style={{backgroundColor: "#eef0ff"}}>
                 <div>
-                    <div className="d-flex align-items-center" style={{backgroundColor: "#eef0ff", position: "relative", zIndex: "2", width: "100vw", padding: "10px 50px"}}>
+                    <div className="d-flex align-items-center ml-50" style={{backgroundColor: "#eef0ff", position: "relative", zIndex: "1"}}>
                         {updatePlaylist 
-                        ? <h3 className="ps-2 mb-0 col-4"><i className="fa fa-play-circle-o pe-1 pt-3"></i>
+                        ? <h4 className="ps-2 mt-15 mb-10"><i className="fa fa-play-circle-o pe-1 pt-3"></i>
                         <input type="text" id="updatedTitle" name="updatedTitle" placeholder={playlistName} className="border-0"
                                 value={updatePlaylistTitle} onChange={newTitleChange} />
                         {/* <i className="fa fa-check ps-3 pt-3 orange-color" onClick={()=>setUpdatePlaylist(!updatePlaylist)}></i>
                         <i className="fa fa-rotate-left ps-3 pt-3 orange-color" onClick={()=>setUpdatePlaylist(!updatePlaylist)}></i> */}
-                        </h3> 
-                        : <h3 className="ps-2 mb-0 col-4"><i className="fa fa-play-circle-o pe-1 pt-3"></i>
+                        </h4> 
+                        : <h4 className="ps-2 mt-15 mb-10"><i className="fa fa-play-circle-o pe-1 pt-3"></i>
                         {location.state.playlistName != undefined || location.state.playlistName ? playlistName : '제목'}
                         {/* <i className="fa fa-pencil ps-3 pt-3 orange-color" onClick={()=>setUpdatePlaylist(!updatePlaylist)}></i> */}
-                        </h3>}
-                        <div className="col-8 widget-area d-flex align-items-center justify-content-end">
-                            {/* < YoutubeVideoSearchWidget onSearch={search} /> */}
-                            <Link
-                                className=" pt-2"
-                                to={{
-                                    pathname: "/learntube/learntube-studio/myCart",
-                                    state: { cart: cart, title: playlistName ,playlistId:location.state.playlistId}
-                                }}
-                            >
-                                {/* <img src={cartPage} className='goToCart' alt='go to cart page' ></img> */}
-                                <Button className='cartPage py-3'>담은 비디오 확인하기</Button>
-                            </Link>
-                        </div>
+                        </h4>}
                     </div>
-                    <div style={{backgroundColor: "#eef0ff", position: "relative", zIndex: "2", width: "100vw", height: "58px"}}>
-                        <button className={isMouseOver ? "search-button search-mouse-on" : "search-button search-mouse-out"} role="button" onClick={() => setIsSearchShown(!isSearchShown)} onMouseOver={() => setIsMouseOver(true)} onMouseLeave={() => setIsMouseOver(false)}>
-                            <i className="fa fa-search" style={{fontSize:"25px"}}></i>
-                        </button>
-                    </div>
+                    < YoutubeVideoSearchWidget onSearch={search} isSearchShown={isSearchShown} setIsSearchShown={setIsSearchShown}/>
                     <div class="text-center dashboard-tabs">
                         <div className="intro-info-tabs border-none row">
                             {/* <div className="col-md-4">
@@ -367,15 +352,15 @@ const YoutubeSearch = () => {
                                 </div>
                             </div> */}
                             {/* video를 선택했을 경우 화면 반으로 나눠서 구성 */}
-                            <div className="col-md-6 col-6 col-md-offset-2">
-                                    <div className={isSearchShown ? "widget-area search-window search-window-fade-in" : "widget-area search-window search-window-fade-out"}>
-                                    < YoutubeVideoSearchWidget onSearch={search} />
+                            <div className="d-flex">
+                            <div className={isSearchShown ? "col-md-6 col-6" : "col-md-0"}>
+                                    <div className={"widget-area search-window"} style={isSearchShown ? {display: "block"} : {display: "none"}}>
                                         <YoutubeVideoListWidget videos={searchedVideos.items}
                                             onVideoClick={selectVideo} nextPageToken={searchedVideos.nextPageToken}
                                             prevPageToken={searchedVideos.prevPageToken} getToken={getToken}
                                             cartClick={addVideoToCart} cartUnclick={deleteVideoFromCart} cart={cart} />
                                     </div>
-                                </div>
+                            </div>
                             {/* {isSearchShown ?
                                 (<div className="col-md-12 col-12">
                                     <div className={isSearchShown ? "widget-area search-window search-window-fade-out" : "widget-area search-window search-window-fade-in"}>
@@ -397,7 +382,8 @@ const YoutubeSearch = () => {
                                     </div>
                                 </div>} */}
                             {selectedVideo ? (
-                                <div className="col-lg-6 col-md-5 col-sm-12 mb-500">
+                                <Modal onClose={() => {setSelectedVideo(null)}} onRequestClose={() => {setSelectedVideo(null)}}>
+                                <div className="col-lg-6 col-md-5 col-sm-12 mb-500" style={{minHeight: "500px"}}>
                                     <YouTube videoId={selectedVideo.id} opts={opts} onStateChange={(e) => checkElapsedTime(e)} />
                                     <div class="row">
                                         <div class="col-12 my-5 lh-base">
@@ -473,19 +459,14 @@ const YoutubeSearch = () => {
                                         </div>
                                     </div>
                                 </div>
-                            ) :
+                                </Modal>
+                            ) : null}
                                 <>
-                                <div className="col-md-1">
-
-                                </div>
-                                    <div className="col-md-4 d-block bg-white">
-                                        <span>playlist</span>
-                                    </div>
-                                    <div className="col-md-1">
-                                        
+                                    <div className={isSearchShown ? "col-6 bg-white cart-right" : "d-block bg-white cart-center"}>
+                                        <Cart cart={cart} playlistTitle={playlistName} playlistId={playlistId}></Cart>
                                     </div>
                                 </>
-                            }
+                        </div>
                         </div>
                     </div>
                 </div>

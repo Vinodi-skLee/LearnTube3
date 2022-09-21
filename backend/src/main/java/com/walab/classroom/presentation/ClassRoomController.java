@@ -1,5 +1,6 @@
 package com.walab.classroom.presentation;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,7 @@ import com.walab.classroom.presentation.response.*;
 import com.walab.classroom.presentation.response.take.TakeAcceptRejectResponse;
 import com.walab.classroom.presentation.response.take.TakeUserResponse;
 
+import com.walab.notice.domain.Notice;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -116,6 +118,7 @@ public class ClassRoomController {
     public ResponseEntity<List<ClassRoomDashboardResponse>> getTakingClassRooms(@RequestParam Long userId) {
         List<TakeClassRoomDto> takingClasses = takeService.getTakingClasses(userId);
         List<ClassRoomDashboardResponse> response = takingClasses.stream()
+                                                                 .sorted(Comparator.comparing(TakeClassRoomDto::getClassRoomRegDate).reversed())
                                                                  .map(TakeClassRoomDto::classRoomTakeResponse)
                                                                  .collect(Collectors.toList());
         return ResponseEntity.ok(response);
@@ -125,6 +128,7 @@ public class ClassRoomController {
     public ResponseEntity<List<ClassRoomDashboardResponse>> getClosedClassRooms(@RequestParam Long userId) {
         List<TakeClassRoomDto> closedClasses = takeService.getClosedClasses(userId);
         List<ClassRoomDashboardResponse> response = closedClasses.stream()
+                                                                 .sorted(Comparator.comparing(TakeClassRoomDto::getClassRoomRegDate).reversed())
                                                                  .map(TakeClassRoomDto::classRoomTakeResponse)
                                                                  .collect(Collectors.toList());
         return ResponseEntity.ok(response);
@@ -134,6 +138,7 @@ public class ClassRoomController {
     public ResponseEntity<List<ClassRoomManagedResponse>> getManagedClassRooms(@RequestParam Long userId) {
         List<TakeClassRoomDto> managedClasses = classRoomService.getManagedClasses(userId);
         List<ClassRoomManagedResponse> response = managedClasses.stream()
+                                                                .sorted(Comparator.comparing(TakeClassRoomDto::getClassRoomRegDate).reversed())
                                                                 .map(TakeClassRoomDto::classRoomManagedResponse)
                                                                 .collect(Collectors.toList());
         return ResponseEntity.ok(response);
