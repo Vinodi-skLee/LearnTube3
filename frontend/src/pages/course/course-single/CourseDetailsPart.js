@@ -68,7 +68,7 @@ function CourseDetailsPart() {
 
     return (
         <React.Fragment>
-            <div className="intro-section gray-bg pt-94 pb-100 md-pt-80 md-pb-80 loaded">
+            <div className="intro-section gray-bg pt-50 pb-100 md-pt-80 md-pb-80 loaded">
                 <div className="container">
                     <h5>커리큘럼</h5>
 
