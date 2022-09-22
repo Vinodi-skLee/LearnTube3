@@ -59,7 +59,10 @@ const CourseContent = (props) => {
         headerClass="full-width-header header-style1 home8-style4"
       />
 
-      <div className="rs-event orange-style pb-100 md-pb-80">
+      <div
+        className="rs-event orange-style pb-100 md-pb-80 gray-bg"
+        // style={{ backgroundColor: "" }}
+      >
         <div className="container">
           <div class="container text-center dashboard-tabs">
             <div className="intro-info-tabs border-none row">
