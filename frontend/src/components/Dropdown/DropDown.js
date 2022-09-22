@@ -1,18 +1,18 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useEffect, useState, useRef } from "react";
 import { DropdownButton, Dropdown, Button } from "react-bootstrap";
-import { Accordion, AccordionItem, AccordionItemHeading, AccordionItemPanel, AccordionItemButton } from "react-accessible-accordion";
 import axios from "axios";
 import Modal from "react-modal";
+import "../../assets/css/dropdown.css";
+import setIcon from "../../assets/img/icon/settingIcon.png";
 
 export default function DropDown(props) {
     const [isOpen, setIsOpen] = useState(false);
-    const openModal = () => setIsOpen(!isOpen);
-    const [classRoomData, setClassRoomData] = useState();
-    const [managesData, setManagesData] = useState(null);
-
     const { userId } = props.userId;
-
     const user = window.sessionStorage.getItem("userId");
+    const dropdownRef = useRef(null);
+    const [isActive, setIsActive] = useState(false);
+    const useClick = () => setIsActive(!isActive);
+    const openModal = () => setIsOpen(!isOpen);
 
     const initUpdateClassRoomData = {
         classId: props.classRoomData.classId,
@@ -28,6 +28,23 @@ export default function DropDown(props) {
     const [updateClassRoomData, setUpdateClassRoomData] = useState(initUpdateClassRoomData);
 
     useEffect(() => {}, [userId]);
+
+    const useDetectOutsideClick = (el, initialState) => {
+        const [isActive, setIsActive] = useState(initialState);
+        useEffect(() => {
+            const pageClickEvent = (e) => {
+                if (el.current !== null && !el.current.contains(e.target)) {
+                    setIsActive(!isActive);
+                }
+            };
+            if (isActive) {
+                window.addEventListener("click", pageClickEvent);
+            }
+            return () => {
+                window.removeEventListener("click", pageClickEvent);
+            };
+        }, [isActive, setIsActive]);
+    };
 
     const handleChange = (e) => {
         if (e.target.value !== null) {
@@ -182,22 +199,21 @@ export default function DropDown(props) {
                 </div>
             </Modal>
             {props.classRoomData.instructorId === userId ? (
-                <DropdownButton title="설정" style={{ float: "right", width: "5rem", minWidth: "8rem" }}>
-                    <Dropdown.Item
-                        onClick={() => {
-                            openModal();
-                        }}
-                    >
-                        강의실 수정
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                        onClick={() => {
-                            onDelete();
-                        }}
-                    >
-                        강의실 삭제
-                    </Dropdown.Item>
-                </DropdownButton>
+                <div className="menu-container">
+                    <button onClick={useClick} className="menu-trigger">
+                        <img className="setIcon" src={setIcon} alt="User avatar" />
+                    </button>
+                    <nav ref={dropdownRef} className={`menu ${isActive ? "active" : "inactive"}`}>
+                        <ul>
+                            <li>
+                                <a href="/messages">강의실 수정</a>
+                            </li>
+                            <li>
+                                <a href="/trips">강의실 삭제</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             ) : null}
         </>
     );
