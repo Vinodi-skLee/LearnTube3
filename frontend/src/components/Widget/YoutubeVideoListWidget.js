@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import YoutubeBoard from '../../components/Events/YoutubeBoard';
 import 'rc-slider/assets/index.css'
 
-const YoutubeVideoListWidget = ({ videos, onVideoClick, nextPageToken, prevPageToken, getToken,cartClick,cartUnclick,cart }) => {
+const YoutubeVideoListWidget = ({ videos, selectVideo, nextPageToken, prevPageToken, getToken, addVideoToCart, deleteVideoFromCart, cart }) => {
     const [searchedVideos, setSearchedVideos] = useState([]);
     const [newCart,setNewCart] = useState({});
 
@@ -36,10 +36,10 @@ const YoutubeVideoListWidget = ({ videos, onVideoClick, nextPageToken, prevPageT
                             return <YoutubeBoard
                                 key={video.id.videoId}
                                 video={video}
-                                onVideoClick={onVideoClick}
+                                selectVideo={selectVideo}
                                 videoNew={video}
-                                addVideoToCart={cartClick}
-                                deleteVideoFromCart = {cartUnclick}
+                                addVideoToCart={addVideoToCart}
+                                deleteVideoFromCart = {deleteVideoFromCart}
                                 isAlreadyIncart= {isAlreadyIncart}
                                 cart={newCart}
                                 //duration={video.contentDetails.duration}

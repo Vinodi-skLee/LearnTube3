@@ -18,15 +18,12 @@ import Logo from "../../assets/img/logo/Learntube-logos_transparent.png";
 import footerLogo from "../../assets/img/logo/lite-logo.png";
 import save from "../../assets/img/icon/save.png";
 
-const Cart = memo(({cart, playlistTitle, playlistId}) => {
+const Cart = ({cart, playlistTitle, playlistId}) => {
     const location = useLocation();
-    const videos = location.state.cart;
-    //console.log(videos);
-    const [videoList, setVideoList] = useState(location.state.cart);
-    console.log("haha: " + playlistId + ", " + playlistTitle + ", " + cart);
+    const videos = cart;
+    const [videoList, setVideoList] = useState(cart);
     const [cartList, setCartList] = useState([]);
     const [playlistName, setPlaylistName] = useState("");
-    const [createResponse, setCreateResponse] = useState();
     const [isDeleted, setIsDeleted] = useState(false);
 
     const [youtubeId, setYoutubeId] = useState("");
@@ -46,16 +43,9 @@ const Cart = memo(({cart, playlistTitle, playlistId}) => {
         seq: 0,
     };
 
-    // const initVideolist2 = {
-    //     playlistId: 1,
-    //     youtubeId: "",
-    //     title: "",
-    //     newTitle: "",
-    //     start_s:"",
-    //     end_s: "",
-    //     seq: 0,
-    //     duration:0,
-    // };
+    useEffect(() => {
+        console.log("cart updated!!!!");
+    }, [cartList]);
 
     let tempArray = [];
     useEffect(function () {
@@ -64,14 +54,10 @@ const Cart = memo(({cart, playlistTitle, playlistId}) => {
         console.log(location);
         //console.log(location.state.playlistId);
         for (const prop in videoList) {
-            //console.log(prop);
-            //console.log(videoList[prop]);
-            // //Object.assign(cartList, videoList[prop]);
-
             let tempJson = JSON.stringify(videoList[prop]);
             tempArray.push(tempJson);
             setCartList(tempArray);
-            setPlaylistName(location.state.title);
+            setPlaylistName(playlistTitle);
 
         }
         setIsDeleted(false);
@@ -111,7 +97,7 @@ const Cart = memo(({cart, playlistTitle, playlistId}) => {
             let obj = JSON.parse(cartList[temp]);
             console.log(obj);
             let createRequest = {
-                playlistId: location.state.playlistId,
+                playlistId: playlistId,
                 youtubeId: obj.id,
                 title: obj.snippet.title,
                 newTitle: obj.snippet.newTitle,
@@ -150,57 +136,55 @@ const Cart = memo(({cart, playlistTitle, playlistId}) => {
                 headerClass="full-width-header header-style1 home8-style4"
             /> */}
 
-            <div className="rs-event orange-style pb-100 md-pb-80">
-                <div className="px-5">
-                    <div className="container">
-                        <div className="d-flex align-items-center">
-                            <h3 className="mb-0">
+            <div className="rs-event orange-style pb-100">
+                <div>
+                    <div style={{marginLeft: "3%", marginRight: "3%"}}>
+                        <div className="d-flex align-items-center justify-content-start border-bottom">
+                            {/* <h3 className="mb-0">
                                 <i className="fa fa-play-circle-o pe-1 pt-3 mb-3"></i>
                                 {playlistName ? playlistName : "playlist 이름"}
-                            </h3>
-                            <div className="ms-5">
+                            </h3> */}
+                            <div>
                             <Link
                                     className="pt-2"
                                     to={{ pathname: "/learntube/learntube-studio" }}
                                     onClick={saveCart}
                                 >
-                                   <div className="d-flex justify-content-end me-1 mt-1">
+                                   <div className="d-flex">
                                             <button
-                                                className="createbtn text-center me-3"
+                                                className="save-btn text-center rounded"
                                             > 저장
                                             </button>
                                     </div>
                             </Link>
                             </div>
-                            <div className="pt-2" onClick={saveCart}>
-                                <img src={save} className="save" alt="save"></img>
-                            </div>
                         </div>
-                        <div className="row mt-5">
+                        <div className="row">
                             {cartList.map(function (video, i) {
                                 let newObject = JSON.parse(video);
                                 //console.log(newObject.snippet.thumbnails.medium.url);
                                 return (
-                                    <div key={i} className="p-2 col-lg-3 col-sm-6 mt-10">
-                                        <div className="m-0 row-3 justify-content-center">
-                                            <img className="img-fluid" style={{ minWidth: "100px", marginBottom: "10%" }} src={newObject.snippet.thumbnails.medium.url} alt={newObject.snippet.title} />
-                                        </div>
-                                        <div style={{ minHeight: "160px", maxHeight: "160px" }}>
-                                            <div className="d-flex h4">{newObject.snippet.title ? newObject.snippet.title : "영상제목"}</div>
-                                            <div className="d-flex fw-light ms-0 ps-0">
-                                                {newObject.snippet.channelTitle ? newObject.snippet.channelTitle : "채널명"}
-                                                <div class="mx-1 border-start border-secondary"></div> {newObject.snippet.publishTime ? newObject.snippet.publishTime.slice(0, 10) : "등록일"}
+                                    <div key={i} className="d-flex mt-10 mb-10 border-bottom">
+                                        <div className="d-flex justify-content-center align-items-center w-100 h-100">
+                                            <div className="justify-content-center d-flex align-items-center">
+                                                <img className="search-img mb-10" src={newObject.snippet.thumbnails.medium.url} alt={newObject.snippet.title} />
                                             </div>
-                                        </div>
-                                        <div className="d-flex justify-content-end me-1 mt-1">
-                                            <button
-                                                className="createbtn text-center me-3"
-                                                onClick={(e) => {
-                                                    deleteVideo(newObject, i, e);
-                                                }}
-                                            >
-                                                삭제
-                                            </button>
+                                            <div className="ml-20 mr-20 text-start w-100 align-items-center">
+                                                <div className="d-flex h5">{newObject.snippet.title ? newObject.snippet.title : "영상제목"}</div>
+                                                <div className="d-flex fw-light ms-0 ps-0">
+                                                    {newObject.snippet.channelTitle ? newObject.snippet.channelTitle : "채널명"} | {newObject.snippet.publishTime ? newObject.snippet.publishTime.slice(0, 10) : "등록일"}
+                                                </div>
+                                            </div>
+                                            <div className="d-flex justify-content-center align-items-center">
+                                                <button
+                                                    className="delete-btn text-center rounded"
+                                                    onClick={(e) => {
+                                                        deleteVideo(newObject, i, e);
+                                                    }}
+                                                >
+                                                    삭제
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 );
@@ -215,9 +199,9 @@ const Cart = memo(({cart, playlistTitle, playlistId}) => {
             <ScrollToTop scrollClassName="scrollup orange-color" />
             {/* scrolltop-end */}
 
-            <SearchModal />
+            
         </React.Fragment>
     );
-});
+}
 
 export default Cart;

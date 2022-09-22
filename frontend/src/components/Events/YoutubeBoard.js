@@ -9,14 +9,19 @@ import outOfCart from '../../assets/img/icon/minus.png';
 import { Button } from "react-bootstrap";
 import 'rc-slider/assets/index.css'
 
-const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, key, onVideoClick,addVideoToCart,deleteVideoFromCart ,isAlreadyIncart,cart}) => {
+const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, selectVideo, addVideoToCart, deleteVideoFromCart ,isAlreadyIncart, cart}) => {
 
+    const onSelect = useCallback(() => {
+        selectVideo(video);
+    }, [video]);
 
     const onClick = useCallback(() => {
-        onVideoClick(video);
-       // setIsSelected(true);
-       console.log(cart);
-    }, [ video]);
+        addVideoToCart(video);
+    }, [video]);
+
+    const onDelete = useCallback(() => {
+        deleteVideoFromCart(video.id);
+    }, [video]);
 
     //const [isSelected, setIsSelected] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
@@ -46,29 +51,28 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, key, onV
     return (
         <>
         
-        <div className={isMouseOn ? "search-block mouse-on" : "search-block mouse-out"} onMouseDown={onClick} onMouseOver={() => setIsMouseOn(1)} onMouseOut={() => setIsMouseOn(0)}>
+        <div className={isMouseOn ? "search-block mouse-on" : "search-block mouse-out"}  onMouseDown={onSelect} onMouseOver={() => setIsMouseOn(1)} onMouseOut={() => setIsMouseOn(0)}>
                 <div className="m-0 col-md-3 col-sm-12 d-flex justify-content-center">
                     <img className="img-fluid search-img"
                         src={snippet.thumbnails.medium.url}
-                        alt={snippet.title} onMouseDown={onClick}
+                        alt={snippet.title}
                     />
                 </div>
-                <div className="col-md-8 col-sm-12 search-text" >
-                    <div className="d-flex h4" onMouseDown={onClick}>
+                <div className="col-md-8 col-sm-12 search-text" onMouseDown={selectVideo} >
+                    <div className="h5 search-title" onMouseDown={onSelect}>
                         {snippet.title ? snippet.title : '영상제목'}
                     </div>
-                    <div className="d-flex fw-light ms-0 ps-0">
-                        {snippet.channelTitle ? snippet.channelTitle : '채널명'}
-                        <div class="mx-1 border-start border-secondary"></div> {snippet.publishTime ? snippet.publishTime.slice(0, 10) : '등록일'}
+                    <div className="fw-light search-channel" onMouseDown={onSelect}>
+                        <span>{snippet.channelTitle ? snippet.channelTitle : '채널명'} | {snippet.publishTime ? snippet.publishTime.slice(0, 10) : '등록일'}</span>
                     </div>
-                    <div className="d-flex fw-light">
+                    <div className="fw-light search-description" onMouseDown={onSelect}>
                         {snippet.description ? snippet.description : '영상설명'}
                     </div>
 
                 </div>
                 <div className='col-md-1 d-flex justify-content-center align-items-center'>
                     {isAdded || isAlreadyIncart
-                    ? <Button onMouseDown={onClick} style={{backgroundColor: '#6c757d', width: '60px', padding:'5px'}}>-</Button>
+                    ? <Button onMouseDown={onDelete} style={{backgroundColor: '#6c757d', width: '60px', padding:'5px'}}>-</Button>
                     : <Button onMouseDown={onClick} style={{backgroundColor: '#6483d8', width: '60px', padding:'5px'}}>담기</Button>
                     }
                 </div>

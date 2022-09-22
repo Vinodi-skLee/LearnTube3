@@ -73,61 +73,66 @@ const YoutubeSearch = () => {
     let finalDuration = '';
     let  viewCountInt, newViewCount;
     const selectVideo = (video) => {
-        setNewTitle('');
-        setNewDescription('');
-        setIsSelected(false);
-        setStartTime(false);
-        setEndTime(false);
-        setSelectedVideo(video);
-        //console.log(selectedVideo);
-        // console.log(selectedVideo.id);
-        //조회수 커스터마이징
-        setDuration(video.contentDetails.duration);
-        // if (!video.contentDetails.duration) duration = 'PT9M50S';
-        let whereH = video.contentDetails.duration.indexOf('H');
-        let whereM = video.contentDetails.duration.indexOf('M');
-        let whereS = video.contentDetails.duration.indexOf('S');
-        let hour, min, sec;
-        if (whereH > -1) {
-            let tempDuration = video.contentDetails.duration.split('H');
-            let temp_length = tempDuration[0].length;
-            hour = tempDuration[0].substring(2, temp_length);
-            finalDuration = finalDuration + hour + "시간 ";
-        }
-        if (whereM > -1) {
-            let tempDuration = video.contentDetails.duration.split('M');
-            let temp_length = tempDuration[0].length;
-            if (whereH > -1) {
-                min = tempDuration[0].substring(whereH + 1, temp_length);
-            } else min = tempDuration[0].substring(2, temp_length);
-            finalDuration = finalDuration + min + "분 ";
-            console.log(finalDuration);
-        }
-        if (whereS > -1) {
-            let tempDuration = video.contentDetails.duration.split('S');
-            let temp_length = tempDuration[0].length;
-            if (whereH > -1 && whereM == -1) {
-                sec = tempDuration[0].substring(whereH + 1, temp_length);
-            } else if (whereM > -1) {
-                sec = tempDuration[0].substring(whereM + 1, temp_length);
-            } else sec = tempDuration[0].substring(2, temp_length);
-            finalDuration = finalDuration + sec + "초";
-            console.log(finalDuration);
-        }
-        console.log(finalDuration);
-        setFinalDuration(finalDuration);
-        //조회수 커스텀
-        viewCountInt = parseFloat(video.statistics.viewCount);
-        if (viewCountInt >= 100000000) {
-            newViewCount = (viewCountInt / 100000000.0).toFixed(1) + "억";
-        } else if (viewCountInt >= 10000) {
-            newViewCount = (viewCountInt / 10000.0).toFixed(0) + "만";
-        } else if (viewCountInt > 1000) {
-            newViewCount = (viewCountInt / 1000.0).toFixed(1) + "천";
-        } else newViewCount = viewCountInt;
-        console.log(newViewCount);
-        setNewViewCount(newViewCount);
+        console.log("video selected");
     };
+    // const selectVideo = (video) => {
+    //     console.log("video selected!!!");
+    //     setNewTitle('');
+    //     setNewDescription('');
+    //     setIsSelected(false);
+    //     setStartTime(false);
+    //     setEndTime(false);
+    //     setSelectedVideo(video);
+    //     //console.log(selectedVideo);
+    //     // console.log(selectedVideo.id);
+    //     //조회수 커스터마이징
+    //     setDuration(video.contentDetails.duration);
+    //     // if (!video.contentDetails.duration) duration = 'PT9M50S';
+    //     let whereH = video.contentDetails.duration.indexOf('H');
+    //     let whereM = video.contentDetails.duration.indexOf('M');
+    //     let whereS = video.contentDetails.duration.indexOf('S');
+    //     let hour, min, sec;
+    //     if (whereH > -1) {
+    //         let tempDuration = video.contentDetails.duration.split('H');
+    //         let temp_length = tempDuration[0].length;
+    //         hour = tempDuration[0].substring(2, temp_length);
+    //         finalDuration = finalDuration + hour + "시간 ";
+    //     }
+    //     if (whereM > -1) {
+    //         let tempDuration = video.contentDetails.duration.split('M');
+    //         let temp_length = tempDuration[0].length;
+    //         if (whereH > -1) {
+    //             min = tempDuration[0].substring(whereH + 1, temp_length);
+    //         } else min = tempDuration[0].substring(2, temp_length);
+    //         finalDuration = finalDuration + min + "분 ";
+    //         console.log(finalDuration);
+    //     }
+    //     if (whereS > -1) {
+    //         let tempDuration = video.contentDetails.duration.split('S');
+    //         let temp_length = tempDuration[0].length;
+    //         if (whereH > -1 && whereM == -1) {
+    //             sec = tempDuration[0].substring(whereH + 1, temp_length);
+    //         } else if (whereM > -1) {
+    //             sec = tempDuration[0].substring(whereM + 1, temp_length);
+    //         } else sec = tempDuration[0].substring(2, temp_length);
+    //         finalDuration = finalDuration + sec + "초";
+    //         console.log(finalDuration);
+    //     }
+    //     console.log(finalDuration);
+    //     setFinalDuration(finalDuration);
+    //     //조회수 커스텀
+    //     viewCountInt = parseFloat(video.statistics.viewCount);
+    //     if (viewCountInt >= 100000000) {
+    //         newViewCount = (viewCountInt / 100000000.0).toFixed(1) + "억";
+    //     } else if (viewCountInt >= 10000) {
+    //         newViewCount = (viewCountInt / 10000.0).toFixed(0) + "만";
+    //     } else if (viewCountInt > 1000) {
+    //         newViewCount = (viewCountInt / 1000.0).toFixed(1) + "천";
+    //     } else newViewCount = viewCountInt;
+    //     console.log(newViewCount);
+    //     setNewViewCount(newViewCount);
+    //     addVideoToCart(video);
+    // };
 
     function customDurationToFloat(durationStringVer){
         let whereH = durationStringVer.indexOf('H');
@@ -187,7 +192,6 @@ const YoutubeSearch = () => {
         else video.duration = parseInt(endFloatTime - startFloatTime);
         console.log(video.snippet.newTitle + "\n" + newDescription);
         cart[newId] = video;
-        console.log(cart);
         for (const prop in cart) {
             console.log(prop);
             console.log(cart[prop]);
@@ -205,9 +209,12 @@ const YoutubeSearch = () => {
         delete cart[id];
         console.log(cart);
         setIsChanged(true);
+        window.alert("삭제되었습니다.");
     };
 
     useEffect(function () {
+        if(isChanged !== false)
+            window.location.reload();
         setIsChanged(false);
     }, [isChanged]);
     // query를 받아와서 search 후 searchedVideos에 결과 저장
@@ -327,7 +334,7 @@ const YoutubeSearch = () => {
             {/* <div className="rs-event orange-style pt-50 pb-100 md-pt-80 md-pb-80"> */}
             <div className="rs-event orange-style pb-100 md-pb-80" style={{backgroundColor: "#eef0ff"}}>
                 <div>
-                    <div className="d-flex align-items-center ml-50" style={{backgroundColor: "#eef0ff", position: "relative", zIndex: "1"}}>
+                    <div className="d-flex align-items-center ml-50" style={{backgroundColor: "#eef0ff", position: "relative", zIndex: "999"}}>
                         {updatePlaylist 
                         ? <h4 className="ps-2 mt-15 mb-10"><i className="fa fa-play-circle-o pe-1 pt-3"></i>
                         <input type="text" id="updatedTitle" name="updatedTitle" placeholder={playlistName} className="border-0"
@@ -356,9 +363,9 @@ const YoutubeSearch = () => {
                             <div className={isSearchShown ? "col-md-6 col-6" : "col-md-0"}>
                                     <div className={"widget-area search-window"} style={isSearchShown ? {display: "block"} : {display: "none"}}>
                                         <YoutubeVideoListWidget videos={searchedVideos.items}
-                                            onVideoClick={selectVideo} nextPageToken={searchedVideos.nextPageToken}
+                                            selectVideo={selectVideo} nextPageToken={searchedVideos.nextPageToken}
                                             prevPageToken={searchedVideos.prevPageToken} getToken={getToken}
-                                            cartClick={addVideoToCart} cartUnclick={deleteVideoFromCart} cart={cart} />
+                                            addVideoToCart={addVideoToCart} deleteVideoFromCart={deleteVideoFromCart} cart={cart} />
                                     </div>
                             </div>
                             {/* {isSearchShown ?
