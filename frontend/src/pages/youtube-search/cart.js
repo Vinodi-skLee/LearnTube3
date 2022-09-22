@@ -18,7 +18,7 @@ import Logo from "../../assets/img/logo/Learntube-logos_transparent.png";
 import footerLogo from "../../assets/img/logo/lite-logo.png";
 import save from "../../assets/img/icon/save.png";
 
-const Cart = ({cart, playlistTitle, playlistId}) => {
+const Cart = ({cart, playlistTitle, playlistId, selectPart}) => {
     const location = useLocation();
     const videos = cart;
     const [videoList, setVideoList] = useState(cart);
@@ -62,7 +62,7 @@ const Cart = ({cart, playlistTitle, playlistId}) => {
         }
         setIsDeleted(false);
     }, []);
-    //console.log(cartList);
+    //console.log(cartList)
 
     //한번 로드 후 삭제로 인해 바뀔때 사용하는 useEffect
     useEffect(
@@ -80,17 +80,13 @@ const Cart = ({cart, playlistTitle, playlistId}) => {
         temp.splice(num, 1);
         setCartList(temp);
         console.log(cartList);
-        //setIsDeleted(true);
         console.log(isDeleted);
     }
-    //     playlistId: 1,
-    //     youtubeId: "",
-    //     title: "",
-    //     newTitle: "",
-    //     start_s:"",
-    //     end_s: "",
-    //     seq: 0,
-    //     duration:0,
+
+    const onPartClick = useCallback((video) => {
+        selectPart(video);
+    });
+    
     const saveCart = async () => {
         console.log(cartList);
         for (let temp in cartList) {
@@ -177,12 +173,12 @@ const Cart = ({cart, playlistTitle, playlistId}) => {
                                             </div>
                                             <div className="d-flex justify-content-center align-items-center">
                                                 <button
-                                                    className="delete-btn text-center rounded"
+                                                    className="part-btn align-items-center text-center rounded"
                                                     onClick={(e) => {
-                                                        deleteVideo(newObject, i, e);
+                                                        onPartClick(newObject);
                                                     }}
                                                 >
-                                                    삭제
+                                                    구간 설정
                                                 </button>
                                             </div>
                                         </div>
