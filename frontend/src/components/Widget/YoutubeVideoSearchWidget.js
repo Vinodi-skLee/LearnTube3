@@ -39,8 +39,8 @@ const YoutubeVideoSearchWidget = memo(({ onSearch, isSearchShown, setIsSearchSho
         //     </div>
         // </div>
         <>
-        <div className="d-flex" style={{backgroundColor: "#eef0ff", position: "relative", zIndex: "1"}}>
-            <div className="col-6 col-md-6" style={{marginLeft: "50px"}}>
+        <div className="d-flex col-6" style={{position: "relative", zIndex: "1"}}>
+            <div className="col-12" style={{marginLeft: "50px"}}>
                 <input autoFocus type="text" placeholder="플레이리스트에 추가할 영상을 검색하세요" name="s" className={isSearchShown ? "search-input search-bar search-bar-focus" : "search-input search-bar"} ref={inputRef} onKeyPress={onKeyPress} onFocus={() => setIsSearchShown(true)} onBlur={()=> setIsSearchShown(false)}/>
             </div>
             <div className="col-1">

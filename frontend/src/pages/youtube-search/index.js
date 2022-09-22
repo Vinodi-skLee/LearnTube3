@@ -30,8 +30,8 @@ const YoutubeSearch = () => {
     const location = useLocation();
     console.log("playlist name: " + location.state.playlistName);
     const opts = {
-        height: '360',
-        width: '600',
+        height: '300',
+        width: '400',
         playerVars: {
             // https://developers.google.com/youtube/player_parameters
             autoplay: 1,
@@ -63,6 +63,8 @@ const YoutubeSearch = () => {
     const [duration, setDuration] = useState('');
     const [isSearchShown, setIsSearchShown] = useState(true);
     const [isMouseOver, setIsMouseOver] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const openModal = () => setIsOpen(!isOpen);
 
     const httpClient = axios.create({
         baseURL: 'https://www.googleapis.com/youtube/v3',
@@ -75,64 +77,64 @@ const YoutubeSearch = () => {
     const selectVideo = (video) => {
         console.log("video selected");
     };
-    // const selectVideo = (video) => {
-    //     console.log("video selected!!!");
-    //     setNewTitle('');
-    //     setNewDescription('');
-    //     setIsSelected(false);
-    //     setStartTime(false);
-    //     setEndTime(false);
-    //     setSelectedVideo(video);
-    //     //console.log(selectedVideo);
-    //     // console.log(selectedVideo.id);
-    //     //조회수 커스터마이징
-    //     setDuration(video.contentDetails.duration);
-    //     // if (!video.contentDetails.duration) duration = 'PT9M50S';
-    //     let whereH = video.contentDetails.duration.indexOf('H');
-    //     let whereM = video.contentDetails.duration.indexOf('M');
-    //     let whereS = video.contentDetails.duration.indexOf('S');
-    //     let hour, min, sec;
-    //     if (whereH > -1) {
-    //         let tempDuration = video.contentDetails.duration.split('H');
-    //         let temp_length = tempDuration[0].length;
-    //         hour = tempDuration[0].substring(2, temp_length);
-    //         finalDuration = finalDuration + hour + "시간 ";
-    //     }
-    //     if (whereM > -1) {
-    //         let tempDuration = video.contentDetails.duration.split('M');
-    //         let temp_length = tempDuration[0].length;
-    //         if (whereH > -1) {
-    //             min = tempDuration[0].substring(whereH + 1, temp_length);
-    //         } else min = tempDuration[0].substring(2, temp_length);
-    //         finalDuration = finalDuration + min + "분 ";
-    //         console.log(finalDuration);
-    //     }
-    //     if (whereS > -1) {
-    //         let tempDuration = video.contentDetails.duration.split('S');
-    //         let temp_length = tempDuration[0].length;
-    //         if (whereH > -1 && whereM == -1) {
-    //             sec = tempDuration[0].substring(whereH + 1, temp_length);
-    //         } else if (whereM > -1) {
-    //             sec = tempDuration[0].substring(whereM + 1, temp_length);
-    //         } else sec = tempDuration[0].substring(2, temp_length);
-    //         finalDuration = finalDuration + sec + "초";
-    //         console.log(finalDuration);
-    //     }
-    //     console.log(finalDuration);
-    //     setFinalDuration(finalDuration);
-    //     //조회수 커스텀
-    //     viewCountInt = parseFloat(video.statistics.viewCount);
-    //     if (viewCountInt >= 100000000) {
-    //         newViewCount = (viewCountInt / 100000000.0).toFixed(1) + "억";
-    //     } else if (viewCountInt >= 10000) {
-    //         newViewCount = (viewCountInt / 10000.0).toFixed(0) + "만";
-    //     } else if (viewCountInt > 1000) {
-    //         newViewCount = (viewCountInt / 1000.0).toFixed(1) + "천";
-    //     } else newViewCount = viewCountInt;
-    //     console.log(newViewCount);
-    //     setNewViewCount(newViewCount);
-    //     addVideoToCart(video);
-    // };
+    const selectPart = (video) => {
+        console.log("video selected!!!");
+        setNewTitle('');
+        setNewDescription('');
+        setIsSelected(false);
+        setStartTime(false);
+        setEndTime(false);
+        setSelectedVideo(video);
+        //console.log(selectedVideo);
+        // console.log(selectedVideo.id);
+        //조회수 커스터마이징
+        setDuration(video.contentDetails.duration);
+        // if (!video.contentDetails.duration) duration = 'PT9M50S';
+        let whereH = video.contentDetails.duration.indexOf('H');
+        let whereM = video.contentDetails.duration.indexOf('M');
+        let whereS = video.contentDetails.duration.indexOf('S');
+        let hour, min, sec;
+        if (whereH > -1) {
+            let tempDuration = video.contentDetails.duration.split('H');
+            let temp_length = tempDuration[0].length;
+            hour = tempDuration[0].substring(2, temp_length);
+            finalDuration = finalDuration + hour + "시간 ";
+        }
+        if (whereM > -1) {
+            let tempDuration = video.contentDetails.duration.split('M');
+            let temp_length = tempDuration[0].length;
+            if (whereH > -1) {
+                min = tempDuration[0].substring(whereH + 1, temp_length);
+            } else min = tempDuration[0].substring(2, temp_length);
+            finalDuration = finalDuration + min + "분 ";
+            console.log(finalDuration);
+        }
+        if (whereS > -1) {
+            let tempDuration = video.contentDetails.duration.split('S');
+            let temp_length = tempDuration[0].length;
+            if (whereH > -1 && whereM == -1) {
+                sec = tempDuration[0].substring(whereH + 1, temp_length);
+            } else if (whereM > -1) {
+                sec = tempDuration[0].substring(whereM + 1, temp_length);
+            } else sec = tempDuration[0].substring(2, temp_length);
+            finalDuration = finalDuration + sec + "초";
+            console.log(finalDuration);
+        }
+        console.log(finalDuration);
+        setFinalDuration(finalDuration);
+        //조회수 커스텀
+        viewCountInt = parseFloat(video.statistics.viewCount);
+        if (viewCountInt >= 100000000) {
+            newViewCount = (viewCountInt / 100000000.0).toFixed(1) + "억";
+        } else if (viewCountInt >= 10000) {
+            newViewCount = (viewCountInt / 10000.0).toFixed(0) + "만";
+        } else if (viewCountInt > 1000) {
+            newViewCount = (viewCountInt / 1000.0).toFixed(1) + "천";
+        } else newViewCount = viewCountInt;
+        console.log(newViewCount);
+        setNewViewCount(newViewCount);
+        openModal();
+    };
 
     function customDurationToFloat(durationStringVer){
         let whereH = durationStringVer.indexOf('H');
@@ -330,22 +332,24 @@ const YoutubeSearch = () => {
 
 
             {/* <div className="rs-event orange-style pt-50 pb-100 md-pt-80 md-pb-80"> */}
-            <div className="rs-event orange-style pb-100 md-pb-80" style={{backgroundColor: "#eef0ff"}}>
+            <div className="rs-event orange-style pb-100 md-pb-80 gray-bg pt-30">
                 <div>
-                    <div className="d-flex align-items-center ml-50" style={{backgroundColor: "#eef0ff", position: "relative", zIndex: "999"}}>
+                    <div className="d-flex col-12 col-md-12 justify-content-between">
+                    < YoutubeVideoSearchWidget onSearch={search} isSearchShown={isSearchShown} setIsSearchShown={setIsSearchShown}/>
+                    <div className="d-flex align-items-center mr-50" style={{position: "relative", zIndex: "999"}}>
                         {updatePlaylist 
-                        ? <h4 className="ps-2 mt-15 mb-10"><i className="fa fa-play-circle-o pe-1 pt-3"></i>
+                        ? <h4 className="ps-2 mt-15 mb-0"><i className="fa fa-play-circle-o pe-1 pt-3"></i>
                         <input type="text" id="updatedTitle" name="updatedTitle" placeholder={playlistName} className="border-0"
                                 value={updatePlaylistTitle} onChange={newTitleChange} />
                         {/* <i className="fa fa-check ps-3 pt-3 orange-color" onClick={()=>setUpdatePlaylist(!updatePlaylist)}></i>
                         <i className="fa fa-rotate-left ps-3 pt-3 orange-color" onClick={()=>setUpdatePlaylist(!updatePlaylist)}></i> */}
                         </h4> 
-                        : <h4 className="ps-2 mt-15 mb-10"><i className="fa fa-play-circle-o pe-1 pt-3"></i>
+                        : <h4 className="ps-2 mt-15 mb-0"><i className="fa fa-play-circle-o pe-1 pt-3"></i>
                         {location.state.playlistName != undefined || location.state.playlistName ? playlistName : '제목'}
                         {/* <i className="fa fa-pencil ps-3 pt-3 orange-color" onClick={()=>setUpdatePlaylist(!updatePlaylist)}></i> */}
                         </h4>}
                     </div>
-                    < YoutubeVideoSearchWidget onSearch={search} isSearchShown={isSearchShown} setIsSearchShown={setIsSearchShown}/>
+                    </div>
                     <div class="text-center dashboard-tabs">
                         <div className="intro-info-tabs border-none row">
                             {/* <div className="col-md-4">
@@ -386,28 +390,58 @@ const YoutubeSearch = () => {
                                             cartClick={addVideoToCart} cartUnclick={deleteVideoFromCart} cart={cart} />
                                     </div>
                                 </div>} */}
-                            {selectedVideo ? (
-                                <Modal onClose={() => {setSelectedVideo(null)}} onRequestClose={() => {setSelectedVideo(null)}}>
-                                <div className="col-lg-6 col-md-5 col-sm-12 mb-500" style={{minHeight: "500px"}}>
-                                    <YouTube videoId={selectedVideo.id} opts={opts} onStateChange={(e) => checkElapsedTime(e)} />
-                                    <div class="row">
-                                        <div class="col-12 my-5 lh-base">
-                                            <div class="mx-md-3 fs-3 text-start">{selectedVideo.snippet.title}</div>
-                                            <div class="d-flex fw-light">
-                                                <div class="mx-3 fs-5 text-start text-muted">{selectedVideo.snippet.channelTitle}</div>
-                                                <div class="mx-2"></div>
-                                                <div class="mx-1 border-start border-secondary"></div>
-                                                <div class="ms-3 fs-5 text-start text-muted">조회수 {selectedVideo.statistics.viewCount ? realNewViewCount : '0'}회</div>
-                                                <div class="mx-2"></div>
-                                                <div class="mx-1 border-start border-secondary"></div>
-                                                <div class="ms-3 fs-5 text-start text-muted">영상 총 시간 {selectedVideo.contentDetails.duration ? realFinalDuration : '0'}</div>
-                                                <div class="mx-2"></div>
-                                                <div class="mx-1 border-start border-secondary"></div>
-                                                <div class="ms-3 fs-5 text-start text-mute">{selectedVideo.snippet.publishTime.slice(0, 10)}</div>
+                                {isOpen ? <Modal
+                                isOpen={isOpen}
+                                onClose={() => {
+                                    openModal();
+                                }}
+                                onRequestClose={() => setIsOpen(false)}
+                                style={{
+                                    overlay: {
+                                        zIndex: "100",
+                                        position: "fixed",
+                                        top: -20,
+                                        left: 0,
+                                        right: 0,
+                                        bottom: 0,
+                                        backgroundColor: "rgb(0, 0, 0, 0.55)",
+                                    },
+                                    content: {
+                                        position: "absolute",
+                                        top: "15%",
+                                        left: "25%",
+                                        right: "25%",
+                                        bottom: "10%",
+                                        background: "#fff",
+                                        overflow: "auto",
+                                        WebkitOverflowScrolling: "touch",
+                                        outline: "none",
+                                        padding: "0px",
+                                        height: "80%",
+                                    },
+                                }}>
+                                <div className="col-12 mb-500 " style={{minHeight: "500px"}}>
+                                    <div className="d-flex" style={{marginLeft: "30px", marginTop: "30px"}}>
+                                        <YouTube videoId={selectedVideo.id} opts={opts} onStateChange={(e) => checkElapsedTime(e)} />
+                                        <div class="col-5 lh-base">
+                                            <div class="mx-md-3 fs-5 text-start" style={{fontWeight: "bold"}}>{selectedVideo.snippet.title}</div>
+                                            <div class="fw-light mx-3" style={{fontSize: "10pt"}}>
+                                                <div class="text-start text-muted">{selectedVideo.snippet.channelTitle}</div>
+                                                
+                                                <div class="border-start border-secondary"></div>
+                                                <div class="text-start text-muted">조회수 {selectedVideo.statistics.viewCount ? realNewViewCount : '0'}회</div>
+                                                
+                                                <div class="border-start border-secondary"></div>
+                                                <div class="text-start text-muted">영상 총 시간 {selectedVideo.contentDetails.duration ? realFinalDuration : '0'}</div>
+                                                
+                                                <div class="border-start border-secondary"></div>
+                                                <div class="text-start text-mute">{selectedVideo.snippet.publishTime.slice(0, 10)}</div>
                                             </div>
-                                            <div class="mx-3 my-3 border-bottom"></div>
-                                            <div class="mt-5 mx-md-3 fs-5 text-start text-muted">{selectedVideo.snippet.description}</div>
+                                            <div class="mx-3 my-2 border-bottom"></div>
+                                            <div class="mt-5 mx-md-3 text-start text-muted">{selectedVideo.snippet.description}</div>
                                         </div>
+                                    </div>
+                                    <div class="row col-10" style={{marginLeft: "30px"}}>
                                         {/* <div className="row d-flex justify-content-end ms-3 me-1 mt-3">
                                             {isSelected == false ? <button className="createbtn text-center me-3" onClick={onToggle}>저장</button> : null}
                                         </div> */}
@@ -448,11 +482,11 @@ const YoutubeSearch = () => {
                                                                 </div>
                                                             </div>
                                                             <div className="col-12 d-flex justify-content-center mt-4 align-items-center">
-                                                                <div className="createbtn mr-20 rounded-3" role="button" onClick={(e) => cancelCart()}>
+                                                                <div className="createbtn text-center mr-20 rounded-3" role="button" onClick={(e) => cancelCart()}>
                                                                     {/* <button className=" text-center" onClick={() => addVideoToCart(selectedVideo)}>저장</button> */}
                                                                     취소
                                                                 </div>
-                                                                <div className="createbtn ml-20 rounded-3" role="button" onClick={(e) => addVideoToCart(selectedVideo)}>
+                                                                <div className="createbtn text-center ml-20 rounded-3" role="button" onClick={(e) => addVideoToCart(selectedVideo)}>
                                                                     {/* <button className=" text-center" onClick={() => addVideoToCart(selectedVideo)}>저장</button> */}
                                                                     저장
                                                                 </div>
@@ -465,10 +499,11 @@ const YoutubeSearch = () => {
                                     </div>
                                 </div>
                                 </Modal>
-                            ) : null}
+                                :
+                                null}
                                 <>
                                     <div className={isSearchShown ? "col-6 bg-white cart-right" : "d-block bg-white cart-center"}>
-                                        <Cart cart={cart} playlistTitle={playlistName} playlistId={playlistId}></Cart>
+                                        <Cart cart={cart} playlistTitle={playlistName} playlistId={playlistId} selectPart={selectPart}></Cart>
                                     </div>
                                 </>
                         </div>

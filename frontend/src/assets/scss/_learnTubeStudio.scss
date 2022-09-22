@@ -369,18 +369,17 @@
     width: 50px;
     height: 30px;
     padding: 5px;
-    background-color: #6483d8;
+    background-color: #6490d8;
     color: white;
     border: none;
     margin: 10px 0px;
 }
 
-.delete-btn{
-    width: 60px;
-    height: 40px;
+.part-btn{
+    width: 70px;
     padding: 5px;
-    background-color: #6483d8;
-    color: white;
-    border: none;
+    background-color: transparent;
+    color: gray;
+    border: 1px solid lightgray;
     margin-left: 15px;
 }
