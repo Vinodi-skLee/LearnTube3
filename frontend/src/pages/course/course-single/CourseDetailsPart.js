@@ -4,7 +4,7 @@ import CurriculumPart from "./CurriculumPart";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import Dropdown from "../../../components/Dropdown/DropDown";
+import SetDropdown from "../../../components/Dropdown/SetDropdown";
 
 function CourseDetailsPart() {
     const location = useLocation();
@@ -82,7 +82,7 @@ function CourseDetailsPart() {
                             </div>
                             {classRoomData.instructor.userId == userId ? (
                                 <div className="col">
-                                    <Dropdown classRoomData={classRoomData} students={students} userId={userId} />
+                                    <SetDropdown classRoomData={classRoomData} students={students} userId={userId} />
                                 </div>
                             ) : null}
                             {classRoomData.instructor.userId != userId && classRoomData.isTake === false ? (

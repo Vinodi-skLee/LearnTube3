@@ -5,7 +5,7 @@ import Modal from "react-modal";
 import "../../assets/css/dropdown.css";
 import setIcon from "../../assets/img/icon/settingIcon.png";
 
-export default function DropDown(props) {
+export default function SetDropdown(props) {
     const [isOpen, setIsOpen] = useState(false);
     const { userId } = props.userId;
     const user = window.sessionStorage.getItem("userId");
@@ -206,10 +206,14 @@ export default function DropDown(props) {
                     <nav ref={dropdownRef} className={`menu ${isActive ? "active" : "inactive"}`}>
                         <ul>
                             <li>
-                                <a href="/messages">강의실 수정</a>
+                                <button onClick={() => openModal()} style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}>
+                                    강의실 수정
+                                </button>
                             </li>
                             <li>
-                                <a href="/trips">강의실 삭제</a>
+                                <button onClick={() => onDelete()} style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}>
+                                    강의실 삭제
+                                </button>
                             </li>
                         </ul>
                     </nav>
