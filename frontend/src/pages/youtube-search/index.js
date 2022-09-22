@@ -213,8 +213,6 @@ const YoutubeSearch = () => {
     };
 
     useEffect(function () {
-        if(isChanged !== false)
-            window.location.reload();
         setIsChanged(false);
     }, [isChanged]);
     // query를 받아와서 search 후 searchedVideos에 결과 저장
