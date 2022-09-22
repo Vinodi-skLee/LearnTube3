@@ -29,6 +29,7 @@
 		"react-modal": "^3.14.4",
 		"react-modal-video": "^1.2.3",
 		"react-photo-gallery": "^8.0.0",
+		"react-player": "^2.11.0",
 		"react-router-dom": "^5.2.0",
 		"react-scripts": "^5.0.0",
 		"react-slick": "^0.28.1",
