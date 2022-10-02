@@ -252,6 +252,8 @@
   animation: slide-bottom 1s forwards;
   transition: all 1s ease;
   min-height: 225px;
+  max-width: 280px;
+  min-width: 225px;
   //   max-height: 200px;
 }
 
@@ -301,15 +303,15 @@
   //   max-height: 100px;
 }
 
-.cart-right {
-  position: relative;
-  width: 43%;
-  margin-top: 20px;
-  margin-left: 80px;
-  min-height: 500px;
-  z-index: 1;
-  animation: slide-right 0.5s forwards;
-}
+// .cart-right {
+//   position: relative;
+//   width: 43%;
+//   margin-top: 20px;
+//   margin-left: 80px;
+//   min-height: 500px;
+//   z-index: 1;
+//   animation: slide-right 0.5s forwards;
+// }
 
 .cart-center {
   position: relative;
@@ -319,26 +321,26 @@
   //   margin-right: 50px;
   min-height: 250px;
   z-index: 1;
-  animation: slide-left 0.5s forwards;
+  //animation: slide-left 0.5s forwards;
 }
 
-@keyframes slide-right {
-  0% {
-    transform: translateX(-10%);
-  }
-  100% {
-    transform: translate(0%);
-  }
-}
+// @keyframes slide-right {
+//   0% {
+//     transform: translateX(-10%);
+//   }
+//   100% {
+//     transform: translate(0%);
+//   }
+// }
 
-@keyframes slide-left {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
-}
+// @keyframes slide-left {
+//   0% {
+//     transform: translateX(100%);
+//   }
+//   100% {
+//     transform: translateX(0%);
+//   }
+// }
 
 .search-title {
   display: block;
@@ -372,22 +374,42 @@
 }
 
 .save-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   width: 50px;
   height: 30px;
   padding: 5px;
   background-color: #6490d8;
   color: white;
   border: none;
-  margin: 10px 0px;
+  margin: 8px 0px;
 }
 
 .part-btn {
-  //   width: 100px;
-  padding: 5px;
   background-color: transparent;
   color: gray;
   border: 1px solid lightgray;
-  margin-left: 15px;
+}
+
+.prev-btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24pt;
+  width: 3%;
+  margin-right: 10px;
+  border: 1px solid lightgray;
+}
+
+.next-btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24pt;
+  width: 3%;
+  margin-left: 10px;
+  border: 1px solid lightgray;
 }
 
 .playlist-title {

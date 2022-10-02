@@ -326,7 +326,7 @@ const YoutubeSearch = () => {
       />
 
       {/* <div className="rs-event orange-style pt-50 pb-100 md-pt-80 md-pb-80"> */}
-      <div className="rs-event orange-style pb-100 md-pb-80 gray-bg pt-30">
+      <div className="rs-event orange-style pb-100 md-pb-80 gray-bg pt-20">
         <div>
           <div className="d-flex justify-content-center">
             {/* <div className="d-flex col-12 col-md-12 justify-content-between"> */}
@@ -337,8 +337,8 @@ const YoutubeSearch = () => {
             />
           </div>
           <div>
-            <div
-              className="d-flex align-items-center mr-50 p-5 pb-0"
+            {/* <div
+              className="d-flex align-items-center mr-50 pb-10 pl-30"
               style={{ position: "relative", zIndex: "999" }}
             >
               {updatePlaylist ? (
@@ -352,24 +352,24 @@ const YoutubeSearch = () => {
                     className="border-0"
                     value={updatePlaylistTitle}
                     onChange={newTitleChange}
-                  />
+                  /> */}
                   {/* <i className="fa fa-check ps-3 pt-3 orange-color" onClick={()=>setUpdatePlaylist(!updatePlaylist)}></i>
                         <i className="fa fa-rotate-left ps-3 pt-3 orange-color" onClick={()=>setUpdatePlaylist(!updatePlaylist)}></i> */}
-                </h4>
+                {/* </h4>
               ) : (
                 <h4 className="ps-2 mt-15 mb-0">
                   <i className="fa fa-play-circle-o pe-1 pt-3"></i>
                   {location.state.playlistName != undefined ||
                   location.state.playlistName
                     ? playlistName
-                    : "제목"}
+                    : "제목"} */}
                   {/* <i className="fa fa-pencil ps-3 pt-3 orange-color" onClick={()=>setUpdatePlaylist(!updatePlaylist)}></i> */}
-                </h4>
+                {/* </h4>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
-        <div class="text-center dashboard-tabs p-5">
+        <div class="text-center dashboard-tabs ml-30 mr-30">
           <div className="intro-info-tabs border-none row">
             {/* <div className="col-md-4">
                                 <div className="widget-area">
@@ -634,10 +634,7 @@ const YoutubeSearch = () => {
               <>
                 {/* 플레이리스트 담은영상 (카트) */}
                 <div
-                  className={
-                    isSearchShown
-                      ? "col-6 bg-white cart-top"
-                      : "d-block bg-white cart-center"
+                  className={"d-block bg-white cart-center"
                   }
                 >
                   <Cart
