@@ -38,13 +38,13 @@ const YoutubeVideoListWidget = ({
   );
 
   return searchedVideos ? (
-    <div className="search-box">
+    <div className="search-box mt-20">
       <div
         id="rs-popular-course"
         className="rs-popular-courses list-view style1 course-view-style orange-style rs-inner-blog md-pt-70 text-start"
       >
         <div>
-          <div className="course-part clearfix m-0 row">
+          <div className="course-part justify-content-between p-3 clearfix m-0 row">
             {searchedVideos.map(function (video) {
               //console.log(video.id);
               let isAlreadyIncart = newCart.hasOwnProperty(video.id);

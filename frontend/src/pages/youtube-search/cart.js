@@ -61,7 +61,7 @@ const Cart = ({ cart, playlistTitle, playlistId, selectPart }) => {
     }
     setIsDeleted(false);
   }, []);
-  //console.log(cartList)
+  //console.log(cartList);
 
   //한번 로드 후 삭제로 인해 바뀔때 사용하는 useEffect
   useEffect(
@@ -135,75 +135,86 @@ const Cart = ({ cart, playlistTitle, playlistId, selectPart }) => {
                 headerClass="full-width-header header-style1 home8-style4"
             /> */}
 
-      <div className="rs-event orange-style pb-100">
+      <div className="rs-event orange-style">
         <div>
-          <div style={{ marginLeft: "3%", marginRight: "3%" }}>
-            <div className="d-flex align-items-center justify-content-start border-bottom">
+        <div>
+                  <div className="d-flex justify-content-between align-items-center ml-30 mr-30">
+                    <div>
+                    <i className="fa fa-play-circle-o"></i>
+                      {" "}{playlistName}
+                    </div>
+                  <Link
+                  to={{ pathname: "/learntube/learntube-studio" }}
+                  onClick={saveCart}
+                >
+                    <button className="save-btn text-center rounded">
+                      저장
+                    </button>
+                </Link>
+                </div>
+              </div>
+          <div className="d-flex" style={{height: "220px", overflowX: "scroll", margin: "0px 30px"}}>
+            {/* <div className="prev-btn">
+                <button className="bg-transparent border-0 h-100 w-100">&lt;</button>
+            </div> */}
+            <div className="w-100 h-100">
+            <div className="d-flex align-items-center justify-content-start border-bottom pl-5">
               {/* <h3 className="mb-0">
                                 <i className="fa fa-play-circle-o pe-1 pt-3 mb-3"></i>
                                 {playlistName ? playlistName : "playlist 이름"}
                             </h3> */}
-              <div>
-                <Link
-                  className="pt-2"
-                  to={{ pathname: "/learntube/learntube-studio" }}
-                  onClick={saveCart}
-                >
-                  <div className="d-flex">
-                    <button className="save-btn text-center rounded">
-                      {" "}
-                      저장
-                    </button>
-                  </div>
-                </Link>
-              </div>
             </div>
-            <div className="row">
+            <div className="row" style={{flexWrap: "nowrap"}}>
               {cartList.map(function (video, i) {
                 let newObject = JSON.parse(video);
                 //console.log(newObject.snippet.thumbnails.medium.url);
                 return (
-                  <div key={i} className="d-flex mt-10 mb-10 col-md-2">
-                    <div>
+                  <div key={i} className="d-flex mt-10 mb-10 col-md-2 justify-content-center align-items-center" style={{width: "200px", maxHeight: "250px", marginRight: "20px"}}>
+                    <div style={{width: "200px", maxHeight: "250px"}}>
                       {/* <div className="d-flex justify-content-center align-items-center w-100 h-100"> */}
-                      <div className="justify-content-center d-flex align-items-center">
+                      <div className="d-flex flex-wrap justify-content-center align-items-center">
                         <img
-                          className="search-img mb-10"
+                          className="search-img mb-5"
                           src={newObject.snippet.thumbnails.medium.url}
                           alt={newObject.snippet.title}
+                          style={{width: "160px", height: "90px", border: "1px solid lightgray"}}
                         />
-                      </div>
-                      <div className="ml-20 mr-20 text-start w-100 align-items-center col-4">
-                        <div className="d-flex playlist-title">
+                        </div>
+                        <div style={{fontSize: "12pt", lineHeight: "1.4", textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap", wordBreak: "break-word"}}>
                           {newObject.snippet.title
                             ? newObject.snippet.title
                             : "영상제목"}
                         </div>
-                        <div className="d-flex fw-light ms-0 ps-0">
+                        <div style={{fontSize: "6pt", lineHeight: "1.4", textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap", wordBreak: "break-word"}}>
                           {newObject.snippet.channelTitle
                             ? newObject.snippet.channelTitle
-                            : "채널명"}{" "}
-                          |{" "}
+                            : "채널명"}
+                        </div>
+                        <div style={{fontSize: "6pt", lineHeight: "1.4", textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap", wordBreak: "break-word"}}>
                           {newObject.snippet.publishTime
                             ? newObject.snippet.publishTime.slice(0, 10)
                             : "등록일"}
                         </div>
-                      </div>
-                      <div className="">
-                        <button
-                          className="part-btn align-items-center text-center rounded"
-                          onClick={(e) => {
-                            onPartClick(newObject);
-                          }}
-                        >
-                          구간 설정
-                        </button>
-                      </div>
+                        <div>
+                            <button
+                            className="part-btn rounded mt-5"
+                            onClick={(e) => {
+                                onPartClick(newObject);
+                            }}
+                            style={{display: "inline-flex", alignItems: "center", fontSize: "8pt", height: "30px"}}
+                            >
+                            구간 설정
+                            </button>
+                        </div>
                     </div>
                   </div>
                 );
               })}
+              </div>
             </div>
+            {/* <div className="next-btn">
+                <button className="bg-transparent border-0 h-100 w-100">&gt;</button>
+            </div> */}
           </div>
         </div>
       </div>
