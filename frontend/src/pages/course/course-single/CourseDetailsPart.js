@@ -5,7 +5,6 @@ import axios from "axios";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import Dropdown from "../../../components/Dropdown/DropDown";
-import WaitList from "./WaitList";
 
 function CourseDetailsPart() {
     const location = useLocation();
@@ -15,7 +14,7 @@ function CourseDetailsPart() {
     const cid = useLocation().state.classId;
     const [clicked, setClicked] = useState(false);
     const [students, setStudents] = useState([{ userId: "", name: "", email: "" }]);
-
+    const [takesData,setTakesData] = useState();
     const uid = location.state.userId;
     //console.log("cid in detail part " + cid);
     const joinClass = () => {
