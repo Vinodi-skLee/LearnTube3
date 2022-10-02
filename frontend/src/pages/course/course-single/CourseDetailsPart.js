@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import CourseSidebar from "./CourseSidebar";
 import CurriculumPart from "./CurriculumPart";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import Dropdown from "../../../components/Dropdown/DropDown";
+import WaitList from "./WaitList";
 
 function CourseDetailsPart() {
     const location = useLocation();
@@ -17,22 +18,29 @@ function CourseDetailsPart() {
 
     const uid = location.state.userId;
     //console.log("cid in detail part " + cid);
-
     const joinClass = () => {
         if (window.confirm("수강신청 하시겠습니까?")) {
             const fetchJoinClass = async () => {
                 try {
                     let body = { userId: userId, classId: cid };
                     const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/classroom/enroll`, JSON.stringify(body), {
+                        method:"POST",
                         headers: {
-                            "Content-Type": `application/json`,
+                            "Content-Type": 'application/json',
                         },
                     });
-                    // console.log(response);
+                    console.log(response);
+                    console.log(response.data);
+                    setTakesData(response.data);
+                    console.log("takesData: " + takesData);
+                    // setTakesData(response.data);
+                    // console.log(takesData);
+
                 } catch (err) {
                     console.log("err >> ", err);
                 }
             };
+            // console.log(takesData);
             fetchJoinClass();
             alert("신청 되었습니다.");
             window.location.href = "/learntube/dashboard";
@@ -71,7 +79,6 @@ function CourseDetailsPart() {
             <div className="intro-section gray-bg pt-94 pb-100 md-pt-80 md-pb-80 loaded">
                 <div className="container">
                     <h5>커리큘럼</h5>
-
                     {classRoomData ? (
                         <div className="row">
                             <div className="col">
@@ -83,6 +90,9 @@ function CourseDetailsPart() {
                             {classRoomData.instructor.userId == userId ? (
                                 <div className="col">
                                     <Dropdown classRoomData={classRoomData} students={students} userId={userId} />
+                                    <Link to="/">
+                                        <Button></Button>
+                                    </Link>
                                 </div>
                             ) : null}
                             {classRoomData.instructor.userId != userId && classRoomData.isTake === false ? (
@@ -99,6 +109,8 @@ function CourseDetailsPart() {
                                 </div>
                                 <div className="video-column col-lg-4">
                                     <CourseSidebar classRoomData={classRoomData} students={students} userId={userId} />
+                                </div>
+                                <div>
                                 </div>
                             </div>
                         </div>

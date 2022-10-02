@@ -22,6 +22,7 @@ import LoadTop from '../components/Common/ScrollTop/LoadTop'
 import CreateMyPlaylist from '../pages/playlist/createMyPlaylist';
 import Login from "../pages/login";
 import CourseContent from '../pages/course/course-single/CourseContent';
+import WaitList from "../pages/course/course-single/WaitList";
 
 const App = () => {
     return (
@@ -40,6 +41,7 @@ const App = () => {
                     <Route path="/learntube/login" component={Login} />
                     <Route path="/learntube/course" exact component={CourseOne} />
                     <Route path="/learntube/course/course-single" component={CourseSingle} />
+                    {/* <Route path="/learntube/course/course-singe/manage" component={waitList}/> */}
                     <Route path="/learntube/content" component={CourseContent} />
                     <Route path="/learntube/course-categories" component={CourseCategoryPage} />
                     <Route path="/learntube/event" component={Event} />
