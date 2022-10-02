@@ -3,13 +3,14 @@ import { DropdownButton, Dropdown, Button } from "react-bootstrap";
 import { Accordion, AccordionItem, AccordionItemHeading, AccordionItemPanel, AccordionItemButton } from "react-accessible-accordion";
 import axios from "axios";
 import Modal from "react-modal";
+import { useHistory } from "react-router-dom";
 
 export default function DropDown(props) {
     const [isOpen, setIsOpen] = useState(false);
     const openModal = () => setIsOpen(!isOpen);
     const [classRoomData, setClassRoomData] = useState();
     const [managesData, setManagesData] = useState(null);
-
+    const history = useHistory();
     const { userId } = props.userId;
 
     const user = window.sessionStorage.getItem("userId");
@@ -196,6 +197,19 @@ export default function DropDown(props) {
                         }}
                     >
                         강의실 삭제
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                        onClick={() => {
+                            console.log(props.classRoomData.classId);
+                            history.replace({
+                                pathname: "/learntube/course/manage",
+                                state: {
+                                    classId: props.classRoomData.classId
+                                }
+                            });
+                        }}
+                    >
+                        강의실 관리
                     </Dropdown.Item>
                 </DropdownButton>
             ) : null}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CourseSidebar from "./CourseSidebar";
 import CurriculumPart from "./CurriculumPart";
 import axios from "axios";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams} from "react-router-dom";
 import { Button } from "react-bootstrap";
 import Dropdown from "../../../components/Dropdown/DropDown";
 
@@ -89,9 +89,9 @@ function CourseDetailsPart() {
                             {classRoomData.instructor.userId == userId ? (
                                 <div className="col">
                                     <Dropdown classRoomData={classRoomData} students={students} userId={userId} />
-                                    <Link to="/">
-                                        <Button></Button>
-                                    </Link>
+                                    {/* <Link to="/learntube/course/course-single/manage">
+                                        <Button style={{ float: "right", width: "8rem", minWidth: "6rem", marginRight: "1.5rem", marginTop: "3.15rem" }}>수강생 관리</Button>
+                                    </Link> */}
                                 </div>
                             ) : null}
                             {classRoomData.instructor.userId != userId && classRoomData.isTake === false ? (
