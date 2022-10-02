@@ -11,13 +11,37 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 // Image
 import Logo from "../../assets/img/logo/Learntube-logos_transparent.png";
 import footerLogo from "../../assets/img/logo/lite-logo.png";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
 
-const CourseOne = (props) => {
+const AllList = (props) => {
+  const location = useLocation();
   const userId = window.sessionStorage.getItem("userId");
+  const [waitList, setWaitList] = useState();
+  const [currList, setCurrList] = useState();
   let tab1 = "대기중인 학생 리스트",
     tab2 = "수강 허락된 학생 리스트",
     tab3 = "수강 거절된 학생 리스트",
     tabStyle = "intro-tabs tabs-box";
+  // console.log(location.state.classId);
+
+  useEffect(() => {
+    if(userId) {
+      const fetchWaitList = async() => {
+        try {
+          const res1 = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/wait-list?classId=${location.state.classId}`);
+          const res2 = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/accepted-list?classId=${location.state.classId}`);
+          console.log("wait-list",res1.data);
+          console.log("accepted-list",res2.data);
+          setWaitList(res1.data);
+          setCurrList(res2.data);
+        } catch (err) {
+          console.log("err >> ", err);
+        }
+      };
+      fetchWaitList();
+    }
+  },[userId]);
   return (
     <React.Fragment>
       <OffWrap />
@@ -69,4 +93,4 @@ const CourseOne = (props) => {
   );
 };
 
-export default CourseOne;
+export default AllList;

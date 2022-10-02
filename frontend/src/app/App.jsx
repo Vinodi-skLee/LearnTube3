@@ -23,6 +23,7 @@ import CreateMyPlaylist from "../pages/playlist/createMyPlaylist";
 import Login from "../pages/login";
 import CourseContent from "../pages/course/course-single/CourseContent";
 import Enrolment from "../pages/enrolment";
+import AllList from "../pages/enrolment";
 
 const App = () => {
   return (
@@ -58,6 +59,10 @@ const App = () => {
           <Route
             path="/learntube/course/course-single"
             component={CourseSingle}
+          />
+          <Route
+            path="/learntube/course/manage"
+            component={AllList}
           />
           <Route path="/learntube/content" component={CourseContent} />
           <Route

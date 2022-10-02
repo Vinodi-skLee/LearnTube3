@@ -1,11 +1,60 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 //import CourseDashBoard from "../../components/Courses/CourseDashBoard";
 
 const HoldPart = (props) => {
   //const [takesData, setTakesData] = useState(null);
+  const location = useLocation();
+  const [waitList, setWaitList] = useState();
+  let cid = location.state.classId;
 
+  const acceptAll = async() => {
+    let body = {
+      classId: cid
+    };
+    const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/classroom/accept-all`,
+    JSON.stringify(body),
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => console.log(res));
+    alert("모두 수락 완료!");
+    window.location.reload();
+  }
+
+  const rejectAll = async() => {
+    let body = {
+      classId: cid
+    };
+    const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/classroom/reject-all`,
+    JSON.stringify(body),
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => console.log(res));
+    alert("모두 거절 완료!");
+    window.location.reload();
+  }
+
+  useEffect(() => {
+    if(props.userId) {
+      const fetchWaitList = async() => {
+        try {
+          const res1 = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/wait-list?classId=${cid}`);
+          console.log(res1.data);
+          setWaitList(res1.data);
+        } catch (err) {
+          console.log("err >> ", err);
+        }
+      };
+      fetchWaitList();
+    }
+  },[props.userId]);
   //   useEffect(() => {
   //     if (props.userId) {
   //       const fetchTakesClassRoom = async () => {
@@ -32,6 +81,13 @@ const HoldPart = (props) => {
         <div className="row">
           <div className="pr-50 md-pr-14">
             <div style={{ margin: "15px" }}></div>
+            {waitList 
+            // 여기에 리스트 꾸며줘
+            ? waitList.map((waiting,i) => (
+              <div>{waitList[i].username}</div>
+            )):null }
+            <Button onClick={acceptAll}>모두 허락</Button>
+            <Button variant="secondary" onClick={rejectAll} active>모두 거절</Button>
             {/* {takesData
               ? takesData.map((takeData, i) => (
                   <div className="course-part clearfix m-0">
