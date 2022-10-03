@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContentDto {
-  
+
     private Long contentId;
     private String contentName;
     private String contentDescription;
@@ -22,8 +22,10 @@ public class ContentDto {
     private LocalDateTime closeDate;
     private Long playlistId;
 
+    private Float playlistDuration;
+
 
     public ContentResponse contentResponse() {
-        return new ContentResponse(contentId, contentName, contentDescription, openDate, closeDate, playlistId);
+        return new ContentResponse(contentId, contentName, contentDescription, openDate, closeDate, playlistId, playlistDuration);
     }
 }
