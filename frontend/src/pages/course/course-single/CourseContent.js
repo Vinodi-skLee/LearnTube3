@@ -23,7 +23,7 @@ const CourseContent = (props) => {
   const { state } = useLocation();
   const cid = state.classId;
   const userId = window.sessionStorage.getItem("userId");
-  console.log("cid", cid);
+  // console.log("cid", cid);
   // console.log(state.classRoomData.lectures);
   const [lectures, setLectures] = useState(state.classRoomData.lectures);
   // console.log("lectures", lectures);
