@@ -9,9 +9,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class VideoDeleteDto {
+    private Long playlistId;
     private Long videoId;
 
     public VideoDeleteDto(VideoDeleteRequest videoDeleteRequest) {
+        this.playlistId = videoDeleteRequest.getPlaylistId();
         this.videoId = videoDeleteRequest.getVideoId();
     }
     public VideoDeleteResponse contentIdResponse(){
