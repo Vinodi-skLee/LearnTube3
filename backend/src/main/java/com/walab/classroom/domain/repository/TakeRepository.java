@@ -37,6 +37,10 @@ public interface TakeRepository extends JpaRepository<Take, Long> {
     void changeStatusByClassID(@Param("classId") Long classId);
 
     @Modifying(clearAutomatically = true)
+    @Query("update Take t set t.status = 2 where t.classRoom.id = :classId")
+    void rejectStatusByClassID(@Param("classId") Long classId);
+
+    @Modifying(clearAutomatically = true)
     @Query("update Take t set t.deleted = 1 where t.classRoom.id = :classId")
     void deleteWaitTakeByClassId(@Param("classId") Long classId);
 
