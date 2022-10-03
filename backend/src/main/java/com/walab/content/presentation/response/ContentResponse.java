@@ -18,4 +18,5 @@ public class ContentResponse {
     private LocalDateTime openDate;
     private LocalDateTime closeDate;
     private Long playlistId;
+    private Float playlistDuration;
 }
