@@ -22,6 +22,12 @@ public interface TakeRepository extends JpaRepository<Take, Long> {
             "and t.status = 1")
     List<Take> getAcceptedTakeByClassId(@Param("classId") Long classId);
 
+    @Query("select t from Take t" +
+            " left join fetch t.user " +
+            " where t.classRoom.id = :classId " +
+            "and t.status=2")
+    List<Take> getRejectedTakeByClassId(@Param("classId") Long classId);
+
     @Query("select distinct t from Take t " +
             "left join fetch t.user as u " +
             "left join fetch  t.classRoom as c " +

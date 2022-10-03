@@ -55,6 +55,14 @@ public class TakeService {
     }
 
     @Transactional
+    public List<TakeUserDto> getTakeRejectedUsers(Long classId) {
+        List<Take> takes = takeRepository.getRejectedTakeByClassId(classId);
+        return takes.stream()
+                .map(TakeUserDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
     public TakeUserDto updateAccept(Long takeId) {
         Take take = takeRepository.findById(takeId).orElseThrow(TakeNotFoundException::new);
         take.acceptTake();
