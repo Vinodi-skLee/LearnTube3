@@ -1,27 +1,33 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
 
 const AcceptedPart = (props) => {
-  //const [takesData, setTakesData] = useState(null);
-
-  //   useEffect(() => {
-  //     if (props.userId) {
-  //       const fetchTakesClassRoom = async () => {
-  //         try {
-  //           const response = await axios.get(
-  //             `${process.env.REACT_APP_SERVER_URL}/api/classroom/takes?userId=${props.userId}`
-  //           );
-  //           // console.log(response.data);
-  //           setTakesData(response.data);
-  //         } catch (err) {
-  //           console.log("err >> ", err);
-  //         }
-  //       };
-  //       fetchTakesClassRoom();
-  //     }
-  //   }, [props.userId]);
-
+  
+  const location = useLocation();
+  const [acceptedList, setAcceptedList] = useState([]);
+  let cid = location.state.classId;
+  console.log("cid",cid);
+  
+  useEffect(() => {
+    if(props.userId) {
+      const fetchAcceptedList = async() => {
+        try {
+          const result = await axios.get(
+            `${process.env.REACT_APP_SERVER_URL}/api/classroom/accepted-list?classId=${cid}`
+          );
+          console.log(result.data);
+          setAcceptedList(result.data);
+        } catch (err) {
+          console.log("err >> ", err);
+        }
+      };
+      fetchAcceptedList();
+    }
+  }, [props.userId]);
+  // acceptedList 가 데이터 들고온 거임
   return (
     <div
       id="rs-popular-course"
@@ -31,23 +37,7 @@ const AcceptedPart = (props) => {
         <div className="row">
           <div className="pr-50 md-pr-14">
             <div style={{ margin: "15px" }}></div>
-            {/* {takesData
-              ? takesData.map((takeData, i) => (
-                  <div className="course-part clearfix m-0">
-                    <CourseDashBoard
-                      courseClass="courses-item"
-                      courseImg={takesData[i].image}
-                      courseTitle={takesData[i].className}
-                      notice={takesData[i].latestNotice}
-                      progress={0}
-                      userCount={takesData[i].numberOfTake}
-                      openDate={takesData[i].classRoomRegDate.split("T")[0]}
-                      creatorName={takesData[i].instructorName}
-                      classId={takesData[i].classId}
-                    />
-                  </div>
-                ))
-              : null} */}
+
             <div className="pagination-area orange-color text-center mt-30 md-mt-0">
               <ul className="pagination-part">
                 <li className="active">
