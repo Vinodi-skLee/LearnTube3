@@ -11,6 +11,8 @@ const HoldPart = (props) => {
   //const [takesData, setTakesData] = useState(null);
   const location = useLocation();
   const [waitList, setWaitList] = useState();
+  const [sidList, setSidList] = useState([]);
+  const [rejectList, setRejectList] = useState([]);
   let cid = location.state.classId;
 
   const acceptAll = async () => {
@@ -51,6 +53,46 @@ const HoldPart = (props) => {
     window.location.reload();
   };
 
+  const pressOkay = async () => {
+    if(sidList.length!=0) {
+      await Promise.all(
+        sidList.map(async (sid) => {
+          let body = {
+            takeId: sid
+          };
+          const response = await axios.post(
+            `${process.env.REACT_APP_SERVER_URL}/api/classroom/accept`,
+            JSON.stringify(body),
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+        })
+      )
+    }
+    if(rejectList.length!=0) {
+      await Promise.all(
+        rejectList.map(async (sid) => {
+          let body = {
+            takeId: sid
+          };
+          const response = axios.post(
+            `${process.env.REACT_APP_SERVER_URL}/api/classroom/reject`,
+            JSON.stringify(body),
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
+        })
+      )
+    }
+    window.location.reload();
+  }
+
   useEffect(() => {
     if (props.userId) {
       const fetchWaitList = async () => {
@@ -67,22 +109,37 @@ const HoldPart = (props) => {
       fetchWaitList();
     }
   }, [props.userId]);
-  //   useEffect(() => {
-  //     if (props.userId) {
-  //       const fetchTakesClassRoom = async () => {
-  //         try {
-  //           const response = await axios.get(
-  //             `${process.env.REACT_APP_SERVER_URL}/api/classroom/takes?userId=${props.userId}`
-  //           );
-  //           // console.log(response.data);
-  //           setTakesData(response.data);
-  //         } catch (err) {
-  //           console.log("err >> ", err);
-  //         }
-  //       };
-  //       fetchTakesClassRoom();
-  //     }
-  //   }, [props.userId]);
+
+  const acceptCheckboxHandler = (e) => {
+    if(sidList.includes(e.target.value)) {
+      e.preventDefault();
+    }
+    else {
+      if(rejectList.includes(e.target.value)) {
+        const idx = rejectList.indexOf(e.target.value);
+        if(idx>-1)
+          rejectList.splice(idx,1);
+      }
+      sidList.push(e.target.value);
+    }
+    console.log("sidList: ", sidList);
+    console.log("rejectList", rejectList);
+  }
+  const rejectCheckboxHandler = (e) => {
+    if(rejectList.includes(e.target.value)) {
+      e.preventDefault();
+    }
+    else {
+      if(sidList.includes(e.target.value)) {
+        const idx = sidList.indexOf(e.target.value);
+        if(idx > -1)
+          sidList.splice(idx,1);
+      }
+      rejectList.push(e.target.value);
+    }
+    console.log("rejectList: ", rejectList);
+    console.log("sidList: ", sidList);
+  }
 
   return (
     <div
@@ -116,10 +173,10 @@ const HoldPart = (props) => {
                         <td>{waitList[i].username}</td>
                         <td>{waitList[i].email}</td>
                         <td>
-                          <input type="checkbox" />
+                          <input type="radio" name="action" onClick={acceptCheckboxHandler} value={waitList[i].takeId}/>
                         </td>
                         <td>
-                          <input type="checkbox" />
+                          <input type="radio" name="action" onClick={rejectCheckboxHandler} value={waitList[i].takeId}/>
                         </td>
                       </tr>
                     ))
@@ -137,41 +194,25 @@ const HoldPart = (props) => {
                 style={{
                   float: "right",
                 }}
+                onClick={pressOkay}
               >
                 확인
               </Button>
             </div>
-            {/* {takesData
-              ? takesData.map((takeData, i) => (
-                  <div className="course-part clearfix m-0">
-                    <CourseDashBoard
-                      courseClass="courses-item"
-                      courseImg={takesData[i].image}
-                      courseTitle={takesData[i].className}
-                      notice={takesData[i].latestNotice}
-                      progress={0}
-                      userCount={takesData[i].numberOfTake}
-                      openDate={takesData[i].classRoomRegDate.split("T")[0]}
-                      creatorName={takesData[i].instructorName}
-                      classId={takesData[i].classId}
-                    />
-                  </div>
-                ))
-              : null} */}
             <div className="pagination-area orange-color text-center mt-30 md-mt-0">
-              <ul className="pagination-part">
+              {/* <ul className="pagination-part">
                 <li className="active">
                   <Link to="#">1</Link>
                 </li>
-                {/* <li>
-                                    <Link to="#">2</Link>
-                                </li> */}
+                <li>
+                  <Link to="#">2</Link>
+                </li>
                 <li>
                   <Link to="#">
                     Next <i className="fa fa-long-arrow-right"></i>
                   </Link>
                 </li>
-              </ul>
+              </ul> */}
             </div>
           </div>
         </div>

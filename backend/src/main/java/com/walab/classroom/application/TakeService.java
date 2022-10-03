@@ -74,14 +74,15 @@ public class TakeService {
     @Transactional
     public TakeUserDto updateReject(Long takeId) {
         Take take = takeRepository.findById(takeId).orElseThrow(TakeNotFoundException::new);
-        takeRepository.deleteById(takeId);
+//        takeRepository.deleteById(takeId);
+        take.rejectTake();
         return take.toTakeUserDto();
     }
 
     @Transactional
     public List<TakeUserDto> updateAllReject(Long classId) {
         List<Take> takes = takeRepository.getWaitTakeByClassId(classId);
-        takeRepository.deleteWaitTakeByClassId(classId);
+        takeRepository.rejectStatusByClassID(classId);
 
         return takes.stream()
                     .map(TakeUserDto::new)
