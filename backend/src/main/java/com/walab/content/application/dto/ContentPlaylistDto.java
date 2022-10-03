@@ -17,14 +17,14 @@ import lombok.Setter;
 public class ContentPlaylistDto {
     private Long id;
     private String playlistTitle;
-    private LocalDateTime totalTime;
+    private Float totalTime;
     private List<ContentVideoDto> videos;
 
     public ContentPlaylistDto(Playlist playlist, List<ContentVideoDto> videos){
         this.id = playlist.getId();
         this.playlistTitle = playlist.getPlaylistName();
         // ToDo total Time 나중에 캡스톤 팀에서 playlist 하면서 구현되면 이때 넣기 지금은 그냥 기본값
-        this.totalTime = LocalDateTime.now();
+        this.totalTime = playlist.getTotalDuration();
 
         this.videos = videos;
     }
