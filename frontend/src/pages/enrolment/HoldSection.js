@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 //import CourseDashBoard from "../../components/Courses/CourseDashBoard";
-import ListEnrolment from "../../components/Enrolment/ListEnrolment";
+
 
 const HoldPart = (props) => {
   //const [takesData, setTakesData] = useState(null);
