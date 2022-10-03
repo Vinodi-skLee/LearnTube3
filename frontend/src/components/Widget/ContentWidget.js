@@ -294,7 +294,7 @@ const ContentWidget = (props) => {
                                                                 <div className="row text-start pt-30">
                                                                     <div className="pt-5 fs-4">{clickedVideo.videoTitle}</div>
                                                                 </div>
-                                                                <div className="d-flex fw-light ms-0">전체 재생 시간: {clickedVideo.duration ? toHHMMSS(clickedVideo.duration) : "duration 없음"}</div>
+                                                                <div className="d-flex fw-light ms-0">재생 시간: {clickedVideo.duration ? toHHMMSS(clickedVideo.duration) : "duration 없음"}</div>
                                                                 <div className="d-flex fw-light">
                                                                     {" "}
                                                                     시작 시간: {clickedVideo.start_s ? toHHMMSS(clickedVideo.start_s) : "00:00"} ~ 끝시간:{" "}
@@ -318,8 +318,7 @@ const ContentWidget = (props) => {
                                                                             <div className="pt-5 fs-4">{contentData.playlist.videos[0].videoTitle}</div>
                                                                         </div>
                                                                         <div className="d-flex fw-light ms-0">
-                                                                            전체 재생 시간:{" "}
-                                                                            {contentData.playlist.videos[0].duration ? toHHMMSS(contentData.playlist.videos[0].duration) : "duration 없음"}
+                                                                            재생 시간: {contentData.playlist.videos[0].duration ? toHHMMSS(contentData.playlist.videos[0].duration) : "duration 없음"}
                                                                         </div>
                                                                         <div className="d-flex fw-light">
                                                                             {" "}
@@ -346,7 +345,7 @@ const ContentWidget = (props) => {
                                                                                         <div className="pt-5 fs-4">{contentData.playlist.videos[0].videoTitle}</div>
                                                                                     </div>
                                                                                     <div className="d-flex fw-light ms-0">
-                                                                                        전체 재생 시간:{" "}
+                                                                                        재생 시간:{" "}
                                                                                         {contentData.playlist.videos[0].duration ? toHHMMSS(contentData.playlist.videos[0].duration) : "duration 없음"}
                                                                                     </div>
                                                                                     <div className="d-flex fw-light">
@@ -412,7 +411,7 @@ const ContentWidget = (props) => {
                                                                 <div className="row text-start pt-30">
                                                                     <div className="pt-5 fs-4">{clickedVideo.videoTitle}</div>
                                                                 </div>
-                                                                <div className="d-flex fw-light ms-0">전체 재생 시간: {clickedVideo.duration ? toHHMMSS(clickedVideo.duration) : "duration 없음"}</div>
+                                                                <div className="d-flex fw-light ms-0">재생 시간: {clickedVideo.duration ? toHHMMSS(clickedVideo.duration) : "duration 없음"}</div>
                                                                 <div className="d-flex fw-light">
                                                                     {" "}
                                                                     시작 시간: {clickedVideo.start_s ? toHHMMSS(clickedVideo.start_s) : "00:00"} ~ 끝시간:{" "}
@@ -432,8 +431,7 @@ const ContentWidget = (props) => {
                                                                             <div className="pt-5 fs-4">{contentData.playlist.videos[0].videoTitle}</div>
                                                                         </div>
                                                                         <div className="d-flex fw-light ms-0">
-                                                                            전체 재생 시간:{" "}
-                                                                            {contentData.playlist.videos[0].duration ? toHHMMSS(contentData.playlist.videos[0].duration) : "duration 없음"}
+                                                                            재생 시간: {contentData.playlist.videos[0].duration ? toHHMMSS(contentData.playlist.videos[0].duration) : "duration 없음"}
                                                                         </div>
                                                                         <div className="d-flex fw-light">
                                                                             {" "}
@@ -456,7 +454,7 @@ const ContentWidget = (props) => {
                                                                                         <div className="pt-5 fs-4">{contentData.playlist.videos[0].videoTitle}</div>
                                                                                     </div>
                                                                                     <div className="d-flex fw-light ms-0">
-                                                                                        전체 재생 시간:{" "}
+                                                                                        재생 시간:{" "}
                                                                                         {contentData.playlist.videos[0].duration ? toHHMMSS(contentData.playlist.videos[0].duration) : "duration 없음"}
                                                                                     </div>
                                                                                     <div className="d-flex fw-light">
@@ -531,7 +529,7 @@ const ContentWidget = (props) => {
                                                                 <div className="row text-start pt-30">
                                                                     <div className="pt-5 fs-4">{clickedVideo.videoTitle}</div>
                                                                 </div>
-                                                                <div className="d-flex fw-light ms-0">전체 재생 시간: {clickedVideo.duration ? toHHMMSS(clickedVideo.duration) : "duration 없음"}</div>
+                                                                <div className="d-flex fw-light ms-0">재생 시간: {clickedVideo.duration ? toHHMMSS(clickedVideo.duration) : "duration 없음"}</div>
                                                                 <div className="d-flex fw-light">
                                                                     {" "}
                                                                     시작 시간: {clickedVideo.start_s ? toHHMMSS(clickedVideo.start_s) : "00:00"} ~ 끝시간:{" "}
@@ -555,8 +553,7 @@ const ContentWidget = (props) => {
                                                                             <div className="pt-5 fs-4">{contentData.playlist.videos[0].videoTitle}</div>
                                                                         </div>
                                                                         <div className="d-flex fw-light ms-0">
-                                                                            전체 재생 시간:{" "}
-                                                                            {contentData.playlist.videos[0].duration ? toHHMMSS(contentData.playlist.videos[0].duration) : "duration 없음"}
+                                                                            재생 시간: {contentData.playlist.videos[0].duration ? toHHMMSS(contentData.playlist.videos[0].duration) : "duration 없음"}
                                                                         </div>
                                                                         <div className="d-flex fw-light">
                                                                             {" "}
@@ -583,7 +580,7 @@ const ContentWidget = (props) => {
                                                                                         <div className="pt-5 fs-4">{contentData.playlist.videos[0].videoTitle}</div>
                                                                                     </div>
                                                                                     <div className="d-flex fw-light ms-0">
-                                                                                        전체 재생 시간:{" "}
+                                                                                        재생 시간:{" "}
                                                                                         {contentData.playlist.videos[0].duration ? toHHMMSS(contentData.playlist.videos[0].duration) : "duration 없음"}
                                                                                     </div>
                                                                                     <div className="d-flex fw-light">
@@ -651,7 +648,7 @@ const ContentWidget = (props) => {
                                                                 <div className="row text-start pt-30">
                                                                     <div className="pt-5 fs-4">{clickedVideo.videoTitle}</div>
                                                                 </div>
-                                                                <div className="d-flex fw-light ms-0">전체 재생 시간: {clickedVideo.duration ? toHHMMSS(clickedVideo.duration) : "duration 없음"}</div>
+                                                                <div className="d-flex fw-light ms-0">재생 시간: {clickedVideo.duration ? toHHMMSS(clickedVideo.duration) : "duration 없음"}</div>
                                                                 <div className="d-flex fw-light">
                                                                     {" "}
                                                                     시작 시간: {clickedVideo.start_s ? toHHMMSS(clickedVideo.start_s) : "00:00"} ~ 끝시간:{" "}
@@ -671,8 +668,7 @@ const ContentWidget = (props) => {
                                                                             <div className="pt-5 fs-4">{contentData.playlist.videos[0].videoTitle}</div>
                                                                         </div>
                                                                         <div className="d-flex fw-light ms-0">
-                                                                            전체 재생 시간:{" "}
-                                                                            {contentData.playlist.videos[0].duration ? toHHMMSS(contentData.playlist.videos[0].duration) : "duration 없음"}
+                                                                            재생 시간: {contentData.playlist.videos[0].duration ? toHHMMSS(contentData.playlist.videos[0].duration) : "duration 없음"}
                                                                         </div>
                                                                         <div className="d-flex fw-light">
                                                                             {" "}
@@ -695,7 +691,7 @@ const ContentWidget = (props) => {
                                                                                         <div className="pt-5 fs-4">{contentData.playlist.videos[0].videoTitle}</div>
                                                                                     </div>
                                                                                     <div className="d-flex fw-light ms-0">
-                                                                                        전체 재생 시간:{" "}
+                                                                                        재생 시간:{" "}
                                                                                         {contentData.playlist.videos[0].duration ? toHHMMSS(contentData.playlist.videos[0].duration) : "duration 없음"}
                                                                                     </div>
                                                                                     <div className="d-flex fw-light">
@@ -725,47 +721,55 @@ const ContentWidget = (props) => {
 
                                     {isBigDisplay ? (
                                         <div>
-                                            {/* playlist 연속재생 토글버튼 */}
-                                            <div className="d-flex justify-content-start ">
-                                                {repeatVideo ? (
-                                                    <i className="fa fa-retweet fa-2x" onClick={handleRepeat} style={{ color: "black" }}></i>
-                                                ) : (
-                                                    <i className="fa fa-retweet fa-2x" onClick={handleRepeat} style={{ color: "gray" }}></i>
-                                                )}
-                                            </div>
                                             {contentData.playlist.videos ? (
                                                 <>
+                                                    <div className="d-flex justify-content-between">
+                                                        {repeatVideo ? (
+                                                            <i className="fa fa-retweet fa-2x" onClick={handleRepeat} style={{ color: "black" }}></i>
+                                                        ) : (
+                                                            <i className="fa fa-retweet fa-2x" onClick={handleRepeat} style={{ color: "gray" }}></i>
+                                                        )}
+                                                        <span>전체 재생 시간 - {contentData.playlist.totalTime ? toHHMMSS(contentData.playlist.totalTime) : ""}</span>
+                                                    </div>
                                                     {contentData.playlist.videos.map((data, i) => (
-                                                        <div
-                                                            className="d-flex"
-                                                            onClick={() => selectVideo(data, i)}
-                                                            style={
-                                                                data === clickedVideo
-                                                                    ? {
-                                                                          background: "#e4e8f5",
-                                                                          borderTop: "1px solid lightgray",
-                                                                          padding: "25px 20px",
-                                                                      }
-                                                                    : {
-                                                                          background: "#fff",
-                                                                          borderTop: "1px solid lightgray",
-                                                                          padding: "25px 20px",
-                                                                      }
-                                                            }
-                                                        >
-                                                            {/* <ReactPlayer
+                                                        // {/* playlist 연속재생 토글버튼 */}
+                                                        <>
+                                                            <div
+                                                                className="d-flex"
+                                                                onClick={() => selectVideo(data, i)}
+                                                                style={
+                                                                    data === clickedVideo
+                                                                        ? {
+                                                                              background: "#e4e8f5",
+                                                                              borderTop: "1px solid lightgray",
+                                                                              padding: "25px 20px",
+                                                                              width: "100%",
+                                                                          }
+                                                                        : {
+                                                                              background: "#fff",
+                                                                              borderTop: "1px solid lightgray",
+                                                                              padding: "25px 20px",
+                                                                              width: "100%",
+                                                                          }
+                                                                }
+                                                            >
+                                                                {/* <ReactPlayer
                               url={
                                 "https://www.youtube.com/watch?v=`${contentData.playlist.videos[i].youtubeId}`"
                               }
                             /> */}
-                                                            {/* {contentData.playlist.videos[i].youtubeId} */}
-                                                            <YouTube
-                                                                videoId={contentData.playlist.videos[i].youtubeId}
-                                                                opts={opts}
-                                                                //   onEnd={handleNextVideo}
-                                                            />
-                                                            <div className="ms-3">{contentData.playlist.videos[i].videoTitle}</div>
-                                                        </div>
+                                                                {/* {contentData.playlist.videos[i].youtubeId} */}
+                                                                <YouTube
+                                                                    videoId={contentData.playlist.videos[i].youtubeId}
+                                                                    opts={opts}
+                                                                    //   onEnd={handleNextVideo}
+                                                                />
+                                                                <div className="d-flex row" style={{ width: "100%" }}>
+                                                                    <div className="ms-3">{contentData.playlist.videos[i].videoTitle}</div>
+                                                                    <div className="d-flex justify-content-end">{toHHMMSS(contentData.playlist.videos[i].duration)}</div>
+                                                                </div>
+                                                            </div>
+                                                        </>
                                                     ))}
                                                 </>
                                             ) : (
@@ -774,47 +778,55 @@ const ContentWidget = (props) => {
                                         </div>
                                     ) : (
                                         <div className="col-md-4 col-sm-12  ">
-                                            {/* playlist 연속재생 토글버튼 */}
-                                            <div className="d-flex justify-content-start ">
-                                                {repeatVideo ? (
-                                                    <i className="fa fa-retweet fa-2x" onClick={handleRepeat} style={{ color: "black" }}></i>
-                                                ) : (
-                                                    <i className="fa fa-retweet fa-2x" onClick={handleRepeat} style={{ color: "gray" }}></i>
-                                                )}
-                                            </div>
                                             {contentData.playlist.videos ? (
                                                 <>
+                                                    {/* playlist 연속재생 토글버튼 */}
+                                                    <div className="d-flex justify-content-between">
+                                                        {repeatVideo ? (
+                                                            <i className="fa fa-retweet fa-2x" onClick={handleRepeat} style={{ color: "black" }}></i>
+                                                        ) : (
+                                                            <i className="fa fa-retweet fa-2x" onClick={handleRepeat} style={{ color: "gray" }}></i>
+                                                        )}
+                                                        <span>전체 재생 시간 - {contentData.playlist.totalTime ? toHHMMSS(contentData.playlist.totalTime) : ""}</span>
+                                                    </div>
                                                     {contentData.playlist.videos.map((data, i) => (
-                                                        <div
-                                                            className="d-flex"
-                                                            onClick={() => selectVideo(data, i)}
-                                                            style={
-                                                                data === clickedVideo
-                                                                    ? {
-                                                                          background: "#e4e8f5",
-                                                                          borderTop: "1px solid lightgray",
-                                                                          padding: "25px 20px",
-                                                                      }
-                                                                    : {
-                                                                          background: "#fff",
-                                                                          borderTop: "1px solid lightgray",
-                                                                          padding: "25px 20px",
-                                                                      }
-                                                            }
-                                                        >
-                                                            {/* <ReactPlayer
+                                                        <>
+                                                            <div
+                                                                className="d-flex"
+                                                                onClick={() => selectVideo(data, i)}
+                                                                style={
+                                                                    data === clickedVideo
+                                                                        ? {
+                                                                              background: "#e4e8f5",
+                                                                              borderTop: "1px solid lightgray",
+                                                                              padding: "25px 20px",
+                                                                              width: "100%",
+                                                                          }
+                                                                        : {
+                                                                              background: "#fff",
+                                                                              borderTop: "1px solid lightgray",
+                                                                              padding: "25px 20px",
+                                                                              width: "100%",
+                                                                          }
+                                                                }
+                                                            >
+                                                                {/* <ReactPlayer
                               url={
                                 "https://www.youtube.com/watch?v=`${contentData.playlist.videos[i].youtubeId}`"
                               }
                             /> */}
-                                                            {/* {contentData.playlist.videos[i].youtubeId} */}
-                                                            <YouTube
-                                                                videoId={contentData.playlist.videos[i].youtubeId}
-                                                                opts={opts}
-                                                                //   onEnd={handleNextVideo}
-                                                            />
-                                                            <div className="ms-3">{contentData.playlist.videos[i].videoTitle}</div>
-                                                        </div>
+                                                                {/* {contentData.playlist.videos[i].youtubeId} */}
+                                                                <YouTube
+                                                                    videoId={contentData.playlist.videos[i].youtubeId}
+                                                                    opts={opts}
+                                                                    //   onEnd={handleNextVideo}
+                                                                />
+                                                                <div className="d-flex row" style={{ width: "100%" }}>
+                                                                    <div className="ms-3">{contentData.playlist.videos[i].videoTitle}</div>
+                                                                    <div className="d-flex justify-content-end">{toHHMMSS(contentData.playlist.videos[i].duration)}</div>
+                                                                </div>
+                                                            </div>
+                                                        </>
                                                     ))}
                                                 </>
                                             ) : (

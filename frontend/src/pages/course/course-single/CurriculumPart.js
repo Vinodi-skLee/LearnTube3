@@ -116,6 +116,18 @@ const CurriculumPart = (props) => {
         else return "New";
     };
 
+    const toHHMMSS = (secs) => {
+        var sec_num = parseInt(secs, 10);
+        var hours = Math.floor(sec_num / 3600);
+        var minutes = Math.floor(sec_num / 60) % 60;
+        var seconds = sec_num % 60;
+
+        return [hours, minutes, seconds]
+            .map((v) => (v < 10 ? "0" + v : v))
+            .filter((v, i) => v !== "00" || i > 0)
+            .join(":");
+    };
+
     return (
         <>
             {props.classRoomData ? (
@@ -637,19 +649,17 @@ const CurriculumPart = (props) => {
                                                                         paddingTop: "10px",
                                                                     }}
                                                                 >
-                                                                    {props.classRoomData.lectures[i].contents[j].closeDate ? (
-                                                                        <>
-                                                                            {/* 마감일: {props.classRoomData.lectures[i].contents[j].closeDate} */}
-                                                                            마감일:
+                                                                    {
+                                                                        props.classRoomData.lectures[i].contents[j].playlistDuration
+                                                                            ? "전체 재생 시간: " + toHHMMSS(props.classRoomData.lectures[i].contents[j].playlistDuration)
+                                                                            : ""
+                                                                        /* 마감일:
                                                                             {props.classRoomData.lectures[i].contents[j].closeDate.split("T")[0] +
                                                                                 " " +
                                                                                 props.classRoomData.lectures[i].contents[j].closeDate.split("T")[1].split(":")[0] +
                                                                                 ":" +
-                                                                                props.classRoomData.lectures[i].contents[j].closeDate.split("T")[1].split(":")[1]}
-                                                                        </>
-                                                                    ) : (
-                                                                        <></>
-                                                                    )}
+                                                                                props.classRoomData.lectures[i].contents[j].closeDate.split("T")[1].split(":")[1]} */
+                                                                    }
                                                                     {props.classRoomData.instructor.userId === userId ? (
                                                                         <>
                                                                             <div className="pull-right">
