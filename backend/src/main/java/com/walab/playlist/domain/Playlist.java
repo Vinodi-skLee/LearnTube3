@@ -16,12 +16,16 @@ import com.walab.video.domain.Video;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 
 @Entity
 @Getter
+@Setter
+@DynamicInsert
 @NoArgsConstructor
 @AllArgsConstructor
 @SQLDelete(sql = "UPDATE playlist SET deleted = true WHERE id = ?")
@@ -42,12 +46,16 @@ public class Playlist extends BaseEntity {
     private String description;
 
     private String thumbnailld;
+
+    private Float totalDuration;
+
+    @OneToMany(mappedBy = "playlist")
+    private List<Video> videos = new ArrayList<>();
+
     public Playlist(PlaylistCUDto playlistCUDto) {
         this.playlistName = playlistCUDto.getPlaylistName();
         this.description = playlistCUDto.getDescription();
     }
-    @OneToMany(mappedBy = "playlist")
-    private List<Video> videos = new ArrayList<>();
 
     public Playlist(User user, PlaylistCUDto playlistCUDto) {
         this(playlistCUDto);
@@ -55,7 +63,7 @@ public class Playlist extends BaseEntity {
     }
 
     public MyPlaylistDto myPlaylistDto(){
-        return new MyPlaylistDto(this.id, this.playlistName, this.description, this.user.getName(), this.thumbnailld, this.videos);
+        return new MyPlaylistDto(this.id, this.playlistName, this.description, this.user.getName(), this.thumbnailld, this.totalDuration, this.videos);
     }
 
     public MyPlaylistDto toCreateResponseDto(){
@@ -64,6 +72,7 @@ public class Playlist extends BaseEntity {
                 .name(this.playlistName)
                 .description(this.description)
                 .userName(this.user.getName())
+                .totalDuration(this.totalDuration)
                 .build();
     }
 

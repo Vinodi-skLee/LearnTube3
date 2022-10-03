@@ -26,11 +26,12 @@ public class VideoService {
 
     @Transactional
     public VideoDto create(VideoCUDto videoCUDto, Long playlistId) {
-
         Playlist playlist = playlistRepository.findPlaylistById(playlistId);
         Video newVideo = new Video(videoCUDto, playlist);
         Video savedVideo = videoRepository.save(newVideo);
 
+        float total = playlist.getTotalDuration();
+        playlist.setTotalDuration(total + savedVideo.getDuration());
         return savedVideo.toDto();
     }
 

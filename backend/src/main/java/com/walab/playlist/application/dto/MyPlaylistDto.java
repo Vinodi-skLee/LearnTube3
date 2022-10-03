@@ -23,6 +23,8 @@ public class MyPlaylistDto {
     private String userName;
     private String thumbnail;
 
+    private Float totalDuration;
+
     private List<Video> videos;
 
 
@@ -32,7 +34,7 @@ public class MyPlaylistDto {
             VideoDto tempVideo = new VideoDto(video.getId(), video.getPlaylist().getId(), video.getYoutubeId(),video.getTitle(),video.getNewTitle(),video.getStart_s(),video.getEnd_s(),video.getTag(),video.getSeq(),video.getMaxLength(),video.getDuration());
             newVideos.add(tempVideo);
         }
-        return new PlaylistResponse(this.playlistId, this.name, this.description, this.userName, this.thumbnail, newVideos);
+        return new PlaylistResponse(this.playlistId, this.name, this.description, this.userName, this.thumbnail, this.totalDuration, newVideos);
     }
 
     public PlaylistCUResponse playlistCUResponse() {
