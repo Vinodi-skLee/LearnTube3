@@ -32,20 +32,20 @@ const Header = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const [isVisible, setIsVisible] = useState(false);
-  useEffect(() => {
-    // Sticky is displayed after scrolling for 100 pixels
-    const toggleVisibility = () => {
-      if (window.pageYOffset > 100) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
+  // useEffect(() => {
+  //   // Sticky is displayed after scrolling for 100 pixels
+  //   const toggleVisibility = () => {
+  //     if (window.pageYOffset > 100) {
+  //       setIsVisible(true);
+  //     } else {
+  //       setIsVisible(false);
+  //     }
+  //   };
 
-    window.addEventListener("scroll", toggleVisibility);
+  //   window.addEventListener("scroll", toggleVisibility);
 
-    return () => window.removeEventListener("scroll", toggleVisibility);
-  }, []);
+  //   return () => window.removeEventListener("scroll", toggleVisibility);
+  // }, []);
 
   const searchModalAdd = () => {
     document.body.classList.add("modal-open");
@@ -80,6 +80,7 @@ const Header = (props) => {
                 ? "menu-area menu-sticky sticky"
                 : "menu-area menu-sticky"
             }
+            style={{display: "flex", alignItems: "center", height: "60px"}}
           >
             <div className="container">
               <div className="row y-middle">
