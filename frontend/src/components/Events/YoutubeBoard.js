@@ -105,7 +105,7 @@ const YoutubeBoard = memo(
             // className="col-md-8 col-sm-12 search-text"
             onMouseDown={selectVideo}
           >
-            <div className="h5 search-title" onMouseDown={onSelect}>
+            <div className="search-title" onMouseDown={onSelect}>
               {snippet.title ? snippet.title : "영상제목"}
             </div>
             <div className="fw-light search-channel" onMouseDown={onSelect}>
@@ -116,7 +116,7 @@ const YoutubeBoard = memo(
                   : "등록일"}
               </span>
             </div>
-            <div className="fw-light search-description" onMouseDown={onSelect}>
+            <div className="search-description" onMouseDown={onSelect}>
               {snippet.description ? snippet.description : "영상설명"}
             </div>
           </div>
@@ -128,27 +128,19 @@ const YoutubeBoard = memo(
                 style={{ color: "red" }}
               ></i>
             ) : (
-              <i className="fa fa-heart" onClick={heartBtnHandler}></i>
+              <i className="fa fa-heart" onClick={heartBtnHandler} style={{color: "gray"}}></i>
             )}
             {isAdded || isAlreadyIncart ? (
               <Button
                 onMouseDown={onDelete}
-                style={{
-                  backgroundColor: "#6c757d",
-                  width: "60px",
-                  padding: "5px",
-                }}
+                className="cart-out"
               >
                 -
               </Button>
             ) : (
               <Button
                 onMouseDown={onClick}
-                style={{
-                  backgroundColor: "#6483d8",
-                  width: "60px",
-                  padding: "5px",
-                }}
+                className="cart-in"
               >
                 담기
               </Button>

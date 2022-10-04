@@ -44,7 +44,7 @@ const YoutubeVideoListWidget = ({
         className="rs-popular-courses list-view style1 course-view-style orange-style rs-inner-blog md-pt-70 text-start"
       >
         <div>
-          <div className="course-part justify-content-between p-3 clearfix m-0 row">
+          <div className="course-part justify-content-between p-3 clearfix row" style={{margin: "0px 25px"}}>
             {searchedVideos.map(function (video) {
               //console.log(video.id);
               let isAlreadyIncart = newCart.hasOwnProperty(video.id);

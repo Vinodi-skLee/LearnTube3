@@ -25,6 +25,7 @@ const Cart = ({ cart, playlistTitle, playlistId, selectPart }) => {
   const [cartList, setCartList] = useState([]);
   const [playlistName, setPlaylistName] = useState("");
   const [isDeleted, setIsDeleted] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const [youtubeId, setYoutubeId] = useState("");
   const [title, setTitle] = useState("");
@@ -43,11 +44,20 @@ const Cart = ({ cart, playlistTitle, playlistId, selectPart }) => {
     seq: 0,
   };
 
-  useEffect(() => {
-    console.log("cart updated!!!!");
-  }, [cartList]);
-
   let tempArray = [];
+  
+  useEffect(() => {
+    
+    console.log("cart updated!!!!");
+    for (const prop in cart) {
+      let tempJson = JSON.stringify(cart[prop]);
+      tempArray.push(tempJson);
+      console.log(tempArray);
+      setCartList(tempArray);
+      setPlaylistName(playlistTitle);
+    }
+  }, [cart]);
+
   useEffect(function () {
     setVideoList(videos);
     //console.log(videoList);
@@ -61,7 +71,7 @@ const Cart = ({ cart, playlistTitle, playlistId, selectPart }) => {
     }
     setIsDeleted(false);
   }, []);
-  //console.log(cartList);
+  //console.log(cartList)
 
   //한번 로드 후 삭제로 인해 바뀔때 사용하는 useEffect
   useEffect(
@@ -85,6 +95,10 @@ const Cart = ({ cart, playlistTitle, playlistId, selectPart }) => {
   const onPartClick = useCallback((video) => {
     selectPart(video);
   });
+
+  const onCartClick = () => {
+    setIsOpen(!isOpen);
+  }
 
   const saveCart = async () => {
     console.log(cartList);
@@ -134,10 +148,16 @@ const Cart = ({ cart, playlistTitle, playlistId, selectPart }) => {
                 CanvasClass="right_menu_togle hidden-md"
                 headerClass="full-width-header header-style1 home8-style4"
             /> */}
-
-      <div className="rs-event orange-style">
-        <div>
-        <div>
+      <div className="rs-event orange-style d-flex flex-column" style={{position: "fixed", bottom: "0", width: "100%"}}>
+        {
+          isOpen
+          ?
+          <>
+          <div className="bg-transparent">
+            <button className="bg-white" onClick={onCartClick} style={{width: "40px", border: "1px solid lightgray", borderBottom: "none", boxShadow: "0px 0px 5px black"}}>▼</button>
+          </div>
+          <div className="bg-white">
+          <div>
                   <div className="d-flex justify-content-between align-items-center ml-30 mr-30">
                     <div>
                     <i className="fa fa-play-circle-o"></i>
@@ -153,7 +173,7 @@ const Cart = ({ cart, playlistTitle, playlistId, selectPart }) => {
                 </Link>
                 </div>
               </div>
-          <div className="d-flex" style={{height: "220px", overflowX: "scroll", margin: "0px 30px"}}>
+          <div className="d-flex" style={{overflowX: "scroll", overflowY: "clip", margin: "0px 30px"}}>
             {/* <div className="prev-btn">
                 <button className="bg-transparent border-0 h-100 w-100">&lt;</button>
             </div> */}
@@ -169,15 +189,15 @@ const Cart = ({ cart, playlistTitle, playlistId, selectPart }) => {
                 let newObject = JSON.parse(video);
                 //console.log(newObject.snippet.thumbnails.medium.url);
                 return (
-                  <div key={i} className="d-flex mt-10 mb-10 col-md-2 justify-content-center align-items-center" style={{width: "200px", maxHeight: "250px", marginRight: "20px"}}>
-                    <div style={{width: "200px", maxHeight: "250px"}}>
+                  <div key={i} className="d-flex mt-10 mb-10 col-md-2 justify-content-start align-items-center" style={{width: "200px"}}>
+                    <div style={{width: "100%", height: "100%"}}>
                       {/* <div className="d-flex justify-content-center align-items-center w-100 h-100"> */}
-                      <div className="d-flex flex-wrap justify-content-center align-items-center">
+                      <div className="d-flex flex-wrap justify-content-start align-items-center">
                         <img
                           className="search-img mb-5"
                           src={newObject.snippet.thumbnails.medium.url}
                           alt={newObject.snippet.title}
-                          style={{width: "160px", height: "90px", border: "1px solid lightgray"}}
+                          style={{width: "100%", height: "100%", border: "1px solid lightgray"}}
                         />
                         </div>
                         <div style={{fontSize: "12pt", lineHeight: "1.4", textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap", wordBreak: "break-word"}}>
@@ -189,11 +209,6 @@ const Cart = ({ cart, playlistTitle, playlistId, selectPart }) => {
                           {newObject.snippet.channelTitle
                             ? newObject.snippet.channelTitle
                             : "채널명"}
-                        </div>
-                        <div style={{fontSize: "6pt", lineHeight: "1.4", textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap", wordBreak: "break-word"}}>
-                          {newObject.snippet.publishTime
-                            ? newObject.snippet.publishTime.slice(0, 10)
-                            : "등록일"}
                         </div>
                         <div>
                             <button
@@ -217,6 +232,12 @@ const Cart = ({ cart, playlistTitle, playlistId, selectPart }) => {
             </div> */}
           </div>
         </div>
+        </>
+        :
+        <div className="bg-transparent">
+        <button className="bg-white" onClick={onCartClick} style={{width: "40px", border: "1px solid lightgray", borderBottom: "1px solid lightgray", boxShadow: "0px 0px 5px black"}}>▲</button>
+      </div>
+        }
       </div>
       {/* <Footer footerClass="rs-footer home9-style main-home" footerLogo={footerLogo} /> */}
 

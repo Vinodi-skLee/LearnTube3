@@ -194,8 +194,10 @@ const YoutubeSearch = () => {
       console.log(prop);
       console.log(cart[prop]);
     }
+    setCart({...cart})
     setIsChanged(true);
     window.alert("저장되었습니다.");
+    returnCart();
   };
 
   const cancelCart = () => {
@@ -296,6 +298,18 @@ const YoutubeSearch = () => {
     }
   };
 
+  const returnCart = () => {
+    console.log("return Cart!!");
+    return (
+      <Cart
+                    cart={cart}
+                    playlistTitle={playlistName}
+                    playlistId={playlistId}
+                    selectPart={selectPart}
+                  ></Cart>
+    );
+  };
+
   // 처음 페이지를 로딩할 때 default로 query 값 설정
   useEffect(async function () {
     let searchedResults = await youtube.search(location.state.playlistName);
@@ -326,7 +340,7 @@ const YoutubeSearch = () => {
       />
 
       {/* <div className="rs-event orange-style pt-50 pb-100 md-pt-80 md-pb-80"> */}
-      <div className="rs-event orange-style pb-100 md-pb-80 gray-bg pt-20">
+      <div className="rs-event orange-style pb-100 md-pb-80 pt-20" style={{background: "rgb(73 95 124)"}}>
         <div>
           <div className="d-flex justify-content-center">
             {/* <div className="d-flex col-12 col-md-12 justify-content-between"> */}
@@ -369,7 +383,7 @@ const YoutubeSearch = () => {
             </div> */}
           </div>
         </div>
-        <div class="text-center dashboard-tabs ml-30 mr-30">
+        <div class="text-center dashboard-tabs">
           <div className="intro-info-tabs border-none row">
             {/* <div className="col-md-4">
                                 <div className="widget-area">
@@ -634,15 +648,10 @@ const YoutubeSearch = () => {
               <>
                 {/* 플레이리스트 담은영상 (카트) */}
                 <div
-                  className={"d-block bg-white cart-center"
+                  className={"d-flex justify-content-center bg-transparent cart-center w-100"
                   }
                 >
-                  <Cart
-                    cart={cart}
-                    playlistTitle={playlistName}
-                    playlistId={playlistId}
-                    selectPart={selectPart}
-                  ></Cart>
+                  {returnCart()}
                 </div>
               </>
             </div>
