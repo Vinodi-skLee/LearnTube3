@@ -14,7 +14,7 @@ import Modal from "react-modal";
 
 const CourseSidebar = (props) => {
   const [visible, setVisible] = useState(false);
-  const [accepted, setAccepted] = useState();
+  const [accepted, setAccepted] = useState([]);
   const { userId } = props.userId;
 
   const cid = props.classRoomData.classId;
