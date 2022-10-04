@@ -196,6 +196,7 @@ const ContentWidget = (props) => {
     };
     const handleRepeat = () => {
         setRepeatVideo(!repeatVideo);
+        setPlaying(true);
         console.log(repeatVideo);
     };
     const handleBigDisplay = () => {
@@ -273,11 +274,11 @@ const ContentWidget = (props) => {
                                                 <>
                                                     {/* {"큰화면 보기"} */}
                                                     {isBigDisplay ? (
-                                                        <i className="fa fa-compress " onClick={handleBigDisplay} style={{ color: "black" }}>
+                                                        <i className="fa fa-compress " onClick={handleBigDisplay} style={{ color: "gray" }}>
                                                             &ensp;기본 모드
                                                         </i>
                                                     ) : (
-                                                        <i className="fa fa-expand" onClick={handleBigDisplay} style={{ color: "gray" }}>
+                                                        <i className="fa fa-expand" onClick={handleBigDisplay} style={{ color: "black" }}>
                                                             &ensp;영화관 모드
                                                         </i>
                                                     )}
@@ -289,7 +290,8 @@ const ContentWidget = (props) => {
                                                                 {isBigDisplay ? (
                                                                     <ReactPlayer
                                                                         url={`https://www.youtube.com/watch?v=${clickedVideo.youtubeId}?start=${clickedVideo.start_s}&end=${clickedVideo.end_s}`}
-                                                                        width="1200px"
+                                                                        // width="1200px"
+                                                                        width="100%"
                                                                         height="800px"
                                                                         playing={playing} // 자동 재생 on
                                                                         controls={true} // 플레이어 컨트롤 노출 여부
@@ -330,7 +332,7 @@ const ContentWidget = (props) => {
                                                                         {isBigDisplay ? (
                                                                             <ReactPlayer
                                                                                 url={`https://www.youtube.com/watch?v=${contentData.playlist.videos[0].youtubeId}?start=${contentData.playlist.videos[0].start_s}&end=${contentData.playlist.videos[0].end_s}`}
-                                                                                width="1200px"
+                                                                                width="100%"
                                                                                 height="800px"
                                                                                 playing={playing} // 자동 재생 on
                                                                                 controls={true} // 플레이어 컨트롤 노출 여부
@@ -385,7 +387,7 @@ const ContentWidget = (props) => {
                                                                                 {isBigDisplay ? (
                                                                                     <ReactPlayer
                                                                                         url={`https://www.youtube.com/watch?v=${contentData.playlist.videos[0].youtubeId}?start=${contentData.playlist.videos[0].start_s}&end=${contentData.playlist.videos[0].end_s}`}
-                                                                                        width="1200px"
+                                                                                        width="100%"
                                                                                         height="800px"
                                                                                         playing={playing} // 자동 재생 on
                                                                                         controls={true} // 플레이어 컨트롤 노출 여부
@@ -444,11 +446,11 @@ const ContentWidget = (props) => {
                                                 <>
                                                     {/* {"큰화면 보기"} */}
                                                     {isBigDisplay ? (
-                                                        <i className="fa fa-compress " onClick={handleBigDisplay} style={{ color: "black" }}>
+                                                        <i className="fa fa-compress " onClick={handleBigDisplay} style={{ color: "gray" }}>
                                                             &ensp;기본 모드
                                                         </i>
                                                     ) : (
-                                                        <i className="fa fa-expand" onClick={handleBigDisplay} style={{ color: "gray" }}>
+                                                        <i className="fa fa-expand" onClick={handleBigDisplay} style={{ color: "black" }}>
                                                             &ensp;영화관 모드
                                                         </i>
                                                     )}
@@ -462,7 +464,7 @@ const ContentWidget = (props) => {
                                                                 {isBigDisplay ? (
                                                                     <ReactPlayer
                                                                         url={`https://www.youtube.com/watch?v=${clickedVideo.youtubeId}?start=${clickedVideo.start_s}&end=${clickedVideo.end_s}`}
-                                                                        width="1200px"
+                                                                        width="100%"
                                                                         height="800px"
                                                                         playing={playing} // 자동 재생 on
                                                                         // muted={true} // 자동 재생 on
@@ -590,11 +592,11 @@ const ContentWidget = (props) => {
                                                 <>
                                                     {/* {"큰화면 보기"} */}
                                                     {isBigDisplay ? (
-                                                        <i className="fa fa-compress " onClick={handleBigDisplay} style={{ color: "black" }}>
+                                                        <i className="fa fa-compress " onClick={handleBigDisplay} style={{ color: "gray" }}>
                                                             &ensp;기본 모드
                                                         </i>
                                                     ) : (
-                                                        <i className="fa fa-expand" onClick={handleBigDisplay} style={{ color: "gray" }}>
+                                                        <i className="fa fa-expand" onClick={handleBigDisplay} style={{ color: "black" }}>
                                                             &ensp;영화관 모드
                                                         </i>
                                                     )}
@@ -606,7 +608,7 @@ const ContentWidget = (props) => {
                                                                 {isBigDisplay ? (
                                                                     <ReactPlayer
                                                                         url={`https://www.youtube.com/watch?v=${clickedVideo.youtubeId}?start=${clickedVideo.start_s}&end=${clickedVideo.end_s}`}
-                                                                        width="1200px"
+                                                                        width="100%"
                                                                         height="800px"
                                                                         playing={playing} // 자동 재생 on
                                                                         controls={true} // 플레이어 컨트롤 노출 여부
@@ -646,7 +648,7 @@ const ContentWidget = (props) => {
                                                                         {isBigDisplay ? (
                                                                             <ReactPlayer
                                                                                 url={`https://www.youtube.com/watch?v=${contentData.playlist.videos[0].youtubeId}?start=${contentData.playlist.videos[0].start_s}&end=${contentData.playlist.videos[0].end_s}`}
-                                                                                width="1200px"
+                                                                                width="100%"
                                                                                 height="800px"
                                                                                 playing={playing} // 자동 재생 on
                                                                                 controls={true} // 플레이어 컨트롤 노출 여부
@@ -699,7 +701,7 @@ const ContentWidget = (props) => {
                                                                                 {isBigDisplay ? (
                                                                                     <ReactPlayer
                                                                                         url={`https://www.youtube.com/watch?v=${contentData.playlist.videos[0].youtubeId}?start=${contentData.playlist.videos[0].start_s}&end=${contentData.playlist.videos[0].end_s}`}
-                                                                                        width="1200px"
+                                                                                        width="100%"
                                                                                         height="800px"
                                                                                         playing={playing} // 자동 재생 on
                                                                                         controls={true} // 플레이어 컨트롤 노출 여부
@@ -758,11 +760,11 @@ const ContentWidget = (props) => {
                                                 <>
                                                     {/* {"큰화면 보기"} */}
                                                     {isBigDisplay ? (
-                                                        <i className="fa fa-compress " onClick={handleBigDisplay} style={{ color: "black" }}>
+                                                        <i className="fa fa-compress " onClick={handleBigDisplay} style={{ color: "gray" }}>
                                                             &ensp;기본 모드
                                                         </i>
                                                     ) : (
-                                                        <i className="fa fa-expand" onClick={handleBigDisplay} style={{ color: "gray" }}>
+                                                        <i className="fa fa-expand" onClick={handleBigDisplay} style={{ color: "black" }}>
                                                             &ensp;영화관 모드
                                                         </i>
                                                     )}
@@ -776,7 +778,7 @@ const ContentWidget = (props) => {
                                                                 {isBigDisplay ? (
                                                                     <ReactPlayer
                                                                         url={`https://www.youtube.com/watch?v=${clickedVideo.youtubeId}?start=${clickedVideo.start_s}&end=${clickedVideo.end_s}`}
-                                                                        width="1200px"
+                                                                        width="100%"
                                                                         height="800px"
                                                                         playing={playing} // 자동 재생 on
                                                                         // muted={true} // 자동 재생 on
@@ -897,7 +899,7 @@ const ContentWidget = (props) => {
                                     )}
                                     {/* Playlist 부분 */}
                                     {isBigDisplay ? (
-                                        <div className="video_playlist">
+                                        <div>
                                             {contentData.playlist.videos ? (
                                                 <>
                                                     {/* playlist 연속재생 토글버튼 */}
@@ -907,55 +909,63 @@ const ContentWidget = (props) => {
                                                         ) : (
                                                             <i className="fa fa-retweet fa-2x" onClick={handleRepeat} style={{ color: "gray" }}></i>
                                                         )}
-                                                        <span>전체 재생 시간 - {contentData.playlist.totalTime ? toHHMMSS(contentData.playlist.totalTime) : ""}</span>
+                                                        <div>
+                                                            {/* <span className="pe-3">동영상 10개 &ensp; | </span> */}
+                                                            <span className="pe-3">동영상 {contentData.playlist.videos.length}개 &ensp; &#183;</span>
+                                                            <span>전체 재생 시간 - {contentData.playlist.totalTime ? toHHMMSS(contentData.playlist.totalTime) : ""}</span>
+                                                        </div>
                                                     </div>
-                                                    {contentData.playlist.videos.map((data, i) => (
-                                                        // {/* playlist 연속재생 토글버튼 */}
-                                                        <>
-                                                            <div
-                                                                className="d-flex"
-                                                                onClick={() => selectVideo(data, i)}
-                                                                style={
-                                                                    data === clickedVideo
-                                                                        ? {
-                                                                              background: "#e4e8f5",
-                                                                              borderTop: "1px solid lightgray",
-                                                                              padding: "25px 20px",
-                                                                              width: "100%",
-                                                                          }
-                                                                        : {
-                                                                              background: "#fff",
-                                                                              borderTop: "1px solid lightgray",
-                                                                              padding: "25px 20px",
-                                                                              width: "100%",
-                                                                          }
-                                                                }
-                                                            >
-                                                                {/* <ReactPlayer
+                                                    <div className="video_playlist">
+                                                        {contentData.playlist.videos.map((data, i) => (
+                                                            // {/* playlist 연속재생 토글버튼 */}
+                                                            <>
+                                                                <div
+                                                                    className="d-flex"
+                                                                    onClick={() => selectVideo(data, i)}
+                                                                    style={
+                                                                        data === clickedVideo
+                                                                            ? {
+                                                                                  background: "#e4e8f5",
+                                                                                  borderTop: "1px solid lightgray",
+                                                                                  padding: "25px 20px",
+                                                                                  width: "100%",
+                                                                              }
+                                                                            : {
+                                                                                  background: "#fff",
+                                                                                  borderTop: "1px solid lightgray",
+                                                                                  padding: "25px 20px",
+                                                                                  width: "100%",
+                                                                              }
+                                                                    }
+                                                                >
+                                                                    {/* <ReactPlayer
                               url={
                                 "https://www.youtube.com/watch?v=`${contentData.playlist.videos[i].youtubeId}`"
                               }
                             /> */}
-                                                                {/* {contentData.playlist.videos[i].youtubeId} */}
-                                                                <YouTube
-                                                                    videoId={contentData.playlist.videos[i].youtubeId}
-                                                                    opts={opts}
-                                                                    //   onEnd={handleNextVideo}
-                                                                />
-                                                                <div className="d-flex row" style={{ width: "100%" }}>
-                                                                    <div className="ms-3">{contentData.playlist.videos[i].videoTitle}</div>
-                                                                    <div className="d-flex justify-content-end">{toHHMMSS(contentData.playlist.videos[i].duration)}</div>
+                                                                    {/* {contentData.playlist.videos[i].youtubeId} */}
+                                                                    <div className="d-flex align-items-center pe-3">{i + 1}</div>
+
+                                                                    <YouTube
+                                                                        videoId={contentData.playlist.videos[i].youtubeId}
+                                                                        opts={opts}
+                                                                        //   onEnd={handleNextVideo}
+                                                                    />
+                                                                    <div className="d-flex row" style={{ width: "100%" }}>
+                                                                        <div className="ms-3">{contentData.playlist.videos[i].videoTitle}</div>
+                                                                        <div className="d-flex justify-content-end">{toHHMMSS(contentData.playlist.videos[i].duration)}</div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </>
-                                                    ))}
+                                                            </>
+                                                        ))}
+                                                    </div>
                                                 </>
                                             ) : (
                                                 <></>
                                             )}
                                         </div>
                                     ) : (
-                                        <div className="col-md-4 col-sm-12 video_playlist ">
+                                        <div className="col-md-4 col-sm-12 ">
                                             {contentData.playlist.videos ? (
                                                 <>
                                                     {/* playlist 연속재생 토글버튼 */}
@@ -965,47 +975,54 @@ const ContentWidget = (props) => {
                                                         ) : (
                                                             <i className="fa fa-retweet fa-2x" onClick={handleRepeat} style={{ color: "gray" }}></i>
                                                         )}
-                                                        <span>전체 재생 시간 - {contentData.playlist.totalTime ? toHHMMSS(contentData.playlist.totalTime) : ""}</span>
+                                                        <div>
+                                                            {/* <span className="pe-3">동영상 10개 &ensp; | </span> */}
+                                                            <span className="pe-3">동영상 {contentData.playlist.videos.length}개 &ensp; &#183;</span>
+                                                            <span>전체 재생 시간 - {contentData.playlist.totalTime ? toHHMMSS(contentData.playlist.totalTime) : ""}</span>
+                                                        </div>
                                                     </div>
-                                                    {contentData.playlist.videos.map((data, i) => (
-                                                        <>
-                                                            <div
-                                                                className="d-flex"
-                                                                onClick={() => selectVideo(data, i)}
-                                                                style={
-                                                                    data === clickedVideo
-                                                                        ? {
-                                                                              background: "#e4e8f5",
-                                                                              borderTop: "1px solid lightgray",
-                                                                              padding: "25px 20px",
-                                                                              width: "100%",
-                                                                          }
-                                                                        : {
-                                                                              background: "#fff",
-                                                                              borderTop: "1px solid lightgray",
-                                                                              padding: "25px 20px",
-                                                                              width: "100%",
-                                                                          }
-                                                                }
-                                                            >
-                                                                {/* <ReactPlayer
+                                                    <div className="video_playlist">
+                                                        {contentData.playlist.videos.map((data, i) => (
+                                                            <>
+                                                                <div
+                                                                    className="d-flex"
+                                                                    onClick={() => selectVideo(data, i)}
+                                                                    style={
+                                                                        data === clickedVideo
+                                                                            ? {
+                                                                                  background: "#e4e8f5",
+                                                                                  borderTop: "1px solid lightgray",
+                                                                                  padding: "25px 20px",
+                                                                                  width: "100%",
+                                                                              }
+                                                                            : {
+                                                                                  background: "#fff",
+                                                                                  borderTop: "1px solid lightgray",
+                                                                                  padding: "25px 20px",
+                                                                                  width: "100%",
+                                                                              }
+                                                                    }
+                                                                >
+                                                                    {/* <ReactPlayer
                               url={
                                 "https://www.youtube.com/watch?v=`${contentData.playlist.videos[i].youtubeId}`"
                               }
                             /> */}
-                                                                {/* {contentData.playlist.videos[i].youtubeId} */}
-                                                                <YouTube
-                                                                    videoId={contentData.playlist.videos[i].youtubeId}
-                                                                    opts={opts}
-                                                                    //   onEnd={handleNextVideo}
-                                                                />
-                                                                <div className="d-flex row" style={{ width: "100%" }}>
-                                                                    <div className="ms-3">{contentData.playlist.videos[i].videoTitle}</div>
-                                                                    <div className="d-flex justify-content-end">{toHHMMSS(contentData.playlist.videos[i].duration)}</div>
+                                                                    {/* {contentData.playlist.videos[i].youtubeId} */}
+                                                                    <div className="d-flex align-items-center pe-3">{i + 1}</div>
+                                                                    <YouTube
+                                                                        videoId={contentData.playlist.videos[i].youtubeId}
+                                                                        opts={opts}
+                                                                        //   onEnd={handleNextVideo}
+                                                                    />
+                                                                    <div className="d-flex row" style={{ width: "100%" }}>
+                                                                        <div className="ms-3">{contentData.playlist.videos[i].videoTitle}</div>
+                                                                        <div className="d-flex justify-content-end">{toHHMMSS(contentData.playlist.videos[i].duration)}</div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </>
-                                                    ))}
+                                                            </>
+                                                        ))}
+                                                    </div>
                                                 </>
                                             ) : (
                                                 <></>
