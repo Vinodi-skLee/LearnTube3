@@ -1101,7 +1101,7 @@ const ContentWidget = (props) => {
                                 {props.lectures[lectureNum - 1].contents.length != contentNum + 1 ? (
                                     <ul className="pagination-part shadow-none border-0">
                                         <li onClick={nextContentHandler}>
-                                            <i className="fa fa-play">다음 컨텐츠</i>
+                                            <i className="fa fa-play">&ensp;다음 컨텐츠</i>
                                         </li>
                                     </ul>
                                 ) : (
