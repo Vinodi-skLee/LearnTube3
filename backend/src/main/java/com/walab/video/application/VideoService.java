@@ -26,28 +26,36 @@ public class VideoService {
 
     @Transactional
     public VideoDto create(VideoCUDto videoCUDto, Long playlistId) {
-
         Playlist playlist = playlistRepository.findPlaylistById(playlistId);
         Video newVideo = new Video(videoCUDto, playlist);
         Video savedVideo = videoRepository.save(newVideo);
 
+        float total = playlist.getTotalDuration();
+        playlist.setTotalDuration(total + savedVideo.getDuration());
         return savedVideo.toDto();
     }
 
     @Transactional
     public VideoDeleteDto delete(VideoDeleteDto videoDeleteDto) {
-        Long deleteId = videoDeleteDto.getVideoId();
-        videoRepository.deleteById(deleteId);
+        Video video = videoRepository.findById(videoDeleteDto.getVideoId()).orElseThrow(VideoNotFoundException::new);
+        Playlist playlist = playlistRepository.findPlaylistById(videoDeleteDto.getPlaylistId());
+        float total = playlist.getTotalDuration();
+
+        playlist.setTotalDuration(total - video.getDuration());
+        videoRepository.deleteById(video.getId());
         return videoDeleteDto;
     }
 
     @Transactional
     public VideoDto update(Long videoId, VideoCUDto videoCUDto) {
         Video video = videoRepository.findById(videoId).orElseThrow(VideoNotFoundException::new);
+        Playlist playlist = playlistRepository.findPlaylistById(videoCUDto.getPlaylistId());
+        float total = playlist.getTotalDuration();
+        playlist.setTotalDuration(total - video.getDuration());
+
         video.update(videoCUDto);
+        playlist.setTotalDuration(total + video.getDuration());
         return video.toDto();
     }
-
-
 
 }

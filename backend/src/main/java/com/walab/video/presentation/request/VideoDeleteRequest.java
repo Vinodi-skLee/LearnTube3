@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class VideoDeleteRequest {
+    private Long playlistId;
     private Long videoId;
 
     public VideoDeleteDto toVideoDeleteDto() {

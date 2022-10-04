@@ -2,11 +2,8 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import PlaylistBoard from "../../components/Courses/PlaylistBoard";
-import SearchWidget from "../../components/Widget/SearchWidget";
-import CourseDashBoard from "../../components/Courses/CourseDashBoard";
-import YoutubeBoard from "../../components/Events/YoutubeBoard";
-import YouTube from "react-youtube";
+import ReactPlayer from "react-player";
+import SetPlaylistDropdown from "../Dropdown/SetPlaylistDropdown";
 
 <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -14,9 +11,21 @@ import YouTube from "react-youtube";
     crossorigin="anonymous"
 ></script>;
 
-const PlaylistWidget = ({ isSelected, selectedPlaylist, selectedVideo, playlistId, savedPlaylistName, playlistSize, userId, isClicked }) => {
+const PlaylistWidget = ({
+    isSelected,
+    selectedPlaylist,
+    selectedVideo,
+    playlistId,
+    savedPlaylistName,
+    playlistSize,
+    playlistDuration,
+    userId,
+    isClicked,
+    clickedVideo,
+    setClickedVideo,
+    handlePlaylistChange,
+}) => {
     const [isVideoClicked, setIsVideoClicked] = useState(isClicked);
-    const [clickedVideo, setClickedVideo] = useState({});
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [playlistData, setPlaylistData] = useState(null);
@@ -42,6 +51,10 @@ const PlaylistWidget = ({ isSelected, selectedPlaylist, selectedVideo, playlistI
         // console.log("updatePlaylistTitle", updatePlaylistTitle);
     }, [savedPlaylistName]);
 
+    const onClickPlaylist = (e) => {
+        handlePlaylistChange(e.name);
+    };
+
     const initUpdatePlaylistData = {
         playlistId: playlistId,
         playlistName: updatePlaylistTitle,
@@ -65,15 +78,12 @@ const PlaylistWidget = ({ isSelected, selectedPlaylist, selectedVideo, playlistI
             end: endTime,
         },
     };
-
+    console.log(clickedVideo);
     const popUp = (video) => {
         setIsVideoClicked(true);
-        console.log(video);
         setClickedVideo(video);
-        console.log(clickedVideo);
         setStartTime(video.start_s);
         setEndTime(video.end_s);
-        console.log(opts2);
     };
 
     const checkPlaylistName = (event, selectedPlaylist) => {
@@ -82,6 +92,14 @@ const PlaylistWidget = ({ isSelected, selectedPlaylist, selectedVideo, playlistI
             event.preventDefault();
         }
     };
+
+    const selectVideo = (video, i) => {
+        console.log("video", video);
+        setClickedVideo(video);
+        setStartTime(video.start_s);
+        setEndTime(video.end_s);
+    };
+
     const toHHMMSS = (secs) => {
         var sec_num = parseInt(secs, 10);
         var hours = Math.floor(sec_num / 3600);
@@ -138,7 +156,7 @@ const PlaylistWidget = ({ isSelected, selectedPlaylist, selectedVideo, playlistI
         <div>
             <div className="row">
                 {isSelected ? (
-                    <div className="d-flex justify-content-between align-items-center row mb-3">
+                    <div className="d-flex justify-content-between align-items-center row mb-40" style={{ right: "0px" }}>
                         {typeof selectedPlaylist != "string" ? (
                             <div className="col">
                                 <h3 className="col text-start m-0">
@@ -175,76 +193,108 @@ const PlaylistWidget = ({ isSelected, selectedPlaylist, selectedVideo, playlistI
                                         ></i>
                                     </h3>
                                 ) : (
-                                    <h3 className="col text-start m-0">
+                                    <h3 className="text-start ps-3 fs-4 m-0 pl-0 fw-bold">
                                         <i className="fa fa-play-circle-o pe-1"></i> {typeof selectedPlaylist === "string" ? selectedPlaylist : "선택된 playlist 제목"}
-                                        <i className="fa fa-pencil ps-3 pt-3 orange-color" onClick={() => setUpdatePlaylist(!updatePlaylist)}></i>{" "}
-                                        <i className="fa fa-trash ps-3 pt-3 orange-color" onClick={() => deletePlaylist()}></i>
                                     </h3>
                                 )}
                             </div>
                         )}
 
                         <div className="col d-flex justify-content-end align-items-center">
-                            {/* <h5 className=' text-start m-0 '>{playlistSize + '개의 동영상 | 총 영상 시간 : '}</h5> */}
-                            <h5 className=" text-start m-0 ">{playlistSize + "개의 동영상"}</h5>
-                            <Link
-                                className=" text-center pt-1 d-flex align-items-center justify-content-end ms-2 me-0"
-                                to={{
-                                    pathname: "/learntube/learntube-studio/youtubeSearch",
-                                    state: {
-                                        playlistName: selectedPlaylist,
-                                        playlistId: playlistId,
-                                        update: true,
-                                    },
-                                }}
-                            >
-                                <Button
-                                    className="updateVideo"
-                                    onClick={(e) => {
-                                        checkPlaylistName(e, selectedPlaylist);
-                                    }}
-                                >
-                                    영상 추가하기
-                                </Button>
-                            </Link>
+                            <SetPlaylistDropdown
+                                playlistId={playlistId}
+                                selectedPlaylist={selectedPlaylist}
+                                checkPlaylistName={checkPlaylistName}
+                                setUpdatePlaylist={setUpdatePlaylist}
+                                updatePlaylist={updatePlaylist}
+                                deletePlaylist={deletePlaylist}
+                            />
                         </div>
                     </div>
                 ) : (
                     <></>
                 )}
-
                 {isSelected ? (
-                    <div className="col-lg-4 text-start border-left">
-                        <div className="p-1 row">
-                            <div>
-                                {Array.isArray(selectedVideo)
-                                    ? selectedVideo.map((data, i) => (
-                                          <div className="row p-1" onClick={(e) => popUp(data)}>
-                                              <div className="m-0 col-md-6 col-sm-12">
-                                                  <img
-                                                      className="img-fluid"
-                                                      style={{ minWidth: "150px" }}
-                                                      src={"https://i.ytimg.com/vi/".concat(selectedVideo[i].youtubeId, "/hqdefault.jpg")}
-                                                      alt="영상제목"
-                                                  />
+                    <>
+                        <div className=" col-lg-8 mt-26 mb-30" style={{ left: "0" }}>
+                            <ReactPlayer
+                                url={`https://www.youtube.com/watch?v=${clickedVideo.youtubeId}?start=${clickedVideo.start_s}&end=${clickedVideo.end_s}`}
+                                width="750px"
+                                height="500px"
+                                controls={true} // 플레이어 컨트롤 노출 여부
+                                pip={true} // pip 모드 설정 여부
+                            />
+                            <div className="row">
+                                <div class="row text-start pt-30">
+                                    <div className="pt-5 fs-4">{clickedVideo.newTitle ? clickedVideo.newTitle : clickedVideo.title}</div>
+                                </div>
+                                <div className="d-flex fw-light ms-0">
+                                    재생 시간: {clickedVideo.duration ? toHHMMSS(clickedVideo.duration) : "duration 없음"}
+                                    &ensp;| 재생 구간: {clickedVideo.start_s ? toHHMMSS(clickedVideo.start_s) : "00:00"} ~
+                                    {clickedVideo.end_s ? toHHMMSS(clickedVideo.end_s) : toHHMMSS(clickedVideo.duration)}{" "}
+                                </div>
 
-                                                  {/* <YouTube videoId={selectedVideo[i].youtubeId} opts={opts} /> */}
-                                              </div>
-                                              <div className="col-md-6 col-sm-12">
-                                                  <div className="d-flex h5 text-start">{selectedVideo[i].newTitle ? selectedVideo[i].newTitle : selectedVideo[i].title}</div>
-                                                  <div className="d-flex fw-light ms-0 ps-0">전체 재생 시간: {selectedVideo[i].duration ? toHHMMSS(selectedVideo[i].duration) : "전체길이"}</div>
-                                                  <div className="d-flex fw-light">
-                                                      {" "}
-                                                      시작 시간: {selectedVideo[i].start_s ? toHHMMSS(selectedVideo[i].start_s) : "00:00"} ~ 끝시간:{" "}
-                                                      {selectedVideo[i].end_s ? toHHMMSS(selectedVideo[i].end_s) : toHHMMSS(selectedVideo[i].duration)}{" "}
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      ))
-                                    : null}
+                                <div class="mt-5 mx-md-3 fs-5 text-start text-muted">{clickedVideo.tag}</div>
                             </div>
                         </div>
-                    </div>
+
+                        <div className="col-md-4 col-sm-12">
+                            <div className="video_playlist">
+                                <div className="row">
+                                    <div className="d-flex justify-content-between">
+                                        <span>{playlistSize + "개의 동영상"}</span>
+                                        <span>전체 재생 시간 - {playlistDuration ? toHHMMSS(playlistDuration) : ""}</span>
+                                    </div>
+                                    {Array.isArray(selectedVideo)
+                                        ? selectedVideo.map((data, i) => (
+                                              <div
+                                                  className="d-flex"
+                                                  onClick={() => selectVideo(data, i)}
+                                                  style={
+                                                      data === clickedVideo
+                                                          ? {
+                                                                background: "#e4e8f5",
+                                                                borderTop: "1px solid lightgray",
+                                                                padding: "25px 20px",
+                                                                width: "100%",
+                                                                cursor: "pointer",
+                                                            }
+                                                          : {
+                                                                background: "#fff",
+                                                                borderTop: "1px solid lightgray",
+                                                                padding: "25px 20px",
+                                                                width: "100%",
+                                                                cursor: "pointer",
+                                                            }
+                                                  }
+                                              >
+                                                  <div className="d-flex" onClick={(e) => popUp(data)}>
+                                                      <div className="m-1">
+                                                          <img
+                                                              className="img-fluid"
+                                                              style={{ width: "170px", marginRight: "20px" }}
+                                                              src={"https://i.ytimg.com/vi/".concat(selectedVideo[i].youtubeId, "/hqdefault.jpg")}
+                                                              alt="영상제목"
+                                                          />
+
+                                                          {/* <YouTube videoId={selectedVideo[i].youtubeId} opts={opts} /> */}
+                                                      </div>
+                                                      <div className="col-md-6 col-sm-12" style={{ alignItems: "center" }}>
+                                                          <div className="d-flex h5 text-start">{selectedVideo[i].newTitle ? selectedVideo[i].newTitle : selectedVideo[i].title}</div>
+                                                          <div className="d-flex fw-light ms-0 ps-0">영상 길이: {selectedVideo[i].duration ? toHHMMSS(selectedVideo[i].duration) : ""}</div>
+                                                          <div className="d-flex fw-light">
+                                                              시작: {selectedVideo[i].start_s ? toHHMMSS(selectedVideo[i].start_s) : "00:00"} ~ 종료:{" "}
+                                                              {selectedVideo[i].end_s ? toHHMMSS(selectedVideo[i].end_s) : toHHMMSS(selectedVideo[i].duration)}{" "}
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          ))
+                                        : null}
+                                </div>
+                            </div>
+                        </div>
+                    </>
                 ) : (
                     <div>
                         {playlistData ? (
@@ -252,7 +302,7 @@ const PlaylistWidget = ({ isSelected, selectedPlaylist, selectedVideo, playlistI
                                 {/* <div>플레이리스트가 없습니다. </div> */}
                                 {playlistData.map(function (video, i) {
                                     return (
-                                        <div key={i} className="p-2 col-lg-3 col-sm-6 mt-10">
+                                        <div className="p-2 col-lg-3 col-sm-6" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(playlistData[i])}>
                                             <div className="m-0 row-3 justify-content-center">
                                                 <img
                                                     className="img-fluid"
@@ -265,45 +315,15 @@ const PlaylistWidget = ({ isSelected, selectedPlaylist, selectedVideo, playlistI
                                                     alt={video.name}
                                                 />
                                             </div>
-                                            <div className="pt-3 px-3" style={{ minHeight: "160px", maxHeight: "160px" }}>
-                                                <div className="d-flex h4">{video.name ? video.name : "영상제목"}</div>
+                                            <div className="pt-3 px-3" style={{ minHeight: "100px", maxHeight: "100px" }}>
+                                                <div className="d-flex pl-12 h5">{video.name ? video.name : "영상제목"}</div>
                                             </div>
                                         </div>
                                     );
                                 })}
                             </div>
-                        ) : (
-                            <div className="text-start fs-4">로그인하여 Playlist를 제작해 보세요.</div>
-                        )}
-                    </div>
-                )}
-                {isVideoClicked ? (
-                    <div className=" col-lg-8" style={{ right: "0", bottom: "600px;" }}>
-                        <YouTube videoId={clickedVideo.youtubeId} opts={opts2} />
-                        <div className="row">
-                            <div class="col-12 my-5 lh-base">
-                                <div class="mx-md-3 fs-3 text-start">{clickedVideo.newTitle ? clickedVideo.newTitle : clickedVideo.title}</div>
-                                <div class="d-flex fw-light mt-3">
-                                    <div class="mx-2"></div>
-                                    <div class="fs-5 text-start text-muted">전체 재생 시간: {clickedVideo.duration ? toHHMMSS(clickedVideo.duration) : "전체길이"}</div>
-                                    <div class="mx-2"></div>
-                                    <div class="mx-1 border-start border-secondary"></div>
-                                    <div class="ms-3 fs-5 text-start text-mute">
-                                        {toHHMMSS(clickedVideo.start_s)} ~ {toHHMMSS(clickedVideo.end_s)}
-                                    </div>
-                                </div>
-                                <div class="mt-5 mx-md-3 fs-5 text-start text-muted">{clickedVideo.tag}</div>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    <>
-                        {selectedVideo === null ? (
-                            <div className=" col-lg-12 text-start fs-4 mt-50" style={{ right: "0", bottom: "600px;" }}>
-                                Playlist에 영상이 없습니다.
-                            </div>
                         ) : null}
-                    </>
+                    </div>
                 )}
             </div>
         </div>

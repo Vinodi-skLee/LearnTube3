@@ -395,8 +395,7 @@
   border: 1px solid lightgray;
 }
 
-<<<<<<< Updated upstream
-.prev-btn{
+.prev-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -406,7 +405,7 @@
   border: 1px solid lightgray;
 }
 
-.next-btn{
+.next-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -415,33 +414,6 @@
   margin-left: 10px;
   border: 1px solid lightgray;
 }
-=======
-.close-btn{
-  font-size: 26pt;
-  font-weight: bold;
-  border: 2px solid lightgray
-}
-
-// .prev-btn{
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   font-size: 24pt;
-//   width: 3%;
-//   margin-right: 10px;
-//   border: 1px solid lightgray;
-// }
-
-// .next-btn{
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   font-size: 24pt;
-//   width: 3%;
-//   margin-left: 10px;
-//   border: 1px solid lightgray;
-// }
->>>>>>> Stashed changes
 
 .playlist-title {
   text-overflow: ellipsis;
@@ -451,4 +423,15 @@
   display: -webkit-box;
   -webkit-line-clamp: 2; // 원하는 라인수
   -webkit-box-orient: vertical;
+}
+
+.video_playlist {
+  // position: relative;
+  // width: 100%;
+
+  min-height: 100px;
+  max-height: 600px;
+  overflow: scroll;
+  // background: #fff;
+  // z-index: 0;
 }
