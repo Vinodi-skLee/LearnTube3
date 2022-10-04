@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Table from "react-bootstrap/Table";
 import { useLocation } from "react-router-dom";
 
-
 const AcceptedPart = (props) => {
-  
   const location = useLocation();
   const [acceptedList, setAcceptedList] = useState([]);
   let cid = location.state.classId;
-  console.log("cid",cid);
-  
+  console.log("cid", cid);
+
   useEffect(() => {
-    if(props.userId) {
-      const fetchAcceptedList = async() => {
+    if (props.userId) {
+      const fetchAcceptedList = async () => {
         try {
           const result = await axios.get(
             `${process.env.REACT_APP_SERVER_URL}/api/classroom/accepted-list?classId=${cid}`
@@ -37,6 +36,32 @@ const AcceptedPart = (props) => {
         <div className="row">
           <div className="pr-50 md-pr-14">
             <div style={{ margin: "15px" }}></div>
+
+            <Table
+              bordered
+              hover
+              style={{
+                textAlign: "center",
+              }}
+            >
+              <thead>
+                <tr>
+                  <th>user name</th>
+                  <th>email</th>
+                </tr>
+              </thead>
+              <tbody>
+                {acceptedList
+                  ? // 여기에 리스트 꾸며줘
+                    acceptedList.map((accepting, i) => (
+                      <tr>
+                        <td>{acceptedList[i].username}</td>
+                        <td>{acceptedList[i].email}</td>
+                      </tr>
+                    ))
+                  : null}
+              </tbody>
+            </Table>
 
             <div className="pagination-area orange-color text-center mt-30 md-mt-0">
               <ul className="pagination-part">
