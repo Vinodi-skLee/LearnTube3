@@ -1059,7 +1059,7 @@ const ContentWidget = (props) => {
                                 {contentNum != 0 ? (
                                     <ul className="pagination-part shadow-none border-0">
                                         <li onClick={prevContentHandler}>
-                                            <i className="fa fa-play" style={{ transform: "rotate(180deg)" }}></i> &ensp;이전 컨텐츠
+                                            <i className="fa fa-play" style={{ transform: "rotate(180deg)" }}></i>&ensp;이전 컨텐츠
                                         </li>
                                     </ul>
                                 ) : (
