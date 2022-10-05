@@ -4,6 +4,7 @@ import ModalVideo from "react-modal-video";
 import Modal from "react-modal";
 import axios from "axios";
 import { Button } from "react-bootstrap";
+import {Table} from "react-bootstrap"
 
 import {
   Accordion,
@@ -186,7 +187,7 @@ const CurriculumPart = (props) => {
                     <div
                       style={{
                         display: "flex",
-                        marginLeft: "650px",
+                        marginLeft: "640px",
                       }}
                     >
                       <Modal
@@ -231,10 +232,11 @@ const CurriculumPart = (props) => {
                             </div>
                           </div>
                         </div>
-                        <Accordion className="accordion-box" preExpanded={"a"}>
-                          <AccordionItemPanel className="card-body acc-content current">
+                        <Table bordered hover>
+                          <tbody>
                             {Array.isArray(notices)
                               ? notices.map((notices, i) => (
+                                <tr>
                                   <div className="content">
                                     <div className="clearfix">
                                       {/* 공지 모달 open */}
@@ -375,7 +377,7 @@ const CurriculumPart = (props) => {
                                           clickModalHandler(i);
                                         }}
                                       >
-                                        {getDateDiff(
+                                        {/* {getDateDiff(
                                           props.classRoomData.notices[
                                             i
                                           ].modDate.split("T")[0]
@@ -398,8 +400,11 @@ const CurriculumPart = (props) => {
                                             className="fa fa-list"
                                             style={{ zIndex: "0" }}
                                           />
-                                        )}
-                                        {props.classRoomData.notices[i].title}
+                                        )} */}
+                                        <p>{i+1}</p>
+
+                                        <h5 style={{marginLeft:"100px", marginBottom:"50px"}}>{props.classRoomData.notices[i].title}</h5>
+                                        
                                       </div>
                                       <div className="pull-right">
                                         <div className="minutes">
@@ -469,18 +474,18 @@ const CurriculumPart = (props) => {
                                       </div>
                                     </div>
                                   </div>
+                                  
+                                </tr>
                                 ))
                               : null}
-                          </AccordionItemPanel>
-                        </Accordion>
+                            </tbody>
+                        </Table>
                       </Modal>
-                      <div
+                        <i className="fa fa-calendar" style={{paddingRight:"4px", paddingBottom:"3px"}}
                         onClick={() => {
                           openView();
-                        }}
-                      >
-                        <i className="fa fa-calendar" />
-                      </div>
+                        }}/>
+
                     </div>
 
                     <div
