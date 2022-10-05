@@ -1,58 +1,62 @@
 .menu-container {
-    float: right;
-    width: 3rem;
-    height: 3rem;
-    top: 50px;
-    left: 20px;
-    min-width: 5rem;
-    position: relative;
+  float: right;
+  width: 3rem;
+  height: 3rem;
+  top: 50px;
+  left: 20px;
+  min-width: 5rem;
+  position: relative;
 }
+
 .menu-container2 {
   float: right;
   width: 3rem;
   height: 3rem;
-  top: 0px;
-  left: 40px;
+  top: 3px;
+  left: 50px;
   min-width: 5rem;
   position: relative;
 }
+
 .menu {
-    background: #ffffff;
-    border-radius: 8px;
-    position: relative;
-    top: 3px;
-    right: 98px;
-    width: 130px;
-    text-align: center;
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-    z-index: 99;
+  background: #ffffff;
+  border-radius: 8px;
+  position: relative;
+  top: 3px;
+  right: 98px;
+  width: 130px;
+  text-align: center;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+  z-index: 99;
 }
+
 .menu.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .menu ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .menu li {
-    border-bottom: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
 }
 
 .menu li a {
-    text-decoration: none;
-    color: #333333;
-    padding: 15px 20px;
-    display: block;
+  text-decoration: none;
+  color: #333333;
+  padding: 15px 20px;
+  display: block;
 }
+
 .menu-trigger {
   background: none;
   border-radius: 100px;
@@ -63,7 +67,7 @@
   padding: 4px 6px;
   border: none;
   vertical-align: middle;
-  
+
 }
 
 .menu-trigger:hover {
@@ -82,16 +86,17 @@
 }
 
 .setIcon {
-    width: 30px;
-    height: 30px;
-    color: rgb(193, 181, 165);
+  width: 30px;
+  height: 30px;
+  color: rgb(193, 181, 165);
 }
+
 .menu2 {
   background: #ffffff;
   border-radius: 8px;
   position: relative;
   top: 5px;
-  right: 110px;
+  right: 108px;
   width: 140px;
   text-align: center;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
@@ -101,6 +106,7 @@
   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
   z-index: 99;
 }
+
 .menu2.active {
   opacity: 1;
   visibility: visible;
