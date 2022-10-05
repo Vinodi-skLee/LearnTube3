@@ -1,23 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import PlaylistBoard from "../Courses/PlaylistBoard";
-import SearchWidget from "./SearchWidget";
-import CourseDashBoard from "../Courses/CourseDashBoard";
-import YoutubeBoard from "../Events/YoutubeBoard";
 import YouTube from "react-youtube";
 import ReactPlayer from "react-player";
+import mediaIcon from "../../assets/img/icon/mediaIcon.png";
 
-// Course courseImg
-import courseImg1 from "../../assets/img/courses/1.jpg";
-import courseImg2 from "../../assets/img/courses/2.jpg";
-import courseImg3 from "../../assets/img/courses/3.jpg";
 const ContentWidget = (props) => {
     //   console.log(props);
-    //   console.log(props.i);
-    //   console.log(props.content.contentId);
-    //   console.log(props.lecture);
-    //   console.log("wid lectures", props.lectures);
     const initContentData = {
         id: "",
         contentName: "",
@@ -38,8 +26,6 @@ const ContentWidget = (props) => {
     const [contentId, setContentId] = useState(props.content.contentId);
     const [contentNum, setContentNum] = useState(0);
     const [lectureNum, setLectureNum] = useState(props.lecture.lectureNum);
-    const [selectedPlaylist, setSelectedPlaylist] = useState();
-    const [selectedVideo, setSelectedVideo] = useState();
     const [isSelected, setIsSelected] = useState(false);
     const [clickedVideo, setClickedVideo] = useState({});
     const [startTime, setStartTime] = useState(null);
@@ -132,8 +118,6 @@ const ContentWidget = (props) => {
         };
         fetchContent();
     }, [contentId, lectureNum]);
-    //   console.log("length", props.lectures.length);
-    //   console.log("lecNum", lectureNum);
 
     const prevLectureHandler = () => {
         if (lectureNum != 1) {
@@ -142,7 +126,6 @@ const ContentWidget = (props) => {
             setLectureNum(lectureNum - 1);
             setContentNum(0);
             setPlaying(false);
-            //   console.log(contentId);
         }
     };
     const nextLectureHandler = () => {
@@ -151,7 +134,6 @@ const ContentWidget = (props) => {
             setLectureNum(lectureNum + 1);
             setContentNum(0);
             setPlaying(false);
-            //   console.log(contentId);
         }
     };
     const prevContentHandler = () => {
@@ -161,27 +143,18 @@ const ContentWidget = (props) => {
             setPlaying(false);
         }
         if (contentNum > 0) setContentNum(contentNum - 1);
-        // console.log("contentNum", contentNum);
-        // console.log("lecNum", lectureNum);
         setContentId(props.lectures[lectureNum - 1].contents[contentNum - 1].contentId);
         setPlaying(false);
-        // console.log("contentId", contentId);
     };
     const nextContentHandler = () => {
         if (contentNum < 0) setContentNum(0);
         setContentNum(contentNum + 1);
-        // console.log("lecNum", lectureNum);
-        // console.log("contentNum", contentNum);
         setContentId(props.lectures[lectureNum - 1].contents[contentNum + 1].contentId);
         setPlaying(false);
-
-        // console.log("contentId", contentId);
     };
     const [videoNum, setVideoNum] = useState(0);
     const handleVideo = () => {
         console.log("end");
-        // if (contentData.contentData.playlist.videos.length != videoNum + 1)
-        // console.log(contentData.playlist.videos);
         console.log(contentData.playlist.videos[videoNum + 1]);
         // selectVideo(contentData.playlist.videos[videoNum + 1]);
         if (contentData.playlist.videos.length != videoNum + 1) {
@@ -204,47 +177,19 @@ const ContentWidget = (props) => {
         console.log(isBigDisplay);
     };
 
-    const [videoArray, setVideoArray] = useState([]);
-    //   const savedVideo = (youtubeId) => {
-    //     // let str;
-    //     // str += video;
-    //     setVideoArray(youtubeId);
-    //     console.log(videoArray);
-    //   };
-
-    //   let url = "https://www.youtube.com/watch?v=2XLwJDi_Q4Y";
-    //   url += ", ";
-    //   url += "https://www.youtube.com/watch?v=tXPMVXlnTSQ";
-    //   url += ", ";
-    //   url += "https://www.youtube.com/watch?v=Z4SU8UyHSJ4";
-    //   url += ", ";
-    //   url += "https://www.youtube.com/watch?v=MpJus9oD6Hc";
-    //   url += ", ";
-    //   url += "https://www.youtube.com/watch?v=xASSCiieSYo";
-    //   console.log(url);
-
-    //   const [switchOn, switchChange] = useState(false);
-
     return (
         <div className="mb-50">
             <div class="d-flex text-start ps-3 fs-4 pt-50 mb-0 pl-0 fw-bold">
                 {props.className}&ensp;
                 {lectureNum}강&ensp;{"-"}&ensp;
-                {/* {contentData ? <h3 className="text-start ps-5 pt-50 orange-color">{contentData.contentName}</h3> : null} */}
                 {contentData ? <>{contentData.contentName}</> : null}
             </div>
             <div>
                 {contentData ? (
                     <div>
-                        {/* <h3 className="text-start pt-5 mb-0 orange-color">{contentData.contentName}</h3> */}
-
                         {contentData.contentDescription ? (
-                            // <div className="row">
                             <div className="d-flex justify-content-between text-start pt-50 ">
-                                {/* <h5 className="pt-5 fs-4"> */}
                                 {contentData.contentDescription}
-                                {/* </h5> */}
-                                {/* </div> */}
                                 <div className="d-flex row">
                                     {contentData.openDate ? (
                                         <div className="text-start fw-light ">
@@ -259,11 +204,10 @@ const ContentWidget = (props) => {
                         ) : null}
                     </div>
                 ) : null}
-                {contentData ? (
+                {!clickedVideo ? (
                     <div>
                         <hr class="solid mt-20 mb-50"></hr>
                         <div className="row text-start">
-                            {/* <h3 className="ps-2 mb-0"><i className="fa fa-play-circle-o pe-1 pt-3"></i>{contentData.playlist.playlistTitle}</h3> */}
                             <div className="pt-20">
                                 <div className="row">
                                     {isBigDisplay ? (
@@ -307,10 +251,6 @@ const ContentWidget = (props) => {
                                                                         pip={true} // pip 모드 설정 여부
                                                                     />
                                                                 )}
-                                                                {/* <YouTube
-                        videoId={clickedVideo.youtubeId}
-                        opts={opts2}
-                      /> */}
                                                             </div>
                                                             <div className="row">
                                                                 <div className="row text-start pt-30">
@@ -339,13 +279,6 @@ const ContentWidget = (props) => {
                                                                                 pip={true} // pip 모드 설정 여부
                                                                             />
                                                                         ) : (
-                                                                            // <YouTube
-                                                                            //   videoId={
-                                                                            //     contentData.playlist.videos[0]
-                                                                            //       .youtubeId
-                                                                            //   }
-                                                                            //   opts={opts3}
-                                                                            // />
                                                                             <ReactPlayer
                                                                                 url={`https://www.youtube.com/watch?v=${contentData.playlist.videos[0].youtubeId}?start=${contentData.playlist.videos[0].start_s}&end=${contentData.playlist.videos[0].end_s}`}
                                                                                 width="750px"
@@ -354,13 +287,6 @@ const ContentWidget = (props) => {
                                                                                 controls={true} // 플레이어 컨트롤 노출 여부
                                                                                 pip={true} // pip 모드 설정 여부
                                                                             />
-                                                                            // <YouTube
-                                                                            //   videoId={
-                                                                            //     contentData.playlist.videos[0]
-                                                                            //       .youtubeId
-                                                                            //   }
-                                                                            //   opts={opts2}
-                                                                            // />
                                                                         )}
                                                                     </div>
                                                                     <div className="row">
@@ -748,7 +674,11 @@ const ContentWidget = (props) => {
                                                                             </div>
                                                                         </>
                                                                     ) : (
-                                                                        <></>
+                                                                        <div>
+                                                                            <div className="row mt-70 mb-70">
+                                                                                <div>비디오가 없습니다.</div>
+                                                                            </div>
+                                                                        </div>
                                                                     )}
                                                                 </>
                                                             )}
@@ -887,7 +817,7 @@ const ContentWidget = (props) => {
                                                                             </div>
                                                                         </>
                                                                     ) : (
-                                                                        <></>
+                                                                        <div></div>
                                                                     )}
                                                                 </>
                                                             )}
@@ -960,9 +890,7 @@ const ContentWidget = (props) => {
                                                         ))}
                                                     </div>
                                                 </>
-                                            ) : (
-                                                <></>
-                                            )}
+                                            ) : null}
                                         </div>
                                     ) : (
                                         <div className="col-md-4 col-sm-12 ">
@@ -1033,125 +961,132 @@ const ContentWidget = (props) => {
                             </div>
                         </div>
                     </div>
-                ) : null}
-                {/* 이전 강의 버튼 */}
-                <div className="d-flex justify-content-between mt-100" style={{ cursor: "default" }}>
-                    <div className="shadow-none orange-color text-center md-mt-0 p-3">
-                        {lectureNum != 1 ? (
-                            <ul className="pagination-part shadow-none border-0">
-                                <li onClick={prevLectureHandler}>
-                                    <i className="fa fa-step-backward">&ensp;이전 강의</i>
-                                </li>
-                            </ul>
-                        ) : (
-                            <ul className="pagination-part shadow-none border-0">
-                                <li>
-                                    <i className="fa fa-step-backward" style={{ color: "gray" }}>
-                                        &ensp;이전 강의
-                                    </i>
-                                </li>
-                            </ul>
-                        )}
-                        {/* 이전 컨텐츠 버튼 */}
-                        {props.lectures[lectureNum - 1].contents.length != 1 ? (
-                            <>
-                                {/* {!props.lectures[lectureNum - 1].contents[0] ? ( */}
-                                {contentNum != 0 ? (
-                                    <ul className="pagination-part shadow-none border-0">
-                                        <li onClick={prevContentHandler}>
-                                            <i className="fa fa-play" style={{ transform: "rotate(180deg)" }}></i>&ensp;이전 컨텐츠
-                                        </li>
-                                    </ul>
-                                ) : (
-                                    <ul className="pagination-part shadow-none border-0">
-                                        <li style={{ color: "gray" }}>
-                                            <i className="fa fa-play" style={{ transform: "rotate(180deg)", color: "gray" }}></i>
-                                            &ensp;이전 컨텐츠
-                                        </li>
-                                    </ul>
-                                )}
-                            </>
-                        ) : (
-                            <>
-                                {/* {!props.lectures[lectureNum - 1].contents[0] ? ( */}
-                                {contentNum != 0 ? (
-                                    <ul className="pagination-part shadow-none border-0">
-                                        <li>
-                                            <i className="fa fa-play" style={{ transform: "rotate(180deg)" }}></i>
-                                            &ensp;이전 컨텐츠
-                                        </li>
-                                    </ul>
-                                ) : (
-                                    <ul className="pagination-part shadow-none border-0">
-                                        <li style={{ color: "gray" }}>
-                                            <i className="fa fa-play" style={{ transform: "rotate(180deg)", color: "gray" }}></i>
-                                            &ensp;이전 컨텐츠
-                                        </li>
-                                    </ul>
-                                )}
-                            </>
-                        )}
+                ) : (
+                    <div>
+                        <div className="row d-flex mt-70 mb-70 align-items-center">
+                            <img src={mediaIcon} style={{ margin: "auto", width: "200px" }}></img>
+                            <div className="text-align-center fw-normal">컨텐츠가 비었습니다</div>
+                        </div>
                     </div>
-                    {/* 다음 강의 버튼 */}
-                    <div className="shadow-none orange-color text-center md-mt-0 p-3">
-                        {props.lectures[lectureNum - 1].contents.length != 1 ? (
-                            <>
-                                {/* <h>{props.lectures[lectureNum - 1].contents.length}</h>
+                )}
+            </div>
+            {/* 이전 강의 버튼 */}
+            <div className="d-flex justify-content-between mt-100" style={{ cursor: "default" }}>
+                <div className="shadow-none orange-color text-center md-mt-0 p-3">
+                    {lectureNum != 1 ? (
+                        <ul className="pagination-part shadow-none border-0">
+                            <li onClick={prevLectureHandler}>
+                                <i className="fa fa-step-backward">&ensp;이전 강의</i>
+                            </li>
+                        </ul>
+                    ) : (
+                        <ul className="pagination-part shadow-none border-0">
+                            <li>
+                                <i className="fa fa-step-backward" style={{ color: "gray" }}>
+                                    &ensp;이전 강의
+                                </i>
+                            </li>
+                        </ul>
+                    )}
+                    {/* 이전 컨텐츠 버튼 */}
+                    {props.lectures[lectureNum - 1].contents.length != 1 ? (
+                        <>
+                            {/* {!props.lectures[lectureNum - 1].contents[0] ? ( */}
+                            {contentNum != 0 ? (
+                                <ul className="pagination-part shadow-none border-0">
+                                    <li onClick={prevContentHandler}>
+                                        <i className="fa fa-play" style={{ transform: "rotate(180deg)" }}></i>&ensp;이전 컨텐츠
+                                    </li>
+                                </ul>
+                            ) : (
+                                <ul className="pagination-part shadow-none border-0">
+                                    <li style={{ color: "gray" }}>
+                                        <i className="fa fa-play" style={{ transform: "rotate(180deg)", color: "gray" }}></i>
+                                        &ensp;이전 컨텐츠
+                                    </li>
+                                </ul>
+                            )}
+                        </>
+                    ) : (
+                        <>
+                            {/* {!props.lectures[lectureNum - 1].contents[0] ? ( */}
+                            {contentNum != 0 ? (
+                                <ul className="pagination-part shadow-none border-0">
+                                    <li>
+                                        <i className="fa fa-play" style={{ transform: "rotate(180deg)" }}></i>
+                                        &ensp;이전 컨텐츠
+                                    </li>
+                                </ul>
+                            ) : (
+                                <ul className="pagination-part shadow-none border-0">
+                                    <li style={{ color: "gray" }}>
+                                        <i className="fa fa-play" style={{ transform: "rotate(180deg)", color: "gray" }}></i>
+                                        &ensp;이전 컨텐츠
+                                    </li>
+                                </ul>
+                            )}
+                        </>
+                    )}
+                </div>
+                {/* 다음 강의 버튼 */}
+                <div className="shadow-none orange-color text-center md-mt-0 p-3">
+                    {props.lectures[lectureNum - 1].contents.length != 1 ? (
+                        <>
+                            {/* <h>{props.lectures[lectureNum - 1].contents.length}</h>
                 {contentNum} */}
-                                {props.lectures[lectureNum - 1].contents.length != contentNum + 1 ? (
-                                    <ul className="pagination-part shadow-none border-0">
-                                        <li onClick={nextContentHandler}>
-                                            <i className="fa fa-play">&ensp;다음 컨텐츠</i>
-                                        </li>
-                                    </ul>
-                                ) : (
-                                    <ul className="pagination-part shadow-none border-0">
-                                        <li>
-                                            <i className="fa fa-play" style={{ color: "gray" }}>
-                                                &ensp;다음 컨텐츠
-                                            </i>
-                                        </li>
-                                    </ul>
-                                )}
-                            </>
-                        ) : (
-                            <>
-                                {/* <h>{props.lectures[lectureNum - 1].contents.length}</h>
+                            {props.lectures[lectureNum - 1].contents.length != contentNum + 1 ? (
+                                <ul className="pagination-part shadow-none border-0">
+                                    <li onClick={nextContentHandler}>
+                                        <i className="fa fa-play">&ensp;다음 컨텐츠</i>
+                                    </li>
+                                </ul>
+                            ) : (
+                                <ul className="pagination-part shadow-none border-0">
+                                    <li>
+                                        <i className="fa fa-play" style={{ color: "gray" }}>
+                                            &ensp;다음 컨텐츠
+                                        </i>
+                                    </li>
+                                </ul>
+                            )}
+                        </>
+                    ) : (
+                        <>
+                            {/* <h>{props.lectures[lectureNum - 1].contents.length}</h>
             {contentNum} */}
-                                {props.lectures[lectureNum - 1].contents.length != contentNum + 1 ? (
-                                    <ul className="pagination-part shadow-none border-0">
-                                        <li>
-                                            <i className="fa fa-play">&ensp;다음 컨텐츠</i>
-                                        </li>
-                                    </ul>
-                                ) : (
-                                    <ul className="pagination-part shadow-none border-0">
-                                        <li>
-                                            <i className="fa fa-play" style={{ color: "gray" }}>
-                                                &ensp;다음 컨텐츠
-                                            </i>
-                                        </li>
-                                    </ul>
-                                )}
-                            </>
-                        )}
-                        {/* 다음 컨텐츠 버튼  */}
-                        {lectureNum != props.lectures.length ? (
-                            <ul className="pagination-part shadow-none border-0">
-                                <li onClick={nextLectureHandler}>
-                                    <i className="fa fa-step-forward">&ensp;다음 강의</i>
-                                </li>
-                            </ul>
-                        ) : (
-                            <ul className="pagination-part shadow-none border-0">
-                                <li>
-                                    <i className="fa fa-step-forward" style={{ color: "gray" }}>
-                                        &ensp;다음 강의
-                                    </i>
-                                </li>
-                            </ul>
-                        )}
-                    </div>
+                            {props.lectures[lectureNum - 1].contents.length != contentNum + 1 ? (
+                                <ul className="pagination-part shadow-none border-0">
+                                    <li>
+                                        <i className="fa fa-play">&ensp;다음 컨텐츠</i>
+                                    </li>
+                                </ul>
+                            ) : (
+                                <ul className="pagination-part shadow-none border-0">
+                                    <li>
+                                        <i className="fa fa-play" style={{ color: "gray" }}>
+                                            &ensp;다음 컨텐츠
+                                        </i>
+                                    </li>
+                                </ul>
+                            )}
+                        </>
+                    )}
+                    {/* 다음 컨텐츠 버튼  */}
+                    {lectureNum != props.lectures.length ? (
+                        <ul className="pagination-part shadow-none border-0">
+                            <li onClick={nextLectureHandler}>
+                                <i className="fa fa-step-forward">&ensp;다음 강의</i>
+                            </li>
+                        </ul>
+                    ) : (
+                        <ul className="pagination-part shadow-none border-0">
+                            <li>
+                                <i className="fa fa-step-forward" style={{ color: "gray" }}>
+                                    &ensp;다음 강의
+                                </i>
+                            </li>
+                        </ul>
+                    )}
                 </div>
             </div>
         </div>

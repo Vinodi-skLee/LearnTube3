@@ -9,6 +9,7 @@ import SearchModal from "../../components/Layout/Header/SearchModal";
 import PlaylistWidget from "../../components/Widget/PlaylistWidget";
 import axios from "axios";
 import Modal from "react-modal";
+import SetPlaylistDropdown from "../../components/Dropdown/SetPlaylistDropdown";
 // Image
 import favIcon from "../../assets/img/fav-orange.png";
 import Logo from "../../assets/img/logo/Learntube-logos_transparent.png";
@@ -31,12 +32,8 @@ const Playlist = () => {
             videos: {},
         },
     ];
-    const [isOpen, setIsOpen] = useState(false);
-    const openModal = () => setIsOpen(!isOpen);
-    const [createPlaylist, setCreatePlaylist] = useState(initCreatePlaylist);
+
     const [playlistId, setPlaylistId] = useState(-1);
-    const [isShow, setIsShow] = useState(false);
-    const [playlistName, setPlaylistName] = useState("Playlist 생성");
     const [playlistData, setPlaylistData] = useState(initPlaylistData.videos);
     const [selectedPlaylist, setSelectedPlaylist] = useState(initPlaylistData);
     const [playlistSize, setPlaylistSize] = useState(0);
@@ -46,6 +43,9 @@ const Playlist = () => {
     const [clickedVideo, setClickedVideo] = useState({});
     const [playlistDuration, setPlaylistDuration] = useState();
     const [savedPlaylistName, setSavedPlaylistName] = useState("");
+    const [updatePlaylist, setUpdatePlaylist] = useState(false);
+    const [updatePlaylistTitle, setUpdatePlaylistTitle] = useState(savedPlaylistName);
+
     useEffect(() => {
         const fetchMyPlaylists = async () => {
             try {
@@ -85,34 +85,31 @@ const Playlist = () => {
         setIsClicked(false);
     };
 
-    const handleChange = (e) => {
-        setCreatePlaylist({
-            ...createPlaylist,
-            [e.target.name]: e.target.value.trim(),
-            userId: userId,
-        });
+    const deletePlaylist = () => {
+        console.log(playlistId);
+
+        if (window.confirm("Playlist를 정말 삭제하시겠습니까?") == true) {
+            axios
+                .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/delete`, JSON.stringify(playlistId), {
+                    headers: {
+                        "Content-Type": `application/json`,
+                    },
+                })
+                .then((res) => console.log(res));
+            alert("삭제되었습니다.");
+            window.location.reload();
+        } else {
+            return false;
+        }
     };
 
-    const handleSubmit = async () => {
-        console.log(JSON.stringify(createPlaylist));
-        let temp;
-        const response = await axios
-            .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/create`, JSON.stringify(createPlaylist), {
-                method: "POST",
-                headers: {
-                    // Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-            })
-            .then(function (res) {
-                console.log(res.data.playlistId);
-                temp = res.data.playlistId;
-                setPlaylistId(temp);
-                setIsShow(true);
-            });
-        console.log(createPlaylist.playlistName);
-        setPlaylistName(createPlaylist.playlistName);
+    const checkPlaylistName = (event, selectedPlaylist) => {
+        if (typeof selectedPlaylist != "string") {
+            alert("Playlist를 선택해주세요.");
+            event.preventDefault();
+        }
     };
+
     return (
         <React.Fragment>
             <Helmet>
@@ -158,7 +155,7 @@ const Playlist = () => {
                                                 {playlistData ? (
                                                     <>
                                                         <div className="col d-flex justify-content-end align-items-center">
-                                                            <div className="d-flex dropdown show" style={{ height: "135px" }}>
+                                                            <div className="d-flex dropdown show" style={{ left: "50px", height: "135px" }}>
                                                                 <Form.Select
                                                                     aria-label="SelectBox"
                                                                     onChange={(e) => {
@@ -180,14 +177,16 @@ const Playlist = () => {
                                                                     )}
                                                                 </Form.Select>
                                                             </div>
-                                                            <Button
-                                                                onClick={() => {
-                                                                    openModal();
-                                                                }}
-                                                                style={{ backgroundColor: "#6483d8" }}
-                                                            >
-                                                                만들기
-                                                            </Button>
+                                                            <SetPlaylistDropdown
+                                                                playlistId={playlistId}
+                                                                setPlaylistId={setPlaylistId}
+                                                                userId={userId}
+                                                                initCreatePlaylist={initCreatePlaylist}
+                                                                setUpdatePlaylist={setUpdatePlaylist}
+                                                                updatePlaylist={updatePlaylist}
+                                                                deletePlaylist={deletePlaylist}
+                                                                isSelected={isSelected}
+                                                            />
                                                         </div>
                                                     </>
                                                 ) : (
@@ -207,130 +206,15 @@ const Playlist = () => {
                                                 clickedVideo={clickedVideo}
                                                 setClickedVideo={setClickedVideo}
                                                 handlePlaylistChange={handlePlaylistChange}
+                                                updatePlaylist={updatePlaylist}
+                                                setUpdatePlaylist={setUpdatePlaylist}
+                                                updatePlaylistTitle={updatePlaylistTitle}
+                                                setUpdatePlaylistTitle={setUpdatePlaylistTitle}
                                             />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <Modal
-                                isOpen={isOpen}
-                                onClose={() => {
-                                    openModal();
-                                }}
-                                onRequestClose={() => setIsOpen(false)}
-                                style={{
-                                    overlay: {
-                                        position: "fixed",
-                                        top: 0,
-                                        left: 0,
-                                        right: 0,
-                                        bottom: 0,
-                                        backgroundColor: "rgb(0, 0, 0, 0.55)",
-                                    },
-                                    content: {
-                                        position: "absolute",
-                                        top: "23%",
-                                        left: "25%",
-                                        right: "25%",
-                                        bottom: "140px",
-                                        background: "#fff",
-                                        overflow: "auto",
-                                        WebkitOverflowScrolling: "touch",
-                                        outline: "none",
-                                        padding: "0px",
-                                    },
-                                }}
-                            >
-                                <div className="">
-                                    <div className="register-section ">
-                                        <div className="container">
-                                            <div className="py-3 px-5">
-                                                <div className="sec-title text-center mb-10">
-                                                    <h2 className="title mt-3 mb-10">{playlistName}</h2>
-                                                </div>
-                                                <div className="styled-form">
-                                                    <div id="form-messages"></div>
-                                                    <form id="contact-form" method="post" action="#">
-                                                        {isShow ? (
-                                                            <div></div>
-                                                        ) : (
-                                                            <div className="row clearfix">
-                                                                <div className="form-group col-lg-12 mb-25">
-                                                                    <div className="my-2">
-                                                                        Playlist 이름
-                                                                        <span className="ms-1" style={{ color: "red" }}>
-                                                                            *
-                                                                        </span>
-                                                                    </div>
-                                                                    <input type="text" id="title" name="playlistName" placeholder="제목을 입력하세요" onChange={handleChange} required />
-                                                                </div>
-                                                                <div className="form-group col-lg-12">
-                                                                    <div className="my-2">Playlist 설명</div>
-                                                                    <textarea
-                                                                        type="textarea"
-                                                                        id="description"
-                                                                        name="description"
-                                                                        onChange={handleChange}
-                                                                        placeholder="설명을 입력하세요"
-                                                                        style={{ height: "80px", borderRadius: "0px" }}
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                        )}
-                                                        {isShow ? (
-                                                            <div className="row d-flex justify-content-center ms-3 me-1 mt-3">
-                                                                <button
-                                                                    type="submit"
-                                                                    className="canclebtn"
-                                                                    onClick={() => {
-                                                                        setIsShow(false);
-                                                                        setPlaylistName("Playlist 생성");
-                                                                    }}
-                                                                >
-                                                                    <span className="txt">취소</span>
-                                                                </button>
-                                                                <Link
-                                                                    className="moveToSearch text-center pt-2 d-flex align-items-center justify-content-center"
-                                                                    to={{
-                                                                        pathname: "/learntube/learntube-studio/youtubeSearch",
-                                                                        state: {
-                                                                            playlistName: createPlaylist.playlistName,
-                                                                            playlistId: playlistId,
-                                                                            update: false,
-                                                                        },
-                                                                    }}
-                                                                >
-                                                                    <span>playlist에 영상 추가하기</span>
-                                                                </Link>
-                                                            </div>
-                                                        ) : (
-                                                            <div className="row d-flex justify-content-end ms-3 me-1 mt-3">
-                                                                <button
-                                                                    type="submit"
-                                                                    className="canclebtn"
-                                                                    onClick={() => {
-                                                                        openModal();
-                                                                        setIsShow(false);
-                                                                        setPlaylistName("Playlist 생성");
-                                                                    }}
-                                                                    style={{ height: "40px", borderRadius: "5px" }}
-                                                                >
-                                                                    <span className="txt">취소</span>
-                                                                </button>
-                                                                <button type="submit" className="createbtn" onClick={handleSubmit} style={{ height: "40px", borderRadius: "5px" }}>
-                                                                    {/* <div className="createbtn text-center d-flex align-items-center justify-content-center" onClick={handleSubmit}> */}
-                                                                    <span className="txt">저장</span>
-                                                                </button>
-                                                            </div>
-                                                        )}
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Modal>
                         </div>
                     </div>
                 </div>
