@@ -30,7 +30,7 @@ const CourseSingleTwoCopy = (props) => {
                 {courseImg ? (
                     <img style={{ width: "400px", height: "200px" }} src={courseImg} alt={courseTitle} />
                 ) : (
-                    <div className="background-wrap" style={{ display: "flex", backgroundSize: "cover", backgroundImage: `url(${logo})`, width: "338px", height: "200px", borderRadius: "5px" }}>
+                    <div className="background-wrap" style={{ display: "flex", backgroundSize: "cover", backgroundImage: `url(${logo})`, borderRadius: "5px" }}>
                         <span
                             style={{
                                 display: "inline-block",

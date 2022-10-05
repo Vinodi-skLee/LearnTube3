@@ -27,16 +27,16 @@ const CourseDashBoard = (props) => {
 
     return (
         <div className={courseClass ? courseClass : "courses-item"}>
-            <div className="img-part content-part">
+            <div className="img-part content-part" style={{ position: "relative", width: "300px", height: "170px" }}>
                 {courseImg ? (
-                    <img style={{ width: "300px", height: "170px" }} src={courseImg} alt={courseTitle} />
+                    <img style={{ width: "100%", height: "100%" }} src={courseImg} alt={courseTitle} />
                 ) : (
-                    <div className="background-wrap" style={{ display: "flex", backgroundSize: "cover", backgroundImage: `url(${logo})`, width: "275px", height: "170px", borderRadius: "5px" }}>
+                    <div className="background-wrap" style={{ display: "flex", backgroundSize: "cover", backgroundImage: `url(${logo})`, borderRadius: "5px" }}>
                         <span
                             style={{
                                 display: "inline-block",
-                                width: "275px",
-                                height: "170px",
+                                width: "100%",
+                                height: "100%",
                                 lineHeight: "170px",
                                 textAlign: "center",
                                 color: "#404040",
