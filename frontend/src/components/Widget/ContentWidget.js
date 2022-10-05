@@ -204,7 +204,7 @@ const ContentWidget = (props) => {
                         ) : null}
                     </div>
                 ) : null}
-                {!clickedVideo ? (
+                {clickedVideo ? (
                     <div>
                         <hr class="solid mt-20 mb-50"></hr>
                         <div className="row text-start">
@@ -674,11 +674,7 @@ const ContentWidget = (props) => {
                                                                             </div>
                                                                         </>
                                                                     ) : (
-                                                                        <div>
-                                                                            <div className="row mt-70 mb-70">
-                                                                                <div>비디오가 없습니다.</div>
-                                                                            </div>
-                                                                        </div>
+                                                                        <></>
                                                                     )}
                                                                 </>
                                                             )}
@@ -953,7 +949,7 @@ const ContentWidget = (props) => {
                                                     </div>
                                                 </>
                                             ) : (
-                                                <></>
+                                                <div></div>
                                             )}
                                         </div>
                                     )}
