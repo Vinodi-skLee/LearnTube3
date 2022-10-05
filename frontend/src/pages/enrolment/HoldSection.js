@@ -173,10 +173,10 @@ const HoldPart = (props) => {
                         <td>{waitList[i].username}</td>
                         <td>{waitList[i].email}</td>
                         <td>
-                          <input type="radio" name="action" onClick={acceptCheckboxHandler} value={waitList[i].takeId}/>
+                          <input type="radio" name={waitList[i].userId} onClick={acceptCheckboxHandler} value={waitList[i].takeId}/>
                         </td>
                         <td>
-                          <input type="radio" name="action" onClick={rejectCheckboxHandler} value={waitList[i].takeId}/>
+                          <input type="radio" name={waitList[i].userId} onClick={rejectCheckboxHandler} value={waitList[i].takeId}/>
                         </td>
                       </tr>
                     ))
