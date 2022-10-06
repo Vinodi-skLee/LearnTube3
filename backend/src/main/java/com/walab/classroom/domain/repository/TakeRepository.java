@@ -35,7 +35,8 @@ public interface TakeRepository extends JpaRepository<Take, Long> {
             "left join fetch c.notices " +
             "where u.id = :userId " +
             "and c.isActive = :isActive " +
-            "and t.status = 1")
+            "and t.status = 1 " +
+            "and c.deleted=false")
     List<Take> findDashboardTakeByUserId(@Param("userId") Long userId, @Param("isActive") boolean isActive);
 
     @Modifying(clearAutomatically = true)
