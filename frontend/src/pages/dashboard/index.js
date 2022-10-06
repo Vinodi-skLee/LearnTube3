@@ -35,7 +35,7 @@ const CourseOne = (props) => {
                 CanvasClass="right_menu_togle hidden-md"
                 headerClass="full-width-header header-style1 home8-style4"
             />
-            <div class="container text-center dashboard-tabs">
+            <div class="container text-center dashboard-tabs mt-30">
                 <div className="intro-info-tabs border-none">
                     <Tabs>
                         <TabList className={tabStyle}>

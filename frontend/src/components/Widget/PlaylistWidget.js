@@ -16,24 +16,26 @@ const PlaylistWidget = ({
     selectedPlaylist,
     selectedVideo,
     playlistId,
+    userId,
     savedPlaylistName,
     playlistSize,
     playlistDuration,
-    userId,
+    isEditMode,
+    setIsEditMode,
     isClicked,
     clickedVideo,
     setClickedVideo,
-    handlePlaylistChange,
     updatePlaylist,
+    deletePlaylist,
     setUpdatePlaylist,
     updatePlaylistTitle,
     setUpdatePlaylistTitle,
+    handlePlaylistChange,
 }) => {
     const [isVideoClicked, setIsVideoClicked] = useState(isClicked);
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [playlistData, setPlaylistData] = useState(null);
-    const [isEditMode, setIsEditMode] = useState(false);
 
     useEffect(() => {
         const fetchMyPlaylists = async () => {
@@ -188,14 +190,7 @@ const PlaylistWidget = ({
 
                         <div className="col d-flex justify-content-end align-items-center">
                             {!isEditMode ? (
-                                <Button
-                                    onClick={() => {
-                                        setIsEditMode(true);
-                                    }}
-                                    style={{ backgroundColor: "#6483d8" }}
-                                >
-                                    비디오 편집
-                                </Button>
+                                <></>
                             ) : (
                                 <>
                                     <Link
@@ -222,10 +217,11 @@ const PlaylistWidget = ({
                                     <Button
                                         onClick={() => {
                                             setIsEditMode(false);
+                                            setUpdatePlaylist(false);
                                         }}
                                         style={{ backgroundColor: "#6483d8" }}
                                     >
-                                        취소
+                                        저장
                                     </Button>
                                 </>
                             )}
@@ -238,7 +234,7 @@ const PlaylistWidget = ({
                     <>
                         {clickedVideo ? (
                             <>
-                                <div className=" col-lg-8 mt-26 mb-30" style={{ left: "0" }}>
+                                <div className="col-lg-8 mt-26 mb-30" style={{ left: "0" }}>
                                     <ReactPlayer
                                         url={`https://www.youtube.com/watch?v=${clickedVideo.youtubeId}?start=${clickedVideo.start_s}&end=${clickedVideo.end_s}`}
                                         width="750px"
@@ -264,7 +260,7 @@ const PlaylistWidget = ({
                                     <div className="video_playlist">
                                         <div className="row">
                                             <div className="d-flex justify-content-between">
-                                                <span>{playlistSize + "개의 동영상"}</span>
+                                                <span>동영상 {playlistSize + "개"}</span>
                                                 <span>전체 재생 시간 - {playlistDuration ? toHHMMSS(playlistDuration) : ""}</span>
                                             </div>
                                             {Array.isArray(selectedVideo)
@@ -290,11 +286,12 @@ const PlaylistWidget = ({
                                                                     }
                                                           }
                                                       >
+                                                          <div className="d-flex align-items-center pe-3">{i + 1}</div>
                                                           <div className="d-flex" onClick={(e) => popUp(data)}>
                                                               <div className="m-1">
                                                                   <img
                                                                       className="img-fluid"
-                                                                      style={{ width: "170px", marginRight: "20px" }}
+                                                                      style={{ width: "150px", marginRight: "15px" }}
                                                                       src={"https://i.ytimg.com/vi/".concat(selectedVideo[i].youtubeId, "/hqdefault.jpg")}
                                                                       alt="영상제목"
                                                                   />
@@ -302,7 +299,7 @@ const PlaylistWidget = ({
                                                                   {/* <YouTube videoId={selectedVideo[i].youtubeId} opts={opts} /> */}
                                                               </div>
                                                               <div className="col-md-6 col-sm-12" style={{ alignItems: "center" }}>
-                                                                  <div className="d-flex h5 text-start">{selectedVideo[i].newTitle ? selectedVideo[i].newTitle : selectedVideo[i].title}</div>
+                                                                  <div className="d-flex text-start">{selectedVideo[i].newTitle ? selectedVideo[i].newTitle : selectedVideo[i].title}</div>
                                                                   <div className="d-flex fw-light ms-0 ps-0">영상 길이: {selectedVideo[i].duration ? toHHMMSS(selectedVideo[i].duration) : ""}</div>
                                                                   <div className="d-flex fw-light">
                                                                       시작: {selectedVideo[i].start_s ? toHHMMSS(selectedVideo[i].start_s) : "00:00"} ~ 종료:{" "}
@@ -354,6 +351,15 @@ const PlaylistWidget = ({
                                 })}
                             </div>
                         ) : null}
+                    </div>
+                )}
+                {!isEditMode ? (
+                    <></>
+                ) : (
+                    <div className="col mt-40 d-flex justify-content-center align-items-center">
+                        <button className="btn btn-danger btn-sm" style={{ backgroundColor: "#6483d8" }} onClick={() => deletePlaylist()}>
+                            플레이리스트 삭제
+                        </button>
                     </div>
                 )}
             </div>
