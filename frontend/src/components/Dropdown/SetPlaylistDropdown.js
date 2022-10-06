@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import "../../assets/css/dropdown.css";
 import setIcon from "../../assets/img/icon/settingIcon.png";
 
-export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId, initCreatePlaylist, setUpdatePlaylist, updatePlaylist, deletePlaylist, isSelected }) {
+export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId, initCreatePlaylist, setUpdatePlaylist, updatePlaylist, deletePlaylist, isSelected, setIsEditMode }) {
     const dropdownRef = useRef(null);
     const [isActive, setIsActive] = useState(false);
     const useClick = () => setIsActive(!isActive);
@@ -61,20 +61,21 @@ export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId,
                                 }}
                                 style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}
                             >
-                                플레이리스트 추가
+                                플레이리스트 생성
                             </button>
                         </li>
 
                         {isSelected ? (
                             <>
                                 <li>
-                                    <button onClick={() => setUpdatePlaylist(!updatePlaylist)} style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}>
+                                    <button
+                                        onClick={() => {
+                                            setUpdatePlaylist(true);
+                                            setIsEditMode(true);
+                                        }}
+                                        style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}
+                                    >
                                         플레이리스트 수정
-                                    </button>
-                                </li>
-                                <li>
-                                    <button onClick={() => deletePlaylist()} style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}>
-                                        플레이리스트 삭제
                                     </button>
                                 </li>
                             </>

@@ -40,6 +40,7 @@ const Playlist = () => {
     const [selectedVideo, setSelectedVideo] = useState(initPlaylistData.videos);
     const [isSelected, setIsSelected] = useState(false);
     const [isClicked, setIsClicked] = useState(false);
+    const [isEditMode, setIsEditMode] = useState(false);
     const [clickedVideo, setClickedVideo] = useState({});
     const [playlistDuration, setPlaylistDuration] = useState();
     const [savedPlaylistName, setSavedPlaylistName] = useState("");
@@ -143,75 +144,77 @@ const Playlist = () => {
                             </div> */}
                             <div className="col-lg-12 col-md-12">
                                 <div className="widget-area">
-                                    <div className="mb-50">
-                                        <div className="row align-items-center ">
-                                            <div className="d-flex justify-content-between align-items-center row mb-3">
-                                                <div className="col">
-                                                    <h3 className="col text-start" style={{ minWidth: "191px", padding: "55px 0px 25px 30px" }}>
-                                                        나의 Playlist
-                                                    </h3>
-                                                </div>
-
-                                                {playlistData ? (
-                                                    <>
-                                                        <div className="col d-flex justify-content-end align-items-center">
-                                                            <div className="d-flex dropdown show" style={{ left: "50px", height: "135px" }}>
-                                                                <Form.Select
-                                                                    aria-label="SelectBox"
-                                                                    onChange={(e) => {
-                                                                        console.log(e.target.value);
-                                                                        handlePlaylistChange(e.target.value);
-                                                                        setIsClicked(false);
-                                                                    }}
-                                                                >
-                                                                    <option>----- Playlist 선택하기 -----</option>
-                                                                    {playlistData ? (
-                                                                        playlistData.map((data, i) => (
-                                                                            //console.log(playlistData[i].videos.length),({playlistData[i].videos.length})
-                                                                            <option key={playlistData[i].playlistId} id={playlistData[i].playlistId} name={playlistData[i].title}>
-                                                                                {playlistData[i].name}
-                                                                            </option>
-                                                                        ))
-                                                                    ) : (
-                                                                        <option key="playlistsData">Playlist가 존재하지 않습니다.</option>
-                                                                    )}
-                                                                </Form.Select>
-                                                            </div>
-                                                            <SetPlaylistDropdown
-                                                                playlistId={playlistId}
-                                                                setPlaylistId={setPlaylistId}
-                                                                userId={userId}
-                                                                initCreatePlaylist={initCreatePlaylist}
-                                                                setUpdatePlaylist={setUpdatePlaylist}
-                                                                updatePlaylist={updatePlaylist}
-                                                                deletePlaylist={deletePlaylist}
-                                                                isSelected={isSelected}
-                                                            />
-                                                        </div>
-                                                    </>
-                                                ) : (
-                                                    <></>
-                                                )}
+                                    <div className="mb-40">
+                                        <div className="d-flex justify-content-between align-items-center row">
+                                            <div className="col">
+                                                <h3 className="col text-start" style={{ left: "0px", padding: "55px 0px 25px 0px" }}>
+                                                    나의 Playlist
+                                                </h3>
                                             </div>
-                                            <PlaylistWidget
-                                                isSelected={isSelected}
-                                                selectedPlaylist={selectedPlaylist}
-                                                selectedVideo={selectedVideo}
-                                                playlistId={playlistId}
-                                                savedPlaylistName={savedPlaylistName}
-                                                playlistSize={playlistSize}
-                                                playlistDuration={playlistDuration}
-                                                userId={userId}
-                                                isClicked={isClicked}
-                                                clickedVideo={clickedVideo}
-                                                setClickedVideo={setClickedVideo}
-                                                handlePlaylistChange={handlePlaylistChange}
-                                                updatePlaylist={updatePlaylist}
-                                                setUpdatePlaylist={setUpdatePlaylist}
-                                                updatePlaylistTitle={updatePlaylistTitle}
-                                                setUpdatePlaylistTitle={setUpdatePlaylistTitle}
-                                            />
+
+                                            {playlistData ? (
+                                                <>
+                                                    <div className="col d-flex justify-content-end align-items-center">
+                                                        <div className="d-flex dropdown show" style={{ width: "300px", left: "30px", height: "135px" }}>
+                                                            <Form.Select
+                                                                aria-label="SelectBox"
+                                                                onChange={(e) => {
+                                                                    console.log(e.target.value);
+                                                                    handlePlaylistChange(e.target.value);
+                                                                    setIsClicked(false);
+                                                                }}
+                                                            >
+                                                                <option>------- Playlist 선택하기 -------</option>
+                                                                {playlistData ? (
+                                                                    playlistData.map((data, i) => (
+                                                                        //console.log(playlistData[i].videos.length),({playlistData[i].videos.length})
+                                                                        <option key={playlistData[i].playlistId} id={playlistData[i].playlistId} name={playlistData[i].title}>
+                                                                            {playlistData[i].name}
+                                                                        </option>
+                                                                    ))
+                                                                ) : (
+                                                                    <option key="playlistsData">Playlist가 존재하지 않습니다.</option>
+                                                                )}
+                                                            </Form.Select>
+                                                        </div>
+                                                        <SetPlaylistDropdown
+                                                            playlistId={playlistId}
+                                                            setPlaylistId={setPlaylistId}
+                                                            userId={userId}
+                                                            initCreatePlaylist={initCreatePlaylist}
+                                                            setUpdatePlaylist={setUpdatePlaylist}
+                                                            updatePlaylist={updatePlaylist}
+                                                            deletePlaylist={deletePlaylist}
+                                                            isSelected={isSelected}
+                                                            setIsEditMode={setIsEditMode}
+                                                        />
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <></>
+                                            )}
                                         </div>
+                                        <PlaylistWidget
+                                            isSelected={isSelected}
+                                            selectedPlaylist={selectedPlaylist}
+                                            selectedVideo={selectedVideo}
+                                            playlistId={playlistId}
+                                            userId={userId}
+                                            savedPlaylistName={savedPlaylistName}
+                                            playlistSize={playlistSize}
+                                            playlistDuration={playlistDuration}
+                                            isEditMode={isEditMode}
+                                            setIsEditMode={setIsEditMode}
+                                            isClicked={isClicked}
+                                            clickedVideo={clickedVideo}
+                                            setClickedVideo={setClickedVideo}
+                                            updatePlaylist={updatePlaylist}
+                                            deletePlaylist={deletePlaylist}
+                                            setUpdatePlaylist={setUpdatePlaylist}
+                                            updatePlaylistTitle={updatePlaylistTitle}
+                                            setUpdatePlaylistTitle={setUpdatePlaylistTitle}
+                                            handlePlaylistChange={handlePlaylistChange}
+                                        />
                                     </div>
                                 </div>
                             </div>
