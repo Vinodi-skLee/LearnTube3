@@ -14,24 +14,26 @@ const HoldPart = (props) => {
   const [sidList, setSidList] = useState([]);
   const [rejectList, setRejectList] = useState([]);
   let cid = location.state.classId;
-
+  const [hasReject, setHasReject] = useState(false);
+  
+  
   const acceptAll = async () => {
     let body = {
       classId: cid,
     };
     const response = await axios
-      .post(
-        `${process.env.REACT_APP_SERVER_URL}/api/classroom/accept-all`,
-        JSON.stringify(body),
-        {
+    .post(
+      `${process.env.REACT_APP_SERVER_URL}/api/classroom/accept-all`,
+      JSON.stringify(body),
+      {
           headers: {
             "Content-Type": "application/json",
           },
         }
       )
       .then((res) => console.log(res));
-    alert("모두 수락 완료!");
-    window.location.reload();
+      alert("모두 수락 완료!");
+      window.location.reload();
   };
 
   const rejectAll = async () => {
@@ -39,22 +41,22 @@ const HoldPart = (props) => {
       classId: cid,
     };
     const response = await axios
-      .post(
-        `${process.env.REACT_APP_SERVER_URL}/api/classroom/reject-all`,
-        JSON.stringify(body),
-        {
+    .post(
+      `${process.env.REACT_APP_SERVER_URL}/api/classroom/reject-all`,
+      JSON.stringify(body),
+      {
           headers: {
             "Content-Type": "application/json",
           },
         }
-      )
-      .then((res) => console.log(res));
-    alert("모두 거절 완료!");
-    window.location.reload();
-  };
-
-  const pressOkay = async () => {
-    if(sidList.length!=0) {
+        )
+        .then((res) => console.log(res));
+        alert("모두 거절 완료!");
+        window.location.reload();
+      };
+      
+      const pressOkay = async () => {
+        if(sidList.length!=0) {
       await Promise.all(
         sidList.map(async (sid) => {
           let body = {
@@ -68,12 +70,12 @@ const HoldPart = (props) => {
                 "Content-Type": "application/json",
               },
             }
+            )
+          })
           )
-        })
-      )
-    }
-    if(rejectList.length!=0) {
-      await Promise.all(
+        }
+        if(rejectList.length!=0) {
+          await Promise.all(
         rejectList.map(async (sid) => {
           let body = {
             takeId: sid
@@ -86,40 +88,69 @@ const HoldPart = (props) => {
                 "Content-Type": "application/json",
               },
             }
+            )
+          })
           )
-        })
-      )
-    }
-    window.location.reload();
-  }
-
-  useEffect(() => {
-    if (props.userId) {
-      const fetchWaitList = async () => {
-        try {
-          const res1 = await axios.get(
-            `${process.env.REACT_APP_SERVER_URL}/api/classroom/wait-list?classId=${cid}`
-          );
-          console.log(res1.data);
-          setWaitList(res1.data);
-        } catch (err) {
-          console.log("err >> ", err);
         }
+        window.location.reload();
+      }
+      
+      const useConfirm = (message="", onConfirm, onCancel) => {
+        if(!onConfirm || typeof onConfirm !== "function") {
+          return;
+        }
+        if(onCancel && typeof onCancel !== "function") {
+          return;
+        }
+        const confirmAction = () => {
+          if(window.confirm(message))
+            onConfirm();
+          else
+            onCancel();
+          return 
+        };
+        return confirmAction;
       };
-      fetchWaitList();
-    }
-  }, [props.userId]);
 
-  const acceptCheckboxHandler = (e) => {
-    if(sidList.includes(e.target.value)) {
+    
+      const cancelOkay = () => {
+        alert("취소되었습니다");
+      }
+      const confirmDelete = useConfirm("거절하시겠습니까?", pressOkay, cancelOkay);
+      const confirmDeleteAll = useConfirm("모두 거절하시겠습니까?", rejectAll,cancelOkay);
+    
+      useEffect(() => {
+        if (props.userId) {
+          const fetchWaitList = async () => {
+            try {
+              const res1 = await axios.get(
+                `${process.env.REACT_APP_SERVER_URL}/api/classroom/wait-list?classId=${cid}`
+                );
+                console.log(res1.data);
+                setWaitList(res1.data);
+              } catch (err) {
+                console.log("err >> ", err);
+              }
+            };
+            fetchWaitList();
+          }
+        }, [props.userId]);
+        
+    const acceptCheckboxHandler = (e) => {
+      
+      if(sidList.includes(e.target.value)) {
       e.preventDefault();
     }
     else {
       if(rejectList.includes(e.target.value)) {
         const idx = rejectList.indexOf(e.target.value);
         if(idx>-1)
-          rejectList.splice(idx,1);
+        rejectList.splice(idx,1);
       }
+      if(!rejectList.length)
+      setHasReject(false);
+      else
+        setHasReject(true);
       sidList.push(e.target.value);
     }
     console.log("sidList: ", sidList);
@@ -133,9 +164,13 @@ const HoldPart = (props) => {
       if(sidList.includes(e.target.value)) {
         const idx = sidList.indexOf(e.target.value);
         if(idx > -1)
-          sidList.splice(idx,1);
+        sidList.splice(idx,1);
       }
       rejectList.push(e.target.value);
+      if(!rejectList.length)
+      setHasReject(false);
+      else
+        setHasReject(true);
     }
     console.log("rejectList: ", rejectList);
     console.log("sidList: ", sidList);
@@ -187,17 +222,24 @@ const HoldPart = (props) => {
               <Button onClick={acceptAll} style={{ marginRight: "10px" }}>
                 모두 허락
               </Button>
-              <Button variant="secondary" onClick={rejectAll} active>
+              <Button variant="secondary" onClick={confirmDeleteAll} active>
                 모두 거절
               </Button>
-              <Button
+              {!hasReject ? <Button
                 style={{
                   float: "right",
                 }}
                 onClick={pressOkay}
               >
                 확인
-              </Button>
+              </Button> : <Button
+                style={{
+                  float: "right",
+                }}
+                onClick={confirmDelete}
+              >
+                확인
+              </Button> }
             </div>
             <div className="pagination-area orange-color text-center mt-30 md-mt-0">
               {/* <ul className="pagination-part">
