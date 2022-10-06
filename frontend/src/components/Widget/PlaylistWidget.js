@@ -200,6 +200,7 @@ const PlaylistWidget = ({
                                                 playlistName: selectedPlaylist,
                                                 playlistId: playlistId,
                                                 update: true,
+                                                existingVideo: selectedVideo,
                                             },
                                         }}
                                         style={{ padding: "0", margin: "0" }}
