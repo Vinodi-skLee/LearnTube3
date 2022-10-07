@@ -4,11 +4,11 @@ import ModalVideo from "react-modal-video";
 import Modal from "react-modal";
 import axios from "axios";
 import { Button } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 
 import { Accordion, AccordionItem, AccordionItemHeading, AccordionItemPanel, AccordionItemButton } from "react-accessible-accordion";
 import UpdateContent from "../../../components/Modal/Content/UpdateContent";
 import CreateContent from "../../../components/Modal/Content/CreateContent";
-import { faBorderNone } from "@fortawesome/free-solid-svg-icons";
 import CreateNotice from "../../../components/Modal/CreateNotice";
 import UpdateNotice from "../../../components/Modal/UpdateNotice";
 import DeleteNotice from "../../../components/Modal/DeleteNotice";
@@ -154,7 +154,7 @@ const CurriculumPart = (props) => {
                                         <div
                                             style={{
                                                 display: "flex",
-                                                marginLeft: "650px",
+                                                marginLeft: "640px",
                                             }}
                                         >
                                             <Modal
@@ -196,195 +196,209 @@ const CurriculumPart = (props) => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <Accordion className="accordion-box" preExpanded={"a"}>
-                                                    <AccordionItemPanel className="card-body acc-content current">
+                                                <Table bordered hover>
+                                                    <tbody>
                                                         {Array.isArray(notices)
                                                             ? notices.map((notices, i) => (
-                                                                  <div className="content">
-                                                                      <div className="clearfix">
-                                                                          {/* 공지 모달 open */}
-                                                                          <Modal
-                                                                              isOpen={isOpen}
-                                                                              onClose={() => {
-                                                                                  openModal();
-                                                                              }}
-                                                                              onRequestClose={() => setIsOpen(false)}
-                                                                              style={{
-                                                                                  overlay: {
-                                                                                      zIndex: "100",
-                                                                                      position: "fixed",
-                                                                                      top: 0,
-                                                                                      left: 0,
-                                                                                      right: 0,
-                                                                                      bottom: 0,
-                                                                                      backgroundColor: "rgb(0, 0, 0, 0.55)",
-                                                                                  },
-                                                                                  content: {
-                                                                                      position: "absolute",
-                                                                                      top: "20%",
-                                                                                      left: "30%",
-                                                                                      right: "30%",
-                                                                                      bottom: "20%",
-                                                                                      background: "#fff",
-                                                                                      overflow: "auto",
-                                                                                      WebkitOverflowScrolling: "touch",
-                                                                                      outline: "none",
-                                                                                      padding: "0px",
-                                                                                  },
-                                                                              }}
-                                                                          >
-                                                                              <div className="">
-                                                                                  <div className="register-section ">
-                                                                                      <div className="container">
-                                                                                          <div className="py-3 px-5">
-                                                                                              <div
-                                                                                                  className="sec-title text-center mb-10"
-                                                                                                  style={{
-                                                                                                      paddingBottom: "0.7rem",
-                                                                                                  }}
-                                                                                              >
-                                                                                                  <h3 className="title mt-3 mb-10">Notice</h3>
-                                                                                                  <hr></hr>
-                                                                                              </div>
-                                                                                              <div className="styled-form">
-                                                                                                  <div id="form-messages"></div>
-                                                                                                  <form id="contact-form" method="post" action="#">
-                                                                                                      <div className="row clearfix">
-                                                                                                          <div
-                                                                                                              className="title mt-3 mb-10"
-                                                                                                              style={{
-                                                                                                                  fontSize: "20px",
-                                                                                                                  fontWeight: "bold",
-                                                                                                                  paddingBottom: "1rem",
-                                                                                                              }}
-                                                                                                          >
-                                                                                                              {props.classRoomData.notices[noticeIdx].title}
-                                                                                                          </div>
-                                                                                                          <div
-                                                                                                              className="form-group col-lg-12 mb-25"
-                                                                                                              style={{
-                                                                                                                  paddingBottom: "3rem",
-                                                                                                              }}
-                                                                                                          >
+                                                                  <tr>
+                                                                      <div className="content">
+                                                                          <div className="clearfix">
+                                                                              {/* 공지 모달 open */}
+                                                                              <Modal
+                                                                                  isOpen={isOpen}
+                                                                                  onClose={() => {
+                                                                                      openModal();
+                                                                                  }}
+                                                                                  onRequestClose={() => setIsOpen(false)}
+                                                                                  style={{
+                                                                                      overlay: {
+                                                                                          zIndex: "100",
+                                                                                          position: "fixed",
+                                                                                          top: 0,
+                                                                                          left: 0,
+                                                                                          right: 0,
+                                                                                          bottom: 0,
+                                                                                          backgroundColor: "rgb(0, 0, 0, 0.55)",
+                                                                                      },
+                                                                                      content: {
+                                                                                          position: "absolute",
+                                                                                          top: "20%",
+                                                                                          left: "30%",
+                                                                                          right: "30%",
+                                                                                          bottom: "20%",
+                                                                                          background: "#fff",
+                                                                                          overflow: "auto",
+                                                                                          WebkitOverflowScrolling: "touch",
+                                                                                          outline: "none",
+                                                                                          padding: "0px",
+                                                                                      },
+                                                                                  }}
+                                                                              >
+                                                                                  <div className="">
+                                                                                      <div className="register-section ">
+                                                                                          <div className="container">
+                                                                                              <div className="py-3 px-5">
+                                                                                                  <div
+                                                                                                      className="sec-title text-center mb-10"
+                                                                                                      style={{
+                                                                                                          paddingBottom: "0.7rem",
+                                                                                                      }}
+                                                                                                  >
+                                                                                                      <h3 className="title mt-3 mb-10">Notice</h3>
+                                                                                                      <hr></hr>
+                                                                                                  </div>
+                                                                                                  <div className="styled-form">
+                                                                                                      <div id="form-messages"></div>
+                                                                                                      <form id="contact-form" method="post" action="#">
+                                                                                                          <div className="row clearfix">
                                                                                                               <div
-                                                                                                                  className="my-2"
+                                                                                                                  className="title mt-3 mb-10"
                                                                                                                   style={{
-                                                                                                                      fontSize: "17px",
+                                                                                                                      fontSize: "20px",
+                                                                                                                      fontWeight: "bold",
+                                                                                                                      paddingBottom: "1rem",
                                                                                                                   }}
                                                                                                               >
-                                                                                                                  {props.classRoomData.notices[noticeIdx].content}
+                                                                                                                  {props.classRoomData.notices[noticeIdx].title}
+                                                                                                              </div>
+                                                                                                              <div
+                                                                                                                  className="form-group col-lg-12 mb-25"
+                                                                                                                  style={{
+                                                                                                                      paddingBottom: "3rem",
+                                                                                                                  }}
+                                                                                                              >
+                                                                                                                  <div
+                                                                                                                      className="my-2"
+                                                                                                                      style={{
+                                                                                                                          fontSize: "17px",
+                                                                                                                      }}
+                                                                                                                  >
+                                                                                                                      {props.classRoomData.notices[noticeIdx].content}
+                                                                                                                  </div>
                                                                                                               </div>
                                                                                                           </div>
-                                                                                                      </div>
-                                                                                                      <br></br>
-                                                                                                      <p className="text-muted">
-                                                                                                          최종 업로드:
-                                                                                                          {props.classRoomData.notices[noticeIdx].modDate.split("T")[0] +
-                                                                                                              " " +
-                                                                                                              props.classRoomData.notices[noticeIdx].modDate.split("T")[1].split(":")[0] +
-                                                                                                              ":" +
-                                                                                                              props.classRoomData.notices[noticeIdx].modDate.split("T")[1].split(":")[1]}
-                                                                                                      </p>
-                                                                                                      <hr></hr>
-                                                                                                      <div className="row d-flex justify-content-end ms-3 me-1 mt-3">
-                                                                                                          <button
-                                                                                                              type="submit"
-                                                                                                              className="createbtn text-center pt-2"
-                                                                                                              onClick={() => {
-                                                                                                                  openModal();
-                                                                                                              }}
-                                                                                                          >
-                                                                                                              <span className="txt">확인</span>
-                                                                                                          </button>
-                                                                                                      </div>
-                                                                                                  </form>
+                                                                                                          <br></br>
+                                                                                                          <p className="text-muted">
+                                                                                                              최종 업로드:
+                                                                                                              {props.classRoomData.notices[noticeIdx].modDate.split("T")[0] +
+                                                                                                                  " " +
+                                                                                                                  props.classRoomData.notices[noticeIdx].modDate.split("T")[1].split(":")[0] +
+                                                                                                                  ":" +
+                                                                                                                  props.classRoomData.notices[noticeIdx].modDate.split("T")[1].split(":")[1]}
+                                                                                                          </p>
+                                                                                                          <hr></hr>
+                                                                                                          <div className="row d-flex justify-content-end ms-3 me-1 mt-3">
+                                                                                                              <button
+                                                                                                                  type="submit"
+                                                                                                                  className="createbtn text-center pt-2"
+                                                                                                                  onClick={() => {
+                                                                                                                      openModal();
+                                                                                                                  }}
+                                                                                                              >
+                                                                                                                  <span className="txt">확인</span>
+                                                                                                              </button>
+                                                                                                          </div>
+                                                                                                      </form>
+                                                                                                  </div>
                                                                                               </div>
                                                                                           </div>
                                                                                       </div>
                                                                                   </div>
-                                                                              </div>
-                                                                          </Modal>
-                                                                          <div
-                                                                              className="pull-left popup-videos play-icon "
-                                                                              key={props.classRoomData.notices[i].id}
-                                                                              onClick={() => {
-                                                                                  openModal();
-                                                                                  clickModalHandler(i);
-                                                                              }}
-                                                                          >
-                                                                              {getDateDiff(props.classRoomData.notices[i].modDate.split("T")[0]) === "New" ? (
-                                                                                  <i className="fa" style={{ zIndex: "0" }}>
-                                                                                      <span
-                                                                                          style={{
-                                                                                              fontWeight: "bold",
-                                                                                              fontSize: "13px",
-                                                                                          }}
-                                                                                      >
-                                                                                          NEW
-                                                                                      </span>
-                                                                                  </i>
-                                                                              ) : (
-                                                                                  <i className="fa fa-list" style={{ zIndex: "0" }} />
-                                                                              )}
-                                                                              {props.classRoomData.notices[i].title}
-                                                                          </div>
-                                                                          <div className="pull-right">
-                                                                              <div className="minutes">
-                                                                                  {props.classRoomData.instructor.userId === userId ? (
-                                                                                      <div
-                                                                                          style={{
-                                                                                              display: "flex",
-                                                                                          }}
-                                                                                      >
-                                                                                          <span>
-                                                                                              <UpdateNotice
-                                                                                                  notice={props.classRoomData.notices[i]}
-                                                                                                  instructorId={props.classRoomData.instructor.userId}
-                                                                                                  userId={userId}
-                                                                                              />
-                                                                                          </span>
-                                                                                          <span>
-                                                                                              <DeleteNotice
-                                                                                                  notices={props.classRoomData.notices}
-                                                                                                  instructorId={props.classRoomData.instructor.userId}
-                                                                                                  i={i}
-                                                                                                  userId={userId}
-                                                                                              />
-                                                                                          </span>
-                                                                                      </div>
-                                                                                  ) : null}
-                                                                              </div>
-                                                                          </div>
-                                                                          <div className="pull-right">
+                                                                              </Modal>
                                                                               <div
-                                                                                  className="minutes"
-                                                                                  style={{
-                                                                                      paddingTop: "10px",
-                                                                                      paddingRight: "15px",
+                                                                                  className="pull-left popup-videos play-icon "
+                                                                                  key={props.classRoomData.notices[i].id}
+                                                                                  onClick={() => {
+                                                                                      openModal();
+                                                                                      clickModalHandler(i);
                                                                                   }}
                                                                               >
-                                                                                  최종 업로드:
-                                                                                  {props.classRoomData.notices[i].modDate.split("T")[0] +
-                                                                                      " " +
-                                                                                      props.classRoomData.notices[i].modDate.split("T")[1].split(":")[0] +
-                                                                                      ":" +
-                                                                                      props.classRoomData.notices[i].modDate.split("T")[1].split(":")[1]}
+                                                                                  {/* {getDateDiff(
+                                          props.classRoomData.notices[
+                                            i
+                                          ].modDate.split("T")[0]
+                                        ) === "New" ? (
+                                          <i
+                                            className="fa"
+                                            style={{ zIndex: "0" }}
+                                          >
+                                            <span
+                                              style={{
+                                                fontWeight: "bold",
+                                                fontSize: "13px",
+                                              }}
+                                            >
+                                              NEW
+                                            </span>
+                                          </i>
+                                        ) : (
+                                          <i
+                                            className="fa fa-list"
+                                            style={{ zIndex: "0" }}
+                                          />
+                                        )} */}
+                                                                                  <p>{i + 1}</p>
+
+                                                                                  <h5 style={{ marginLeft: "100px", marginBottom: "50px" }}>{props.classRoomData.notices[i].title}</h5>
+                                                                              </div>
+                                                                              <div className="pull-right">
+                                                                                  <div className="minutes">
+                                                                                      {props.classRoomData.instructor.userId === userId ? (
+                                                                                          <div
+                                                                                              style={{
+                                                                                                  display: "flex",
+                                                                                              }}
+                                                                                          >
+                                                                                              <span>
+                                                                                                  <UpdateNotice
+                                                                                                      notice={props.classRoomData.notices[i]}
+                                                                                                      instructorId={props.classRoomData.instructor.userId}
+                                                                                                      userId={userId}
+                                                                                                  />
+                                                                                              </span>
+                                                                                              <span>
+                                                                                                  <DeleteNotice
+                                                                                                      notices={props.classRoomData.notices}
+                                                                                                      instructorId={props.classRoomData.instructor.userId}
+                                                                                                      i={i}
+                                                                                                      userId={userId}
+                                                                                                  />
+                                                                                              </span>
+                                                                                          </div>
+                                                                                      ) : null}
+                                                                                  </div>
+                                                                              </div>
+                                                                              <div className="pull-right">
+                                                                                  <div
+                                                                                      className="minutes"
+                                                                                      style={{
+                                                                                          paddingTop: "10px",
+                                                                                          paddingRight: "15px",
+                                                                                      }}
+                                                                                  >
+                                                                                      최종 업로드:
+                                                                                      {props.classRoomData.notices[i].modDate.split("T")[0] +
+                                                                                          " " +
+                                                                                          props.classRoomData.notices[i].modDate.split("T")[1].split(":")[0] +
+                                                                                          ":" +
+                                                                                          props.classRoomData.notices[i].modDate.split("T")[1].split(":")[1]}
+                                                                                  </div>
                                                                               </div>
                                                                           </div>
                                                                       </div>
-                                                                  </div>
+                                                                  </tr>
                                                               ))
                                                             : null}
-                                                    </AccordionItemPanel>
-                                                </Accordion>
+                                                    </tbody>
+                                                </Table>
                                             </Modal>
-                                            <div
+                                            <i
+                                                className="fa fa-calendar"
+                                                style={{ paddingRight: "4px", paddingBottom: "3px" }}
                                                 onClick={() => {
                                                     openView();
                                                 }}
-                                            >
-                                                <i className="fa fa-calendar" />
-                                            </div>
+                                            />
                                         </div>
 
                                         <div
@@ -649,17 +663,23 @@ const CurriculumPart = (props) => {
                                                                         paddingTop: "10px",
                                                                     }}
                                                                 >
-                                                                    {
-                                                                        props.classRoomData.lectures[i].contents[j].playlistDuration
-                                                                            ? "전체 재생 시간: " + toHHMMSS(props.classRoomData.lectures[i].contents[j].playlistDuration)
-                                                                            : ""
-                                                                        /* 마감일:
+                                                                    {props.classRoomData.lectures[i].contents[j].closeDate ? (
+                                                                        <>
+                                                                            {
+                                                                                props.classRoomData.lectures[i].contents[j].playlistDuration
+                                                                                    ? toHHMMSS(props.classRoomData.lectures[i].contents[j].playlistDuration)
+                                                                                    : ""
+                                                                                /* 마감일:
                                                                             {props.classRoomData.lectures[i].contents[j].closeDate.split("T")[0] +
                                                                                 " " +
                                                                                 props.classRoomData.lectures[i].contents[j].closeDate.split("T")[1].split(":")[0] +
                                                                                 ":" +
                                                                                 props.classRoomData.lectures[i].contents[j].closeDate.split("T")[1].split(":")[1]} */
-                                                                    }
+                                                                            }
+                                                                        </>
+                                                                    ) : (
+                                                                        <></>
+                                                                    )}
                                                                     {props.classRoomData.instructor.userId === userId ? (
                                                                         <>
                                                                             <div className="pull-right">

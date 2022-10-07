@@ -82,6 +82,24 @@ public class ClassRoomController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/accepted-list")
+    public ResponseEntity<List<TakeUserResponse>> getEnrollmentAcceptedList(@RequestParam Long classId) {
+        List<TakeUserDto> takeAcceptedUsers = takeService.getTakeAcceptedUsers(classId);
+        List<TakeUserResponse> response = takeAcceptedUsers.stream()
+                                                            .map(TakeUserDto::takeUserResponse)
+                                                            .collect(Collectors.toList());
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/rejected-list")
+    public ResponseEntity<List<TakeUserResponse>> getEnrollmentRejectedList(@RequestParam Long classId) {
+        List<TakeUserDto> takeRejectedUsers = takeService.getTakeRejectedUsers(classId);
+        List<TakeUserResponse> response = takeRejectedUsers.stream()
+                                                            .map(TakeUserDto::takeUserResponse)
+                                                            .collect(Collectors.toList());
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/accept")
     public ResponseEntity<TakeAcceptRejectResponse> acceptUser(@RequestBody TakeIdRequest request) {
         TakeUserDto takeUserDto = takeService.updateAccept(request.getTakeId());

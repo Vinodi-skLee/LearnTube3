@@ -1,18 +1,19 @@
-import React, { Component, useEffect, useState, useRef } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { DropdownButton, Dropdown, Button } from "react-bootstrap";
+import { Accordion, AccordionItem, AccordionItemHeading, AccordionItemPanel, AccordionItemButton } from "react-accessible-accordion";
 import axios from "axios";
 import Modal from "react-modal";
-import "../../assets/css/dropdown.css";
-import setIcon from "../../assets/img/icon/settingIcon.png";
+import { useHistory } from "react-router-dom";
 
-export default function SetDropdown(props) {
+export default function DropDown(props) {
     const [isOpen, setIsOpen] = useState(false);
-    const { userId } = props.userId;
-    const user = window.sessionStorage.getItem("userId");
-    const dropdownRef = useRef(null);
-    const [isActive, setIsActive] = useState(false);
-    const useClick = () => setIsActive(!isActive);
     const openModal = () => setIsOpen(!isOpen);
+    const [classRoomData, setClassRoomData] = useState();
+    const [managesData, setManagesData] = useState(null);
+    const history = useHistory();
+    const { userId } = props.userId;
+
+    const user = window.sessionStorage.getItem("userId");
 
     const initUpdateClassRoomData = {
         classId: props.classRoomData.classId,
@@ -28,23 +29,6 @@ export default function SetDropdown(props) {
     const [updateClassRoomData, setUpdateClassRoomData] = useState(initUpdateClassRoomData);
 
     useEffect(() => {}, [userId]);
-
-    const useDetectOutsideClick = (el, initialState) => {
-        const [isActive, setIsActive] = useState(initialState);
-        useEffect(() => {
-            const pageClickEvent = (e) => {
-                if (el.current !== null && !el.current.contains(e.target)) {
-                    setIsActive(!isActive);
-                }
-            };
-            if (isActive) {
-                window.addEventListener("click", pageClickEvent);
-            }
-            return () => {
-                window.removeEventListener("click", pageClickEvent);
-            };
-        }, [isActive, setIsActive]);
-    };
 
     const handleChange = (e) => {
         if (e.target.value !== null) {
@@ -199,25 +183,35 @@ export default function SetDropdown(props) {
                 </div>
             </Modal>
             {props.classRoomData.instructorId === userId ? (
-                <div className="menu-container">
-                    <button onClick={useClick} className="menu-trigger">
-                        <img className="setIcon" src={setIcon} alt="User avatar" />
-                    </button>
-                    <nav ref={dropdownRef} className={`menu ${isActive ? "active" : "inactive"}`}>
-                        <ul>
-                            <li>
-                                <button onClick={() => openModal()} style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}>
-                                    강의실 수정
-                                </button>
-                            </li>
-                            <li>
-                                <button onClick={() => onDelete()} style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}>
-                                    강의실 삭제
-                                </button>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+                <DropdownButton title="설정" style={{ float: "right", width: "5rem", minWidth: "8rem" }}>
+                    <Dropdown.Item
+                        onClick={() => {
+                            openModal();
+                        }}
+                    >
+                        강의실 수정
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                        onClick={() => {
+                            onDelete();
+                        }}
+                    >
+                        강의실 삭제
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                        onClick={() => {
+                            console.log(props.classRoomData.classId);
+                            history.replace({
+                                pathname: "/learntube/course/manage",
+                                state: {
+                                    classId: props.classRoomData.classId,
+                                },
+                            });
+                        }}
+                    >
+                        강의실 관리
+                    </Dropdown.Item>
+                </DropdownButton>
             ) : null}
         </>
     );

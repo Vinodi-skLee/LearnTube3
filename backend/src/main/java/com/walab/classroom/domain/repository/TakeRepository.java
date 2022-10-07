@@ -16,6 +16,18 @@ public interface TakeRepository extends JpaRepository<Take, Long> {
             "and t.status = 0 ")
     List<Take> getWaitTakeByClassId(@Param("classId") Long classId);
 
+    @Query("select t from Take t" +
+            " left join fetch t.user " +
+            " where t.classRoom.id = :classId " +
+            "and t.status = 1")
+    List<Take> getAcceptedTakeByClassId(@Param("classId") Long classId);
+
+    @Query("select t from Take t" +
+            " left join fetch t.user " +
+            " where t.classRoom.id = :classId " +
+            "and t.status=2")
+    List<Take> getRejectedTakeByClassId(@Param("classId") Long classId);
+
     @Query("select distinct t from Take t " +
             "left join fetch t.user as u " +
             "left join fetch  t.classRoom as c " +
@@ -23,12 +35,17 @@ public interface TakeRepository extends JpaRepository<Take, Long> {
             "left join fetch c.notices " +
             "where u.id = :userId " +
             "and c.isActive = :isActive " +
-            "and t.status = 1")
+            "and t.status = 1 " +
+            "and c.deleted=false")
     List<Take> findDashboardTakeByUserId(@Param("userId") Long userId, @Param("isActive") boolean isActive);
 
     @Modifying(clearAutomatically = true)
     @Query("update Take t set t.status = 1 where t.classRoom.id = :classId")
     void changeStatusByClassID(@Param("classId") Long classId);
+
+    @Modifying(clearAutomatically = true)
+    @Query("update Take t set t.status = 2 where t.classRoom.id = :classId")
+    void rejectStatusByClassID(@Param("classId") Long classId);
 
     @Modifying(clearAutomatically = true)
     @Query("update Take t set t.deleted = 1 where t.classRoom.id = :classId")
