@@ -55,22 +55,21 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, existingVideo, deleteV
     useEffect(() => {
         console.log("cart updated!!!!");
         for (const prop in cart) {
-            console.log(prop);
+            // console.log(prop);
             console.log(cart[prop]);
             let tempJson = JSON.stringify(cart[prop]);
             tempArray.push(tempJson);
-            console.log(tempArray);
+            // console.log(tempArray);
             setCartList(tempArray);
-            setPlaylistName(playlistTitle);
         }
     }, [cart]);
 
     useEffect(function () {
-        console.log("existing Video!!! ");
-        console.log(existingVideo);
-        setVideoList(videos);
+        // console.log("existing Video!!! ");
+        // console.log(existingVideo);
+        // setVideoList(videos);
         //console.log(videoList);
-        console.log(location);
+        // console.log(location);
         //console.log(location.state.playlistId);
         setPlaylistName(playlistTitle);
         setIsDeleted(false);

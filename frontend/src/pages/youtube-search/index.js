@@ -27,8 +27,8 @@ import cartPage from "../../assets/img/icon/trolley.png";
 
 const YoutubeSearch = () => {
     const location = useLocation();
-    console.log("playlist name: " + location.state.playlistName);
-    console.log("existing videos!!!!" + location.state.existingVideo);
+    // console.log("playlist name: " + location.state.playlistName);
+    // console.log("existing videos!!!!" + location.state.existingVideo);
     const opts = {
         height: "300",
         width: "400",
@@ -80,7 +80,7 @@ const YoutubeSearch = () => {
         youtubeId: "",
     };
 
-    console.log(cart);
+    // console.log(cart);
 
     const httpClient = axios.create({
         baseURL: "https://www.googleapis.com/youtube/v3",
@@ -105,7 +105,7 @@ const YoutubeSearch = () => {
         initVideo.playlistId = playlistId;
         initVideo.duration = customDurationToFloat(video.contentDetails.duration);
 
-        console.log("duration " + initVideo.duration);
+        // console.log("duration " + initVideo.duration);
 
         let time = [0, 0, 0];
         let remain = initVideo.duration;
@@ -122,7 +122,7 @@ const YoutubeSearch = () => {
     };
 
     const setPart = (video) => {
-        console.log("video selected!!!");
+        // console.log("video selected!!!");
         setNewTitle("");
         setNewDescription("");
         setIsSelected(false);
@@ -169,7 +169,7 @@ const YoutubeSearch = () => {
         //   finalDuration = finalDuration + sec + "초";
         //   console.log(finalDuration);
         // }
-        console.log(finalDuration);
+        // console.log(finalDuration);
         setFinalDuration(finalDuration);
         //조회수 커스텀
         // viewCountInt = parseFloat(video.statistics.viewCount);
@@ -248,26 +248,30 @@ const YoutubeSearch = () => {
     };
 
     const addVideoToCart = (video) => {
-        console.log(video);
+        console.log("add!!");
         newId = video.id;
-        console.log("new ID!! " + newId);
         initVideo.newDescription = newDescription;
         initVideo.start_s = parseInt(startFloatTime);
         initVideo.end_s = isNaN(endFloatTime) ? customDurationToFloat(video.contentDetails.duration) : parseInt(endFloatTime);
         initVideo.title = video.snippet.title;
         initVideo.youtubeId = video.id;
         initVideo.playlistId = playlistId;
+        for(const prop in cart){
+            console.log(cart[prop]);
+        }
         if (isNaN(initVideo.end_s) || isNaN(initVideo.start_s)) {
             initVideo.duration = customDurationToFloat(video.contentDetails.duration);
         } else initVideo.duration = parseInt(endFloatTime - startFloatTime);
-        console.log("initVideo!!!!!! ");
-        console.log(initVideo);
-        cart[newId] = initVideo;
-        console.log(cart[newId]);
+        cart[newId]=initVideo;
+        for(const prop in cart){
+            console.log(cart[prop]);
+        }
         setCart({ ...cart });
+        for(const prop in cart){
+            console.log(cart[prop]);
+        }
         setIsChanged(true);
         window.alert("저장되었습니다.");
-        newId = "";
     };
 
     const cancelCart = () => {
@@ -278,6 +282,7 @@ const YoutubeSearch = () => {
     const deleteVideoFromCart = (id) => {
         console.log(id);
         delete cart[id];
+        console.log("delete!");
         console.log(cart);
         setIsChanged(true);
         setCart({ ...cart }); //setCart passes on a state change to the Cart component
@@ -299,6 +304,7 @@ const YoutubeSearch = () => {
                 setSearchedVideos(response);
             });
         },
+        // []
         [youtube]
     );
 
@@ -308,6 +314,7 @@ const YoutubeSearch = () => {
                 setSearchedVideos(response);
             });
         },
+        // []
         [youtube]
     );
 
@@ -331,7 +338,7 @@ const YoutubeSearch = () => {
         const duration = e.target.getDuration();
         const currentTime = e.target.getCurrentTime();
         setCurrentFloatTime(e.target.getCurrentTime());
-        console.log(currentTime);
+        // console.log(currentTime);
         var toHHMMSS = (secs) => {
             var sec_num = parseInt(secs, 10);
             var hours = Math.floor(sec_num / 3600);
@@ -343,8 +350,8 @@ const YoutubeSearch = () => {
                 .filter((v, i) => v !== "00" || i > 0)
                 .join(":");
         };
-        console.log("duration");
-        console.log(duration);
+        // console.log("duration");
+        // console.log(duration);
         setCurrentPlayTime(toHHMMSS(currentTime));
     };
 
@@ -369,12 +376,12 @@ const YoutubeSearch = () => {
     useEffect(async function () {
         let searchedResults = await youtube.search(location.state.playlistName);
         setSearchedVideos(searchedResults);
-        console.log(searchedVideos);
-        console.log(location);
+        // console.log(searchedVideos);
+        // console.log(location);
         setPlaylistName(location.state.playlistName);
         setPlaylistId(location.state.playlistId);
-        console.log(location.state.response);
-        console.log(location.state.playlistName);
+        // console.log(location.state.response);
+        // console.log(location.state.playlistName);
     }, []);
 
     return (
@@ -394,7 +401,7 @@ const YoutubeSearch = () => {
                 headerClass="full-width-header header-style1 home8-style4"
             />
 
-            <div className="rs-event orange-style pb-100 md-pb-80 pt-20 gray-bg">
+            <div className="rs-event orange-style pb-100 md-pb-80 pt-20 white-bg">
                 <div>
                     <div className="d-flex justify-content-center">
                         <YoutubeVideoSearchWidget onSearch={search} isSearchShown={isSearchShown} setIsSearchShown={setIsSearchShown} />
@@ -527,7 +534,7 @@ const YoutubeSearch = () => {
                             ) : null}
                             <>
                                 {/* 플레이리스트 담은영상 (카트) */}
-                                <div className={"d-flex justify-content-center bg-transparent cart-center w-100"}>
+                                <div className={"d-flex justify-content-center cart-center w-100"}>
                                     <Cart
                                         cart={cart}
                                         playlistTitle={playlistName}
