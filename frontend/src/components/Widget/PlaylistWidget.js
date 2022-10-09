@@ -4,6 +4,7 @@ import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ReactPlayer from "react-player";
 import mediaIcon from "../../assets/img/icon/mediaIcon.png";
+import logo from "../../assets/img/logo/img-background.png";
 
 <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
@@ -139,6 +140,7 @@ const PlaylistWidget = ({
         window.location.reload();
     };
     //JSON.stringify(selectedPlaylist)
+    console.log(playlistData);
 
     return (
         <div>
@@ -333,19 +335,41 @@ const PlaylistWidget = ({
                                     return (
                                         <div className="p-2 col-lg-3 col-sm-6" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(playlistData[i])}>
                                             <div className="m-0 row-3 justify-content-center">
-                                                <img
-                                                    className="img-fluid"
-                                                    style={{ height: "180px" }}
-                                                    src={
-                                                        video.videos[0]
-                                                            ? "https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")
-                                                            : "https://i.ibb.co/HDm4g2y/Learntube-logos-transparent-2-1.png"
-                                                    }
-                                                    alt={video.name}
-                                                />
+                                                {video.videos[0] ? (
+                                                    <img className="img-fluid" style={{ height: "180px" }} src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")} />
+                                                ) : (
+                                                    <div
+                                                        className="course-features-info"
+                                                        style={{
+                                                            backgroundSize: "cover",
+                                                            backgroundImage: `url(${logo})`,
+                                                            width: "auto",
+                                                            height: "auto",
+                                                            borderRadius: "5px",
+                                                        }}
+                                                    >
+                                                        <span
+                                                            style={{
+                                                                display: "inline-block",
+
+                                                                height: "180px",
+                                                                lineHeight: "170px",
+                                                                textAlign: "center",
+                                                                color: "#404040",
+                                                                fontWeight: "bold",
+                                                                fontSize: "18px",
+                                                                fontFamily: "Nunito, sans-serif;",
+                                                            }}
+                                                        >
+                                                            {video.name}
+                                                        </span>
+                                                    </div>
+                                                )}
                                             </div>
                                             <div className="pt-3 px-3" style={{ minHeight: "100px", maxHeight: "100px" }}>
                                                 <div className="d-flex pl-12 h5">{video.name ? video.name : "영상제목"}</div>
+                                                <div className="d-flex pl-12">{video.totalDuration ? "전체 시간: " + toHHMMSS(video.totalDuration) : "정보 없음"}</div>
+                                                <div className="d-flex pl-12">{video.videos.length ? "동영상 " + video.videos.length + "개" : "동영상 없음"}</div>
                                             </div>
                                         </div>
                                     );
