@@ -340,10 +340,19 @@ const Header = (props) => {
                       <AiOutlineBell />
                     </div> */}
                     {waitUsers.length === 0 ? (
-                      <IoNotificationsOff />
+                      <div
+                        className="text-secondary"
+                        style={{ marginRight: "20px" }}
+                      >
+                        <IoNotificationsOff size={20} />
+                      </div>
                     ) : (
-                      <div onClick={openModal}>
-                        <MdNotificationsActive />
+                      <div
+                        onClick={openModal}
+                        className="text-warning"
+                        style={{ marginRight: "20px" }}
+                      >
+                        <MdNotificationsActive size={30} />
                       </div>
                     )}
                     {waitUsers
