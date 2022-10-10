@@ -47,6 +47,14 @@ public class TakeService {
     }
 
     @Transactional
+    public List<TakeUserDto> getTakeWaitUsersByUserId(Long userId) {
+        List<Take> takes = takeRepository.getWaitTakeByUserId(userId);
+        return takes.stream()
+                .map(TakeUserDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
     public List<TakeUserDto> getTakeAcceptedUsers(Long classId) {
         List<Take> takes = takeRepository.getAcceptedTakeByClassId(classId);
         return takes.stream()

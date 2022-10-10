@@ -82,6 +82,15 @@ public class ClassRoomController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/wait-users")
+    public ResponseEntity<List<TakeUserResponse>> getEnrollmentWaitUsers(@RequestParam Long userId) {
+        List<TakeUserDto> takeWaitUsers = takeService.getTakeWaitUsersByUserId(userId);
+        List<TakeUserResponse> response = takeWaitUsers.stream()
+                .map(TakeUserDto::takeUserResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/accepted-list")
     public ResponseEntity<List<TakeUserResponse>> getEnrollmentAcceptedList(@RequestParam Long classId) {
         List<TakeUserDto> takeAcceptedUsers = takeService.getTakeAcceptedUsers(classId);
