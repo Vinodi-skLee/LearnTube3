@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import logo from "../../../assets/img/logo/img-background.png";
+import { ProgressBar } from "react-bootstrap";
 import {
   Accordion,
   AccordionItem,
@@ -15,7 +16,8 @@ import Modal from "react-modal";
 const CourseSidebar = (props) => {
   const [visible, setVisible] = useState(false);
   const [accepted, setAccepted] = useState([]);
-  const { userId } = props.userId;
+  const [progress, setProgress] = useState(0);
+  const userId = props.userId;
 
   const cid = props.classRoomData.classId;
 
@@ -91,6 +93,9 @@ const CourseSidebar = (props) => {
               className="students-feature"
               onClick={() => {
                 setVisible(!visible);
+                console.log(visible);
+                console.log("userId",userId);
+                console.log("props.userId",props.classRoomData.instructor.userId);
               }}
             >
               <i className="fa fa-users"></i>
@@ -113,7 +118,8 @@ const CourseSidebar = (props) => {
               <div className=" p-2 rounded bg-light">
                 <span className="d-flex flex-fill bd-highlight">
                   <li>#</li>&nbsp;&nbsp;&nbsp;
-                  <li>Name</li>
+                  <li>이름</li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <li>학습현황</li>
                   {/* <li>Email</li> */}
                 </span>
                 {props.students
@@ -122,6 +128,7 @@ const CourseSidebar = (props) => {
                         <li>{i + 1}</li>&nbsp;&nbsp;&nbsp;&nbsp;
                         <li>{props.students[i].name}</li>
                         <li className="ms-auto bd-highlight"></li>
+                        <li style={{width:"130px"}}><ProgressBar now={progress} label={`${progress}%`} /></li>
                       </span>
                     ))
                   : null}
