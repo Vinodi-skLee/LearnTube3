@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import Header from "../../components/Layout/Header/Header";
 import Footer from "../../components/Layout/Footer/Footer";
 import OffWrap from "../../components/Layout/Header/OffWrap";
 import SearchModal from "../../components/Layout/Header/SearchModal";
 import PlaylistWidget from "../../components/Widget/PlaylistWidget";
-import axios from "axios";
-import Modal from "react-modal";
 import SetPlaylistDropdown from "../../components/Dropdown/SetPlaylistDropdown";
+import PlaylistSearchWidget from "../../components/Widget/PlaylistSearchWidget";
+import axios from "axios";
 // Image
+import { IoIosSearch } from "react-icons/io";
 import favIcon from "../../assets/img/fav-orange.png";
 import Logo from "../../assets/img/logo/Learntube-logos_transparent.png";
 import footerLogo from "../../assets/img/logo/lite-logo.png";
@@ -41,6 +41,7 @@ const Playlist = () => {
     const [isSelected, setIsSelected] = useState(false);
     const [isClicked, setIsClicked] = useState(false);
     const [isEditMode, setIsEditMode] = useState(false);
+    const [searchMode, setSearchMode] = useState(false);
     const [clickedVideo, setClickedVideo] = useState({});
     const [playlistDuration, setPlaylistDuration] = useState();
     const [savedPlaylistName, setSavedPlaylistName] = useState("");
@@ -111,6 +112,32 @@ const Playlist = () => {
         }
     };
 
+    const updatePlaylistData = {
+        playlistId: playlistId,
+        playlistName: updatePlaylistTitle,
+        description: "",
+    };
+
+    const newTitleChange = (e) => {
+        console.log(updatePlaylistTitle);
+        setUpdatePlaylistTitle(e.target.value);
+    };
+
+    const handleSubmit = async () => {
+        const response = await axios
+            .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/update`, JSON.stringify(updatePlaylistData), {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            .then((res) => console.log(res));
+        alert(updatePlaylistTitle + "로 playlist 정보가 업데이트 되었습니다.");
+
+        window.location.reload();
+    };
+    //JSON.stringify(selectedPlaylist)
+
     return (
         <React.Fragment>
             <Helmet>
@@ -130,52 +157,93 @@ const Playlist = () => {
 
             <div className="rs-event orange-style pb-100 md-pb-80 gray-bg">
                 <div className="container">
-                    {/* <h3>LearnTube Studio</h3> */}
-
                     <div class="container text-center dashboard-tabs">
                         <div className="intro-info-tabs border-none row">
-                            {/* <div className="widget-area">
-                                    < SearchWidget />
-                                </div> */}
-                            {/* <div className="col-lg-4 col-md-12">
-                                <div className="widget-area">
-                                    <MyPlaylistWidget />
-                                </div>
-                            </div> */}
                             <div className="col-lg-12 col-md-12">
                                 <div className="widget-area">
-                                    <div className="mb-40">
-                                        <div className="d-flex justify-content-between align-items-center row">
+                                    <div className="mt-0 mb-0">
+                                        <div className="row d-flex mt-0 justify-content-between align-items-center" style={{ height: "110px" }}>
                                             <div className="col">
-                                                <h3 className="col text-start" style={{ left: "0px", padding: "55px 0px 25px 0px" }}>
-                                                    나의 Playlist
+                                                <h3 className="pt-5 fs-4 text-start">
+                                                    {isSelected ? "My Playlist > " : "My Playlist"}
+                                                    {typeof selectedPlaylist == "string" ? (
+                                                        <>
+                                                            {updatePlaylist ? (
+                                                                <>
+                                                                    <input
+                                                                        type="text"
+                                                                        id="updatedTitle"
+                                                                        name="updatedTitle"
+                                                                        placeholder={selectedPlaylist}
+                                                                        className="border-0"
+                                                                        value={updatePlaylistTitle}
+                                                                        onChange={newTitleChange}
+                                                                    />
+                                                                    <i
+                                                                        className="fa fa-check ps-3 pt-3 orange-color"
+                                                                        onClick={() => {
+                                                                            setUpdatePlaylist(!updatePlaylist);
+                                                                            handleSubmit();
+                                                                        }}
+                                                                    ></i>
+                                                                    <i
+                                                                        className="fa fa-times ps-3 pt-3 orange-color"
+                                                                        onClick={() => {
+                                                                            setUpdatePlaylist(!updatePlaylist);
+                                                                            setUpdatePlaylistTitle("");
+                                                                        }}
+                                                                    ></i>
+                                                                </>
+                                                            ) : (
+                                                                <>{selectedPlaylist}</>
+                                                            )}
+                                                        </>
+                                                    ) : (
+                                                        <></>
+                                                    )}
                                                 </h3>
                                             </div>
 
                                             {playlistData ? (
                                                 <>
                                                     <div className="col d-flex justify-content-end align-items-center">
-                                                        <div className="d-flex dropdown show" style={{ width: "300px", left: "30px", height: "135px" }}>
-                                                            <Form.Select
-                                                                aria-label="SelectBox"
-                                                                onChange={(e) => {
-                                                                    console.log(e.target.value);
-                                                                    handlePlaylistChange(e.target.value);
-                                                                    setIsClicked(false);
+                                                        {searchMode ? (
+                                                            <PlaylistSearchWidget />
+                                                        ) : (
+                                                            <div className="dropdown show" style={{ width: "300px", height: "135px", left: "90px", bottom: "7px" }}>
+                                                                <Form.Select
+                                                                    aria-label="SelectBox"
+                                                                    onChange={(e) => {
+                                                                        console.log(e.target.value);
+                                                                        handlePlaylistChange(e.target.value);
+                                                                        setIsClicked(false);
+                                                                    }}
+                                                                >
+                                                                    <option>------- Playlist 선택하기 -------</option>
+                                                                    {playlistData ? (
+                                                                        playlistData.map((data, i) => (
+                                                                            //console.log(playlistData[i].videos.length),({playlistData[i].videos.length})
+                                                                            <option key={playlistData[i].playlistId} id={playlistData[i].playlistId} name={playlistData[i].title}>
+                                                                                {playlistData[i].name}
+                                                                            </option>
+                                                                        ))
+                                                                    ) : (
+                                                                        <option key="playlistsData">Playlist가 존재하지 않습니다.</option>
+                                                                    )}
+                                                                </Form.Select>
+                                                            </div>
+                                                        )}
+
+                                                        <div className="d-flex justify-content-end menu-container3" style={{ right: "0px" }}>
+                                                            <button
+                                                                className="menu-trigger"
+                                                                style={{ width: "35px", height: "35px" }}
+                                                                onClick={() => {
+                                                                    setSearchMode(true);
                                                                 }}
                                                             >
-                                                                <option>------- Playlist 선택하기 -------</option>
-                                                                {playlistData ? (
-                                                                    playlistData.map((data, i) => (
-                                                                        //console.log(playlistData[i].videos.length),({playlistData[i].videos.length})
-                                                                        <option key={playlistData[i].playlistId} id={playlistData[i].playlistId} name={playlistData[i].title}>
-                                                                            {playlistData[i].name}
-                                                                        </option>
-                                                                    ))
-                                                                ) : (
-                                                                    <option key="playlistsData">Playlist가 존재하지 않습니다.</option>
-                                                                )}
-                                                            </Form.Select>
+                                                                <IoIosSearch size={30} color={"#696969"} />
+                                                            </button>
                                                         </div>
                                                         <SetPlaylistDropdown
                                                             playlistId={playlistId}
@@ -194,6 +262,7 @@ const Playlist = () => {
                                                 <></>
                                             )}
                                         </div>
+                                        <hr class="solid mt-0 mb-0"></hr>
                                         <PlaylistWidget
                                             isSelected={isSelected}
                                             selectedPlaylist={selectedPlaylist}

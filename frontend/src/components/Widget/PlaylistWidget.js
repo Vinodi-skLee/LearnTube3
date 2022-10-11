@@ -1,16 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { Button, Form } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import { BsFillGridFill, BsList } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import ReactTooltip from "react-tooltip";
 import ReactPlayer from "react-player";
 import mediaIcon from "../../assets/img/icon/mediaIcon.png";
 import logo from "../../assets/img/logo/img-background.png";
-
-<script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"
-></script>;
 
 const PlaylistWidget = ({
     isSelected,
@@ -37,6 +33,7 @@ const PlaylistWidget = ({
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [playlistData, setPlaylistData] = useState(null);
+    const [cardView, setCardView] = useState(false);
 
     useEffect(() => {
         const fetchMyPlaylists = async () => {
@@ -44,6 +41,7 @@ const PlaylistWidget = ({
                 const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/playlist?userId=${userId}`);
                 // console.log(response.data);
                 setPlaylistData(response.data);
+                console.log(response.data);
             } catch (err) {
                 console.log("err >> ", err);
             }
@@ -117,84 +115,78 @@ const PlaylistWidget = ({
             .filter((v, i) => v !== "00" || i > 0)
             .join(":");
     };
-    const newTitleChange = (e) => {
-        console.log(updatePlaylistTitle);
-        setUpdatePlaylistTitle(e.target.value);
-    };
-    const updatePlaylistData = {
-        playlistId: playlistId,
-        playlistName: updatePlaylistTitle,
-        description: "",
-    };
-    const handleSubmit = async () => {
-        const response = await axios
-            .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/update`, JSON.stringify(updatePlaylistData), {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-            .then((res) => console.log(res));
-        alert(updatePlaylistTitle + "로 playlist 정보가 업데이트 되었습니다.");
 
-        window.location.reload();
-    };
-    //JSON.stringify(selectedPlaylist)
     console.log(playlistData);
 
     return (
-        <div>
+        <div className="row">
+            {!isSelected ? (
+                <div className="pt-5 pb-3 justify-content-end btn-toolbar">
+                    <div className="btn-group" style={{ display: "block" }}>
+                        <button
+                            type="button"
+                            className="p-0 btn btn-default"
+                            style={
+                                !cardView
+                                    ? {
+                                          width: "30px",
+                                          height: "30px",
+                                          background: "#6483d8",
+                                      }
+                                    : {
+                                          width: "30px",
+                                          height: "30px",
+                                          background: "#E7E9EB",
+                                      }
+                            }
+                            onClick={() => {
+                                setCardView(false);
+                            }}
+                            data-for="listHover"
+                            data-tip
+                        >
+                            <BsList size={20} color="white" />
+                        </button>
+                        <ReactTooltip id="listHover" getContent={(dataTip) => "리스트형"} />
+                        <button
+                            type="button"
+                            className="p-0 btn btn-default"
+                            style={
+                                cardView
+                                    ? {
+                                          width: "30px",
+                                          height: "30px",
+                                          background: "#6483d8",
+                                      }
+                                    : {
+                                          width: "30px",
+                                          height: "30px",
+                                          background: "#E7E9EB",
+                                      }
+                            }
+                            onClick={() => {
+                                setCardView(true);
+                            }}
+                            data-for="galleryHover"
+                            data-tip
+                        >
+                            <BsFillGridFill size={20} color="white" />
+                        </button>
+                        <ReactTooltip id="galleryHover" getContent={(dataTip) => "갤러리형"} />
+                    </div>
+                </div>
+            ) : (
+                <></>
+            )}
+
             <div className="row">
                 {isSelected ? (
                     <div className="d-flex justify-content-between align-items-center row mb-40" style={{ right: "0px" }}>
-                        {typeof selectedPlaylist != "string" ? (
-                            <div className="col">
-                                <h3 className="col text-start m-0">
-                                    <i className="fa fa-play-circle-o pe-1"></i> {typeof selectedPlaylist === "string" ? selectedPlaylist : ""}
-                                </h3>
-                            </div>
-                        ) : (
-                            <div className="col">
-                                {updatePlaylist ? (
-                                    <h3 className="col text-start m-0">
-                                        <i className="fa fa-play-circle-o pe-1"></i> {/*{typeof selectedPlaylist === 'string' ? selectedPlaylist : '선택된 playlist 제목'}}*/}
-                                        <input
-                                            type="text"
-                                            id="updatedTitle"
-                                            name="updatedTitle"
-                                            placeholder={selectedPlaylist}
-                                            className="border-0"
-                                            value={updatePlaylistTitle}
-                                            onChange={newTitleChange}
-                                        />
-                                        <i
-                                            className="fa fa-check ps-3 pt-3 orange-color"
-                                            onClick={() => {
-                                                setUpdatePlaylist(!updatePlaylist);
-                                                handleSubmit();
-                                            }}
-                                        ></i>
-                                        <i
-                                            className="fa fa-times ps-3 pt-3 orange-color"
-                                            onClick={() => {
-                                                setUpdatePlaylist(!updatePlaylist);
-                                                setUpdatePlaylistTitle("");
-                                            }}
-                                        ></i>
-                                    </h3>
-                                ) : (
-                                    <h3 className="text-start ps-3 fs-4 m-0 pl-0 fw-bold">
-                                        <i className="fa fa-play-circle-o pe-1"></i> {typeof selectedPlaylist === "string" ? selectedPlaylist : "선택된 playlist 제목"}
-                                    </h3>
-                                )}
-                            </div>
-                        )}
-
                         <div className="col d-flex justify-content-end align-items-center">
                             {!isEditMode ? (
                                 <></>
                             ) : (
-                                <>
+                                <div className="mt-20">
                                     <Link
                                         to={{
                                             pathname: "/learntube/learntube-studio/youtubeSearch",
@@ -226,7 +218,7 @@ const PlaylistWidget = ({
                                     >
                                         저장
                                     </Button>
-                                </>
+                                </div>
                             )}
                         </div>
                     </div>
@@ -329,53 +321,117 @@ const PlaylistWidget = ({
                 ) : (
                     <div>
                         {playlistData ? (
-                            <div className="row">
-                                {/* <div>플레이리스트가 없습니다. </div> */}
-                                {playlistData.map(function (video, i) {
-                                    return (
-                                        <div className="p-2 col-lg-3 col-sm-6" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(playlistData[i])}>
-                                            <div className="m-0 row-3 justify-content-center">
-                                                {video.videos[0] ? (
-                                                    <img className="img-fluid" style={{ height: "180px" }} src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")} />
-                                                ) : (
-                                                    <div
-                                                        className="course-features-info"
-                                                        style={{
-                                                            backgroundSize: "cover",
-                                                            backgroundImage: `url(${logo})`,
-                                                            width: "auto",
-                                                            height: "auto",
-                                                            borderRadius: "5px",
-                                                        }}
-                                                    >
-                                                        <span
-                                                            style={{
-                                                                display: "inline-block",
-
-                                                                height: "180px",
-                                                                lineHeight: "170px",
-                                                                textAlign: "center",
-                                                                color: "#404040",
-                                                                fontWeight: "bold",
-                                                                fontSize: "18px",
-                                                                fontFamily: "Nunito, sans-serif;",
-                                                            }}
-                                                        >
-                                                            {video.name}
-                                                        </span>
+                            <>
+                                {cardView ? (
+                                    <div className="row">
+                                        {playlistData.map(function (video, i) {
+                                            return (
+                                                <div className="p-2 col-lg-3 col-sm-6" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(playlistData[i])}>
+                                                    <div className="d-flex m-0 row-3 justify-content-center">
+                                                        {video.videos[0] ? (
+                                                            <img
+                                                                className="img-fluid"
+                                                                style={{ height: "180px", borderRadius: "5px" }}
+                                                                src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")}
+                                                            />
+                                                        ) : (
+                                                            <div
+                                                                className="course-features-info"
+                                                                style={{
+                                                                    backgroundSize: "cover",
+                                                                    backgroundImage: `url(${logo})`,
+                                                                    borderRadius: "5px",
+                                                                    width: "245px",
+                                                                    height: "auto",
+                                                                }}
+                                                            >
+                                                                <span
+                                                                    style={{
+                                                                        display: "inline-block",
+                                                                        height: "180px",
+                                                                        lineHeight: "170px",
+                                                                        textAlign: "center",
+                                                                        color: "#404040",
+                                                                        fontWeight: "bold",
+                                                                        fontSize: "18px",
+                                                                        fontFamily: "Nunito, sans-serif;",
+                                                                    }}
+                                                                >
+                                                                    {video.name}
+                                                                </span>
+                                                            </div>
+                                                        )}
                                                     </div>
-                                                )}
-                                            </div>
-                                            <div className="pt-3 px-3" style={{ minHeight: "100px", maxHeight: "100px" }}>
-                                                <div className="d-flex pl-12 h5">{video.name ? video.name : "영상제목"}</div>
-                                                <div className="d-flex pl-12">{video.totalDuration ? "전체 시간: " + toHHMMSS(video.totalDuration) : "정보 없음"}</div>
-                                                <div className="d-flex pl-12">{video.videos.length ? "동영상 " + video.videos.length + "개" : "동영상 없음"}</div>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
+                                                    <div className="pt-3 px-3" style={{ minHeight: "100px", maxHeight: "100px" }}>
+                                                        <div className="d-flex pl-12 h5">{video.name ? video.name : " - "}</div>
+                                                        <div className="d-flex pl-12">영상개수: {video.videos.length ? video.videos.length + "개" : " - "}</div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                ) : (
+                                    <div className="row">
+                                        {playlistData.map(function (video, i) {
+                                            return (
+                                                <div className="course-part clearfix m-0 p-2 col-lg-6 col-sm-15" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(playlistData[i])}>
+                                                    <div className="d-flex m-0 row-3 justify-content-center">
+                                                        <div className="img-part content-part" style={{ position: "relative", width: "250px", height: "170px" }}>
+                                                            {video.videos[0] ? (
+                                                                <img
+                                                                    className="img-fluid"
+                                                                    style={{ height: "180px", borderRadius: "5px" }}
+                                                                    src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")}
+                                                                />
+                                                            ) : (
+                                                                <div
+                                                                    className="img-part content-part"
+                                                                    style={{
+                                                                        backgroundSize: "cover",
+                                                                        backgroundImage: `url(${logo})`,
+                                                                        width: "245px",
+                                                                        height: "auto",
+                                                                        borderRadius: "5px",
+                                                                    }}
+                                                                >
+                                                                    <span
+                                                                        style={{
+                                                                            display: "inline-block",
+                                                                            height: "180px",
+                                                                            lineHeight: "170px",
+                                                                            textAlign: "center",
+                                                                            color: "#404040",
+                                                                            fontWeight: "bold",
+                                                                            fontSize: "18px",
+                                                                            fontFamily: "Nunito, sans-serif;",
+                                                                        }}
+                                                                    >
+                                                                        {video.name}
+                                                                    </span>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                        <div className="pl-12 content-part " style={{ width: "50%", minHeight: "100px", maxHeight: "100px" }}>
+                                                            <div className="d-flex pl-12 h5">{video.name ? video.name : "영상제목"}</div>
+                                                            <div className="d-flex pl-12">생성일자: {playlistData[i].createdAt ? playlistData[i].createdAt.split("T")[0] : " - "}</div>
+                                                            <div className="d-flex pl-12">전체시간: {video.totalDuration ? toHHMMSS(video.totalDuration) : " - "}</div>
+                                                            <div className="d-flex pl-12">영상개수: {video.videos.length ? video.videos.length + "개" : " - "}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </>
+                        ) : (
+                            <div>
+                                <div className="row d-flex mt-70 mb-70 align-items-center">
+                                    <img src={mediaIcon} style={{ margin: "auto", width: "200px" }}></img>
+                                    <div className="text-align-center fw-normal">플레이리스트가 없습니다</div>
+                                </div>
                             </div>
-                        ) : null}
+                        )}
                     </div>
                 )}
                 {!isEditMode ? (

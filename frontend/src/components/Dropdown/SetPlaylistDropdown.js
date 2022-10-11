@@ -48,7 +48,7 @@ export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId,
 
     return (
         <>
-            <div className="menu-container2">
+            <div className="justify-items-end menu-container2">
                 <button onClick={useClick} className="menu-trigger">
                     <img className="setIcon" src={setIcon} alt="User avatar" />
                 </button>
