@@ -283,19 +283,30 @@ const PlaylistWidget = ({
                                                       >
                                                           <div className="d-flex align-items-center pe-3">{i + 1}</div>
                                                           <div className="d-flex" onClick={(e) => popUp(data)}>
-                                                              <div className="m-1">
+                                                              <div className="img-part content-part">
                                                                   <img
                                                                       className="img-fluid"
                                                                       style={{ width: "150px", marginRight: "15px" }}
                                                                       src={"https://i.ytimg.com/vi/".concat(selectedVideo[i].youtubeId, "/hqdefault.jpg")}
                                                                       alt="영상제목"
                                                                   />
+                                                                  <span
+                                                                      className="position-absolute justify-content-end bg-black text-white m-3 me-1"
+                                                                      style={{
+                                                                          right: "15px",
+                                                                          bottom: "0px",
+                                                                          // display: "flex",
+                                                                          display: "inline-table",
+                                                                          fontSize: "0.8rem",
+                                                                      }}
+                                                                  >
+                                                                      {selectedVideo[i].duration ? toHHMMSS(selectedVideo[i].duration) : ""}
+                                                                  </span>
 
                                                                   {/* <YouTube videoId={selectedVideo[i].youtubeId} opts={opts} /> */}
                                                               </div>
-                                                              <div className="col-md-6 col-sm-12" style={{ alignItems: "center" }}>
+                                                              <div className="col-md-6 col-sm-12" style={{ alignItems: "center", overflow: "hidden", textOverflow: "ellipsis" }}>
                                                                   <div className="d-flex text-start">{selectedVideo[i].newTitle ? selectedVideo[i].newTitle : selectedVideo[i].title}</div>
-                                                                  <div className="d-flex fw-light ms-0 ps-0">영상 길이: {selectedVideo[i].duration ? toHHMMSS(selectedVideo[i].duration) : ""}</div>
                                                                   <div className="d-flex fw-light">
                                                                       시작: {selectedVideo[i].start_s ? toHHMMSS(selectedVideo[i].start_s) : "00:00"} ~ 종료:{" "}
                                                                       {selectedVideo[i].end_s ? toHHMMSS(selectedVideo[i].end_s) : toHHMMSS(selectedVideo[i].duration)}{" "}
@@ -328,39 +339,54 @@ const PlaylistWidget = ({
                                             return (
                                                 <div className="p-2 col-lg-3 col-sm-6" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(playlistData[i])}>
                                                     <div className="d-flex m-0 row-3 justify-content-center">
-                                                        {video.videos[0] ? (
-                                                            <img
-                                                                className="img-fluid"
-                                                                style={{ height: "180px", borderRadius: "5px" }}
-                                                                src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")}
-                                                            />
-                                                        ) : (
-                                                            <div
-                                                                className="course-features-info"
-                                                                style={{
-                                                                    backgroundSize: "cover",
-                                                                    backgroundImage: `url(${logo})`,
-                                                                    borderRadius: "5px",
-                                                                    width: "245px",
-                                                                    height: "auto",
-                                                                }}
-                                                            >
-                                                                <span
+                                                        <div className="img-part content-part" style={{ position: "relative", width: "250px", height: "170px" }}>
+                                                            {video.videos[0] ? (
+                                                                <>
+                                                                    <img
+                                                                        className="img-fluid"
+                                                                        style={{ height: "180px", borderRadius: "5px" }}
+                                                                        src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")}
+                                                                    />
+                                                                    <span
+                                                                        className="position-absolute justify-content-end bg-black text-white m-3 me-1"
+                                                                        style={{
+                                                                            right: "10px",
+                                                                            bottom: "-10px",
+                                                                            display: "inline-table",
+                                                                            fontSize: "0.8rem",
+                                                                        }}
+                                                                    >
+                                                                        {video.totalDuration ? toHHMMSS(video.totalDuration) : ""}
+                                                                    </span>
+                                                                </>
+                                                            ) : (
+                                                                <div
+                                                                    className="course-features-info"
                                                                     style={{
-                                                                        display: "inline-block",
-                                                                        height: "180px",
-                                                                        lineHeight: "170px",
-                                                                        textAlign: "center",
-                                                                        color: "#404040",
-                                                                        fontWeight: "bold",
-                                                                        fontSize: "18px",
-                                                                        fontFamily: "Nunito, sans-serif;",
+                                                                        backgroundSize: "cover",
+                                                                        backgroundImage: `url(${logo})`,
+                                                                        borderRadius: "5px",
+                                                                        width: "245px",
+                                                                        height: "auto",
                                                                     }}
                                                                 >
-                                                                    {video.name}
-                                                                </span>
-                                                            </div>
-                                                        )}
+                                                                    <span
+                                                                        style={{
+                                                                            display: "inline-block",
+                                                                            height: "180px",
+                                                                            lineHeight: "170px",
+                                                                            textAlign: "center",
+                                                                            color: "#404040",
+                                                                            fontWeight: "bold",
+                                                                            fontSize: "18px",
+                                                                            fontFamily: "Nunito, sans-serif;",
+                                                                        }}
+                                                                    >
+                                                                        {video.name}
+                                                                    </span>
+                                                                </div>
+                                                            )}
+                                                        </div>
                                                     </div>
                                                     <div className="pt-3 px-3" style={{ minHeight: "100px", maxHeight: "100px" }}>
                                                         <div className="d-flex pl-12 h5">{video.name ? video.name : " - "}</div>
@@ -378,11 +404,25 @@ const PlaylistWidget = ({
                                                     <div className="d-flex m-0 row-3 justify-content-center">
                                                         <div className="img-part content-part" style={{ position: "relative", width: "250px", height: "170px" }}>
                                                             {video.videos[0] ? (
-                                                                <img
-                                                                    className="img-fluid"
-                                                                    style={{ height: "180px", borderRadius: "5px" }}
-                                                                    src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")}
-                                                                />
+                                                                <>
+                                                                    <img
+                                                                        className="img-fluid"
+                                                                        style={{ height: "180px", borderRadius: "5px" }}
+                                                                        src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")}
+                                                                    />
+                                                                    <span
+                                                                        className="position-absolute justify-content-end bg-black text-white m-3 me-1"
+                                                                        style={{
+                                                                            right: "8px",
+                                                                            bottom: "0px",
+                                                                            // display: "flex",
+                                                                            display: "inline-table",
+                                                                            fontSize: "0.8rem",
+                                                                        }}
+                                                                    >
+                                                                        {video.totalDuration ? toHHMMSS(video.totalDuration) : ""}
+                                                                    </span>
+                                                                </>
                                                             ) : (
                                                                 <div
                                                                     className="img-part content-part"

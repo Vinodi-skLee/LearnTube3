@@ -5,6 +5,7 @@ import Modal from "react-modal";
 import { Link } from "react-router-dom";
 import "../../assets/css/dropdown.css";
 import setIcon from "../../assets/img/icon/settingIcon.png";
+import ReactTooltip from "react-tooltip";
 
 export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId, initCreatePlaylist, setUpdatePlaylist, updatePlaylist, deletePlaylist, isSelected, setIsEditMode }) {
     const dropdownRef = useRef(null);
@@ -49,9 +50,10 @@ export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId,
     return (
         <>
             <div className="justify-items-end menu-container2">
-                <button onClick={useClick} className="menu-trigger">
+                <button onClick={useClick} className="menu-trigger" data-for="setHover" data-tip>
                     <img className="setIcon" src={setIcon} alt="User avatar" />
                 </button>
+                <ReactTooltip id="setHover" getContent={(dataTip) => "설정"} />
                 <nav ref={dropdownRef} className={`menu2 ${isActive ? "active" : "inactive"}`}>
                     <ul>
                         <li>

@@ -17,5 +17,6 @@ public class PlaylistResponse {
     private String userName;
     private String thumbnail;
     private Float totalDuration;
+    private  LocalDateTime createdAt;
     private List<VideoDto> videos;
 }
