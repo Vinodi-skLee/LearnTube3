@@ -4,10 +4,12 @@ import axios from "axios";
 import Modal from "react-modal";
 import "../../assets/css/dropdown.css";
 import setIcon from "../../assets/img/icon/settingIcon.png";
+import { useHistory } from "react-router-dom";
 
 export default function SetDropdown(props) {
     const [isOpen, setIsOpen] = useState(false);
     const { userId } = props.userId;
+    const history = useHistory();
     const user = window.sessionStorage.getItem("userId");
     const dropdownRef = useRef(null);
     const [isActive, setIsActive] = useState(false);
@@ -213,6 +215,22 @@ export default function SetDropdown(props) {
                             <li>
                                 <button onClick={() => onDelete()} style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}>
                                     강의실 삭제
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    onClick={() => {
+                                        console.log(props.classRoomData.classId);
+                                        history.replace({
+                                            pathname: "/learntube/course/manage",
+                                            state: {
+                                                classId: props.classRoomData.classId,
+                                            },
+                                        });
+                                    }}
+                                    style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}
+                                >
+                                    강의실 관리
                                 </button>
                             </li>
                         </ul>

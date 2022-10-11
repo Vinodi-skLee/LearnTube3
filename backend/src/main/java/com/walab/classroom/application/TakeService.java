@@ -47,6 +47,22 @@ public class TakeService {
     }
 
     @Transactional
+    public List<TakeUserDto> getTakeAcceptedUsers(Long classId) {
+        List<Take> takes = takeRepository.getAcceptedTakeByClassId(classId);
+        return takes.stream()
+                .map(TakeUserDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<TakeUserDto> getTakeRejectedUsers(Long classId) {
+        List<Take> takes = takeRepository.getRejectedTakeByClassId(classId);
+        return takes.stream()
+                .map(TakeUserDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
     public TakeUserDto updateAccept(Long takeId) {
         Take take = takeRepository.findById(takeId).orElseThrow(TakeNotFoundException::new);
         take.acceptTake();
@@ -66,14 +82,15 @@ public class TakeService {
     @Transactional
     public TakeUserDto updateReject(Long takeId) {
         Take take = takeRepository.findById(takeId).orElseThrow(TakeNotFoundException::new);
-        takeRepository.deleteById(takeId);
+//        takeRepository.deleteById(takeId);
+        take.rejectTake();
         return take.toTakeUserDto();
     }
 
     @Transactional
     public List<TakeUserDto> updateAllReject(Long classId) {
         List<Take> takes = takeRepository.getWaitTakeByClassId(classId);
-        takeRepository.deleteWaitTakeByClassId(classId);
+        takeRepository.rejectStatusByClassID(classId);
 
         return takes.stream()
                     .map(TakeUserDto::new)

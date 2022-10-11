@@ -32,7 +32,7 @@ public class Take extends BaseEntity {
 
     // ToDo 나중에는 status를 0으로 바꾸어서 승인이 되면 1로 바꾸도록 구현해야함
     // 현재는 수강 신청만 누르면 바로 수강신청이 되도록 만들어 놓기만 함
-    private int status = 1;
+    private int status = 0;
 
     public Take(User user, ClassRoom classRoom) {
         this.user = user;
