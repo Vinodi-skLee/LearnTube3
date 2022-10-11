@@ -3,6 +3,7 @@ package com.walab.playlist.application;
 import com.walab.content.application.dto.ContentPlaylistDto;
 import com.walab.exception.playlist.PlaylistNotFoundException;
 import com.walab.exception.user.UserNotFoundException;
+import com.walab.notice.domain.Notice;
 import com.walab.playlist.application.dto.*;
 import com.walab.playlist.domain.Playlist;
 import com.walab.playlist.domain.repository.PlaylistRepository;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +33,7 @@ public class PlaylistService {
         //        for (Playlist playlist: playlists) {
         //            List<Video> videos = videoRepository.findById(playlist.getId());
         //        }
-        List<MyPlaylistDto> playlist = playlists.stream().map(Playlist::myPlaylistDto).collect(Collectors.toList());
+        List<MyPlaylistDto> playlist = playlists.stream().sorted(Comparator.comparing(Playlist::getCreatedAt).reversed()).map(Playlist::myPlaylistDto).collect(Collectors.toList());
 
         return playlist;
     }
@@ -58,6 +60,4 @@ public class PlaylistService {
         playlistRepository.deleteById(deleteId);
         return playlistDeleteDto;
     }
-
-
 }

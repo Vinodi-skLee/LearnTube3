@@ -8,9 +8,11 @@ import SearchModal from "../../components/Layout/Header/SearchModal";
 import PlaylistWidget from "../../components/Widget/PlaylistWidget";
 import SetPlaylistDropdown from "../../components/Dropdown/SetPlaylistDropdown";
 import PlaylistSearchWidget from "../../components/Widget/PlaylistSearchWidget";
+import ReactTooltip from "react-tooltip";
 import axios from "axios";
 // Image
 import { IoIosSearch } from "react-icons/io";
+import { GiCancel } from "react-icons/gi";
 import favIcon from "../../assets/img/fav-orange.png";
 import Logo from "../../assets/img/logo/Learntube-logos_transparent.png";
 import footerLogo from "../../assets/img/logo/lite-logo.png";
@@ -235,15 +237,37 @@ const Playlist = () => {
                                                         )}
 
                                                         <div className="d-flex justify-content-end menu-container3" style={{ right: "0px" }}>
-                                                            <button
-                                                                className="menu-trigger"
-                                                                style={{ width: "35px", height: "35px" }}
-                                                                onClick={() => {
-                                                                    setSearchMode(true);
-                                                                }}
-                                                            >
-                                                                <IoIosSearch size={30} color={"#696969"} />
-                                                            </button>
+                                                            {!searchMode ? (
+                                                                <>
+                                                                    <button
+                                                                        className="menu-trigger"
+                                                                        style={{ width: "35px", height: "35px" }}
+                                                                        onClick={() => {
+                                                                            setSearchMode(true);
+                                                                        }}
+                                                                        data-for="searchHover"
+                                                                        data-tip
+                                                                    >
+                                                                        <IoIosSearch size={30} color={"#696969"} />
+                                                                    </button>
+                                                                    <ReactTooltip id="searchHover" getContent={(dataTip) => "검색"} />
+                                                                </>
+                                                            ) : (
+                                                                <>
+                                                                    <button
+                                                                        className="menu-trigger"
+                                                                        style={{ width: "35px", height: "35px" }}
+                                                                        onClick={() => {
+                                                                            setSearchMode(false);
+                                                                        }}
+                                                                        data-for="cancelHover"
+                                                                        data-tip
+                                                                    >
+                                                                        <GiCancel size={30} color={"#696969"} />
+                                                                    </button>
+                                                                    <ReactTooltip id="cancelHover" getContent={(dataTip) => "취소"} />
+                                                                </>
+                                                            )}
                                                         </div>
                                                         <SetPlaylistDropdown
                                                             playlistId={playlistId}

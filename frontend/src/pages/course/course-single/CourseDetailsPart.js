@@ -18,6 +18,8 @@ function CourseDetailsPart() {
     const [waiting, setWaiting] = useState([]);
     const uid = location.state.userId;
     const [valid, setValid] = useState(false);
+    console.log("uid", uid);
+    console.log("userId", userId);
     //console.log("cid in detail part " + cid);
     const joinClass = () => {
         if (window.confirm("수강신청 하시겠습니까?")) {
@@ -89,7 +91,7 @@ function CourseDetailsPart() {
                             <div className="col">
                                 <div className="row">
                                     <h3>{classRoomData.className}</h3>
-                                    <p>⇣ {classRoomData.classDescription}</p>
+                                    <p style={{ overflow: "hidden", textOverflow: "ellipsis" }}>⇣ {classRoomData.classDescription}</p>
                                 </div>
                             </div>
                             {classRoomData.instructor.userId == userId ? (
@@ -102,42 +104,11 @@ function CourseDetailsPart() {
                             ) : null}
                             {classRoomData.instructor.userId != userId && classRoomData.isTake === false ? (
                                 <div className="col">
-                                    {!valid ? (
-                                        <Button id="joinBtn" className="" onClick={joinClass} style={{ float: "right", width: "8rem", minWidth: "6rem", marginRight: "1.5rem", marginTop: "3rem" }}>
-                                            수강신청
-                                        </Button>
-                                    ) : (
-                                        <Button
-                                            id="joinBtn"
-                                            className=""
-                                            onClick={joinClass}
-                                            style={{ float: "right", width: "8rem", minWidth: "6rem", marginRight: "1.5rem", marginTop: "3rem" }}
-                                            disabled
-                                        >
-                                            대기중
-                                        </Button>
-                                    )}
+                                    <Button id="joinBtn" className="" onClick={joinClass} style={{ float: "right", width: "8rem", minWidth: "6rem", marginRight: "1.5rem", marginTop: "3rem" }}>
+                                        수강신청
+                                    </Button>
                                 </div>
-                            ) : (
-                                <div className="col">
-                                    {!valid ? (
-                                        <Button id="joinBtn" className="" onClick={joinClass} style={{ float: "right", width: "8rem", minWidth: "6rem", marginRight: "1.5rem", marginTop: "3rem" }}>
-                                            수강신청
-                                        </Button>
-                                    ) : (
-                                        <Button
-                                            id="joinBtn"
-                                            className=""
-                                            onClick={joinClass}
-                                            style={{ float: "right", width: "8rem", minWidth: "6rem", marginRight: "1.5rem", marginTop: "3rem" }}
-                                            disabled
-                                        >
-                                            대기중
-                                        </Button>
-                                    )}
-                                </div>
-                            )}
-
+                            ) : null}
                             <div className="row clearfix">
                                 <div className="col-lg-8 md-mb-50">
                                     <CurriculumPart classRoomData={classRoomData} userId={userId} />

@@ -1,5 +1,6 @@
 package com.walab.playlist.domain;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
@@ -49,6 +50,8 @@ public class Playlist extends BaseEntity {
 
     private Float totalDuration;
 
+    private LocalDateTime createdAt;
+
     @OneToMany(mappedBy = "playlist")
     private List<Video> videos = new ArrayList<>();
 
@@ -63,7 +66,7 @@ public class Playlist extends BaseEntity {
     }
 
     public MyPlaylistDto myPlaylistDto(){
-        return new MyPlaylistDto(this.id, this.playlistName, this.description, this.user.getName(), this.thumbnailld, this.totalDuration, this.videos);
+        return new MyPlaylistDto(this.id, this.playlistName, this.description, this.user.getName(), this.thumbnailld, this.createdAt, this.totalDuration, this.videos);
     }
 
     public MyPlaylistDto toCreateResponseDto(){
@@ -73,6 +76,7 @@ public class Playlist extends BaseEntity {
                 .description(this.description)
                 .userName(this.user.getName())
                 .totalDuration(this.totalDuration)
+                .createdAt(this.createdAt)
                 .build();
     }
 
