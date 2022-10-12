@@ -38,6 +38,18 @@ public class PlaylistService {
         return playlist;
     }
 
+    public List<PlaylistNameDto> getPlaylistName(Long userId) {
+        List<Playlist> playlists = playlistRepository.getPlaylistNameByUserId(userId);
+        return playlists.stream().map(Playlist::playlistNameDto).collect(Collectors.toList());
+    }
+
+    public List<MyPlaylistDto> searchPlaylistName(Long userId, String playlistName) {
+        List<Playlist> searchPlaylist = playlistRepository.findPlaylistByUserIdAndPlaylistNameContainsIgnoreCase(userId, playlistName);
+        List<MyPlaylistDto> playlist = searchPlaylist.stream().sorted(Comparator.comparing(Playlist::getCreatedAt).reversed()).map(Playlist::myPlaylistDto).collect(Collectors.toList());
+
+        return playlist;
+    }
+
     public MyPlaylistDto create(Long userId, PlaylistCUDto playlistCUDto) {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         Playlist newPlaylist = new Playlist(user, playlistCUDto);
@@ -49,10 +61,6 @@ public class PlaylistService {
         Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(PlaylistNotFoundException::new);
         playlist.update(playlistUDto);
         return playlist.toCreateResponseDto();
-    }
-    public List<PlaylistNameDto> getPlaylistName(Long userId) {
-        List<Playlist> playlists = playlistRepository.getPlaylistNameByUserId(userId);
-        return playlists.stream().map(Playlist::playlistNameDto).collect(Collectors.toList());
     }
 
     public PlaylistDeleteDto delete(PlaylistDeleteDto playlistDeleteDto) {

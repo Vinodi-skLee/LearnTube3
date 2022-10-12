@@ -38,11 +38,28 @@ public class PlaylistController {
                 .map(MyPlaylistDto::playlistResponse)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(response);
+    }
 
+    @GetMapping("/name")
+    public ResponseEntity<List<PlaylistNameResponse>> getPlaylistNames(@RequestParam Long userId) {
+        List<PlaylistNameResponse> response = playlistService.getPlaylistName(userId)
+                .stream()
+                .map(PlaylistNameDto::playlistNameResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Object> searchPlaylistName(@RequestParam Long userId, String playlistName) {
+        List<MyPlaylistDto> searchPlaylist = playlistService.searchPlaylistName(userId, playlistName);
+        List<PlaylistResponse> response = searchPlaylist.stream()
+                .map(MyPlaylistDto::playlistResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/create")
-     public ResponseEntity<PlaylistCUResponse> createPlaylist(@RequestBody PlaylistCreateRequest request) {
+    public ResponseEntity<PlaylistCUResponse> createPlaylist(@RequestBody PlaylistCreateRequest request) {
         MyPlaylistDto playlistDto = playlistService.create(request.getUserId(), request.playlistCUDto());
         PlaylistCUResponse response = playlistDto.playlistCUResponse();
         return ResponseEntity.ok(response);
@@ -52,23 +69,6 @@ public class PlaylistController {
     public ResponseEntity<PlaylistCUResponse> updatePlaylist(@RequestBody PlaylistUpdateRequest request) {
         MyPlaylistDto updatedPlaylist = playlistService.update(request.getPlaylistId(), request.playlistUDto());
         PlaylistCUResponse response = updatedPlaylist.playlistCUResponse();
-        return ResponseEntity.ok(response);
-    }
-
-
-    //    @PostMapping
-    //    public ResponseEntity<PlaylistResponse> createPlaylist(@RequestBody PlaylistCreateRequest request) {
-    //        ContentDto createdContent = contentService.create(request.contentCUDto(), request.getLectureId(), request.getPlaylistId());
-    //        ContentResponse response = createdContent.contentResponse();
-    //        return ResponseEntity.ok(response);
-    //    }
-
-    @GetMapping("/name")
-    public ResponseEntity<List<PlaylistNameResponse>> getPlaylistNames(@RequestParam Long userId) {
-        List<PlaylistNameResponse> response = playlistService.getPlaylistName(userId)
-                .stream()
-                .map(PlaylistNameDto::playlistNameResponse)
-                .collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }
 
