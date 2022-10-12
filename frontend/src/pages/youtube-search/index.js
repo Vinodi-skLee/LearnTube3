@@ -27,11 +27,9 @@ import cartPage from "../../assets/img/icon/trolley.png";
 
 const YoutubeSearch = () => {
     const location = useLocation();
-    // console.log("playlist name: " + location.state.playlistName);
-    // console.log("existing videos!!!!" + location.state.existingVideo);
     const opts = {
-        height: "300",
-        width: "400",
+        height: "400",
+        width: "800",
         playerVars: {
             // https://developers.google.com/youtube/player_parameters
             autoplay: 0,
@@ -65,11 +63,13 @@ const YoutubeSearch = () => {
     const [isSearchShown, setIsSearchShown] = useState(true);
     const [isMouseOver, setIsMouseOver] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [index, setIndex] = useState(Object.keys(existingVideo).length);
     const openModal = () => setIsOpen(!isOpen);
     const initVideo = {
         duration: 0,
         end_s: 0,
-        id: 0,
+        id: -1,
+        idx: 0,
         maxLength: 0,
         newTitle: "",
         playlistId: 0,
@@ -78,9 +78,12 @@ const YoutubeSearch = () => {
         tag: null,
         title: "",
         youtubeId: "",
+        deleted: 0,
     };
+    
 
     // console.log(cart);
+    console.log("number" + Object.keys(existingVideo).length);
 
     const httpClient = axios.create({
         baseURL: "https://www.googleapis.com/youtube/v3",
@@ -93,9 +96,8 @@ const YoutubeSearch = () => {
         console.log("video selected");
     };
 
-    const selectPart = (video) => {
-        newId = video.id;
 
+    const selectPart = (video) => {
         initVideo.newTitle = newTitle ? newTitle : video.snippet.title;
         initVideo.newDescription = newDescription;
         initVideo.start_s = 0;
@@ -104,6 +106,7 @@ const YoutubeSearch = () => {
         initVideo.youtubeId = video.id;
         initVideo.playlistId = playlistId;
         initVideo.duration = customDurationToFloat(video.contentDetails.duration);
+        initVideo.seq = index;
 
         // console.log("duration " + initVideo.duration);
 
@@ -130,6 +133,8 @@ const YoutubeSearch = () => {
         setEndTime(false);
         setSelectedVideo(video);
         setDuration(video.duration);
+        console.log(selectedVideo);
+        console.log(selectedVideo.seq);
         let time = [0, 0, 0];
         let remain = video.duration;
         for (const x in time) {
@@ -222,23 +227,21 @@ const YoutubeSearch = () => {
         return durationFloat;
     }
 
-    let newId;
-
     const savePart = (video) => {
-        console.log(video.id);
-        if (video.id != 0) var index = cart.findIndex((e) => e.id === video.id);
-        else var index = video.youtubeId;
-        console.log("index: " + index);
-        console.log(cart[index]);
-        if (cart[index] === undefined) {
+        console.log(video.seq);
+        var i = Object.keys(cart).find(key => cart[key].seq === video.seq);
+        console.log("index: " + i);
+        console.log(cart[i]);
+        if (cart[i] === undefined) {
             video.start_s = parseInt(startFloatTime);
             video.end_s = parseInt(endFloatTime);
             video.duration = parseInt(endFloatTime - startFloatTime);
             cart[video.youtubeId] = video;
         } else {
-            cart[index].start_s = parseInt(startFloatTime);
-            cart[index].end_s = parseInt(endFloatTime);
-            cart[index].duration = parseInt(endFloatTime - startFloatTime);
+            cart[i].start_s = startFloatTime ? parseInt(startFloatTime) : cart[i].start_s;
+            cart[i].end_s = endFloatTime ? parseInt(endFloatTime) : cart[i].end_s;
+            console.log(parseInt(endFloatTime));
+            cart[i].duration = parseInt(endFloatTime - startFloatTime);
         }
         setCart({ ...cart });
         setIsChanged(true);
@@ -249,29 +252,24 @@ const YoutubeSearch = () => {
 
     const addVideoToCart = (video) => {
         console.log("add!!");
-        newId = video.id;
+        console.log(index);
+        initVideo.seq = index;
         initVideo.newDescription = newDescription;
         initVideo.start_s = parseInt(startFloatTime);
         initVideo.end_s = isNaN(endFloatTime) ? customDurationToFloat(video.contentDetails.duration) : parseInt(endFloatTime);
         initVideo.title = video.snippet.title;
         initVideo.youtubeId = video.id;
         initVideo.playlistId = playlistId;
-        for(const prop in cart){
-            console.log(cart[prop]);
-        }
         if (isNaN(initVideo.end_s) || isNaN(initVideo.start_s)) {
             initVideo.duration = customDurationToFloat(video.contentDetails.duration);
         } else initVideo.duration = parseInt(endFloatTime - startFloatTime);
-        cart[newId]=initVideo;
-        for(const prop in cart){
-            console.log(cart[prop]);
-        }
-        setCart({ ...cart });
-        for(const prop in cart){
-            console.log(cart[prop]);
-        }
+        cart[index] = initVideo;
+        console.log(index);
+        console.log(cart[index]);
+        setCart({...cart});
         setIsChanged(true);
         window.alert("저장되었습니다.");
+        setIndex((prevValue) => prevValue + 1);
     };
 
     const cancelCart = () => {
@@ -279,9 +277,12 @@ const YoutubeSearch = () => {
         setSelectedVideo(null);
     };
 
-    const deleteVideoFromCart = (id) => {
-        console.log(id);
-        delete cart[id];
+    const deleteVideoFromCart = (seq) => {
+        var i = Object.keys(cart).find(key => cart[key].seq === seq);
+        if(cart[i].id !== 0)
+            cart[i].deleted = 1;
+        else
+            delete cart[i];
         console.log("delete!");
         console.log(cart);
         setIsChanged(true);
@@ -401,7 +402,7 @@ const YoutubeSearch = () => {
                 headerClass="full-width-header header-style1 home8-style4"
             />
 
-            <div className="rs-event orange-style pb-100 md-pb-80 pt-20 white-bg">
+            <div className="rs-event orange-style pb-100 md-pb-80 pt-20" style={{background: "#fff"}}>
                 <div>
                     <div className="d-flex justify-content-center">
                         <YoutubeVideoSearchWidget onSearch={search} isSearchShown={isSearchShown} setIsSearchShown={setIsSearchShown} />
@@ -436,7 +437,7 @@ const YoutubeSearch = () => {
                                         overlay: {
                                             zIndex: "100",
                                             position: "fixed",
-                                            top: -20,
+                                            top: -65,
                                             left: 0,
                                             right: 0,
                                             bottom: 0,
@@ -445,27 +446,26 @@ const YoutubeSearch = () => {
                                         content: {
                                             position: "absolute",
                                             top: "20%",
-                                            left: "24%",
-                                            right: "24%",
+                                            left: "26%",
+                                            right: "26%",
                                             background: "#fff",
-                                            overflow: "hidden",
                                             WebkitOverflowScrolling: "touch",
                                             outline: "none",
                                             padding: "0px",
-                                            height: "65%",
+                                            height: "73%",
                                         },
                                     }}
                                 >
-                                    <div className="col-12 mb-500 " style={{ minHeight: "500px" }}>
-                                        <div style={{ marginLeft: "30px", marginTop: "30px" }}>
-                                            <h3 className="w-100 mb-10">영상 구간 설정</h3>
-                                            <div className="d-flex flex-nowrap">
-                                                <div className="mr-20">
+                                    <div className="col-12 mb-20 d-flex justify-content-center" style={{ minHeight: "500px", width: "100%" }}>
+                                        <div style={{marginTop: "30px"}}>
+                                            <h5 className="w-100 mb-10">영상 구간 설정</h5>
+                                            <div>
+                                                <div>
                                                     <YouTube videoId={selectedVideo.youtubeId} opts={opts} onStateChange={(e) => checkElapsedTime(e)} />
                                                 </div>
                                                 <div classname="d-flex flex-wrap justify-content-start align-items-center w-100">
-                                                    <div className="d-flex flex-nowrap justify-content-start align-items-center mb-10">
-                                                        <div className="fw-bold mr-10 flex-shrink-0 w-100">{selectedVideo.title}</div>
+                                                    <div className="d-flex flex-nowrap justify-content-start align-items-center">
+                                                        <div className="fw-bold w-100" style={{borderBottom: "1px solid gray", fontSize: "16pt", color:"black", padding: "5px 0px"}}>{selectedVideo.title}</div>
                                                         {/* <div className="w-100">
                                     <input
                                       type="text"
@@ -518,7 +518,7 @@ const YoutubeSearch = () => {
                                                                   (parseInt(selectedVideo.end_s % 60) < 10 ? "0" + parseInt(selectedVideo.end_s % 60) : parseInt(selectedVideo.end_s % 60))}
                                                         </div>
                                                     </div>
-                                                    <div className="d-flex justify-content-end align-items-center ml-50 mt-120">
+                                                    <div className="d-flex justify-content-end align-items-center ml-50 mt-10">
                                                         <div className="part-save-btn text-center ml-30 rounded-3" role="button" onClick={(e) => savePart(selectedVideo)}>
                                                             저장
                                                         </div>
