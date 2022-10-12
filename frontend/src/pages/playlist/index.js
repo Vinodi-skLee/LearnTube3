@@ -245,18 +245,24 @@ const Playlist = () => {
                                                         <div className="d-flex justify-content-end menu-container3" style={{ right: "0px" }}>
                                                             {!searchMode ? (
                                                                 <>
-                                                                    <button
-                                                                        className="menu-trigger"
-                                                                        style={{ width: "35px", height: "35px" }}
-                                                                        onClick={() => {
-                                                                            setSearchMode(true);
-                                                                        }}
-                                                                        data-for="searchHover"
-                                                                        data-tip
-                                                                    >
-                                                                        <IoIosSearch size={30} color={"#696969"} />
-                                                                    </button>
-                                                                    <ReactTooltip id="searchHover" getContent={(dataTip) => "검색"} />
+                                                                    {!isSelected ? (
+                                                                        <>
+                                                                            <button
+                                                                                className="menu-trigger"
+                                                                                style={{ width: "35px", height: "35px" }}
+                                                                                onClick={() => {
+                                                                                    setSearchMode(true);
+                                                                                }}
+                                                                                data-for="searchHover"
+                                                                                data-tip
+                                                                            >
+                                                                                <IoIosSearch size={30} color={"#696969"} />
+                                                                            </button>
+                                                                            <ReactTooltip id="searchHover" getContent={(dataTip) => "검색"} />
+                                                                        </>
+                                                                    ) : (
+                                                                        <></>
+                                                                    )}
                                                                 </>
                                                             ) : (
                                                                 <>
