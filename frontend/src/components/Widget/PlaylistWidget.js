@@ -484,7 +484,7 @@ const PlaylistWidget = ({
                                             <div className="row">
                                                 {searchData.map(function (video, i) {
                                                     return (
-                                                        <div className="p-2 col-lg-3 col-sm-6" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(playlistData[i])}>
+                                                        <div className="p-2 col-lg-3 col-sm-6" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(searchData[i])}>
                                                             <div className="d-flex m-0 row-3 justify-content-center">
                                                                 <div className="img-part content-part" style={{ position: "relative", width: "250px", height: "170px" }}>
                                                                     {video.videos[0] ? (
@@ -547,7 +547,7 @@ const PlaylistWidget = ({
                                             <div className="row">
                                                 {searchData.map(function (video, i) {
                                                     return (
-                                                        <div className="course-part clearfix m-0 p-2 col-lg-6 col-sm-15" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(playlistData[i])}>
+                                                        <div className="course-part clearfix m-0 p-2 col-lg-6 col-sm-15" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(searchData[i])}>
                                                             <div className="d-flex m-0 row-3 justify-content-center">
                                                                 <div className="img-part content-part" style={{ position: "relative", width: "250px", height: "170px" }}>
                                                                     {video.videos[0] ? (

@@ -71,7 +71,7 @@ const Playlist = () => {
         let num = 0;
         for (let count = 0; count < playlistData.length; count++) {
             setSavedPlaylistName(playlistData[count].name);
-            if (playlistData[count].name == name) {
+            if (playlistData[count].name === name) {
                 break;
             }
             num++;
@@ -85,6 +85,7 @@ const Playlist = () => {
         setSelectedPlaylist(playlistData[num].name);
         setPlaylistSize(playlistData[num].videos.length);
         setIsSelected(true);
+        setSearchMode(false);
         setClickedVideo(playlistData[num].videos[0]);
         setPlaylistDuration(playlistData[num].totalDuration);
         console.log(selectedVideo);
@@ -94,7 +95,7 @@ const Playlist = () => {
     const deletePlaylist = () => {
         console.log(playlistId);
 
-        if (window.confirm("Playlist를 정말 삭제하시겠습니까?") == true) {
+        if (window.confirm("Playlist를 정말 삭제하시겠습니까?") === true) {
             axios
                 .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/delete`, JSON.stringify(playlistId), {
                     headers: {
@@ -173,7 +174,7 @@ const Playlist = () => {
                                             <div className="col">
                                                 <h3 className="pt-5 fs-4 text-start">
                                                     {isSelected ? "My Playlist > " : "My Playlist"}
-                                                    {typeof selectedPlaylist == "string" ? (
+                                                    {typeof selectedPlaylist === "string" ? (
                                                         <>
                                                             {updatePlaylist ? (
                                                                 <>
