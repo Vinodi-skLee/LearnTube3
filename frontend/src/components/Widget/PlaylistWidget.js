@@ -22,7 +22,8 @@ const PlaylistWidget = ({
     isClicked,
     clickedVideo,
     setClickedVideo,
-    updatePlaylist,
+    searchData,
+    searched,
     deletePlaylist,
     setUpdatePlaylist,
     updatePlaylistTitle,
@@ -331,146 +332,294 @@ const PlaylistWidget = ({
                     </>
                 ) : (
                     <div>
-                        {playlistData ? (
+                        {!searched ? (
                             <>
-                                {cardView ? (
-                                    <div className="row">
-                                        {playlistData.map(function (video, i) {
-                                            return (
-                                                <div className="p-2 col-lg-3 col-sm-6" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(playlistData[i])}>
-                                                    <div className="d-flex m-0 row-3 justify-content-center">
-                                                        <div className="img-part content-part" style={{ position: "relative", width: "250px", height: "170px" }}>
-                                                            {video.videos[0] ? (
-                                                                <>
-                                                                    <img
-                                                                        className="img-fluid"
-                                                                        style={{ height: "180px", borderRadius: "5px" }}
-                                                                        src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")}
-                                                                    />
-                                                                    <span
-                                                                        className="position-absolute justify-content-end bg-black text-white m-3 me-1"
-                                                                        style={{
-                                                                            right: "10px",
-                                                                            bottom: "-10px",
-                                                                            display: "inline-table",
-                                                                            fontSize: "0.8rem",
-                                                                        }}
-                                                                    >
-                                                                        {video.totalDuration ? toHHMMSS(video.totalDuration) : ""}
-                                                                    </span>
-                                                                </>
-                                                            ) : (
-                                                                <div
-                                                                    className="course-features-info"
-                                                                    style={{
-                                                                        backgroundSize: "cover",
-                                                                        backgroundImage: `url(${logo})`,
-                                                                        borderRadius: "5px",
-                                                                        width: "245px",
-                                                                        height: "auto",
-                                                                    }}
-                                                                >
-                                                                    <span
-                                                                        style={{
-                                                                            display: "inline-block",
-                                                                            height: "180px",
-                                                                            lineHeight: "170px",
-                                                                            textAlign: "center",
-                                                                            color: "#404040",
-                                                                            fontWeight: "bold",
-                                                                            fontSize: "18px",
-                                                                            fontFamily: "Nunito, sans-serif;",
-                                                                        }}
-                                                                    >
-                                                                        {video.name}
-                                                                    </span>
+                                {playlistData ? (
+                                    <>
+                                        {cardView ? (
+                                            <div className="row">
+                                                {playlistData.map(function (video, i) {
+                                                    return (
+                                                        <div className="p-2 col-lg-3 col-sm-6" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(playlistData[i])}>
+                                                            <div className="d-flex m-0 row-3 justify-content-center">
+                                                                <div className="img-part content-part" style={{ position: "relative", width: "250px", height: "170px" }}>
+                                                                    {video.videos[0] ? (
+                                                                        <>
+                                                                            <img
+                                                                                className="img-fluid"
+                                                                                style={{ height: "180px", borderRadius: "5px" }}
+                                                                                src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")}
+                                                                            />
+                                                                            <span
+                                                                                className="position-absolute justify-content-end bg-black text-white m-3 me-1"
+                                                                                style={{
+                                                                                    right: "10px",
+                                                                                    bottom: "-10px",
+                                                                                    display: "inline-table",
+                                                                                    fontSize: "0.8rem",
+                                                                                }}
+                                                                            >
+                                                                                {video.totalDuration ? toHHMMSS(video.totalDuration) : ""}
+                                                                            </span>
+                                                                        </>
+                                                                    ) : (
+                                                                        <div
+                                                                            className="course-features-info"
+                                                                            style={{
+                                                                                backgroundSize: "cover",
+                                                                                backgroundImage: `url(${logo})`,
+                                                                                borderRadius: "5px",
+                                                                                width: "245px",
+                                                                                height: "auto",
+                                                                            }}
+                                                                        >
+                                                                            <span
+                                                                                style={{
+                                                                                    display: "inline-block",
+                                                                                    height: "180px",
+                                                                                    lineHeight: "170px",
+                                                                                    textAlign: "center",
+                                                                                    color: "#404040",
+                                                                                    fontWeight: "bold",
+                                                                                    fontSize: "18px",
+                                                                                    fontFamily: "Nunito, sans-serif;",
+                                                                                }}
+                                                                            >
+                                                                                {video.name}
+                                                                            </span>
+                                                                        </div>
+                                                                    )}
                                                                 </div>
-                                                            )}
+                                                            </div>
+                                                            <div className="pt-3 px-3" style={{ minHeight: "100px", maxHeight: "100px" }}>
+                                                                <div className="d-flex pl-12 h5">{video.name ? video.name : " - "}</div>
+                                                                <div className="d-flex pl-12">영상개수: {video.videos.length ? video.videos.length + "개" : " - "}</div>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div className="pt-3 px-3" style={{ minHeight: "100px", maxHeight: "100px" }}>
-                                                        <div className="d-flex pl-12 h5">{video.name ? video.name : " - "}</div>
-                                                        <div className="d-flex pl-12">영상개수: {video.videos.length ? video.videos.length + "개" : " - "}</div>
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        ) : (
+                                            <div className="row">
+                                                {playlistData.map(function (video, i) {
+                                                    return (
+                                                        <div className="course-part clearfix m-0 p-2 col-lg-6 col-sm-15" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(playlistData[i])}>
+                                                            <div className="d-flex m-0 row-3 justify-content-center">
+                                                                <div className="img-part content-part" style={{ position: "relative", width: "250px", height: "170px" }}>
+                                                                    {video.videos[0] ? (
+                                                                        <>
+                                                                            <img
+                                                                                className="img-fluid"
+                                                                                style={{ height: "180px", borderRadius: "5px" }}
+                                                                                src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")}
+                                                                            />
+                                                                            <span
+                                                                                className="position-absolute justify-content-end bg-black text-white m-3 me-1"
+                                                                                style={{
+                                                                                    right: "8px",
+                                                                                    bottom: "0px",
+                                                                                    // display: "flex",
+                                                                                    display: "inline-table",
+                                                                                    fontSize: "0.8rem",
+                                                                                }}
+                                                                            >
+                                                                                {video.totalDuration ? toHHMMSS(video.totalDuration) : ""}
+                                                                            </span>
+                                                                        </>
+                                                                    ) : (
+                                                                        <div
+                                                                            className="img-part content-part"
+                                                                            style={{
+                                                                                backgroundSize: "cover",
+                                                                                backgroundImage: `url(${logo})`,
+                                                                                width: "245px",
+                                                                                height: "auto",
+                                                                                borderRadius: "5px",
+                                                                            }}
+                                                                        >
+                                                                            <span
+                                                                                style={{
+                                                                                    display: "inline-block",
+                                                                                    height: "180px",
+                                                                                    lineHeight: "170px",
+                                                                                    textAlign: "center",
+                                                                                    color: "#404040",
+                                                                                    fontWeight: "bold",
+                                                                                    fontSize: "18px",
+                                                                                    fontFamily: "Nunito, sans-serif;",
+                                                                                }}
+                                                                            >
+                                                                                {video.name}
+                                                                            </span>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                                <div className="pl-12 content-part " style={{ width: "50%", minHeight: "100px", maxHeight: "100px" }}>
+                                                                    <div className="d-flex pl-12 h5">{video.name ? video.name : "영상제목"}</div>
+                                                                    <div className="d-flex pl-12">생성일자: {playlistData[i].createdAt ? playlistData[i].createdAt.split("T")[0] : " - "}</div>
+                                                                    <div className="d-flex pl-12">전체시간: {video.totalDuration ? toHHMMSS(video.totalDuration) : " - "}</div>
+                                                                    <div className="d-flex pl-12">영상개수: {video.videos.length ? video.videos.length + "개" : " - "}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
+                                    </>
                                 ) : (
-                                    <div className="row">
-                                        {playlistData.map(function (video, i) {
-                                            return (
-                                                <div className="course-part clearfix m-0 p-2 col-lg-6 col-sm-15" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(playlistData[i])}>
-                                                    <div className="d-flex m-0 row-3 justify-content-center">
-                                                        <div className="img-part content-part" style={{ position: "relative", width: "250px", height: "170px" }}>
-                                                            {video.videos[0] ? (
-                                                                <>
-                                                                    <img
-                                                                        className="img-fluid"
-                                                                        style={{ height: "180px", borderRadius: "5px" }}
-                                                                        src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")}
-                                                                    />
-                                                                    <span
-                                                                        className="position-absolute justify-content-end bg-black text-white m-3 me-1"
-                                                                        style={{
-                                                                            right: "8px",
-                                                                            bottom: "0px",
-                                                                            // display: "flex",
-                                                                            display: "inline-table",
-                                                                            fontSize: "0.8rem",
-                                                                        }}
-                                                                    >
-                                                                        {video.totalDuration ? toHHMMSS(video.totalDuration) : ""}
-                                                                    </span>
-                                                                </>
-                                                            ) : (
-                                                                <div
-                                                                    className="img-part content-part"
-                                                                    style={{
-                                                                        backgroundSize: "cover",
-                                                                        backgroundImage: `url(${logo})`,
-                                                                        width: "245px",
-                                                                        height: "auto",
-                                                                        borderRadius: "5px",
-                                                                    }}
-                                                                >
-                                                                    <span
-                                                                        style={{
-                                                                            display: "inline-block",
-                                                                            height: "180px",
-                                                                            lineHeight: "170px",
-                                                                            textAlign: "center",
-                                                                            color: "#404040",
-                                                                            fontWeight: "bold",
-                                                                            fontSize: "18px",
-                                                                            fontFamily: "Nunito, sans-serif;",
-                                                                        }}
-                                                                    >
-                                                                        {video.name}
-                                                                    </span>
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                        <div className="pl-12 content-part " style={{ width: "50%", minHeight: "100px", maxHeight: "100px" }}>
-                                                            <div className="d-flex pl-12 h5">{video.name ? video.name : "영상제목"}</div>
-                                                            <div className="d-flex pl-12">생성일자: {playlistData[i].createdAt ? playlistData[i].createdAt.split("T")[0] : " - "}</div>
-                                                            <div className="d-flex pl-12">전체시간: {video.totalDuration ? toHHMMSS(video.totalDuration) : " - "}</div>
-                                                            <div className="d-flex pl-12">영상개수: {video.videos.length ? video.videos.length + "개" : " - "}</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
+                                    <div>
+                                        <div className="row d-flex mt-70 mb-70 align-items-center">
+                                            <img src={mediaIcon} style={{ margin: "auto", width: "200px" }}></img>
+                                            <div className="text-align-center fw-normal">플레이리스트가 없습니다</div>
+                                        </div>
                                     </div>
                                 )}
                             </>
                         ) : (
-                            <div>
-                                <div className="row d-flex mt-70 mb-70 align-items-center">
-                                    <img src={mediaIcon} style={{ margin: "auto", width: "200px" }}></img>
-                                    <div className="text-align-center fw-normal">플레이리스트가 없습니다</div>
-                                </div>
-                            </div>
+                            <>
+                                {searchData ? (
+                                    <>
+                                        {cardView ? (
+                                            <div className="row">
+                                                {searchData.map(function (video, i) {
+                                                    return (
+                                                        <div className="p-2 col-lg-3 col-sm-6" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(playlistData[i])}>
+                                                            <div className="d-flex m-0 row-3 justify-content-center">
+                                                                <div className="img-part content-part" style={{ position: "relative", width: "250px", height: "170px" }}>
+                                                                    {video.videos[0] ? (
+                                                                        <>
+                                                                            <img
+                                                                                className="img-fluid"
+                                                                                style={{ height: "180px", borderRadius: "5px" }}
+                                                                                src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")}
+                                                                            />
+                                                                            <span
+                                                                                className="position-absolute justify-content-end bg-black text-white m-3 me-1"
+                                                                                style={{
+                                                                                    right: "10px",
+                                                                                    bottom: "-10px",
+                                                                                    display: "inline-table",
+                                                                                    fontSize: "0.8rem",
+                                                                                }}
+                                                                            >
+                                                                                {video.totalDuration ? toHHMMSS(video.totalDuration) : ""}
+                                                                            </span>
+                                                                        </>
+                                                                    ) : (
+                                                                        <div
+                                                                            className="course-features-info"
+                                                                            style={{
+                                                                                backgroundSize: "cover",
+                                                                                backgroundImage: `url(${logo})`,
+                                                                                borderRadius: "5px",
+                                                                                width: "245px",
+                                                                                height: "auto",
+                                                                            }}
+                                                                        >
+                                                                            <span
+                                                                                style={{
+                                                                                    display: "inline-block",
+                                                                                    height: "180px",
+                                                                                    lineHeight: "170px",
+                                                                                    textAlign: "center",
+                                                                                    color: "#404040",
+                                                                                    fontWeight: "bold",
+                                                                                    fontSize: "18px",
+                                                                                    fontFamily: "Nunito, sans-serif;",
+                                                                                }}
+                                                                            >
+                                                                                {video.name}
+                                                                            </span>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                            <div className="pt-3 px-3" style={{ minHeight: "100px", maxHeight: "100px" }}>
+                                                                <div className="d-flex pl-12 h5">{video.name ? video.name : " - "}</div>
+                                                                <div className="d-flex pl-12">영상개수: {video.videos.length ? video.videos.length + "개" : " - "}</div>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        ) : (
+                                            <div className="row">
+                                                {searchData.map(function (video, i) {
+                                                    return (
+                                                        <div className="course-part clearfix m-0 p-2 col-lg-6 col-sm-15" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(playlistData[i])}>
+                                                            <div className="d-flex m-0 row-3 justify-content-center">
+                                                                <div className="img-part content-part" style={{ position: "relative", width: "250px", height: "170px" }}>
+                                                                    {video.videos[0] ? (
+                                                                        <>
+                                                                            <img
+                                                                                className="img-fluid"
+                                                                                style={{ height: "180px", borderRadius: "5px" }}
+                                                                                src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")}
+                                                                            />
+                                                                            <span
+                                                                                className="position-absolute justify-content-end bg-black text-white m-3 me-1"
+                                                                                style={{
+                                                                                    right: "8px",
+                                                                                    bottom: "0px",
+                                                                                    // display: "flex",
+                                                                                    display: "inline-table",
+                                                                                    fontSize: "0.8rem",
+                                                                                }}
+                                                                            >
+                                                                                {video.totalDuration ? toHHMMSS(video.totalDuration) : ""}
+                                                                            </span>
+                                                                        </>
+                                                                    ) : (
+                                                                        <div
+                                                                            className="img-part content-part"
+                                                                            style={{
+                                                                                backgroundSize: "cover",
+                                                                                backgroundImage: `url(${logo})`,
+                                                                                width: "245px",
+                                                                                height: "auto",
+                                                                                borderRadius: "5px",
+                                                                            }}
+                                                                        >
+                                                                            <span
+                                                                                style={{
+                                                                                    display: "inline-block",
+                                                                                    height: "180px",
+                                                                                    lineHeight: "170px",
+                                                                                    textAlign: "center",
+                                                                                    color: "#404040",
+                                                                                    fontWeight: "bold",
+                                                                                    fontSize: "18px",
+                                                                                    fontFamily: "Nunito, sans-serif;",
+                                                                                }}
+                                                                            >
+                                                                                {video.name}
+                                                                            </span>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                                <div className="pl-12 content-part " style={{ width: "50%", minHeight: "100px", maxHeight: "100px" }}>
+                                                                    <div className="d-flex pl-12 h5">{video.name ? video.name : "영상제목"}</div>
+                                                                    <div className="d-flex pl-12">생성일자: {searchData[i].createdAt ? searchData[i].createdAt.split("T")[0] : " - "}</div>
+                                                                    <div className="d-flex pl-12">전체시간: {video.totalDuration ? toHHMMSS(video.totalDuration) : " - "}</div>
+                                                                    <div className="d-flex pl-12">영상개수: {video.videos.length ? video.videos.length + "개" : " - "}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
+                                    </>
+                                ) : (
+                                    <div>
+                                        <div className="row d-flex mt-70 mb-70 align-items-center">
+                                            <img src={mediaIcon} style={{ margin: "auto", width: "200px" }}></img>
+                                            <div className="text-align-center fw-normal">플레이리스트가 없습니다</div>
+                                        </div>
+                                    </div>
+                                )}
+                            </>
                         )}
                     </div>
                 )}
