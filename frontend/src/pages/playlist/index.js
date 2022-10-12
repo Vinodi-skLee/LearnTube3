@@ -37,6 +37,7 @@ const Playlist = () => {
 
     const [playlistId, setPlaylistId] = useState(-1);
     const [playlistData, setPlaylistData] = useState(initPlaylistData.videos);
+    const [searchData, setSearchData] = useState(initPlaylistData.videos);
     const [selectedPlaylist, setSelectedPlaylist] = useState(initPlaylistData);
     const [playlistSize, setPlaylistSize] = useState(0);
     const [selectedVideo, setSelectedVideo] = useState(initPlaylistData.videos);
@@ -49,6 +50,7 @@ const Playlist = () => {
     const [savedPlaylistName, setSavedPlaylistName] = useState("");
     const [updatePlaylist, setUpdatePlaylist] = useState(false);
     const [updatePlaylistTitle, setUpdatePlaylistTitle] = useState(savedPlaylistName);
+    const [searched, setSearched] = useState(false);
 
     useEffect(() => {
         const fetchMyPlaylists = async () => {
@@ -107,13 +109,6 @@ const Playlist = () => {
         }
     };
 
-    const checkPlaylistName = (event, selectedPlaylist) => {
-        if (typeof selectedPlaylist != "string") {
-            alert("Playlist를 선택해주세요.");
-            event.preventDefault();
-        }
-    };
-
     const updatePlaylistData = {
         playlistId: playlistId,
         playlistName: updatePlaylistTitle,
@@ -138,7 +133,17 @@ const Playlist = () => {
 
         window.location.reload();
     };
-    //JSON.stringify(selectedPlaylist)
+
+    const findSearchData = async (e) => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/playlist/search?userId=${userId}&playlistName=${e}`);
+            // console.log(response.data);
+            setSearchData(response.data);
+            setSearched(true);
+        } catch (err) {
+            console.log("err >> ", err);
+        }
+    };
 
     return (
         <React.Fragment>
@@ -210,7 +215,7 @@ const Playlist = () => {
                                                 <>
                                                     <div className="col d-flex justify-content-end align-items-center">
                                                         {searchMode ? (
-                                                            <PlaylistSearchWidget />
+                                                            <PlaylistSearchWidget findSearchData={findSearchData} />
                                                         ) : (
                                                             <div className="dropdown show" style={{ width: "300px", height: "135px", left: "90px", bottom: "7px" }}>
                                                                 <Form.Select
@@ -259,6 +264,7 @@ const Playlist = () => {
                                                                         style={{ width: "35px", height: "35px" }}
                                                                         onClick={() => {
                                                                             setSearchMode(false);
+                                                                            setSearched(false);
                                                                         }}
                                                                         data-for="cancelHover"
                                                                         data-tip
@@ -307,6 +313,8 @@ const Playlist = () => {
                                             updatePlaylistTitle={updatePlaylistTitle}
                                             setUpdatePlaylistTitle={setUpdatePlaylistTitle}
                                             handlePlaylistChange={handlePlaylistChange}
+                                            searched={searched}
+                                            searchData={searchData}
                                         />
                                     </div>
                                 </div>
