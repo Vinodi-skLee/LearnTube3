@@ -315,6 +315,7 @@ const Playlist = () => {
                                             setUpdatePlaylistTitle={setUpdatePlaylistTitle}
                                             handlePlaylistChange={handlePlaylistChange}
                                             searched={searched}
+                                            setSearchMode={setSearchMode}
                                             searchData={searchData}
                                         />
                                     </div>

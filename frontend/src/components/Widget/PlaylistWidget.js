@@ -24,6 +24,7 @@ const PlaylistWidget = ({
     setClickedVideo,
     searchData,
     searched,
+    setSearchMode,
     deletePlaylist,
     setUpdatePlaylist,
     updatePlaylistTitle,
@@ -58,13 +59,9 @@ const PlaylistWidget = ({
 
     const onClickPlaylist = (e) => {
         handlePlaylistChange(e.name);
+        setSearchMode(false);
     };
 
-    const initUpdatePlaylistData = {
-        playlistId: playlistId,
-        playlistName: updatePlaylistTitle,
-        description: "",
-    };
     const opts = {
         height: "125",
         width: "100%",
