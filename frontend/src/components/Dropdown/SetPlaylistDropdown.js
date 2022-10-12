@@ -71,35 +71,31 @@ export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId,
                 <ReactTooltip id="setHover" getContent={(dataTip) => "설정"} />
                 <nav className={`menu2 ${isActive ? "active" : "inactive"}`}>
                     <ul>
-                        <li>
-                            <button
-                                onClick={() => {
-                                    setIsActive(!isActive);
-                                    openModal();
-                                }}
-                                style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}
-                            >
-                                플레이리스트 생성
-                            </button>
-                        </li>
-
-                        {isSelected ? (
-                            <>
-                                <li>
-                                    <button
-                                        onClick={() => {
-                                            setUpdatePlaylist(true);
-                                            setIsActive(!isActive);
-                                            setIsEditMode(true);
-                                        }}
-                                        style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}
-                                    >
-                                        플레이리스트 수정
-                                    </button>
-                                </li>
-                            </>
+                        {!isSelected ? (
+                            <li>
+                                <button
+                                    onClick={() => {
+                                        setIsActive(!isActive);
+                                        openModal();
+                                    }}
+                                    style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}
+                                >
+                                    플레이리스트 생성
+                                </button>
+                            </li>
                         ) : (
-                            <></>
+                            <li>
+                                <button
+                                    onClick={() => {
+                                        setUpdatePlaylist(true);
+                                        setIsActive(!isActive);
+                                        setIsEditMode(true);
+                                    }}
+                                    style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}
+                                >
+                                    플레이리스트 수정
+                                </button>
+                            </li>
                         )}
                     </ul>
                 </nav>
