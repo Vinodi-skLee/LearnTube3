@@ -31,22 +31,20 @@ export default function SetDropdown(props) {
 
     useEffect(() => {}, [userId]);
 
-    const useDetectOutsideClick = (el, initialState) => {
-        const [isActive, setIsActive] = useState(initialState);
-        useEffect(() => {
-            const pageClickEvent = (e) => {
-                if (el.current !== null && !el.current.contains(e.target)) {
-                    setIsActive(!isActive);
-                }
-            };
-            if (isActive) {
-                window.addEventListener("click", pageClickEvent);
+    useEffect(() => {
+        function handleClickOutside(e) {
+            // 현재 document에서 mousedown 이벤트가 동작하면 호출되는 함수
+            if (!isActive && dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                console.log(`div 외부 클릭`);
+                setIsActive(isActive);
             }
-            return () => {
-                window.removeEventListener("click", pageClickEvent);
-            };
-        }, [isActive, setIsActive]);
-    };
+        }
+        document.addEventListener("click", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, [dropdownRef]);
 
     const handleChange = (e) => {
         if (e.target.value !== null) {
@@ -201,19 +199,31 @@ export default function SetDropdown(props) {
                 </div>
             </Modal>
             {props.classRoomData.instructorId === userId ? (
-                <div className="menu-container">
+                <div className="menu-container" ref={dropdownRef}>
                     <button onClick={useClick} className="menu-trigger">
                         <img className="setIcon" src={setIcon} alt="User avatar" />
                     </button>
-                    <nav ref={dropdownRef} className={`menu ${isActive ? "active" : "inactive"}`}>
+                    <nav className={`menu ${isActive ? "active" : "inactive"}`}>
                         <ul>
                             <li>
-                                <button onClick={() => openModal()} style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}>
+                                <button
+                                    onClick={() => {
+                                        setIsActive(!isActive);
+                                        openModal();
+                                    }}
+                                    style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}
+                                >
                                     강의실 수정
                                 </button>
                             </li>
                             <li>
-                                <button onClick={() => onDelete()} style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}>
+                                <button
+                                    onClick={() => {
+                                        setIsActive(!isActive);
+                                        onDelete();
+                                    }}
+                                    style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}
+                                >
                                     강의실 삭제
                                 </button>
                             </li>

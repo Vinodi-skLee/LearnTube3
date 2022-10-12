@@ -18,6 +18,21 @@ export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId,
     const [createPlaylist, setCreatePlaylist] = useState(initCreatePlaylist);
     const [playlistName, setPlaylistName] = useState("Playlist 생성");
 
+    useEffect(() => {
+        function handleClickOutside(e) {
+            // 현재 document에서 mousedown 이벤트가 동작하면 호출되는 함수
+            if (!isActive && dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                console.log(`div 외부 클릭`);
+                setIsActive(isActive);
+            }
+        }
+        document.addEventListener("click", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, [dropdownRef]);
+
     const handleChange = (e) => {
         setCreatePlaylist({
             ...createPlaylist,
@@ -49,16 +64,17 @@ export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId,
 
     return (
         <>
-            <div className="justify-items-end menu-container2">
+            <div className="justify-items-end menu-container2" ref={dropdownRef}>
                 <button onClick={useClick} className="menu-trigger" data-for="setHover" data-tip>
                     <img className="setIcon" src={setIcon} alt="User avatar" />
                 </button>
                 <ReactTooltip id="setHover" getContent={(dataTip) => "설정"} />
-                <nav ref={dropdownRef} className={`menu2 ${isActive ? "active" : "inactive"}`}>
+                <nav className={`menu2 ${isActive ? "active" : "inactive"}`}>
                     <ul>
                         <li>
                             <button
                                 onClick={() => {
+                                    setIsActive(!isActive);
                                     openModal();
                                 }}
                                 style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}
@@ -73,6 +89,7 @@ export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId,
                                     <button
                                         onClick={() => {
                                             setUpdatePlaylist(true);
+                                            setIsActive(!isActive);
                                             setIsEditMode(true);
                                         }}
                                         style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}
