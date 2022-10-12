@@ -51,6 +51,10 @@ public class Playlist extends BaseEntity {
     private Float totalDuration;
 
     private LocalDateTime createdAt;
+    @PrePersist
+    public void createdAt(){
+        this.createdAt = LocalDateTime.now();
+    }
 
     @OneToMany(mappedBy = "playlist")
     private List<Video> videos = new ArrayList<>();

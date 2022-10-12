@@ -210,6 +210,15 @@
 //     z-index: 0;
 // }
 
+.search-result{
+    justify-content: space-between;
+}
+
+.search-result::after{
+    content: "";
+    flex: auto;
+}
+
 .search-block {
     //   display: flex;
     justify-content: center;
@@ -226,7 +235,7 @@
     min-height: 225px;
     min-width: 200px;
     height: 100%;
-    width: 20%;
+    width: 14%;
     //   max-height: 200px;
 }
 

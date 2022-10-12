@@ -48,13 +48,13 @@ public class VideoService {
 
     @Transactional
     public VideoDto update(Long videoId, VideoCUDto videoCUDto) {
+
         Video video = videoRepository.findById(videoId).orElseThrow(VideoNotFoundException::new);
-        Playlist playlist = playlistRepository.findPlaylistById(videoCUDto.getPlaylistId());
+        Playlist playlist = video.getPlaylist();
         float total = playlist.getTotalDuration();
         playlist.setTotalDuration(total - video.getDuration());
 
         video.update(videoCUDto);
-        playlist.setTotalDuration(total + video.getDuration());
         return video.toDto();
     }
 
