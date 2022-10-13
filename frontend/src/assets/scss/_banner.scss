@@ -66,7 +66,7 @@
         }
         .banner-line-shape {
             position: absolute;
-            top: -205px;
+            top: -40px;
             left: 53%;
             transform: translateX(-47%);
         }
@@ -78,8 +78,8 @@
         }
         .banner-dots-shape {
             position: absolute;
-            bottom: -220px;
-            left: -200px;
+            bottom: -5vh;
+            left: -300px;
         }
     }
     &.style5 {
@@ -1046,7 +1046,7 @@
         font-size: 50px;
     }
     .rs-banner.style4 {
-        height: 750px !important;
+        height: 60vh !important;
     }
     .rs-banner.style4 .banner-content .banner-title {
         font-size: 45px;

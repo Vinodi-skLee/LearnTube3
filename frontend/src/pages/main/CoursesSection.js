@@ -18,9 +18,9 @@ import image3 from "../../assets/img/courses/9.jpg";
 import bgImg from "../../assets/img/bg/course-shape-bg.jpg";
 const bgStyle = {
     backgroundImage: `url(${bgImg})`,
-    "background-size": "cover",
-    "background-repeat": "no-repeat",
-    "background-position": "center",
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
 };
 
 function Courses(props) {
@@ -98,7 +98,7 @@ function Courses(props) {
         <React.Fragment>
             <div className="rs-popular-courses style1 pb-200 orange-style md-pb-170 sm-pb-100" style={bgStyle}>
                 <div className="container">
-                    <div className="row y-middle mb-50">
+                    <div className="row y-middle mb-30">
                         <div className="col-lg-6">
                             <SectionTitle sectionClass="sec-title" subtitleClass="sub-title primary" subtitle="수강생이 가장 많은" titleClass="title mb-0" title="Popular Courses" />
                         </div>
@@ -121,11 +121,11 @@ function Courses(props) {
                               ))
                             : null}
                     </Slider>
-                    <div className="view-all-btn text-center pt-50 mb-60 md-pt-30 md-mb-30">
+                    <div className="view-all-btn text-center pt-20 mb-20 md-pt-10 md-mb-10">
                         Start Learning With Our Online Courses.
                         <Link className="title-color" to="/learntube/course">
                             {" "}
-                            View All Courses <i className="flaticon-right-arrow ml-6 body-color"></i>
+                            View All Courses
                         </Link>
                     </div>
                 </div>

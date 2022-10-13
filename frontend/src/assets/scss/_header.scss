@@ -2855,7 +2855,7 @@
         z-index: 999;
         .rs-header{
             .menu-area{
-                background: $whiteColor !important;
+                background: #273857 !important;
                 .logo-part{
                     position: relative;
                     z-index: 9;
@@ -2875,9 +2875,9 @@
                                         a {
                                             height: 90px;
                                             line-height: 90px;
-                                            color: $titleColor !important;
+                                            color: #9a9a9a !important;
                                             &:hover{
-                                                color: $orangeColor !important;
+                                                color: $whiteColor !important;
                                             }
                                             &:last-child{
                                                 margin-right: none !important;
@@ -2885,7 +2885,7 @@
                                         }
                                         &.current-menu-item {
                                             > a {
-                                                color: $orangeColor !important;
+                                                color: $whiteColor !important;
                                             }  
                                         }                                        
                                     }
@@ -2997,7 +2997,7 @@
                     }
                     .nav-expander {
                         span {
-                            background: #394459;
+                            background: $whiteColor;
                         }
                         &:hover {
                             span {
