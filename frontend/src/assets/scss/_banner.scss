@@ -64,9 +64,16 @@
                 margin-bottom: 5px;
             }
         }
+        @media screen and (max-width: 1080px) {
+            .banner-content-img {
+                display: none;
+            }
+        }
+   
         .banner-line-shape {
             position: absolute;
-            top: -40px;
+            top: 0px;
+            width: 100px;
             left: 53%;
             transform: translateX(-47%);
         }
@@ -78,7 +85,7 @@
         }
         .banner-dots-shape {
             position: absolute;
-            bottom: -5vh;
+            bottom: 0vh;
             left: -300px;
         }
     }
@@ -1161,7 +1168,7 @@
         font-size: 40px;
     }
     .rs-banner.style4 {
-        height: 650px !important;
+        
     }
     .rs-banner.style4 .banner-content .banner-title {
         font-size: 40px;
@@ -1204,7 +1211,7 @@
         padding-right: 0;
     }
     .rs-banner.style4 {
-        height: 550px !important;
+        
     }
     .rs-banner.style11 .icons-spiner .spine2 img {
         width: 70px;
@@ -1323,7 +1330,7 @@
         min-height: 550px;
     }
     .rs-banner.style4 {
-        height: 450px !important;
+
     }
     .rs-banner.style13 .banner-content .title {
         font-size: 28px;

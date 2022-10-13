@@ -7,7 +7,6 @@ const MenuItems = (props) => {
     const location = useLocation();
     let id = window.sessionStorage.getItem("userId");
     const history = useHistory();
-    
 
     const clickDashBoard = () => {
         if (id) {

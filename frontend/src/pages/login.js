@@ -113,7 +113,7 @@ scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/
 
     return (
         <div className="d-flex mt-3 align-items-center">
-            <div className="d-flex me-3 mb-10">{window.sessionStorage.getItem("name") ? window.sessionStorage.getItem("name") + "님" : window.sessionStorage.getItem("name")}</div>
+            <div className="d-flex me-3 mb-10 white-color">{window.sessionStorage.getItem("name") ? window.sessionStorage.getItem("name") + "님" : window.sessionStorage.getItem("name")}</div>
             {window.sessionStorage.getItem("userId") === null ? (
                 <button id="oAuthBtn" onClick={oAuthHandler} className="loginbtn btn display-4 mr-30 mb-10" style={{ backgroundColor: "#eeeeee", color: "#273857" }}>
                     로그인
