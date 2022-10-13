@@ -55,7 +55,7 @@ const Footer = (props) => {
               </ul> */}
             </div>
             <div className="col-lg-3 col-md-12 col-sm-12 footer-widget md-mb-50">
-              <h3 className="widget-title">Address</h3>
+              <h5 className="widget-title">Address</h5>
               <ul className="address-widget">
                 <li>
                   <i className="flaticon-location"></i>
@@ -67,22 +67,22 @@ const Footer = (props) => {
                 <li>
                   <i className="flaticon-call"></i>
                   <div className="desc">
-                    <a href="tel:(+82)010-5564-0429">(+82)010-5564-0429</a>
+                    <a href="tel:(+82)010-3191-2648">(+82)010-3191-2648</a>
                   </div>
                 </li>
                 <li>
                   <i className="flaticon-email"></i>
                   <div className="desc">
                     <a href="mailto:zihooy@handong.ac.kr">
-                      zihooy@handong.ac.kr
+                      moomin@handong.ac.kr
                     </a>
                   </div>
                 </li>
               </ul>
             </div>
             <div className="col-lg-3 col-md-12 col-sm-12 pl-50 md-pl-14 footer-widget md-mb-50">
-              <h3 className="widget-title">Category</h3>
-              <ul className="site-map">
+              <h5 className="widget-title">Category</h5>
+              <ul className="site-map p-0 m-0">
                 <li>
                   <Link to="/learntube/">Main</Link>
                 </li>
@@ -102,10 +102,13 @@ const Footer = (props) => {
               </ul>
             </div>
             <div className="col-lg-3 col-md-12 col-sm-12 footer-widget">
-              <h3 className="widget-title">Recent Classes</h3>
+              <h5 className="widget-title">Recent Classes</h5>
               <div className="recent-post mb-20">
                 <div className="post-img">
-                  <img src={"https://i.ibb.co/0mngfYR/Java.png"} alt="blog image" />
+                  <img
+                    src={"https://i.ibb.co/0mngfYR/Java.png"}
+                    alt="blog image"
+                  />
                 </div>
                 <div className="post-item">
                   <div className="post-desc">
@@ -121,7 +124,10 @@ const Footer = (props) => {
               </div>
               <div className="recent-post mb-20">
                 <div className="post-img">
-                  <img src={"https://i.ibb.co/7GqtTYt/image.png"} alt="blog image" />
+                  <img
+                    src={"https://i.ibb.co/7GqtTYt/image.png"}
+                    alt="blog image"
+                  />
                 </div>
                 <div className="post-item">
                   <div className="post-desc">
