@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { Button, Form } from "react-bootstrap";
 import { Helmet } from "react-helmet";
-import { Form } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import ReactTooltip from "react-tooltip";
 import Header from "../../components/Layout/Header/Header";
 import Footer from "../../components/Layout/Footer/Footer";
 import OffWrap from "../../components/Layout/Header/OffWrap";
@@ -8,7 +10,6 @@ import SearchModal from "../../components/Layout/Header/SearchModal";
 import PlaylistWidget from "../../components/Widget/PlaylistWidget";
 import SetPlaylistDropdown from "../../components/Dropdown/SetPlaylistDropdown";
 import PlaylistSearchWidget from "../../components/Widget/PlaylistSearchWidget";
-import ReactTooltip from "react-tooltip";
 import axios from "axios";
 // Image
 import { IoIosSearch } from "react-icons/io";
@@ -51,6 +52,7 @@ const Playlist = () => {
     const [updatePlaylist, setUpdatePlaylist] = useState(false);
     const [updatePlaylistTitle, setUpdatePlaylistTitle] = useState(savedPlaylistName);
     const [searched, setSearched] = useState(false);
+    const [isEmpty, setIsEmpty] = useState(false);
 
     useEffect(() => {
         const fetchMyPlaylists = async () => {
@@ -79,17 +81,23 @@ const Playlist = () => {
         console.log(num);
         console.log("playlist data", playlistData[num]);
 
-        //var selected = playlistData[num].videos;
         setSelectedVideo(playlistData[num].videos);
+        setClickedVideo(playlistData[num].videos[0]);
         setPlaylistId(playlistData[num].playlistId);
         setSelectedPlaylist(playlistData[num].name);
         setPlaylistSize(playlistData[num].videos.length);
         setIsSelected(true);
         setSearchMode(false);
-        setClickedVideo(playlistData[num].videos[0]);
         setPlaylistDuration(playlistData[num].totalDuration);
         console.log(selectedVideo);
         setIsClicked(false);
+        if (playlistData[num].videos.length == 0) {
+            setIsEmpty(true);
+            console.log("is empty? === " + isEmpty);
+        } else {
+            setIsEmpty(false);
+            console.log("is empty? === " + isEmpty);
+        }
     };
 
     const deletePlaylist = () => {
@@ -140,9 +148,19 @@ const Playlist = () => {
             const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/playlist/search?userId=${userId}&playlistName=${e}`);
             // console.log(response.data);
             setSearchData(response.data);
+            if (searchData.videos.length == 0) setIsEmpty(true);
+            else setIsEmpty(false);
+            console.log(isEmpty);
             setSearched(true);
         } catch (err) {
             console.log("err >> ", err);
+        }
+    };
+
+    const checkPlaylistName = (event, selectedPlaylist) => {
+        if (typeof selectedPlaylist != "string") {
+            alert("Playlist를 선택해주세요.");
+            event.preventDefault();
         }
     };
 
@@ -170,9 +188,9 @@ const Playlist = () => {
                             <div className="col-lg-12 col-md-12">
                                 <div className="widget-area">
                                     <div className="mt-0 mb-0">
-                                        <div className="row d-flex mt-0 justify-content-between align-items-center" style={{ height: "110px" }}>
-                                            <div className="col">
-                                                <h3 className="pt-5 fs-4 text-start">
+                                        <div className="row justify-content-between align-items-center" style={{ height: "110px" }}>
+                                            <div className="col d-flex">
+                                                <h3 className="fs-4 text-start">
                                                     {isSelected ? "My Playlist > " : "My Playlist"}
                                                     {typeof selectedPlaylist === "string" ? (
                                                         <>
@@ -188,14 +206,14 @@ const Playlist = () => {
                                                                         onChange={newTitleChange}
                                                                     />
                                                                     <i
-                                                                        className="fa fa-check ps-3 pt-3 orange-color"
+                                                                        className="fa fa-check ps-3 orange-color"
                                                                         onClick={() => {
                                                                             setUpdatePlaylist(!updatePlaylist);
                                                                             handleSubmit();
                                                                         }}
                                                                     ></i>
                                                                     <i
-                                                                        className="fa fa-times ps-3 pt-3 orange-color"
+                                                                        className="fa fa-times ps-3 orange-color"
                                                                         onClick={() => {
                                                                             setUpdatePlaylist(!updatePlaylist);
                                                                             setUpdatePlaylistTitle("");
@@ -212,100 +230,147 @@ const Playlist = () => {
                                                 </h3>
                                             </div>
 
-                                            {playlistData ? (
+                                            {isEditMode ? (
+                                                <div className="col d-flex pb-20 mr-5 justify-content-end align-items-center" style={{ height: "135px" }}>
+                                                    <Link
+                                                        to={{
+                                                            pathname: "/learntube/learntube-studio/youtubeSearch",
+                                                            state: {
+                                                                playlistName: selectedPlaylist,
+                                                                playlistId: playlistId,
+                                                                update: true,
+                                                                existingVideo: selectedVideo,
+                                                            },
+                                                        }}
+                                                    >
+                                                        <Button
+                                                            onClick={(e) => {
+                                                                checkPlaylistName(e, selectedPlaylist);
+                                                            }}
+                                                            style={{ marginLeft: "10px", height: "40px", backgroundColor: "#ff7d4b" }}
+                                                        >
+                                                            비디오 추가
+                                                        </Button>
+                                                    </Link>
+                                                    <Button
+                                                        onClick={() => {
+                                                            setUpdatePlaylist(true);
+                                                        }}
+                                                        style={{ marginLeft: "10px", height: "40px", backgroundColor: "#ff7d4b" }}
+                                                    >
+                                                        제목 수정
+                                                    </Button>
+                                                    <Button
+                                                        onClick={() => {
+                                                            setIsEditMode(false);
+                                                            setUpdatePlaylist(false);
+                                                        }}
+                                                        style={{ marginLeft: "10px", height: "40px", backgroundColor: "#7cbdb5" }}
+                                                    >
+                                                        저장
+                                                    </Button>
+                                                </div>
+                                            ) : (
                                                 <>
-                                                    <div className="col d-flex justify-content-end align-items-center">
-                                                        {searchMode ? (
-                                                            <PlaylistSearchWidget findSearchData={findSearchData} />
-                                                        ) : (
-                                                            <div className="dropdown show" style={{ width: "300px", height: "135px", left: "90px", bottom: "7px" }}>
-                                                                <Form.Select
-                                                                    aria-label="SelectBox"
-                                                                    onChange={(e) => {
-                                                                        console.log(e.target.value);
-                                                                        handlePlaylistChange(e.target.value);
-                                                                        setIsClicked(false);
-                                                                    }}
-                                                                >
-                                                                    <option>------- Playlist 선택하기 -------</option>
-                                                                    {playlistData ? (
-                                                                        playlistData.map((data, i) => (
-                                                                            //console.log(playlistData[i].videos.length),({playlistData[i].videos.length})
-                                                                            <option key={playlistData[i].playlistId} id={playlistData[i].playlistId} name={playlistData[i].title}>
-                                                                                {playlistData[i].name}
-                                                                            </option>
-                                                                        ))
-                                                                    ) : (
-                                                                        <option key="playlistsData">Playlist가 존재하지 않습니다.</option>
-                                                                    )}
-                                                                </Form.Select>
-                                                            </div>
-                                                        )}
+                                                    {playlistData ? (
+                                                        <>
+                                                            <div className="col d-flex justify-content-end align-items-center">
+                                                                {searchMode ? (
+                                                                    <PlaylistSearchWidget findSearchData={findSearchData} />
+                                                                ) : (
+                                                                    <div className="dropdown show" style={{ width: "300px", height: "135px", left: "90px", bottom: "7px" }}>
+                                                                        <Form.Select
+                                                                            aria-label="SelectBox"
+                                                                            onChange={(e) => {
+                                                                                console.log(e.target.value);
+                                                                                handlePlaylistChange(e.target.value);
+                                                                                setIsClicked(false);
+                                                                            }}
+                                                                        >
+                                                                            <option>------- Playlist 선택하기 -------</option>
 
-                                                        <div className="d-flex justify-content-end menu-container3" style={{ right: "0px" }}>
-                                                            {!searchMode ? (
-                                                                <>
-                                                                    {!isSelected ? (
+                                                                            {playlistData ? (
+                                                                                playlistData.map((data, i) => (
+                                                                                    //console.log(playlistData[i].videos.length),({playlistData[i].videos.length})
+
+                                                                                    <option key={playlistData[i].playlistId} id={playlistData[i].playlistId} name={playlistData[i].title}>
+                                                                                        {playlistData[i].name}
+                                                                                    </option>
+                                                                                ))
+                                                                            ) : (
+                                                                                <option key="playlistsData">Playlist가 존재하지 않습니다.</option>
+                                                                            )}
+                                                                        </Form.Select>
+                                                                    </div>
+                                                                )}
+
+                                                                <div className="d-flex justify-content-end menu-container3" style={{ right: "0px" }}>
+                                                                    {!searchMode ? (
+                                                                        <>
+                                                                            {!isSelected ? (
+                                                                                <>
+                                                                                    <button
+                                                                                        className="menu-trigger"
+                                                                                        style={{ width: "35px", height: "35px" }}
+                                                                                        onClick={() => {
+                                                                                            setSearchMode(true);
+                                                                                        }}
+                                                                                        data-for="searchHover"
+                                                                                        data-tip
+                                                                                    >
+                                                                                        <IoIosSearch size={30} color={"#696969"} />
+                                                                                    </button>
+                                                                                    <ReactTooltip id="searchHover" getContent={(dataTip) => "검색"} />
+                                                                                </>
+                                                                            ) : (
+                                                                                <></>
+                                                                            )}
+                                                                        </>
+                                                                    ) : (
                                                                         <>
                                                                             <button
                                                                                 className="menu-trigger"
                                                                                 style={{ width: "35px", height: "35px" }}
                                                                                 onClick={() => {
-                                                                                    setSearchMode(true);
+                                                                                    setSearchMode(false);
+                                                                                    setSearched(false);
                                                                                 }}
-                                                                                data-for="searchHover"
+                                                                                data-for="cancelHover"
                                                                                 data-tip
                                                                             >
-                                                                                <IoIosSearch size={30} color={"#696969"} />
+                                                                                <GiCancel size={30} color={"#696969"} />
                                                                             </button>
-                                                                            <ReactTooltip id="searchHover" getContent={(dataTip) => "검색"} />
+                                                                            <ReactTooltip id="cancelHover" getContent={(dataTip) => "취소"} />
                                                                         </>
-                                                                    ) : (
-                                                                        <></>
                                                                     )}
-                                                                </>
-                                                            ) : (
-                                                                <>
-                                                                    <button
-                                                                        className="menu-trigger"
-                                                                        style={{ width: "35px", height: "35px" }}
-                                                                        onClick={() => {
-                                                                            setSearchMode(false);
-                                                                            setSearched(false);
-                                                                        }}
-                                                                        data-for="cancelHover"
-                                                                        data-tip
-                                                                    >
-                                                                        <GiCancel size={30} color={"#696969"} />
-                                                                    </button>
-                                                                    <ReactTooltip id="cancelHover" getContent={(dataTip) => "취소"} />
-                                                                </>
-                                                            )}
-                                                        </div>
-                                                        <SetPlaylistDropdown
-                                                            playlistId={playlistId}
-                                                            setPlaylistId={setPlaylistId}
-                                                            userId={userId}
-                                                            initCreatePlaylist={initCreatePlaylist}
-                                                            setUpdatePlaylist={setUpdatePlaylist}
-                                                            updatePlaylist={updatePlaylist}
-                                                            deletePlaylist={deletePlaylist}
-                                                            isSelected={isSelected}
-                                                            setIsEditMode={setIsEditMode}
-                                                        />
-                                                    </div>
+                                                                </div>
+                                                                <SetPlaylistDropdown
+                                                                    playlistId={playlistId}
+                                                                    setPlaylistId={setPlaylistId}
+                                                                    userId={userId}
+                                                                    initCreatePlaylist={initCreatePlaylist}
+                                                                    setIsEmpty={setIsEmpty}
+                                                                    isSelected={isSelected}
+                                                                    setIsEditMode={setIsEditMode}
+                                                                    isEmpty={isEmpty}
+                                                                    selectedPlaylist={selectedPlaylist}
+                                                                    selectedVideo={selectedVideo}
+                                                                />
+                                                            </div>
+                                                        </>
+                                                    ) : (
+                                                        <></>
+                                                    )}
                                                 </>
-                                            ) : (
-                                                <></>
                                             )}
                                         </div>
                                         <hr class="solid mt-0 mb-0"></hr>
                                         <PlaylistWidget
+                                            playlistData={playlistData}
                                             isSelected={isSelected}
                                             selectedPlaylist={selectedPlaylist}
                                             selectedVideo={selectedVideo}
                                             playlistId={playlistId}
-                                            userId={userId}
                                             savedPlaylistName={savedPlaylistName}
                                             playlistSize={playlistSize}
                                             playlistDuration={playlistDuration}
@@ -317,7 +382,6 @@ const Playlist = () => {
                                             updatePlaylist={updatePlaylist}
                                             deletePlaylist={deletePlaylist}
                                             setUpdatePlaylist={setUpdatePlaylist}
-                                            updatePlaylistTitle={updatePlaylistTitle}
                                             setUpdatePlaylistTitle={setUpdatePlaylistTitle}
                                             handlePlaylistChange={handlePlaylistChange}
                                             searched={searched}

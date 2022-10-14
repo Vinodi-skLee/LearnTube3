@@ -464,6 +464,11 @@
             margin-left: -120px;
             margin-top: -70px
         }
+        @media screen and (max-width: 1080px) {
+            .about-content {
+                display: none;
+            }
+        }
     }
     &.video-img{
         // background: url(assets/images/video/bg.png);

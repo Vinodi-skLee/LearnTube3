@@ -52,7 +52,9 @@ const CourseDashBoard = (props) => {
                 {getDateDiff(openDate) === "New" ? (
                     <ul className="meta-part new-part">
                         <li>
-                            <span className="price">New</span>
+                            <span className="price" style={{ background: "#ff614d" }}>
+                                New
+                            </span>
                         </li>
                     </ul>
                 ) : null}

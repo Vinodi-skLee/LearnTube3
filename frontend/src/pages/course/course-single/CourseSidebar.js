@@ -100,7 +100,7 @@ const CourseSidebar = (props) => {
                         </li>
 
                         {visible === true && props.classRoomData.instructor.userId === parseInt(userId) ? (
-                            <div className="p-2 pt-0 mt-4" style={{ border: "solid 2px", borderRadius: "10px", borderColor: "#6483d8", overflow: "hidden", textOverflow: "ellipsis" }}>
+                            <div className="p-2 pt-0 mt-4" style={{ border: "solid 2px", borderRadius: "10px", borderColor: "#273857", overflow: "hidden", textOverflow: "ellipsis" }}>
                                 <span className="d-flex flex-fill bd-highlight" style={{ fontSize: "13px" }}>
                                     <li>No</li>&nbsp;&nbsp;&nbsp;&nbsp;
                                     <li>Name</li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

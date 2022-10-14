@@ -7,7 +7,7 @@ import "../../assets/css/dropdown.css";
 import setIcon from "../../assets/img/icon/settingIcon.png";
 import ReactTooltip from "react-tooltip";
 
-export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId, initCreatePlaylist, setUpdatePlaylist, updatePlaylist, deletePlaylist, isSelected, setIsEditMode }) {
+export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId, initCreatePlaylist, selectedPlaylist, selectedVideo, setIsEmpty, isSelected, isEmpty, setIsEditMode }) {
     const dropdownRef = useRef(null);
     const [isActive, setIsActive] = useState(false);
     const useClick = () => setIsActive(!isActive);
@@ -22,7 +22,6 @@ export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId,
         function handleClickOutside(e) {
             // 현재 document에서 mousedown 이벤트가 동작하면 호출되는 함수
             if (!isActive && dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-                console.log(`div 외부 클릭`);
                 setIsActive(isActive);
             }
         }
@@ -32,6 +31,13 @@ export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId,
             document.removeEventListener("click", handleClickOutside);
         };
     }, [dropdownRef]);
+
+    const checkPlaylistName = (e, selectedPlaylist) => {
+        if (typeof selectedPlaylist != "string") {
+            alert("Playlist를 선택해주세요.");
+            e.preventDefault();
+        }
+    };
 
     const handleChange = (e) => {
         setCreatePlaylist({
@@ -84,18 +90,49 @@ export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId,
                                 </button>
                             </li>
                         ) : (
-                            <li>
-                                <button
-                                    onClick={() => {
-                                        setUpdatePlaylist(true);
-                                        setIsActive(!isActive);
-                                        setIsEditMode(true);
-                                    }}
-                                    style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}
-                                >
-                                    플레이리스트 수정
-                                </button>
-                            </li>
+                            <>
+                                {isEmpty ? (
+                                    <li>
+                                        <Link
+                                            to={{
+                                                pathname: "/learntube/learntube-studio/youtubeSearch",
+                                                state: {
+                                                    playlistName: selectedPlaylist,
+                                                    playlistId: playlistId,
+                                                    update: true,
+                                                    existingVideo: selectedVideo,
+                                                },
+                                            }}
+                                            style={{ padding: "0", margin: "0" }}
+                                        >
+                                            <button
+                                                onClick={(e) => {
+                                                    checkPlaylistName(e, selectedPlaylist);
+                                                    setIsActive(!isActive);
+                                                    setIsEditMode(true);
+                                                    setIsEmpty(false);
+                                                }}
+                                                style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}
+                                            >
+                                                비디오 추가
+                                            </button>
+                                        </Link>
+                                    </li>
+                                ) : (
+                                    <li>
+                                        <button
+                                            onClick={() => {
+                                                setIsActive(!isActive);
+                                                setIsEditMode(true);
+                                                setIsEmpty(false);
+                                            }}
+                                            style={{ border: "none", background: "none", padding: "13px", color: "#626262" }}
+                                        >
+                                            플레이리스트 수정
+                                        </button>
+                                    </li>
+                                )}
+                            </>
                         )}
                     </ul>
                 </nav>
