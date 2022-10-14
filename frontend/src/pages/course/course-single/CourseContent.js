@@ -112,18 +112,23 @@ const CourseContent = (props) => {
         className="pb-100 md-pb-10 gray-bg"
         // style={{ backgroundColor: "#fff" }}
       >
-        <div>
-          <span className="d-flex align-items-center">
+        <div className="container">
+          {/* <div className="justify-content-around align-items-center d-flex"> */}
+          <div className="d-flex align-items-center">
             {/* 이전 강의 버튼 */}
-            <div className="md-mt-0 p-3">
+            <div className=" md-mt-0 p-3">
               <ul
-                className="pagination-part border-0 btn"
-                // style={{ cursor: "pointer", backgroundColor: "#273857" }}
-                style={
+                className={
                   lectureNum != 1
-                    ? { backgroundColor: "gray" }
-                    : { backgroundColor: "#273857" }
+                    ? "pagination-part border-0 contentBtn"
+                    : "pagination-part border-0 contentBtn_block"
                 }
+                // style={{ cursor: "pointer", backgroundColor: "#273857" }}
+                // style={
+                //   lectureNum != 1
+                //     ? { backgroundColor: "gray" }
+                //     : { backgroundColor: "#273857" }
+                // }
               >
                 {lectureNum != 1 ? (
                   <>
@@ -135,7 +140,7 @@ const CourseContent = (props) => {
                       {/* <GrPrevious /> */}
                       <i
                         className="fa fa-angle-left fa-lg"
-                        style={{ color: "#f3f8f9" }}
+                        // style={{ color: "#f3f8f9" }}
                       ></i>
                     </li>{" "}
                     <ReactTooltip
@@ -151,7 +156,7 @@ const CourseContent = (props) => {
                       {/* <GrPrevious style={{ color: "gray" }} /> */}
                       <i
                         className="fa fa-angle-left fa-lg"
-                        style={{ color: "gray" }}
+                        // style={{ color: "gray" }}
                       ></i>
                     </li>{" "}
                     <ReactTooltip
@@ -164,8 +169,8 @@ const CourseContent = (props) => {
               </ul>
             </div>
             <div className="pl-0">
-              <div class="text-center dashboard-tabs">
-                <div className="intro-info-tabs border-none row">
+              <div class=" text-center dashboard-tabs">
+                <div className=" intro-info-tabs border-none row">
                   <div className="col-lg-12 col-md-12">
                     <div className="widget-area">
                       <ContentWidget
@@ -200,8 +205,12 @@ const CourseContent = (props) => {
             {/* 다음 강의 버튼 */}
             <span className="shadow-none orange-color text-center md-mt-0 p-3">
               <ul
-                className="pagination-part shadow-none border-0 btn"
-                // style={{ cursor: "pointer", backgroundColor: "#273857" }}
+                className={
+                  lectureNum + 1 != lectures.length
+                    ? "pagination-part shadow-none border-0 contentBtn"
+                    : // style={{ cursor: "pointer", backgroundColor: "#273857" }}
+                      "pagination-part shadow-none border-0 contentBtn_block"
+                }
               >
                 {/* <h>{(lectureNum, lectures.length)}</h> */}
                 {lectureNum + 1 != lectures.length ? (
@@ -214,7 +223,7 @@ const CourseContent = (props) => {
                       {/* <GrNext size={15} color="#ff614d" /> */}
                       <i
                         className="fa fa-angle-right fa-lg"
-                        style={{ color: "#f3f8f9" }}
+                        // style={{ color: "#f3f8f9" }}
                       ></i>
                     </li>
                     <ReactTooltip
@@ -228,7 +237,7 @@ const CourseContent = (props) => {
                     <li
                       data-for="nextLectureBtnHover"
                       data-tip
-                      style={{ backgroundColor: "gray" }}
+                      // style={{ backgroundColor: "gray" }}
                     >
                       {/* <GrNext size={15} color="#808080" /> */}
                       <i
@@ -245,7 +254,7 @@ const CourseContent = (props) => {
                 )}
               </ul>
             </span>
-          </span>
+          </div>
         </div>{" "}
       </div>
       <Footer

@@ -36,27 +36,34 @@ const ContentButton = ({
         <>
           {/* {!props.lectures[lectureNum - 1].contents[0] ? ( */}
           <ul
-            className="pagination-part shadow-none border-0 "
-            style={{ cursor: "pointer", backgroundColor: "#273857" }}
+            className={
+              contentNum != 0
+                ? "pagination-part shadow-none border-0 contentBtn"
+                : "pagination-part shadow-none border-0 contentBtn_block"
+            }
+            // style={{ cursor: "pointer", backgroundColor: "#273857" }}
           >
             {contentNum != 0 ? (
               <li
                 onClick={prevContentHandler}
-                style={{ color: "#f3f8f9", fontSize: "0.9rem" }}
+
+                // style={{ color: "#f3f8f9", fontSize: "0.9rem" }}
               >
                 <i
                   className="fa fa-play"
-                  style={{ transform: "rotate(180deg)" }}
+                  style={{ transform: "rotate(180deg)", color: "#fff" }}
                 ></i>
                 &ensp;이전 콘텐츠
               </li>
             ) : (
-              <li style={{ color: "gray", fontSize: "0.9rem" }}>
+              <li
+              // style={{ color: "gray", fontSize: "0.9rem" }}
+              >
                 <i
                   className="fa fa-play"
                   style={{
                     transform: "rotate(180deg)",
-                    color: "gray",
+                    // color: "gray",
                   }}
                 ></i>
                 &ensp;이전 콘텐츠
@@ -69,7 +76,7 @@ const ContentButton = ({
           {/* {!props.lectures[lectureNum - 1].contents[0] ? ( */}
           {contentNum != 0 ? (
             <ul
-              className="pagination-part shadow-none border-0 btn"
+              className="pagination-part shadow-none border-0 contentBtn"
               style={{ cursor: "pointer", backgroundColor: "#273857" }}
             >
               <li style={{ fontSize: "0.9rem" }}>
@@ -77,7 +84,7 @@ const ContentButton = ({
                   className="fa fa-play"
                   style={{
                     transform: "rotate(180deg)",
-                    color: "#f3f8f9",
+                    color: "#fff",
                   }}
                 ></i>
                 &ensp;이전 콘텐츠
@@ -85,10 +92,10 @@ const ContentButton = ({
             </ul>
           ) : (
             <ul
-              className="pagination-part shadow-none border-0 btn"
+              className="pagination-part shadow-none border-0 contentBtn"
               style={{ cursor: "pointer", backgroundColor: "#273857" }}
             >
-              <li style={{ color: "gray", fontSize: "0.9rem" }}>
+              <li style={{ fontSize: "0.9rem" }}>
                 <i
                   className="fa fa-play"
                   style={{
@@ -108,22 +115,22 @@ const ContentButton = ({
 {contentNum} */}
           {lectures[lectureNum - 1].contents.length != contentNum + 1 ? (
             <ul
-              className="pagination-part shadow-none border-0 btn"
+              className="pagination-part shadow-none border-0 contentBtn"
               style={{ cursor: "pointer", backgroundColor: "#273857" }}
             >
               <li
                 onClick={nextContentHandler}
-                style={{ color: "#f3f8f9", fontSize: "0.9rem" }}
+                style={{ color: "#fff", fontSize: "0.9rem" }}
               >
                 다음 콘텐츠&ensp;<i className="fa fa-play"></i>
               </li>
             </ul>
           ) : (
             <ul
-              className="pagination-part shadow-none border-0 btn"
+              className="pagination-part shadow-none border-0 contentBtn"
               style={{ cursor: "pointer", backgroundColor: "#273857" }}
             >
-              <li style={{ color: "gray", fontSize: "0.9rem" }}>
+              <li style={{ fontSize: "0.9rem" }}>
                 다음 콘텐츠&ensp;
                 <i className="fa fa-play"></i>
               </li>
@@ -134,7 +141,7 @@ const ContentButton = ({
         <>
           {lectures[lectureNum - 1].contents.length != contentNum + 1 ? (
             <ul
-              className="pagination-part shadow-none border-0 btn"
+              className="pagination-part shadow-none border-0 contentBtn"
               style={{ cursor: "pointer", backgroundColor: "#273857" }}
             >
               <li style={{ fontSize: "0.9rem" }}>
@@ -143,7 +150,7 @@ const ContentButton = ({
             </ul>
           ) : (
             <ul
-              className="pagination-part shadow-none border-0 btn"
+              className="pagination-part shadow-none border-0 contentBtn"
               style={{ cursor: "pointer", backgroundColor: "#273857" }}
             >
               <li style={{ color: "gray", fontSize: "0.9rem" }}>
