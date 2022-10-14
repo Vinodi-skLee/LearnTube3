@@ -2,18 +2,17 @@ import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import { BsFillGridFill, BsList } from "react-icons/bs";
-import { Link } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import ReactPlayer from "react-player";
 import mediaIcon from "../../assets/img/icon/mediaIcon.png";
 import logo from "../../assets/img/logo/img-background.png";
 
 const PlaylistWidget = ({
+    playlistData,
     isSelected,
     selectedPlaylist,
     selectedVideo,
     playlistId,
-    userId,
     savedPlaylistName,
     playlistSize,
     playlistDuration,
@@ -27,29 +26,13 @@ const PlaylistWidget = ({
     setSearchMode,
     deletePlaylist,
     setUpdatePlaylist,
-    updatePlaylistTitle,
     setUpdatePlaylistTitle,
     handlePlaylistChange,
 }) => {
     const [isVideoClicked, setIsVideoClicked] = useState(isClicked);
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
-    const [playlistData, setPlaylistData] = useState(null);
     const [cardView, setCardView] = useState(false);
-
-    useEffect(() => {
-        const fetchMyPlaylists = async () => {
-            try {
-                const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/playlist?userId=${userId}`);
-                // console.log(response.data);
-                setPlaylistData(response.data);
-                console.log(response.data);
-            } catch (err) {
-                console.log("err >> ", err);
-            }
-        };
-        fetchMyPlaylists();
-    }, []);
 
     useEffect(() => {
         setUpdatePlaylistTitle(savedPlaylistName);
@@ -57,30 +40,8 @@ const PlaylistWidget = ({
         // console.log("updatePlaylistTitle", updatePlaylistTitle);
     }, [savedPlaylistName]);
 
-    const onClickPlaylist = (e) => {
-        handlePlaylistChange(e.name);
-        setSearchMode(false);
-    };
-
-    const opts = {
-        height: "125",
-        width: "100%",
-        playerVars: {
-            // https://developers.google.com/youtube/player_parameters
-            autoplay: 0,
-        },
-    };
-    const opts2 = {
-        height: "450px",
-        width: "95%",
-        playerVars: {
-            // https://developers.google.com/youtube/player_parameters
-            autoplay: 0,
-            start: startTime,
-            end: endTime,
-        },
-    };
     console.log(clickedVideo);
+
     const popUp = (video) => {
         setIsVideoClicked(true);
         setClickedVideo(video);
@@ -88,15 +49,7 @@ const PlaylistWidget = ({
         setEndTime(video.end_s);
     };
 
-    const checkPlaylistName = (event, selectedPlaylist) => {
-        if (typeof selectedPlaylist != "string") {
-            alert("Playlist를 선택해주세요.");
-            event.preventDefault();
-        }
-    };
-
     const selectVideo = (video, i) => {
-        console.log("video", video);
         setClickedVideo(video);
         setStartTime(video.start_s);
         setEndTime(video.end_s);
@@ -129,7 +82,7 @@ const PlaylistWidget = ({
                                     ? {
                                           width: "30px",
                                           height: "30px",
-                                          background: "#6483d8",
+                                          background: "#7cbdb5",
                                       }
                                     : {
                                           width: "30px",
@@ -154,7 +107,7 @@ const PlaylistWidget = ({
                                     ? {
                                           width: "30px",
                                           height: "30px",
-                                          background: "#6483d8",
+                                          background: "#7cbdb5",
                                       }
                                     : {
                                           width: "30px",
@@ -179,54 +132,10 @@ const PlaylistWidget = ({
 
             <div className="row">
                 {isSelected ? (
-                    <div className="d-flex justify-content-between align-items-center row mb-40" style={{ right: "0px" }}>
-                        <div className="col d-flex justify-content-end align-items-center">
-                            {!isEditMode ? (
-                                <></>
-                            ) : (
-                                <div className="mt-20">
-                                    <Link
-                                        to={{
-                                            pathname: "/learntube/learntube-studio/youtubeSearch",
-                                            state: {
-                                                playlistName: selectedPlaylist,
-                                                playlistId: playlistId,
-                                                update: true,
-                                                existingVideo: selectedVideo,
-                                            },
-                                        }}
-                                        style={{ padding: "0", margin: "0" }}
-                                    >
-                                        <Button
-                                            onClick={(e) => {
-                                                checkPlaylistName(e, selectedPlaylist);
-                                            }}
-                                            style={{ right: "10px", backgroundColor: "#6483d8" }}
-                                        >
-                                            비디오 추가
-                                        </Button>
-                                    </Link>
-
-                                    <Button
-                                        onClick={() => {
-                                            setIsEditMode(false);
-                                            setUpdatePlaylist(false);
-                                        }}
-                                        style={{ backgroundColor: "#6483d8" }}
-                                    >
-                                        저장
-                                    </Button>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                ) : (
-                    <></>
-                )}
-                {isSelected ? (
                     <>
                         {clickedVideo ? (
                             <>
+                                <div className="d-flex justify-content-between align-items-center row mb-40" style={{ right: "0px" }}></div>
                                 <div className="col-lg-8 mt-26 mb-30" style={{ left: "0" }}>
                                     <ReactPlayer
                                         url={`https://www.youtube.com/watch?v=${clickedVideo.youtubeId}?start=${clickedVideo.start_s}&end=${clickedVideo.end_s}`}
@@ -337,7 +246,14 @@ const PlaylistWidget = ({
                                             <div className="row">
                                                 {playlistData.map(function (video, i) {
                                                     return (
-                                                        <div className="p-2 col-lg-3 col-sm-6" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(playlistData[i])}>
+                                                        <div
+                                                            className="p-2 col-lg-3 col-sm-6"
+                                                            style={{ cursor: "pointer" }}
+                                                            onClick={() => {
+                                                                handlePlaylistChange(playlistData[i].name);
+                                                                setSearchMode(false);
+                                                            }}
+                                                        >
                                                             <div className="d-flex m-0 row-3 justify-content-center">
                                                                 <div className="img-part content-part" style={{ position: "relative", width: "250px", height: "170px" }}>
                                                                     {video.videos[0] ? (
@@ -400,7 +316,14 @@ const PlaylistWidget = ({
                                             <div className="row">
                                                 {playlistData.map(function (video, i) {
                                                     return (
-                                                        <div className="course-part clearfix m-0 p-2 col-lg-6 col-sm-15" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(playlistData[i])}>
+                                                        <div
+                                                            className="course-part clearfix m-0 p-2 col-lg-6 col-sm-15"
+                                                            style={{ cursor: "pointer" }}
+                                                            onClick={() => {
+                                                                handlePlaylistChange(playlistData[i].name);
+                                                                setSearchMode(false);
+                                                            }}
+                                                        >
                                                             <div className="d-flex m-0 row-3 justify-content-center">
                                                                 <div className="img-part content-part" style={{ position: "relative", width: "250px", height: "170px" }}>
                                                                     {video.videos[0] ? (
@@ -481,7 +404,14 @@ const PlaylistWidget = ({
                                             <div className="row">
                                                 {searchData.map(function (video, i) {
                                                     return (
-                                                        <div className="p-2 col-lg-3 col-sm-6" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(searchData[i])}>
+                                                        <div
+                                                            className="p-2 col-lg-3 col-sm-6"
+                                                            style={{ cursor: "pointer" }}
+                                                            onClick={() => {
+                                                                handlePlaylistChange(searchData[i].name);
+                                                                setSearchMode(false);
+                                                            }}
+                                                        >
                                                             <div className="d-flex m-0 row-3 justify-content-center">
                                                                 <div className="img-part content-part" style={{ position: "relative", width: "250px", height: "170px" }}>
                                                                     {video.videos[0] ? (
@@ -544,7 +474,14 @@ const PlaylistWidget = ({
                                             <div className="row">
                                                 {searchData.map(function (video, i) {
                                                     return (
-                                                        <div className="course-part clearfix m-0 p-2 col-lg-6 col-sm-15" style={{ cursor: "pointer" }} onClick={() => onClickPlaylist(searchData[i])}>
+                                                        <div
+                                                            className="course-part clearfix m-0 p-2 col-lg-6 col-sm-15"
+                                                            style={{ cursor: "pointer" }}
+                                                            onClick={() => {
+                                                                handlePlaylistChange(searchData[i].name);
+                                                                setSearchMode(false);
+                                                            }}
+                                                        >
                                                             <div className="d-flex m-0 row-3 justify-content-center">
                                                                 <div className="img-part content-part" style={{ position: "relative", width: "250px", height: "170px" }}>
                                                                     {video.videos[0] ? (
@@ -624,9 +561,9 @@ const PlaylistWidget = ({
                     <></>
                 ) : (
                     <div className="col mt-40 d-flex justify-content-center align-items-center">
-                        <button className="btn btn-danger btn-sm" style={{ backgroundColor: "#6483d8" }} onClick={() => deletePlaylist()}>
+                        <Button className="btn btn-sm" onClick={() => deletePlaylist()} style={{ backgroundColor: "red" }}>
                             플레이리스트 삭제
-                        </button>
+                        </Button>
                     </div>
                 )}
             </div>

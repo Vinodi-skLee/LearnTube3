@@ -89,7 +89,7 @@ function CourseDetailsPart() {
                     {classRoomData ? (
                         <div className="row">
                             <div className="col">
-                                <div className="row">
+                                <div className="row" style={{ width: "50vw" }}>
                                     <h3>{classRoomData.className}</h3>
                                     <p style={{ overflow: "hidden", textOverflow: "ellipsis" }}>⇣ {classRoomData.classDescription}</p>
                                 </div>
@@ -104,7 +104,12 @@ function CourseDetailsPart() {
                             ) : null}
                             {classRoomData.instructor.userId != userId && classRoomData.isTake === false ? (
                                 <div className="col">
-                                    <Button id="joinBtn" className="" onClick={joinClass} style={{ float: "right", width: "8rem", minWidth: "6rem", marginRight: "1.5rem", marginTop: "3rem" }}>
+                                    <Button
+                                        id="joinBtn"
+                                        className=""
+                                        onClick={joinClass}
+                                        style={{ float: "right", width: "8rem", minWidth: "6rem", marginRight: "1.5rem", marginTop: "3rem", background: "#ff7d4b" }}
+                                    >
                                         수강신청
                                     </Button>
                                 </div>

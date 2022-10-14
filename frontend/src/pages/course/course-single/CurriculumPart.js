@@ -492,18 +492,19 @@ const CurriculumPart = (props) => {
                                                       }}
                                                   >
                                                       {getDateDiff(props.classRoomData.notices[i].modDate.split("T")[0]) === "New" ? (
-                                                          <i className="fa" style={{ zIndex: "0" }}>
+                                                          <i className="fa" style={{ zIndex: "0", paddingRight: "3px" }}>
                                                               <span
                                                                   style={{
                                                                       fontWeight: "bold",
                                                                       fontSize: "13px",
+                                                                      color: "#ff614d",
                                                                   }}
                                                               >
                                                                   NEW
                                                               </span>
                                                           </i>
                                                       ) : (
-                                                          <i className="fa fa-list" style={{ zIndex: "0" }} />
+                                                          <i className="fa fa-list" style={{ zIndex: "0", paddingRight: "3px" }} />
                                                       )}
                                                       {props.classRoomData.notices[i].title}
                                                   </div>
@@ -550,7 +551,7 @@ const CurriculumPart = (props) => {
                                         onClick={() => {
                                             createLecture(props.classRoomData.classId);
                                         }}
-                                        style={{ backgroundColor: "#6483d8" }}
+                                        style={{ backgroundColor: "#7cbdb5" }}
                                     >
                                         섹션 추가
                                     </Button>
