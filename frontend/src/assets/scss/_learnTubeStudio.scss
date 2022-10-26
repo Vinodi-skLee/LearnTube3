@@ -372,7 +372,7 @@
     width: 40px;
     height: 25px;
     padding: 5px;
-    background-color: #6490d8;
+    background-color: #7cbdb5;
     color: white;
     font-size: 9pt;
     border: none;
@@ -386,7 +386,7 @@
     width: 40px;
     height: 25px;
     padding: 5px;
-    background-color: gray;
+    background-color: #7cbdb5;
     color: white;
     font-size: 9pt;
     border: none;
@@ -394,7 +394,7 @@
 }
 
 .cart-in {
-    background-color: #6490d8;
+    background-color: #7cbdb5;
     color: white;
     font-size: 9pt;
     border: none;
@@ -404,7 +404,7 @@
 }
 
 .cart-out {
-    background-color: #6c757d;
+    background-color: #ff7d4b;
     color: white;
     font-size: 9pt;
     border: none;
@@ -425,7 +425,7 @@
     align-items: center;
     width: 55px;
     height: 30px;
-    background: #6490d8;
+    background: #7cbdb5;
     color: white;
     font-size: 10pt;
     margin-right: 5px;
@@ -437,10 +437,10 @@
     align-items: center;
     width: 70px;
     height: 30px;
-    background-color: white;
-    color: gray;
-    border: 1px solid gray;
+    background-color: #273857;
+    color: white;
     font-size: 10pt;
+    border: none;
 }
 
 .prev-btn {
@@ -471,6 +471,10 @@
     display: -webkit-box;
     -webkit-line-clamp: 2; // 원하는 라인수
     -webkit-box-orient: vertical;
+}
+
+.edit-input input{
+    width: 80%;
 }
 
 .video_playlist {

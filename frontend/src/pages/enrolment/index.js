@@ -54,8 +54,8 @@ const AllList = (props) => {
         CanvasClass="right_menu_togle hidden-md"
         headerClass="full-width-header header-style1 home8-style4"
       />
-      <div class="container text-center dashboard-tabs">
-        <div className="intro-info-tabs border-none">
+      <div class="container text-center dashboard-tabs" style={{minHeight: "650px"}}>
+        <div className="intro-info-tabs border-none mt-30">
           <Tabs>
             <TabList className={tabStyle}>
               <Tab>

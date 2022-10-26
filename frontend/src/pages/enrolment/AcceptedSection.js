@@ -64,19 +64,16 @@ const AcceptedPart = (props) => {
             </Table>
 
             <div className="pagination-area orange-color text-center mt-30 md-mt-0">
-              <ul className="pagination-part">
+              {/* <ul className="pagination-part">
                 <li className="active">
                   <Link to="#">1</Link>
                 </li>
-                {/* <li>
-                                    <Link to="#">2</Link>
-                                </li> */}
                 <li>
                   <Link to="#">
                     Next <i className="fa fa-long-arrow-right"></i>
                   </Link>
                 </li>
-              </ul>
+              </ul> */}
             </div>
           </div>
         </div>

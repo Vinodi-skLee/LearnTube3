@@ -3,7 +3,7 @@ import { useState } from "react";
 import "rc-slider/assets/index.css";
 
 const YoutubeVideoSearchWidget = memo(
-  ({ onSearch, isSearchShown, setIsSearchShown }) => {
+  ({ onSearch, isSearchShown, setIsSearchShown, playlistName }) => {
     // const [query,setQuery] = useState('');
 
     // const getInput = (e) => {
@@ -50,7 +50,7 @@ const YoutubeVideoSearchWidget = memo(
             <input
               autoFocus
               type="text"
-              placeholder="플레이리스트에 추가할 영상을 검색하세요"
+              placeholder={playlistName + " 관련 검색"}
               name="s"
               className={
                 isSearchShown
