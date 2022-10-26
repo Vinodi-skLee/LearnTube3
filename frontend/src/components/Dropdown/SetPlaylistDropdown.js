@@ -149,7 +149,7 @@ export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId,
                             left: 0,
                             right: 0,
                             bottom: 0,
-                            backgroundColor: "rgb(0, 0, 0, 0.55)",
+                            backgroundColor: "rgb(0, 0, 0, 0.20)",
                             zIndex: 999,
                         },
                         content: {

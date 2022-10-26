@@ -115,7 +115,7 @@ const CreateContent = (props) => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundColor: "rgb(0, 0, 0, 0.55)",
+                        backgroundColor: "rgb(0, 0, 0, 0.20)",
                     },
                     content: {
                         position: "absolute",
@@ -150,8 +150,17 @@ const CreateContent = (props) => {
                                                         *
                                                     </span>
                                                 </div>
-                                                <input type="text" id="contentName" name="contentName" placeholder="제목을 입력하세요" onChange={handleChange}
-                                                onKeyDown={e => {e.stopPropagation();}} required />
+                                                <input
+                                                    type="text"
+                                                    id="contentName"
+                                                    name="contentName"
+                                                    placeholder="제목을 입력하세요"
+                                                    onChange={handleChange}
+                                                    onKeyDown={(e) => {
+                                                        e.stopPropagation();
+                                                    }}
+                                                    required
+                                                />
                                             </div>
                                             <div className="form-group col-lg-12">
                                                 <div className="my-2">
@@ -166,7 +175,9 @@ const CreateContent = (props) => {
                                                     name="contentDescription"
                                                     placeholder="내용을 입력하세요"
                                                     onChange={handleChange}
-                                                    onKeyDown={e => {e.stopPropagation();}}
+                                                    onKeyDown={(e) => {
+                                                        e.stopPropagation();
+                                                    }}
                                                     style={{
                                                         position: "relative",
                                                         borderRadius: "0px",

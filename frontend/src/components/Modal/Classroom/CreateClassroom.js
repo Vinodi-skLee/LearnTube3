@@ -60,7 +60,7 @@ const ClassroomContent = (props) => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundColor: "rgb(0, 0, 0, 0.55)",
+                        backgroundColor: "rgb(0, 0, 0, 0.20)",
                     },
                     content: {
                         position: "absolute",
@@ -144,9 +144,7 @@ const ClassroomContent = (props) => {
                                             <input type="datetime-local" id="closeDate" name="closeDate" onChange={handleChange} required />
                                         </div>
                                         <div className="col-lg-12 mb-25">
-                                            <span className="my-2">
-                                                시청 시간 기능 사용 &nbsp;     
-                                            </span>
+                                            <span className="my-2">시청 시간 기능 사용 &nbsp;</span>
                                             <input type="checkbox" required />
                                         </div>
 
@@ -154,14 +152,14 @@ const ClassroomContent = (props) => {
                                             <Button
                                                 type="submit"
                                                 className="canclebtn"
-                                                style={{ height: "2px" }}
+                                                style={{ padding: "10.5px" }}
                                                 onClick={() => {
                                                     openModal();
                                                 }}
                                             >
                                                 취소
                                             </Button>
-                                            <Button className="createbtn" type="button" onClick={handleSubmit} style={{ height: "10px", alignContent: "center" }}>
+                                            <Button className="createbtn" type="button" onClick={handleSubmit} style={{ padding: "10.5px" }}>
                                                 저장
                                             </Button>
                                         </div>

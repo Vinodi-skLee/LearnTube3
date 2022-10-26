@@ -18,8 +18,7 @@ function CourseDetailsPart() {
     const [waiting, setWaiting] = useState([]);
     const uid = location.state.userId;
     const [valid, setValid] = useState(false);
-    console.log("uid", uid);
-    console.log("userId", userId);
+    // console.log("userId == ", userId);
     //console.log("cid in detail part " + cid);
     const joinClass = () => {
         if (window.confirm("수강신청 하시겠습니까?")) {
