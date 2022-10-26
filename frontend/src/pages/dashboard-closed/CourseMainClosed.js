@@ -1,5 +1,5 @@
 import React from "react";
-import CoursePartClosed from "./CourseSectionClosed";
+import CourseMainClosed from "./CourseMainClosed";
 import ScrollToTop from "../../components/Common/ScrollTop";
 import { BiTrash } from "react-icons/bi";
 const CourseMainClosed = (props) => {
@@ -11,7 +11,7 @@ const CourseMainClosed = (props) => {
         </h4>
       </div>
       {/* CoursePart Start */}
-      <CoursePartClosed userId={props.userId} />
+      <CourseMainClosed userId={props.userId} />
       {/* CoursePart End */}
 
       {/* scrolltop-start */}

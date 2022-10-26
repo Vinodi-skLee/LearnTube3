@@ -1,17 +1,22 @@
 import React from "react";
-import CoursePartClosed from "./CourseSectionClosed";
+import CoursePartAdmin from "../dashboard/CourseSectionAdmin";
 import ScrollToTop from "../../components/Common/ScrollTop";
-import { BiTrash } from "react-icons/bi";
-const CourseMainClosed = (props) => {
+import {
+  AiOutlinePlayCircle,
+  AiOutlineSetting,
+  AiOutlineAlert,
+  AiOutlineInbox,
+} from "react-icons/ai";
+const CourseMainAdmin = (props) => {
   return (
     <React.Fragment>
       <div className="d-flex">
         <h4 className="justify-content-start align-items-center">
-          <BiTrash /> 종료된 강의실
+          <AiOutlineInbox /> 관리중인 강의실
         </h4>
       </div>
       {/* CoursePart Start */}
-      <CoursePartClosed userId={props.userId} />
+      <CoursePartAdmin userId={props.userId} />
       {/* CoursePart End */}
 
       {/* scrolltop-start */}
@@ -21,4 +26,4 @@ const CourseMainClosed = (props) => {
   );
 };
 
-export default CourseMainClosed;
+export default CourseMainAdmin;

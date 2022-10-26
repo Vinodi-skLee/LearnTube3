@@ -18,6 +18,7 @@ import Logo from "../assets/img/logo/dark-logo.png";
 import footerLogo from "../assets/img/logo/lite-logo.png";
 
 import bannerbg from "../assets/img/breadcrumbs/inner7.jpg";
+import { HiHome } from "react-icons/hi";
 
 export default function Login() {
   const history = useHistory();
@@ -104,7 +105,7 @@ scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/
   useEffect(() => {
     if (userData.userId) {
       history.push({
-        pathname: "/learntube/dashboard",
+        pathname: "/learntube/course-main",
         state: { userId: userData.userId },
       });
     }
@@ -120,17 +121,21 @@ scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/
   // }, [userData.userId]);
 
   return (
-    <div className="d-flex mt-3 align-items-center justify-content-between">
-      <div className="d-flex me-3 mb-10 black-color">
-        {window.sessionStorage.getItem("name")
-          ? window.sessionStorage.getItem("name") + "님"
-          : window.sessionStorage.getItem("name")}
-      </div>
+    <div className="d-flex align-items-center justify-content-between">
+      {/* <div className="d-flex me-3 mb-10 black-color p-2">
+        {window.sessionStorage.getItem("name") ? (
+          <div>
+            {window.sessionStorage.getItem("name") + "님"} <HiHome />
+          </div>
+        ) : (
+          window.sessionStorage.getItem("name")
+        )}
+      </div> */}
       {window.sessionStorage.getItem("userId") === null ? (
         <button
           id="oAuthBtn"
           onClick={oAuthHandler}
-          className="loginbtn btn display-4 mr-30 mb-10"
+          className="loginbtn btn display-4 mr-30 mb-10 mt-10"
           style={{ backgroundColor: "#eeeeee", color: "#273857" }}
         >
           로그인
@@ -139,7 +144,7 @@ scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/
         <button
           id="logoutBtn"
           onClick={logout}
-          className="loginbtn btn display-4 mr-30 mb-10"
+          className="logoutbtn "
           //   style={{ backgroundColor: "#eeeeee", color: "#273857" }}
           style={{ backgroundColor: "white", color: "gray" }}
         >

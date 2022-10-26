@@ -14,7 +14,7 @@ import footerLogo from "../../assets/img/logo/lite-logo.png";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 
-const AllList = (props) => {
+const AllList = ({ classId }) => {
   const location = useLocation();
   const userId = window.sessionStorage.getItem("userId");
   const [waitList, setWaitList] = useState();
@@ -26,13 +26,17 @@ const AllList = (props) => {
   // console.log(location.state.classId);
 
   useEffect(() => {
-    if(userId) {
-      const fetchWaitList = async() => {
+    if (userId) {
+      const fetchWaitList = async () => {
         try {
-          const res1 = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/wait-list?classId=${location.state.classId}`);
-          const res2 = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/accepted-list?classId=${location.state.classId}`);
-          console.log("wait-list",res1.data);
-          console.log("accepted-list",res2.data);
+          const res1 = await axios.get(
+            `${process.env.REACT_APP_SERVER_URL}/api/classroom/wait-list?classId=${location.state.classId}`
+          );
+          const res2 = await axios.get(
+            `${process.env.REACT_APP_SERVER_URL}/api/classroom/accepted-list?classId=${location.state.classId}`
+          );
+          console.log("wait-list", res1.data);
+          console.log("accepted-list", res2.data);
           setWaitList(res1.data);
           setCurrList(res2.data);
         } catch (err) {
@@ -41,7 +45,7 @@ const AllList = (props) => {
       };
       fetchWaitList();
     }
-  },[userId]);
+  }, [userId, location.state.classId]);
   return (
     <React.Fragment>
       <OffWrap />

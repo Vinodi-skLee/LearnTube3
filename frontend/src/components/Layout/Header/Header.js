@@ -11,7 +11,8 @@ import darkLogo from "../../../assets/img/logo/dark-logo.png";
 import productImg1 from "../../../assets/img/shop/1.jpg";
 import productImg2 from "../../../assets/img/shop/2.jpg";
 import Login from "../../../pages/login";
-import { BsPerson } from "react-icons/bs";
+import { BsFillPersonFill } from "react-icons/bs";
+import { FaBell } from "react-icons/fa";
 
 const Header = (props) => {
   const {
@@ -172,12 +173,20 @@ const Header = (props) => {
                           href="#"
                         > */}
                         {userId ? (
-                          <BsPerson
+                          <FaBell
+                            size="18"
+                            style={{ color: "white" }}
+                            className="mr-10"
+                          />
+                        ) : null}
+                        {userId ? (
+                          <BsFillPersonFill
                             onMouseOver={canvasMenuAdd}
                             size="24"
                             style={{ color: "white" }}
                           />
                         ) : null}
+
                         {/* <span className="dot1"></span>
                           <span className="dot2"></span>
                           <span className="dot3"></span> */}

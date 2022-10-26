@@ -2,21 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ProgressBar } from "react-bootstrap";
 import logo from "../../assets/img/logo/img-background.png";
-
-const CourseDashBoard = (props) => {
-  const {
-    courseClass,
-    courseImg,
-    courseTitle,
-    progress,
-    userCount,
-    notice,
-    creatorName,
-    openDate,
-    classId,
-  } = props;
+import { AiTwotoneSetting } from "react-icons/ai";
+import { useHistory } from "react-router-dom";
+import ReactTooltip from "react-tooltip";
+const CourseDashBoard = ({
+  courseClass,
+  courseImg,
+  courseTitle,
+  progress,
+  userCount,
+  notice,
+  creatorName,
+  openDate,
+  classId,
+}) => {
   // const [noImg, setNoImg] = useState(false);
-
+  const history = useHistory();
   const getDateDiff = (date) => {
     let today = new Date();
     let year = today.getFullYear();
@@ -40,13 +41,15 @@ const CourseDashBoard = (props) => {
     );
 
     let result = Math.floor(betweenTime / (1000 * 60 * 60 * 24));
-    console.log(result);
+    // console.log(result);
     if (result > 30) return "";
     else return "New";
   };
 
   return (
-    <div className={courseClass ? courseClass : "courses-item"}>
+    <div
+      className={courseClass ? courseClass : "courses-item align-items-start"}
+    >
       <div
         className="img-part content-part"
         style={{ position: "relative", width: "300px", height: "170px" }}
@@ -94,9 +97,32 @@ const CourseDashBoard = (props) => {
           </ul>
         ) : null}
       </div>
-
-      <div className="content-part" style={{ width: "80%" }}>
-        <div className="row">
+      <div className="content-part " style={{ width: "80%" }}>
+        <div className="row d-flex justify-content-between ">
+          {/* 강의실 관리 */}
+          {window.sessionStorage.getItem("name") === creatorName ? (
+            <span className="text-end" style={{ zIndex: "100" }}>
+              <Link
+                // className="text-end"s
+                to={{
+                  pathname: "/learntube/course/manage",
+                  state: { classId: classId },
+                }}
+              >
+                {/* 관리 */}
+                <AiTwotoneSetting
+                  size={24}
+                  data-for="handleSetClassRoom"
+                  data-tip
+                />
+                <ReactTooltip
+                  id="handleSetClassRoom"
+                  getContent={(dataTip) => "강의실 학생 관리"}
+                  // style={{ width: "20px" }}
+                />
+              </Link>
+            </span>
+          ) : null}
           <h3 className="title" onClick={() => {}}>
             <Link
               to={{
@@ -107,11 +133,11 @@ const CourseDashBoard = (props) => {
               {courseTitle ? courseTitle : "강의제목"}
             </Link>
           </h3>
-          <span>
+          <div>
             <p className="creatorName text-end">
               {creatorName ? creatorName : "-"}
             </p>
-          </span>
+          </div>
         </div>
         <ul className="meta-part text-start">
           {/* <li>학습현황</li>
@@ -143,7 +169,7 @@ const CourseDashBoard = (props) => {
             </div>
           </div>
         </div>
-      </div>
+      </div>{" "}
     </div>
   );
 };

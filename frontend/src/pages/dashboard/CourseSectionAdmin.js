@@ -20,7 +20,6 @@ import courseImg8 from "../../assets/img/courses/8.jpg";
 const CoursePartAdmin = (props) => {
   const [managesData, setManagesData] = useState(null);
   const history = useHistory();
-
   useEffect(() => {
     if (props.userId) {
       const fetchManagesClassRoom = async () => {
@@ -28,7 +27,7 @@ const CoursePartAdmin = (props) => {
           const response = await axios.get(
             `${process.env.REACT_APP_SERVER_URL}/api/classroom/manages?userId=${props.userId}`
           );
-          // console.log(response.data);
+          console.log(response.data);
           setManagesData(response.data);
         } catch (err) {
           console.log("err >> ", err);

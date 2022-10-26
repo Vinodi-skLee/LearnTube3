@@ -10,6 +10,9 @@ import {
 import YoutubeSearch from "../pages/youtube-search";
 import MyCart from "../pages/youtube-search/cart";
 import DashBoard from "../pages/dashboard";
+import CourseMain from "../pages/dashboard-main";
+import CourseAdmin from "../pages/dashboard-admin";
+import CourseClosed from "../pages/dashboard-closed";
 import Main from "../pages/main";
 import Home from "../pages/home";
 import CourseOne from "../pages/course";
@@ -51,7 +54,10 @@ const App = () => {
             exact
             component={CreateMyPlaylist}
           />
-          <Route path="/learntube/dashboard" component={DashBoard} />
+          {/* <Route path="/learntube/dashboard" component={DashBoard} /> */}
+          <Route path="/learntube/course-main" component={CourseMain} />
+          <Route path="/learntube/course-admin" component={CourseAdmin} />
+          <Route path="/learntube/course-closed" component={CourseClosed} />
           <Route path="/learntube" exact component={Main} />
           <Route path="/learntube/home" component={Home} />
           <Route path="/learntube/login" component={Login} />
@@ -60,10 +66,7 @@ const App = () => {
             path="/learntube/course/course-single"
             component={CourseSingle}
           />
-          <Route
-            path="/learntube/course/manage"
-            component={AllList}
-          />
+          <Route path="/learntube/course/manage" component={AllList} />
           <Route path="/learntube/content" component={CourseContent} />
           <Route
             path="/learntube/course-categories"

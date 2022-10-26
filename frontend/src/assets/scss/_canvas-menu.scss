@@ -1,9 +1,10 @@
 .right_menu_togle {
   //   background-image: linear-gradient(90deg, #e2e9f7 0%, #ffffff 100%);
   background-color: white;
-  padding: 10px;
-  height: 50%;
-  width: 350px;
+  // padding: 20px;
+  padding-bottom: 5px;
+  // height: 30%;
+  width: 300px;
   top: 10;
   box-shadow: 0 2px 4px 0 rgb(33 37 41 / 24%);
   right: -400px;
@@ -207,4 +208,11 @@ body {
     //   transition: all 0.8s ease-out 0s;
     // }
   }
+}
+
+.mypageBtn {
+  color: black !important;
+}
+.mypageBtn:hover {
+  color: gray !important;
 }
