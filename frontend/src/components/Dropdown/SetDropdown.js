@@ -35,7 +35,6 @@ export default function SetDropdown(props) {
         function handleClickOutside(e) {
             // 현재 document에서 mousedown 이벤트가 동작하면 호출되는 함수
             if (!isActive && dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-                console.log(`div 외부 클릭`);
                 setIsActive(isActive);
             }
         }
@@ -110,7 +109,7 @@ export default function SetDropdown(props) {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundColor: "rgb(0, 0, 0, 0.55)",
+                        backgroundColor: "rgb(0, 0, 0, 0.20)",
                     },
                     content: {
                         position: "absolute",

@@ -70,6 +70,7 @@ public class Video extends BaseEntity {
         this.end_s = videoCUDto.getEnd_s();
         this.duration = videoCUDto.getDuration();
         this.seq = videoCUDto.getSeq();
+        this.tag = videoCUDto.getTag();
     }
     public void setVideoUpdateData(VideoCUDto videoCUDto) {
         this.youtubeId = videoCUDto.getYoutubeId();
@@ -79,6 +80,7 @@ public class Video extends BaseEntity {
         this.end_s = videoCUDto.getEnd_s();
         this.duration = videoCUDto.getDuration();
         this.seq = videoCUDto.getSeq();
+        this.tag = videoCUDto.getTag();
     }
     public VideoDto toDto() {
         return new VideoDto(this.id,this.playlist.getId(), this.youtubeId, this.title,this.newTitle, this.start_s, this.end_s, this.tag, this.seq, this.maxLength, this.duration);

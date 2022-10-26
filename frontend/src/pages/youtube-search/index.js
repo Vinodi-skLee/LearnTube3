@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useState, useCallback } from "react";
 import { Helmet } from "react-helmet";
 import { Link, useLocation } from "react-router-dom";
-import { Button } from "react-bootstrap";
 import Header from "../../components/Layout/Header/Header";
 import Footer from "../../components/Layout/Footer/Footer";
 import OffWrap from "../../components/Layout/Header/OffWrap";
@@ -13,8 +12,6 @@ import YoutubeVideoSearchWidget from "../../components/Widget/YoutubeVideoSearch
 import axios from "axios";
 import Youtube from "../../service/youtube";
 import YouTube from "react-youtube";
-import Range from "rc-slider";
-import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import Cart from "./cart";
 import Modal from "react-modal";
@@ -23,7 +20,6 @@ import Modal from "react-modal";
 import favIcon from "../../assets/img/fav-orange.png";
 import Logo from "../../assets/img/logo/Learntube-logos_transparent.png";
 import footerLogo from "../../assets/img/logo/lite-logo.png";
-import cartPage from "../../assets/img/icon/trolley.png";
 
 const YoutubeSearch = () => {
     const location = useLocation();
@@ -59,11 +55,15 @@ const YoutubeSearch = () => {
     const [endFloatTime, setEndFloatTime] = useState();
     const [updatePlaylist, setUpdatePlaylist] = useState(false);
     const [updatePlaylistTitle, setUpdatePlaylistTitle] = useState(playlistName);
-    const [duration, setDuration] = useState("");
+    const [duration, setDuration] = useState(0);
     const [isSearchShown, setIsSearchShown] = useState(true);
     const [isMouseOver, setIsMouseOver] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const [index, setIndex] = useState(Object.keys(existingVideo).length);
+    //const [index, setIndex] = useState(Object.keys(existingVideo).length);
+    const [isInPlaylist, setIsInPlaylist] = useState(location.state.lastSeq);
+    const [isStartModified, setIsStartModified] = useState(0);
+    const [isEndModified, setIsEndModified] = useState(0);
+    const [index, setIndex] = useState(location.state.lastSeq + 1);
     const openModal = () => setIsOpen(!isOpen);
     const initVideo = {
         duration: 0,
@@ -79,11 +79,13 @@ const YoutubeSearch = () => {
         title: "",
         youtubeId: "",
         deleted: 0,
+        newDescription: "",
     };
-    
 
-    // console.log(cart);
-    console.log("number" + Object.keys(existingVideo).length);
+    console.log(location.state.lastSeq);
+    console.log(location.state.lastSeq + 1);
+    console.log(isInPlaylist);
+    console.log(index);
 
     const httpClient = axios.create({
         baseURL: "https://www.googleapis.com/youtube/v3",
@@ -92,9 +94,9 @@ const YoutubeSearch = () => {
     const youtube = new Youtube(httpClient);
     let finalDuration = "";
     let viewCountInt, newViewCount;
-    const selectVideo = (video) => {
-        console.log("video selected");
-    };
+    // const selectVideo = (video) => {
+    //     console.log("video selected");
+    // };
 
 
     const selectPart = (video) => {
@@ -106,7 +108,9 @@ const YoutubeSearch = () => {
         initVideo.youtubeId = video.id;
         initVideo.playlistId = playlistId;
         initVideo.duration = customDurationToFloat(video.contentDetails.duration);
+        console.log("duration: " + initVideo.duration);
         initVideo.seq = index;
+        initVideo.tag = true;
 
         // console.log("duration " + initVideo.duration);
 
@@ -121,16 +125,11 @@ const YoutubeSearch = () => {
         else finalDuration = time[0] + "초";
         setSelectedVideo(initVideo);
         setFinalDuration(finalDuration);
-        openModal();
+        setIsOpen(true);
     };
 
     const setPart = (video) => {
         // console.log("video selected!!!");
-        setNewTitle("");
-        setNewDescription("");
-        setIsSelected(false);
-        setStartTime(false);
-        setEndTime(false);
         setSelectedVideo(video);
         setDuration(video.duration);
         console.log(selectedVideo);
@@ -191,6 +190,7 @@ const YoutubeSearch = () => {
     };
 
     function customDurationToFloat(durationStringVer) {
+        console.log(durationStringVer);
         let whereH = durationStringVer.indexOf("H");
         let whereM = durationStringVer.indexOf("M");
         let whereS = durationStringVer.indexOf("S");
@@ -204,6 +204,7 @@ const YoutubeSearch = () => {
 
             durationFloat = durationFloat + parseFloat(hour) * 3600;
         }
+        console.log("hr: " + hour);
         if (whereM > -1) {
             let tempDuration = durationStringVer.split("M");
             let temp_length = tempDuration[0].length;
@@ -213,6 +214,7 @@ const YoutubeSearch = () => {
             console.log("min: " + min);
             durationFloat = durationFloat + parseFloat(min) * 60;
         }
+        console.log("min: " + min);
         if (whereS > -1) {
             let tempDuration = durationStringVer.split("S");
             let temp_length = tempDuration[0].length;
@@ -223,53 +225,96 @@ const YoutubeSearch = () => {
             } else sec = tempDuration[0].substring(2, temp_length);
             durationFloat = durationFloat + parseFloat(sec);
         }
+        console.log("sec: " + sec);
+
+        console.log("final: " + durationFloat);
 
         return durationFloat;
     }
 
     const savePart = (video) => {
-        console.log(video.seq);
+        console.log("savePart index: " + index);
         var i = Object.keys(cart).find(key => cart[key].seq === video.seq);
-        console.log("index: " + i);
-        console.log(cart[i]);
         if (cart[i] === undefined) {
-            video.start_s = parseInt(startFloatTime);
-            video.end_s = parseInt(endFloatTime);
-            video.duration = parseInt(endFloatTime - startFloatTime);
-            cart[video.youtubeId] = video;
+            video.newTitle = newTitle ? newTitle : "";
+            video.newDescription = newDescription ? newDescription : "";
+            video.start_s = startFloatTime ? parseInt(startFloatTime) : 0;
+            video.end_s = endFloatTime ? parseInt(endFloatTime) : video.duration;
+            video.duration = video.end_s - video.start_s;
+            video.seq = index;
+            if((isStartModified === 1 && isEndModified === 1) || (video.tag === "startModified" && isEndModified === 1) || (video.tag === "endModified" && isStartModified === 1)){
+                video.tag = "bothModified";
+            }
+            else if(video.tag !== "bothModified" && isStartModified === 1){
+                video.tag = "startModified";
+            }
+            else if(video.tag !== "bothModified" && isEndModified === 1){
+                video.tag = "endModified";
+            }
+            cart[index] = video;
+            setIndex(index => index + 1);
+            console.log("in undefined");
         } else {
+            cart[i].newTitle = newTitle ? newTitle : "";
+            cart[i].newDescription = newDescription ? newDescription : "";
             cart[i].start_s = startFloatTime ? parseInt(startFloatTime) : cart[i].start_s;
             cart[i].end_s = endFloatTime ? parseInt(endFloatTime) : cart[i].end_s;
-            console.log(parseInt(endFloatTime));
-            cart[i].duration = parseInt(endFloatTime - startFloatTime);
+            cart[i].duration = cart[i].end_s - cart[i].start_s;
+            if((isStartModified === 1 && isEndModified === 1) || (cart[i].tag === "startModified" && isEndModified === 1) || (cart[i].tag === "endModified" && isStartModified === 1)){
+                cart[i].tag = "bothModified";
+            }
+            else if(cart[i].tag !== "bothModified" && isStartModified === 1){
+                cart[i].tag = "startModified";
+            }
+            else if(cart[i].tag !== "bothModified" && isEndModified === 1){
+                cart[i].tag = "endModified";
+            }
+            console.log("in existing");
         }
         setCart({ ...cart });
         setIsChanged(true);
         window.alert("저장되었습니다.");
-        setIsOpen(!isOpen);
+        setIsOpen(false);
         setSelectedVideo(null);
+        setNewTitle("");
+        setNewDescription("");
+        setIsSelected(false);
+        setStartTime(false);
+        setEndTime(false);
+        setStartFloatTime(0.0);
+        setEndFloatTime(0.0);
+        setIsStartModified(0);
+        setIsEndModified(0);
     };
+
+    // const incrementIndex = useMemo(
+    //     () => setIndex(index + 1), 
+    //     [cart]
+    //   );
 
     const addVideoToCart = (video) => {
         console.log("add!!");
-        console.log(index);
+        console.log(video);
         initVideo.seq = index;
         initVideo.newDescription = newDescription;
-        initVideo.start_s = parseInt(startFloatTime);
-        initVideo.end_s = isNaN(endFloatTime) ? customDurationToFloat(video.contentDetails.duration) : parseInt(endFloatTime);
+        initVideo.start_s = startFloatTime ? parseInt(startFloatTime) : 0;
+        initVideo.end_s = endFloatTime ? parseInt(endFloatTime) : customDurationToFloat(video.contentDetails.duration);
         initVideo.title = video.snippet.title;
         initVideo.youtubeId = video.id;
         initVideo.playlistId = playlistId;
-        if (isNaN(initVideo.end_s) || isNaN(initVideo.start_s)) {
-            initVideo.duration = customDurationToFloat(video.contentDetails.duration);
-        } else initVideo.duration = parseInt(endFloatTime - startFloatTime);
+        initVideo.duration = initVideo.end_s - initVideo.start_s;
+        // if (isNaN(initVideo.end_s) || isNaN(initVideo.start_s)) {
+        //     initVideo.duration = customDurationToFloat(video.contentDetails.duration);
+        // // } else initVideo.duration = parseInt(endFloatTime - startFloatTime);
         cart[index] = initVideo;
-        console.log(index);
-        console.log(cart[index]);
+        // console.log(cart[index]);
         setCart({...cart});
         setIsChanged(true);
         window.alert("저장되었습니다.");
-        setIndex((prevValue) => prevValue + 1);
+        setIndex(index => index + 1);
+        for(const prop in cart){
+            console.log("idx: " + cart[prop].seq);
+        }
     };
 
     const cancelCart = () => {
@@ -356,23 +401,90 @@ const YoutubeSearch = () => {
         setCurrentPlayTime(toHHMMSS(currentTime));
     };
 
-    const onClickStartTime = (currentPlayTime) => {
-        setStartTime(currentPlayTime);
-        setStartFloatTime(currentFloatTime);
-        if (endTime && startTime > endTime) {
-            alert("시작 시간을 종료 시간 이전으로 설정해주세요!");
-            setStartTime(0);
+    const onClickStartTime = (currentPlayTime, end_t) => {
+        console.log("scurrentFloatTime: " + currentFloatTime);
+        console.log("scurrentPlayTime: " + currentPlayTime);
+        var t = endFloatTime ? endFloatTime : end_t;
+        if (currentFloatTime > t) {
+            window.alert("시작 시간을 종료 시간 이전으로 설정해주세요!");
         }
+        else{
+            setStartTime(currentPlayTime);
+            setStartFloatTime(currentFloatTime);
+        }
+        setIsStartModified(1);
     };
 
-    const onClickEndTime = (currentPlayTime) => {
-        setEndTime(currentPlayTime);
-        setEndFloatTime(currentFloatTime);
-        if (endTime < startTime) {
-            alert("종료 시간을 시작 시간 이전으로 설정해주세요!");
-            setEndTime(startTime);
+    const onClickEndTime = (currentPlayTime, start_t) => {
+        console.log("ecurrentFloatTime: " + currentFloatTime);
+        console.log("ecurrentPlayTime: " + currentPlayTime);
+        var t = startFloatTime ? startFloatTime : start_t;
+        if (currentFloatTime < t) {
+            window.alert("종료 시간을 시작 시간 이전으로 설정해주세요!");
         }
+        else{
+            setEndTime(currentPlayTime);
+            setEndFloatTime(currentFloatTime);
+        }
+        setIsEndModified(1);
     };
+
+    const timePoint = (time) => {
+        var h = "";
+        var m = "";
+        var s = "";
+        if( parseInt(time / 3600) > 0){
+            h = parseInt(time / 3600);
+            time = parseInt(time % 3600);
+        }
+        if(parseInt(time / 60) > 0){
+            m = parseInt(time / 60) < 10 ? "0" + parseInt(time / 60) : parseInt(time / 60);
+            time = parseInt(time % 60);
+        }
+        else{
+            m = "00"
+        }
+        if(parseInt(time) > 0){
+            s = parseInt(time) < 10 ? "0" + parseInt(time) : parseInt(time);
+        }
+        else{
+            s = "00"
+        }
+        if(h !== "")
+            return h + ":" + m + ":" + s;
+        else
+            return m + ":" + s;
+    }
+
+    const printDuration = (time) => {
+        console.log(time);
+        var h = "";
+        var m = "";
+        var s = "";
+        if( parseInt(time / 3600) > 0){
+            h = parseInt(time / 3600);
+            time = parseInt(time % 3600);
+        }
+        if(parseInt(time / 60) > 0){
+            if(h === "")
+                m = parseInt(time / 60) < 10 ? parseInt(time / 60) : parseInt(time / 60);
+            else
+                m = parseInt(time / 60) < 10 ? "0" + parseInt(time / 60) : parseInt(time / 60);
+            time = parseInt(time % 60);
+        }
+        if(parseInt(time) > 0){
+            s = parseInt(time) < 10 ? "0" + parseInt(time) : parseInt(time);
+        }
+        else{
+            s = "0";
+        }
+        if(h !== "")
+            return h + "시간 " + m + "분 " + s + "초";
+        else if (m !== "")
+            return m + "분 " + s + "초";
+        else
+            return s + "초";
+    }
 
     useEffect(async function () {
         let searchedResults = await youtube.search(location.state.playlistName);
@@ -402,10 +514,10 @@ const YoutubeSearch = () => {
                 headerClass="full-width-header header-style1 home8-style4"
             />
 
-            <div className="rs-event orange-style pb-100 md-pb-80 pt-20" style={{background: "#fff"}}>
+            <div className="rs-event orange-style pb-100 md-pb-80 pt-20 g gray-bg">
                 <div>
                     <div className="d-flex justify-content-center">
-                        <YoutubeVideoSearchWidget onSearch={search} isSearchShown={isSearchShown} setIsSearchShown={setIsSearchShown} />
+                        <YoutubeVideoSearchWidget onSearch={search} isSearchShown={isSearchShown} setIsSearchShown={setIsSearchShown} playlistName={playlistName} />
                     </div>
                     <div></div>
                 </div>
@@ -415,7 +527,6 @@ const YoutubeSearch = () => {
                             <div>
                                 <YoutubeVideoListWidget
                                     videos={searchedVideos.items}
-                                    selectVideo={selectVideo}
                                     nextPageToken={searchedVideos.nextPageToken}
                                     prevPageToken={searchedVideos.prevPageToken}
                                     getToken={getToken}
@@ -429,10 +540,21 @@ const YoutubeSearch = () => {
                                 <Modal
                                     isOpen={isOpen}
                                     onClose={() => {
-                                        openModal();
+                                        setIsOpen(false);
                                         setSelectedVideo(null);
+                                        setStartFloatTime(0.0);
+                                        setEndFloatTime(0.0);
+                                        setStartTime(false);
+                                        setEndTime(false);
                                     }}
-                                    onRequestClose={() => setIsOpen(false)}
+                                    onRequestClose={() => {
+                                        setIsOpen(false);
+                                        setSelectedVideo(null);
+                                        setStartFloatTime(0.0);
+                                        setEndFloatTime(0.0);
+                                        setStartTime(false);
+                                        setEndTime(false);
+                                    }}
                                     style={{
                                         overlay: {
                                             zIndex: "100",
@@ -445,84 +567,89 @@ const YoutubeSearch = () => {
                                         },
                                         content: {
                                             position: "absolute",
-                                            top: "20%",
+                                            top: "15%",
                                             left: "26%",
                                             right: "26%",
                                             background: "#fff",
                                             WebkitOverflowScrolling: "touch",
                                             outline: "none",
                                             padding: "0px",
-                                            height: "73%",
+                                            height: "80%",
                                         },
                                     }}
                                 >
                                     <div className="col-12 mb-20 d-flex justify-content-center" style={{ minHeight: "500px", width: "100%" }}>
                                         <div style={{marginTop: "30px"}}>
-                                            <h5 className="w-100 mb-10">영상 구간 설정</h5>
+                                            <h5 className="w-100 mb-10">영상 편집</h5>
                                             <div>
                                                 <div>
                                                     <YouTube videoId={selectedVideo.youtubeId} opts={opts} onStateChange={(e) => checkElapsedTime(e)} />
                                                 </div>
-                                                <div classname="d-flex flex-wrap justify-content-start align-items-center w-100">
-                                                    <div className="d-flex flex-nowrap justify-content-start align-items-center">
+                                                <div>
+                                                    <div className="d-flex flex-nowrap justify-content-start align-items-center w-100">
                                                         <div className="fw-bold w-100" style={{borderBottom: "1px solid gray", fontSize: "16pt", color:"black", padding: "5px 0px"}}>{selectedVideo.title}</div>
-                                                        {/* <div className="w-100">
-                                    <input
-                                      type="text"
-                                      id="title"
-                                      name="title"
-                                      placeholder="제목을 입력하세요"
-                                      value={newTitle ? selectedVideo.newTitle : selectedVideo.title}
-                                      onChange={titleChange}
-                                      required
-                                    />
-                                    </div> */}
-                                                        {/* <div className="form-group col-lg-12">
-                                    <div className="my-2 text-start">설명</div>
-                                    <input
-                                      type="text"
-                                      id="description"
-                                      name="description"
-                                      placeholder="설명을 입력하세요. "
-                                      value={newDescription}
-                                      onChange={descriptionChange}
-                                    />
-                                  </div> */}
+                                                        
+            
                                                     </div>
                                                     <div className="mb-10">
                                                         <span className="fw-bold">영상 재생 시간</span>
                                                         {": "}
-                                                        {selectedVideo.duration ? realFinalDuration : "0초"}
+                                                        {printDuration(selectedVideo.duration)}
                                                     </div>
-                                                    <div className="d-flex justify-content-start align-items-center mb-10">
+                                                    {/* <div className="d-flex justify-content-start align-items-center mb-10">
                                                         <button className="time-btn text-center rounded-3 mr-10" onClick={() => onClickStartTime(currentPlayTime)}>
                                                             시작 시간
                                                         </button>
                                                         <div style={{ fontSize: "8pt", color: "lightgray" }}>
                                                             {startTime
                                                                 ? startTime
-                                                                : (parseInt(selectedVideo.start_s / 60) < 10 ? "0" + parseInt(selectedVideo.start_s / 60) : parseInt(selectedVideo.start_s / 60)) +
-                                                                  ":" +
-                                                                  (parseInt(selectedVideo.start_s % 60) < 10 ? "0" + parseInt(selectedVideo.start_s % 60) : parseInt(selectedVideo.start_s % 60))}
+                                                                : timePoint(selectedVideo.start_s)}
                                                         </div>
-                                                    </div>
-                                                    <div className="d-flex justify-content-start align-items-center">
-                                                        <button className="time-btn text-center rounded-3 mr-10" onClick={() => onClickEndTime(currentPlayTime)}>
+                                                    </div> */}
+                                                    <div className="d-flex justify-content-center align-items-center mb-20">
+                                                        <button className="time-btn text-center" onClick={() => onClickStartTime(currentPlayTime, selectedVideo.end_s)}>
+                                                                시작 시간
+                                                        </button>
+                                                        <div style={{ fontSize: "10pt", color: "black", border: "1.5px solid #284882", background: "#fff", marginRight: "10px", width: "70px", height: "30px", textAlign: "center"}}>
+                                                            {startTime
+                                                                ? startTime
+                                                                : timePoint(selectedVideo.start_s)}
+                                                        </div>
+                                                        <button className="time-btn text-center ml-10" onClick={() => onClickEndTime(currentPlayTime, selectedVideo.start_s)}>
                                                             종료 시간
                                                         </button>
-                                                        <div style={{ fontSize: "8pt", color: "lightgray" }}>
+                                                        <div style={{ fontSize: "10pt", color: "black", border: "1.5px solid #284882", background: "#fff", width: "70px", height: "30px", textAlign: "center"}}>
                                                             {endTime
                                                                 ? endTime
-                                                                : (parseInt(selectedVideo.end_s / 60) < 10 ? "0" + parseInt(selectedVideo.end_s / 60) : parseInt(selectedVideo.end_s / 60)) +
-                                                                  ":" +
-                                                                  (parseInt(selectedVideo.end_s % 60) < 10 ? "0" + parseInt(selectedVideo.end_s % 60) : parseInt(selectedVideo.end_s % 60))}
+                                                                : timePoint(selectedVideo.end_s)}
                                                         </div>
                                                     </div>
-                                                    <div className="d-flex justify-content-end align-items-center ml-50 mt-10">
+                                                    <div className="d-flex justify-content-start w-100 edit-input">
+                                                        <span style={{marginRight: "10px"}}>영상 제목:</span>
+                                                        <input
+                                                            type="text"
+                                                            id="title"
+                                                            name="title"
+                                                            placeholder={selectedVideo.newTitle ? selectedVideo.newTitle : selectedVideo.title}
+                                                            value={newTitle}
+                                                            onChange={titleChange}
+                                                            />
+                                                        </div>
+                                                    {/* <div className="d-flex justify-content-start w-100 edit-input mt-10">
+                                                        <span style={{marginRight: "10px"}}>영상 내용:</span>
+                                                        <input
+                                                            type="text"
+                                                            id="description"
+                                                            placeholder={selectedVideo.newDescription ? selectedVideo.newDescription : "설명을 입력해 주세요."}
+                                                            value={newDescription}
+                                                            onChange={descriptionChange}
+                                                            />
+                                                    </div> */}
+                                                    <div className="d-flex justify-content-end align-items-center ml-50 mt-30">
                                                         <div className="part-save-btn text-center ml-30 rounded-3" role="button" onClick={(e) => savePart(selectedVideo)}>
                                                             저장
                                                         </div>
-                                                        <div className="part-save-btn text-center rounded-3" style={{ background: "gray" }} role="button" onClick={(e) => cancelCart()}>
+                                                        <div className="part-save-btn text-center rounded-3" style={{ background: "#ff7d4b" }} role="button" onClick={(e) => cancelCart()}>
                                                             취소
                                                         </div>
                                                     </div>
@@ -542,6 +669,7 @@ const YoutubeSearch = () => {
                                         setPart={setPart}
                                         existingVideo={existingVideo}
                                         deleteVideoFromCart={deleteVideoFromCart}
+                                        isInPlaylist={isInPlaylist}
                                     ></Cart>
                                 </div>
                             </>

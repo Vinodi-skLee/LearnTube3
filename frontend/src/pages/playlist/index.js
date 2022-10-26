@@ -53,6 +53,7 @@ const Playlist = () => {
     const [updatePlaylistTitle, setUpdatePlaylistTitle] = useState(savedPlaylistName);
     const [searched, setSearched] = useState(false);
     const [isEmpty, setIsEmpty] = useState(false);
+    const [lastSeq, setLastSeq] = useState(0);
 
     useEffect(() => {
         const fetchMyPlaylists = async () => {
@@ -82,6 +83,8 @@ const Playlist = () => {
         console.log("playlist data", playlistData[num]);
 
         setSelectedVideo(playlistData[num].videos);
+        setLastSeq(selectedVideo[Object.keys(selectedVideo).length - 1].seq);
+        console.log("lastSeq " + lastSeq);
         setClickedVideo(playlistData[num].videos[0]);
         setPlaylistId(playlistData[num].playlistId);
         setSelectedPlaylist(playlistData[num].name);
@@ -148,7 +151,7 @@ const Playlist = () => {
             const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/playlist/search?userId=${userId}&playlistName=${e}`);
             // console.log(response.data);
             setSearchData(response.data);
-            if (searchData.videos.length == 0) setIsEmpty(true);
+            if (searchData.length == 0) setIsEmpty(true);
             else setIsEmpty(false);
             console.log(isEmpty);
             setSearched(true);
@@ -240,6 +243,7 @@ const Playlist = () => {
                                                                 playlistId: playlistId,
                                                                 update: true,
                                                                 existingVideo: selectedVideo,
+                                                                lastSeq: lastSeq,
                                                             },
                                                         }}
                                                     >
