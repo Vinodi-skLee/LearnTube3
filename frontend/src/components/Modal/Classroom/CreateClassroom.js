@@ -66,7 +66,7 @@ const ClassroomContent = (props) => {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: "rgb(0, 0, 0, 0.55)",
+            backgroundColor: "rgb(0, 0, 0, 0.20)",
           },
           content: {
             position: "absolute",
@@ -178,7 +178,7 @@ const ClassroomContent = (props) => {
                       <Button
                         type="submit"
                         className="canclebtn"
-                        style={{ height: "2px" }}
+                        style={{ padding: "10.5px" }}
                         onClick={() => {
                           openModal();
                         }}
@@ -189,7 +189,7 @@ const ClassroomContent = (props) => {
                         className="createbtn"
                         type="button"
                         onClick={handleSubmit}
-                        style={{ height: "10px", alignContent: "center" }}
+                        style={{ padding: "10.5px" }}
                       >
                         저장
                       </Button>
