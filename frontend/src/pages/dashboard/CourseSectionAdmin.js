@@ -54,7 +54,10 @@ const CoursePartAdmin = (props) => {
       <div className="container">
         <div className="row">
           <div className="pr-50 md-pr-14">
-            <div className="pull-right" style={{ margin: "13px" }}>
+            <div
+              className="pull-right"
+              style={{ margin: "13px", borderColor: "#273857" }}
+            >
               <ClassroomContent userId={props.userId} />
             </div>
           </div>

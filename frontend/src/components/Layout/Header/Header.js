@@ -11,6 +11,8 @@ import darkLogo from "../../../assets/img/logo/dark-logo.png";
 import productImg1 from "../../../assets/img/shop/1.jpg";
 import productImg2 from "../../../assets/img/shop/2.jpg";
 import Login from "../../../pages/login";
+import { BsPerson } from "react-icons/bs";
+
 const Header = (props) => {
   const {
     headerClass,
@@ -32,6 +34,7 @@ const Header = (props) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const [isVisible, setIsVisible] = useState(false);
+  const userId = window.sessionStorage.getItem("userId");
   // useEffect(() => {
   //   // Sticky is displayed after scrolling for 100 pixels
   //   const toggleVisibility = () => {
@@ -80,7 +83,7 @@ const Header = (props) => {
                 ? "menu-area menu-sticky sticky"
                 : "menu-area menu-sticky"
             }
-            style={{display: "flex", alignItems: "center", height: "60px"}}
+            style={{ display: "flex", alignItems: "center", height: "60px" }}
           >
             <div className="container">
               <div className="row y-middle">
@@ -101,7 +104,7 @@ const Header = (props) => {
                   </div>
                 </div>
                 <div className="col-lg-7 text-start">
-                  <div className="rs-menu-area" style={{float:"left"}}>
+                  <div className="rs-menu-area" style={{ float: "left" }}>
                     <div className="main-menu">
                       <div className="mobile-menu md-display-block">
                         <Link to="/learntube/" className="mobile-normal-logo">
@@ -147,7 +150,8 @@ const Header = (props) => {
 
                 <div className="col-lg-3 relative text-end hidden-md">
                   <div className="expand-btn-inner search-icon">
-                    <Login />
+                    {/* 원래 로그인 헤더 위치 */}
+                    {userId ? null : <Login />}
                     <ul className="expand-items">
                       {/* <li className="sidebarmenu-search">
                         <Link
@@ -161,16 +165,23 @@ const Header = (props) => {
                         </Link>
                       </li> */}
                       <li>
-                        <a
+                        {/* <a
                           onClick={canvasMenuAdd}
                           id="nav-expander"
                           className="nav-expander"
                           href="#"
-                        >
-                          <span className="dot1"></span>
+                        > */}
+                        {userId ? (
+                          <BsPerson
+                            onMouseOver={canvasMenuAdd}
+                            size="24"
+                            style={{ color: "white" }}
+                          />
+                        ) : null}
+                        {/* <span className="dot1"></span>
                           <span className="dot2"></span>
-                          <span className="dot3"></span>
-                        </a>
+                          <span className="dot3"></span> */}
+                        {/* </a> */}
                       </li>
                     </ul>
                   </div>
