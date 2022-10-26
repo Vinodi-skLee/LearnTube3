@@ -19,6 +19,7 @@ public class VideoCUDto {
     private Float end_s;
     private Float duration;
     private int seq;
+    private String tag;
 
     public VideoCUDto(VideoCreateRequest videoCreateRequest) {
         this.playlistId = videoCreateRequest.getPlaylistId();
@@ -29,6 +30,7 @@ public class VideoCUDto {
         this.end_s = videoCreateRequest.getEnd_s();
         this.duration = videoCreateRequest.getDuration();
         this.seq = videoCreateRequest.getSeq();
+        this.tag = videoCreateRequest.getTag();
     }
 
     public VideoCUDto(VideoUpdateRequest videoUpdateRequest) {
@@ -39,6 +41,7 @@ public class VideoCUDto {
         this.end_s = videoUpdateRequest.getEnd_s();
         this.duration = videoUpdateRequest.getDuration();
         this.seq = videoUpdateRequest.getSeq();
+        this.tag = videoUpdateRequest.getTag();
     }
 
 }

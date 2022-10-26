@@ -15,6 +15,7 @@ public class VideoCreateRequest {
     private float end_s;
     private float duration;
     private int seq;
+    private String tag;
 
     public VideoCUDto videoCUDto() {
         return new VideoCUDto(this); }

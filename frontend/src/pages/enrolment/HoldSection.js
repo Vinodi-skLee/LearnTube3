@@ -219,15 +219,16 @@ const HoldPart = (props) => {
               </tbody>
             </Table>
             <div>
-              <Button onClick={acceptAll} style={{ marginRight: "10px" }}>
+              <Button onClick={acceptAll} style={{ marginRight: "10px", background: "#7cbdb5"}}>
                 모두 허락
               </Button>
-              <Button variant="secondary" onClick={confirmDeleteAll} active>
+              <Button variant="secondary" style={{background: "#ff7d4b"}} onClick={confirmDeleteAll} active>
                 모두 거절
               </Button>
               {!hasReject ? <Button
                 style={{
                   float: "right",
+                  background: "#273857",
                 }}
                 onClick={pressOkay}
               >
@@ -235,6 +236,7 @@ const HoldPart = (props) => {
               </Button> : <Button
                 style={{
                   float: "right",
+                  background: "#273857",
                 }}
                 onClick={confirmDelete}
               >
