@@ -79,7 +79,7 @@ const UpdateContent = (props) => {
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        backgroundColor: "rgb(0, 0, 0, 0.55)",
+                        backgroundColor: "rgb(0, 0, 0, 0.20)",
                     },
                     content: {
                         position: "absolute",
