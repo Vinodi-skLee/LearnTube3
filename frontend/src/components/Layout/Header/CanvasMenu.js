@@ -12,11 +12,18 @@ import galleryLogo5 from "../../../assets/img/gallery/5.jpg";
 import galleryLogo6 from "../../../assets/img/gallery/6.jpg";
 import mapImg from "../../../assets/img/map.jpg";
 import Login from "../../../pages/login";
-import CourseSection from "../../../pages/dashboard/CourseSection";
+import CourseMain from "../../../pages/dashboard-main/CourseMain";
 import CourseMainAdmin from "../../../pages/dashboard/CourseMainAdmin";
 import CourseMainClosed from "../../../pages/dashboard/CourseMainClosed";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { AiOutlinePlayCircle } from "react-icons/ai";
+import {
+  AiOutlinePlayCircle,
+  AiOutlineSetting,
+  AiOutlineAlert,
+  AiOutlineInbox,
+} from "react-icons/ai";
+import { HiHome } from "react-icons/hi";
+import { BiTrash } from "react-icons/bi";
 const photos = [
   {
     src: galleryLogo1,
@@ -53,6 +60,7 @@ const userId = window.sessionStorage.getItem("userId");
 let tab1 = "수강중인 강의실",
   tab2 = "관리중인 강의실",
   tab3 = "종료된 강의실",
+  tab4 = "강의실 학생 관리",
   tabStyle = "intro-tabs tabs-box";
 const CanvasMenu = (props) => {
   const { canvasClass, canvasLogo } = props;
@@ -76,40 +84,58 @@ const CanvasMenu = (props) => {
   let id = window.sessionStorage.getItem("userId");
   const history = useHistory();
 
-  const clickDashBoard = () => {
-    if (id) {
-      history.replace({
-        pathname: "/learntube/dashboard",
-      });
-    } else {
-      alert("로그인이 필요합니다.");
-    }
-  };
   return (
     <React.Fragment>
       <nav className={canvasClass} onMouseLeave={canvasMenuRemove}>
-        <Login />
+        <div className="d-flex mt-10 mb-10 black-color ps-4 align-items-center">
+          {window.sessionStorage.getItem("name") ? (
+            <div>
+              {window.sessionStorage.getItem("name") + "님"} <HiHome />
+            </div>
+          ) : (
+            window.sessionStorage.getItem("name")
+          )}
+        </div>
         <ul
           style={{
             backgroundColor: "#f8f9fa",
             textAlign: "left",
-            color: "black",
+            // color: "black !important",
+            fontSize: "1.1rem",
           }}
+          className="ps-3 mt-10 mb-10 "
         >
-          <li>
-            <Link onClick={clickDashBoard}>
+          <li className="p-2 ">
+            <Link to="/learntube/course-main" className="mypageBtn">
               <AiOutlinePlayCircle />
+              &ensp;
               {tab1}
-              {/* <CourseSection userId={userId} /> */}
             </Link>
           </li>
-          <li>
-            <Link onClick={clickDashBoard}>{tab2}</Link>
+          <li className="p-2 ">
+            <Link to="/learntube/course-admin" className="mypageBtn">
+              <AiOutlineInbox />
+              &ensp;
+              {tab2}
+            </Link>
           </li>
-          <li>
-            <Link onClick={clickDashBoard}>{tab3}</Link>
+          <li className="p-2 ">
+            <Link to="/learntube/course-closed" className="mypageBtn">
+              <BiTrash />
+              &ensp;
+              {tab3}
+            </Link>
           </li>
+          {/* 
+          <li className="p-2">
+            <AiOutlineSetting />
+            {tab4}
+          </li> */}
         </ul>
+        <div className="ps-3 p-0 logoutbtn">
+          <Login />
+        </div>
+
         {/* <TabPanel>
             <CourseMain userId={userId} />
           </TabPanel>

@@ -6,9 +6,7 @@ import SearchModal from "../../components/Layout/Header/SearchModal";
 import Newsletter from "../../components/Common/Newsletter";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import CourseMain from "../dashboard-main/CourseMain";
 import CourseMainAdmin from "./CourseMainAdmin";
-import CourseMainClosed from "./CourseMainClosed";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
 // import '../../assets/scss/_course_single.scss';
@@ -37,31 +35,7 @@ const CourseOne = (props) => {
       />
       <div class="container text-center dashboard-tabs mt-30">
         <div className="intro-info-tabs border-none">
-          <Tabs>
-            <TabList className={tabStyle}>
-              <Tab>
-                <button>{tab1}</button>
-              </Tab>
-              <Tab>
-                <button>{tab2}</button>
-              </Tab>
-              <Tab>
-                <button>{tab3}</button>
-              </Tab>
-            </TabList>
-
-            <TabPanel>
-              <CourseMain userId={userId} />
-            </TabPanel>
-
-            <TabPanel>
-              <CourseMainAdmin userId={userId} />
-            </TabPanel>
-
-            <TabPanel>
-              <CourseMainClosed userId={userId} />
-            </TabPanel>
-          </Tabs>
+          <CourseMainAdmin userId={userId} />
         </div>
       </div>
 
