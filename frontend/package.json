@@ -26,6 +26,7 @@
 		"react-helmet": "^6.1.0",
 		"react-icons": "^4.4.0",
 		"react-images": "^1.2.0-beta.7",
+		"react-js-pagination": "^3.0.3",
 		"react-mailchimp-subscribe": "^2.1.0",
 		"react-modal": "^3.14.4",
 		"react-modal-video": "^1.2.3",

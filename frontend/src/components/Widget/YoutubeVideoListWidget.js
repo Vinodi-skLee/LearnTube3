@@ -23,7 +23,6 @@ const YoutubeVideoListWidget = ({ videos, selectVideo, nextPageToken, prevPageTo
     useEffect(
         function () {
             console.log(cart);
-            setNewCart(cart);
         },
         [cart]
     );
@@ -48,7 +47,7 @@ const YoutubeVideoListWidget = ({ videos, selectVideo, nextPageToken, prevPageTo
                                     addVideoToCart={addVideoToCart}
                                     deleteVideoFromCart={deleteVideoFromCart}
                                     isAlreadyIncart={isAlreadyIncart}
-                                    cart={newCart}
+                                    newCart={newCart}
                                     selectPart={selectPart}
                                     //duration={video.contentDetails.duration}
                                     //viewCount ={video.statistics.viewCount}

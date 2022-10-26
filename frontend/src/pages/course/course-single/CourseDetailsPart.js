@@ -9,28 +9,47 @@ import SetDropdown from "../../../components/Dropdown/SetDropdown";
 function CourseDetailsPart() {
   const location = useLocation();
   const [userId, SetUserId] = useState("");
+    const [classRoomData, setClassRoomData] = useState();
+    const cid = useLocation().state.classId;
+    const [clicked, setClicked] = useState(false);
+    const [students, setStudents] = useState([{ userId: "", name: "", email: "" }]);
+    const [takesData, setTakesData] = useState();
+    const [waiting, setWaiting] = useState([]);
+    const uid = location.state.userId;
+    const [valid, setValid] = useState(false);
+    // console.log("userId == ", userId);
+    //console.log("cid in detail part " + cid);
+    const joinClass = () => {
+        if (window.confirm("수강신청 하시겠습니까?")) {
+            const fetchJoinClass = async () => {
+                try {
+                    let body = { userId: userId, classId: cid };
+                    const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/classroom/enroll`, JSON.stringify(body), {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    });
+                    console.log(response);
+                    console.log(response.data);
+                    setTakesData(response.data);
+                    console.log("takesData: " + takesData);
+                    // setTakesData(response.data);
+                    // console.log(takesData);
+                } catch (err) {
+                    console.log("err >> ", err);
+                }
+            };
+            // console.log(takesData);
+            fetchJoinClass();
+            alert("신청 되었습니다.");
+            window.location.href = "/learntube/dashboard";
+        }
+    };
 
-  const [classRoomData, setClassRoomData] = useState();
-  const cid = useLocation().state.classId;
-  const [clicked, setClicked] = useState(false);
-  const [students, setStudents] = useState([
-    { userId: "", name: "", email: "" },
-  ]);
-  const [takesData, setTakesData] = useState();
-  const [waiting, setWaiting] = useState([]);
-  const uid = location.state.userId;
-  const [valid, setValid] = useState(false);
-  console.log("uid", uid);
-  console.log("userId", userId);
-  //console.log("cid in detail part " + cid);
-  const joinClass = () => {
-    if (window.confirm("수강신청 하시겠습니까?")) {
-      const fetchJoinClass = async () => {
-        try {
-          let body = { userId: userId, classId: cid };
-          const response = await axios.post(
-            `${process.env.REACT_APP_SERVER_URL}/api/classroom/enroll`,
-            JSON.stringify(body),
+    useEffect(() => {
+        if (location.state) {
+            // console.log("uid", uid);
             {
               method: "POST",
               headers: {
