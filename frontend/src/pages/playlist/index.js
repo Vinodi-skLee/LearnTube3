@@ -83,7 +83,7 @@ const Playlist = () => {
         console.log("playlist data", playlistData[num]);
 
         setSelectedVideo(playlistData[num].videos);
-        setLastSeq(selectedVideo[Object.keys(selectedVideo).length - 1].seq);
+        selectedVideo[Object.keys(selectedVideo).length - 1] ? setLastSeq(selectedVideo[Object.keys(selectedVideo).length - 1].seq) : setLastSeq(0);
         console.log("lastSeq " + lastSeq);
         setClickedVideo(playlistData[num].videos[0]);
         setPlaylistId(playlistData[num].playlistId);
