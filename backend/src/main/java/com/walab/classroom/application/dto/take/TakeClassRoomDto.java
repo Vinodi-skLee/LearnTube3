@@ -19,6 +19,8 @@ import lombok.Setter;
 public class TakeClassRoomDto {
     private Long classId;
     private String className;
+
+    private Long instructorId;
     private String instructorName;
     private int videoCheck;
     private String lastestNotice;
@@ -31,6 +33,7 @@ public class TakeClassRoomDto {
         this.classId = take.getClassRoom().getId();
         this.className = take.getClassRoom().getClassName();
         this.instructorName = take.getClassRoom().getInstructor().getName();
+        this.instructorId = take.getClassRoom().getInstructor().getId();
         // ToDo 캡스톤 팀 개발 후 처리 User와 뭔가 관계가 있어야함
         this.videoCheck = 50;
         this.lastestNotice = take.getClassRoom().getLastestNoticeTitle();
@@ -43,6 +46,7 @@ public class TakeClassRoomDto {
         this.classId = classRoom.getId();
         this.className = classRoom.getClassName();
         this.instructorName = classRoom.getInstructor().getName();
+        this.instructorId = classRoom.getInstructor().getId();
         this.lastestNotice = classRoom.getLastestNoticeTitle();
         // ToDo N+1 발생 예정 해결법 찾기 getTake한번당 한번 쿼리 발생
         this.isActive = classRoom.getIsActive();
@@ -52,12 +56,12 @@ public class TakeClassRoomDto {
     }
 
     public ClassRoomDashboardResponse classRoomTakeResponse() {
-        return new ClassRoomDashboardResponse(classId, className, instructorName, videoCheck
+        return new ClassRoomDashboardResponse(classId, instructorId, className, instructorName, videoCheck
                 , lastestNotice, numberOfTake, classRoomRegDate, image);
     }
 
     public ClassRoomManagedResponse classRoomManagedResponse() {
-        return new ClassRoomManagedResponse(classId, className, instructorName, lastestNotice,
+        return new ClassRoomManagedResponse(classId, className, instructorId, instructorName, lastestNotice,
                 numberOfTake, isActive, classRoomRegDate, image);
     }
 }

@@ -13,6 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ClassRoomDashboardResponse {
     private Long classId;
+    private Long instructorId;
     private String className;
     private String instructorName;
     private int videoCheck;

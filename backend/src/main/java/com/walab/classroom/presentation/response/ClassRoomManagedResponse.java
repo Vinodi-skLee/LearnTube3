@@ -14,6 +14,7 @@ import lombok.Setter;
 public class ClassRoomManagedResponse {
     private Long classId;
     private String className;
+    private Long instructorId;
     private String instructorName;
     private String latestNotice;
     private int numberOfTake;
