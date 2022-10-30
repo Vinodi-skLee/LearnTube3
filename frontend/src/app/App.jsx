@@ -55,9 +55,9 @@ const App = () => {
             component={CreateMyPlaylist}
           />
           {/* <Route path="/learntube/dashboard" component={DashBoard} /> */}
-          <Route path="/learntube/course-main" component={CourseMain} />
-          <Route path="/learntube/course-admin" component={CourseAdmin} />
-          <Route path="/learntube/course-closed" component={CourseClosed} />
+          <Route path="/learntube/dashboard-main" component={CourseMain} />
+          <Route path="/learntube/dashboard-admin" component={CourseAdmin} />
+          <Route path="/learntube/dashboard-closed" component={CourseClosed} />
           <Route path="/learntube" exact component={Main} />
           <Route path="/learntube/home" component={Home} />
           <Route path="/learntube/login" component={Login} />

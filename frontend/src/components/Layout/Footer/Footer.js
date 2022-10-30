@@ -87,7 +87,7 @@ const Footer = (props) => {
                   <Link to="/learntube/">Main</Link>
                 </li>
                 <li>
-                  <Link to="/learntube/dashboard">Dashboard</Link>
+                  <Link to="/learntube/dashboard-main">Dashboard</Link>
                 </li>
                 <li>
                   <Link to="/learntube/course">Courses</Link>
