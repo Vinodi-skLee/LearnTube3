@@ -11,7 +11,7 @@ const MenuItems = (props) => {
   const clickDashBoard = () => {
     if (id) {
       history.replace({
-        pathname: "/learntube/dashboard",
+        pathname: "/learntube/dashboard-main",
       });
     } else {
       alert("로그인이 필요합니다.");

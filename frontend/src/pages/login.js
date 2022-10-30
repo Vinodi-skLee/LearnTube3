@@ -105,7 +105,7 @@ scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/
   useEffect(() => {
     if (userData.userId) {
       history.push({
-        pathname: "/learntube/course-main",
+        pathname: "/learntube/dashboard-main",
         state: { userId: userData.userId },
       });
     }

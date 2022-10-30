@@ -106,21 +106,21 @@ const CanvasMenu = (props) => {
           className="ps-3 mt-10 mb-10 "
         >
           <li className="p-2 ">
-            <Link to="/learntube/course-main" className="mypageBtn">
+            <Link to="/learntube/dashboard-main" className="mypageBtn">
               <AiOutlinePlayCircle />
               &ensp;
               {tab1}
             </Link>
           </li>
           <li className="p-2 ">
-            <Link to="/learntube/course-admin" className="mypageBtn">
+            <Link to="/learntube/dashboard-admin" className="mypageBtn">
               <AiOutlineInbox />
               &ensp;
               {tab2}
             </Link>
           </li>
           <li className="p-2 ">
-            <Link to="/learntube/course-closed" className="mypageBtn">
+            <Link to="/learntube/dashboard-closed" className="mypageBtn">
               <BiTrash />
               &ensp;
               {tab3}
