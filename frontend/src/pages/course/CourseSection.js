@@ -84,8 +84,8 @@ const CoursePart = (props) => {
     };
     return (
         <>
-            <div id="rs-popular-course" className="rs-popular-courses style1 course-view-style orange-style rs-inner-blog white-bg pb-100 md-pb-80">
-                <div className="container mt-30">
+            <div id="rs-popular-course" className="rs-popular-courses style1 course-view-style orange-style rs-inner-blog gray-bg pb-100 md-pb-80">
+                <div className="container pt-30">
                     <div className="row">
                         <div className="row-mk">
                             <div className="widget-area-mk">

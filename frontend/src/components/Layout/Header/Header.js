@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import MenuItems from "./MenuItems";
 import RSMobileMenu from "./RSMobileMenu";
@@ -36,6 +37,9 @@ const Header = (props) => {
 
   const [isVisible, setIsVisible] = useState(false);
   const userId = window.sessionStorage.getItem("userId");
+  const [alarmVisible, setAlarmVisible] = useState(false);
+  const [newAlarm, setNewAlarm] = useState(false);
+
   // useEffect(() => {
   //   // Sticky is displayed after scrolling for 100 pixels
   //   const toggleVisibility = () => {
@@ -58,6 +62,69 @@ const Header = (props) => {
   const canvasMenuAdd = () => {
     document.body.classList.add("nav-expanded");
   };
+
+  const alarmExpand = () => {
+    setAlarmVisible(!alarmVisible);
+  };
+
+  const [waitList, setWaitList] = useState();
+  const [managedClassroom, setManagedClassroom] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+
+
+    const fetchManagesClassRoom = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/manages?userId=${userId}`);
+            console.log(response.data);
+            setManagedClassroom(response.data);
+        } catch (err) {
+            console.log("err >> ", err);
+        }
+    };
+
+  const fetchWaitList = async (cid) => {
+    try {
+      const res1 = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/classroom/wait-list?classId=${cid}`
+        )
+        console.log(res1.data);
+        setWaitList(res1.data);
+        setIsLoading(false);
+      } catch (err) {
+        console.log("err > ", err);
+      }
+      console.log(waitList);
+    };
+
+  function putclassId(cid) {
+    setTimeout(() => {
+      for(var i=0; i<waitList.length; i++){
+        waitList[i]["classId"] = cid;
+      }
+      setWaitList(waitList);
+      setNewAlarm(true);
+    }, 1000)
+  }
+
+  useEffect(() => {
+    setIsLoading(true);
+    if (userId) {
+        fetchManagesClassRoom();
+          if(managedClassroom){
+              managedClassroom.map((classroom)=> {
+                  console.log(classroom.classId);
+                  fetchWaitList(classroom.classId).then(() =>{
+                    putclassId(classroom.classId);
+              });
+              })
+          }
+        
+    }
+    }, []);
+
+  // const alarmShrink = () => {
+  //   setAlarmVisible(false);
+  // }
 
   return (
     <React.Fragment>
@@ -172,13 +239,23 @@ const Header = (props) => {
                           className="nav-expander"
                           href="#"
                         > */}
-                        {userId ? (
+                        {userId && newAlarm ? (
                           <FaBell
-                            size="18"
+                            size="24"
                             style={{ color: "white" }}
                             className="mr-10"
+                            onClick={alarmExpand}
                           />
-                        ) : null}
+                        )
+                        :
+                        (
+                          <FaBell
+                            size="24"
+                            className="mr-10 notification"
+                            onClick={alarmExpand}
+                          />
+                        )
+                      }
                         {userId ? (
                           <BsFillPersonFill
                             onMouseOver={canvasMenuAdd}
@@ -210,6 +287,38 @@ const Header = (props) => {
             className={menuOpen ? "body-overlay show" : "body-overlay"}
           ></div>
         </header>
+        {
+          alarmVisible ?
+          (
+            <div style={{display:"block", position: "absolute", right: "19%", width: "350px", background: "white", border: "1px solid gray", borderBottom: "none", zIndex: "999"}}>
+              <ul
+                style={{
+                  textAlign: "left",
+                  // color: "black !important",
+                  fontSize: "1.1rem",
+                }}
+                className={waitList ? null : "mt-10 pb-10 border-bottom border-dark"}
+              >
+                  {waitList ?
+                    waitList.map((waiting, i) => (
+                        <li style={{borderBottom: "1px solid black", padding: "5px 0px 5px 15px"}} onClick={() => console.log(waiting.classId)}>
+                          <Link to={{
+                            pathname: `/learntube/course/manage`,
+                            state: { 
+                                classId: waiting.classId,
+                            }
+                          }}>
+                            {waiting.username + " 님께서 수강신청하셨습니다."}</Link></li>
+                    ))
+                    :
+                    (<span style={{padding: "5px 0px 5px 15px"}}>새로운 알림이 없습니다</span>)
+                  }
+              </ul>
+            </div>
+          )
+          :
+          null
+        }
         <CanvasMenu
           canvasClass={
             CanvasClass
