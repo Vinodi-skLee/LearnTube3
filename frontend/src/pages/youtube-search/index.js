@@ -32,6 +32,9 @@ const YoutubeSearch = () => {
             start: 0,
         },
     };
+    let lastSeq;
+    if (!location.state.lastSeq) lastSeq = -1;
+    else lastSeq = location.state.lastSeq;
 
     const [newQuery, setNewQuery] = useState("알고리즘");
     const [searchedVideos, setSearchedVideos] = useState([]);
@@ -60,10 +63,10 @@ const YoutubeSearch = () => {
     const [isMouseOver, setIsMouseOver] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     //const [index, setIndex] = useState(Object.keys(existingVideo).length);
-    const [isInPlaylist, setIsInPlaylist] = useState(location.state.lastSeq);
+    const [isInPlaylist, setIsInPlaylist] = useState(lastSeq);
     const [isStartModified, setIsStartModified] = useState(0);
     const [isEndModified, setIsEndModified] = useState(0);
-    const [index, setIndex] = useState(location.state.lastSeq + 1);
+    const [index, setIndex] = useState(lastSeq + 1);
     const openModal = () => setIsOpen(!isOpen);
     const initVideo = {
         duration: 0,
@@ -82,10 +85,9 @@ const YoutubeSearch = () => {
         newDescription: "",
     };
 
-    console.log(location.state.lastSeq);
-    console.log(location.state.lastSeq + 1);
-    console.log(isInPlaylist);
-    console.log(index);
+    console.log("lastSeq : " + location.state.lastSeq);
+    console.log("isInPlaylist : " + isInPlaylist);
+    console.log("index : " + index);
 
     const httpClient = axios.create({
         baseURL: "https://www.googleapis.com/youtube/v3",
@@ -97,7 +99,6 @@ const YoutubeSearch = () => {
     // const selectVideo = (video) => {
     //     console.log("video selected");
     // };
-
 
     const selectPart = (video) => {
         initVideo.newTitle = newTitle ? newTitle : video.snippet.title;
@@ -132,8 +133,7 @@ const YoutubeSearch = () => {
         // console.log("video selected!!!");
         setSelectedVideo(video);
         setDuration(video.duration);
-        console.log(selectedVideo);
-        console.log(selectedVideo.seq);
+        console.log("selectedVideo === " + selectedVideo);
         let time = [0, 0, 0];
         let remain = video.duration;
         for (const x in time) {
@@ -190,7 +190,7 @@ const YoutubeSearch = () => {
     };
 
     function customDurationToFloat(durationStringVer) {
-        console.log(durationStringVer);
+        // console.log("durationStringVer === " + durationStringVer);
         let whereH = durationStringVer.indexOf("H");
         let whereM = durationStringVer.indexOf("M");
         let whereS = durationStringVer.indexOf("S");
@@ -204,17 +204,16 @@ const YoutubeSearch = () => {
 
             durationFloat = durationFloat + parseFloat(hour) * 3600;
         }
-        console.log("hr: " + hour);
+        // console.log("hr: " + hour);
         if (whereM > -1) {
             let tempDuration = durationStringVer.split("M");
             let temp_length = tempDuration[0].length;
             if (whereH > -1) {
                 min = tempDuration[0].substring(whereH + 1, temp_length);
             } else min = tempDuration[0].substring(2, temp_length);
-            console.log("min: " + min);
             durationFloat = durationFloat + parseFloat(min) * 60;
         }
-        console.log("min: " + min);
+        // console.log("min: " + min);
         if (whereS > -1) {
             let tempDuration = durationStringVer.split("S");
             let temp_length = tempDuration[0].length;
@@ -225,7 +224,7 @@ const YoutubeSearch = () => {
             } else sec = tempDuration[0].substring(2, temp_length);
             durationFloat = durationFloat + parseFloat(sec);
         }
-        console.log("sec: " + sec);
+        // console.log("sec: " + sec);
 
         console.log("final: " + durationFloat);
 
@@ -234,7 +233,7 @@ const YoutubeSearch = () => {
 
     const savePart = (video) => {
         console.log("savePart index: " + index);
-        var i = Object.keys(cart).find(key => cart[key].seq === video.seq);
+        var i = Object.keys(cart).find((key) => cart[key].seq === video.seq);
         if (cart[i] === undefined) {
             video.newTitle = newTitle ? newTitle : "";
             video.newDescription = newDescription ? newDescription : "";
@@ -242,17 +241,15 @@ const YoutubeSearch = () => {
             video.end_s = endFloatTime ? parseInt(endFloatTime) : video.duration;
             video.duration = video.end_s - video.start_s;
             video.seq = index;
-            if((isStartModified === 1 && isEndModified === 1) || (video.tag === "startModified" && isEndModified === 1) || (video.tag === "endModified" && isStartModified === 1)){
+            if ((isStartModified === 1 && isEndModified === 1) || (video.tag === "startModified" && isEndModified === 1) || (video.tag === "endModified" && isStartModified === 1)) {
                 video.tag = "bothModified";
-            }
-            else if(video.tag !== "bothModified" && isStartModified === 1){
+            } else if (video.tag !== "bothModified" && isStartModified === 1) {
                 video.tag = "startModified";
-            }
-            else if(video.tag !== "bothModified" && isEndModified === 1){
+            } else if (video.tag !== "bothModified" && isEndModified === 1) {
                 video.tag = "endModified";
             }
             cart[index] = video;
-            setIndex(index => index + 1);
+            setIndex((index) => index + 1);
             console.log("in undefined");
         } else {
             cart[i].newTitle = newTitle ? newTitle : "";
@@ -260,13 +257,11 @@ const YoutubeSearch = () => {
             cart[i].start_s = startFloatTime ? parseInt(startFloatTime) : cart[i].start_s;
             cart[i].end_s = endFloatTime ? parseInt(endFloatTime) : cart[i].end_s;
             cart[i].duration = cart[i].end_s - cart[i].start_s;
-            if((isStartModified === 1 && isEndModified === 1) || (cart[i].tag === "startModified" && isEndModified === 1) || (cart[i].tag === "endModified" && isStartModified === 1)){
+            if ((isStartModified === 1 && isEndModified === 1) || (cart[i].tag === "startModified" && isEndModified === 1) || (cart[i].tag === "endModified" && isStartModified === 1)) {
                 cart[i].tag = "bothModified";
-            }
-            else if(cart[i].tag !== "bothModified" && isStartModified === 1){
+            } else if (cart[i].tag !== "bothModified" && isStartModified === 1) {
                 cart[i].tag = "startModified";
-            }
-            else if(cart[i].tag !== "bothModified" && isEndModified === 1){
+            } else if (cart[i].tag !== "bothModified" && isEndModified === 1) {
                 cart[i].tag = "endModified";
             }
             console.log("in existing");
@@ -288,13 +283,12 @@ const YoutubeSearch = () => {
     };
 
     // const incrementIndex = useMemo(
-    //     () => setIndex(index + 1), 
+    //     () => setIndex(index + 1),
     //     [cart]
     //   );
 
     const addVideoToCart = (video) => {
-        console.log("add!!");
-        console.log(video);
+        console.log("add!! index === " + index);
         initVideo.seq = index;
         initVideo.newDescription = newDescription;
         initVideo.start_s = startFloatTime ? parseInt(startFloatTime) : 0;
@@ -307,12 +301,12 @@ const YoutubeSearch = () => {
         //     initVideo.duration = customDurationToFloat(video.contentDetails.duration);
         // // } else initVideo.duration = parseInt(endFloatTime - startFloatTime);
         cart[index] = initVideo;
-        // console.log(cart[index]);
-        setCart({...cart});
+        console.log(cart[index]);
+        setIndex((index) => index + 1);
+        setCart({ ...cart });
         setIsChanged(true);
         window.alert("저장되었습니다.");
-        setIndex(index => index + 1);
-        for(const prop in cart){
+        for (const prop in cart) {
             console.log("idx: " + cart[prop].seq);
         }
     };
@@ -323,13 +317,11 @@ const YoutubeSearch = () => {
     };
 
     const deleteVideoFromCart = (seq) => {
-        var i = Object.keys(cart).find(key => cart[key].seq === seq);
-        if(cart[i].id !== 0)
-            cart[i].deleted = 1;
-        else
-            delete cart[i];
+        var i = Object.keys(cart).find((key) => cart[key].seq === seq);
+        if (cart[i].id !== 0) cart[i].deleted = 1;
+        else delete cart[i];
         console.log("delete!");
-        console.log(cart);
+        console.log("cart === " + cart);
         setIsChanged(true);
         setCart({ ...cart }); //setCart passes on a state change to the Cart component
         window.alert("삭제되었습니다.");
@@ -407,8 +399,7 @@ const YoutubeSearch = () => {
         var t = endFloatTime ? endFloatTime : end_t;
         if (currentFloatTime > t) {
             window.alert("시작 시간을 종료 시간 이전으로 설정해주세요!");
-        }
-        else{
+        } else {
             setStartTime(currentPlayTime);
             setStartFloatTime(currentFloatTime);
         }
@@ -421,8 +412,7 @@ const YoutubeSearch = () => {
         var t = startFloatTime ? startFloatTime : start_t;
         if (currentFloatTime < t) {
             window.alert("종료 시간을 시작 시간 이전으로 설정해주세요!");
-        }
-        else{
+        } else {
             setEndTime(currentPlayTime);
             setEndFloatTime(currentFloatTime);
         }
@@ -433,58 +423,48 @@ const YoutubeSearch = () => {
         var h = "";
         var m = "";
         var s = "";
-        if( parseInt(time / 3600) > 0){
+        if (parseInt(time / 3600) > 0) {
             h = parseInt(time / 3600);
             time = parseInt(time % 3600);
         }
-        if(parseInt(time / 60) > 0){
+        if (parseInt(time / 60) > 0) {
             m = parseInt(time / 60) < 10 ? "0" + parseInt(time / 60) : parseInt(time / 60);
             time = parseInt(time % 60);
+        } else {
+            m = "00";
         }
-        else{
-            m = "00"
-        }
-        if(parseInt(time) > 0){
+        if (parseInt(time) > 0) {
             s = parseInt(time) < 10 ? "0" + parseInt(time) : parseInt(time);
+        } else {
+            s = "00";
         }
-        else{
-            s = "00"
-        }
-        if(h !== "")
-            return h + ":" + m + ":" + s;
-        else
-            return m + ":" + s;
-    }
+        if (h !== "") return h + ":" + m + ":" + s;
+        else return m + ":" + s;
+    };
 
     const printDuration = (time) => {
-        console.log(time);
+        console.log("time === " + time);
         var h = "";
         var m = "";
         var s = "";
-        if( parseInt(time / 3600) > 0){
+        if (parseInt(time / 3600) > 0) {
             h = parseInt(time / 3600);
             time = parseInt(time % 3600);
         }
-        if(parseInt(time / 60) > 0){
-            if(h === "")
-                m = parseInt(time / 60) < 10 ? parseInt(time / 60) : parseInt(time / 60);
-            else
-                m = parseInt(time / 60) < 10 ? "0" + parseInt(time / 60) : parseInt(time / 60);
+        if (parseInt(time / 60) > 0) {
+            if (h === "") m = parseInt(time / 60) < 10 ? parseInt(time / 60) : parseInt(time / 60);
+            else m = parseInt(time / 60) < 10 ? "0" + parseInt(time / 60) : parseInt(time / 60);
             time = parseInt(time % 60);
         }
-        if(parseInt(time) > 0){
+        if (parseInt(time) > 0) {
             s = parseInt(time) < 10 ? "0" + parseInt(time) : parseInt(time);
-        }
-        else{
+        } else {
             s = "0";
         }
-        if(h !== "")
-            return h + "시간 " + m + "분 " + s + "초";
-        else if (m !== "")
-            return m + "분 " + s + "초";
-        else
-            return s + "초";
-    }
+        if (h !== "") return h + "시간 " + m + "분 " + s + "초";
+        else if (m !== "") return m + "분 " + s + "초";
+        else return s + "초";
+    };
 
     useEffect(async function () {
         let searchedResults = await youtube.search(location.state.playlistName);
@@ -579,7 +559,7 @@ const YoutubeSearch = () => {
                                     }}
                                 >
                                     <div className="col-12 mb-20 d-flex justify-content-center" style={{ minHeight: "500px", width: "100%" }}>
-                                        <div style={{marginTop: "30px"}}>
+                                        <div style={{ marginTop: "30px" }}>
                                             <h5 className="w-100 mb-10">영상 편집</h5>
                                             <div>
                                                 <div>
@@ -587,9 +567,9 @@ const YoutubeSearch = () => {
                                                 </div>
                                                 <div>
                                                     <div className="d-flex flex-nowrap justify-content-start align-items-center w-100">
-                                                        <div className="fw-bold w-100" style={{borderBottom: "1px solid gray", fontSize: "16pt", color:"black", padding: "5px 0px"}}>{selectedVideo.title}</div>
-                                                        
-            
+                                                        <div className="fw-bold w-100" style={{ borderBottom: "1px solid gray", fontSize: "16pt", color: "black", padding: "5px 0px" }}>
+                                                            {selectedVideo.title}
+                                                        </div>
                                                     </div>
                                                     <div className="mb-10">
                                                         <span className="fw-bold">영상 재생 시간</span>
@@ -608,24 +588,41 @@ const YoutubeSearch = () => {
                                                     </div> */}
                                                     <div className="d-flex justify-content-center align-items-center mb-20">
                                                         <button className="time-btn text-center" onClick={() => onClickStartTime(currentPlayTime, selectedVideo.end_s)}>
-                                                                시작 시간
+                                                            시작 시간
                                                         </button>
-                                                        <div style={{ fontSize: "10pt", color: "black", border: "1.5px solid #284882", background: "#fff", marginRight: "10px", width: "70px", height: "30px", textAlign: "center"}}>
-                                                            {startTime
-                                                                ? startTime
-                                                                : timePoint(selectedVideo.start_s)}
+                                                        <div
+                                                            style={{
+                                                                fontSize: "10pt",
+                                                                color: "black",
+                                                                border: "1.5px solid #284882",
+                                                                background: "#fff",
+                                                                marginRight: "10px",
+                                                                width: "70px",
+                                                                height: "30px",
+                                                                textAlign: "center",
+                                                            }}
+                                                        >
+                                                            {startTime ? startTime : timePoint(selectedVideo.start_s)}
                                                         </div>
                                                         <button className="time-btn text-center ml-10" onClick={() => onClickEndTime(currentPlayTime, selectedVideo.start_s)}>
                                                             종료 시간
                                                         </button>
-                                                        <div style={{ fontSize: "10pt", color: "black", border: "1.5px solid #284882", background: "#fff", width: "70px", height: "30px", textAlign: "center"}}>
-                                                            {endTime
-                                                                ? endTime
-                                                                : timePoint(selectedVideo.end_s)}
+                                                        <div
+                                                            style={{
+                                                                fontSize: "10pt",
+                                                                color: "black",
+                                                                border: "1.5px solid #284882",
+                                                                background: "#fff",
+                                                                width: "70px",
+                                                                height: "30px",
+                                                                textAlign: "center",
+                                                            }}
+                                                        >
+                                                            {endTime ? endTime : timePoint(selectedVideo.end_s)}
                                                         </div>
                                                     </div>
                                                     <div className="d-flex justify-content-start w-100 edit-input">
-                                                        <span style={{marginRight: "10px"}}>영상 제목:</span>
+                                                        <span style={{ marginRight: "10px" }}>영상 제목:</span>
                                                         <input
                                                             type="text"
                                                             id="title"
@@ -633,8 +630,8 @@ const YoutubeSearch = () => {
                                                             placeholder={selectedVideo.newTitle ? selectedVideo.newTitle : selectedVideo.title}
                                                             value={newTitle}
                                                             onChange={titleChange}
-                                                            />
-                                                        </div>
+                                                        />
+                                                    </div>
                                                     {/* <div className="d-flex justify-content-start w-100 edit-input mt-10">
                                                         <span style={{marginRight: "10px"}}>영상 내용:</span>
                                                         <input
@@ -667,9 +664,12 @@ const YoutubeSearch = () => {
                                         playlistTitle={playlistName}
                                         playlistId={playlistId}
                                         setPart={setPart}
+                                        index={index}
+                                        setIndex={setIndex}
                                         existingVideo={existingVideo}
                                         deleteVideoFromCart={deleteVideoFromCart}
                                         isInPlaylist={isInPlaylist}
+                                        setIsInPlaylist={setIsInPlaylist}
                                     ></Cart>
                                 </div>
                             </>
