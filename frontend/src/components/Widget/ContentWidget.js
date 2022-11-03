@@ -202,7 +202,7 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                                 : `https://www.youtube.com/watch?v=${contentData.playlist.videos[i].youtubeId}?start=${contentData.playlist.videos[i].start_s}&end=${contentData.playlist.videos[i].end_s}`
                                                         }
                                                         width={isBigDisplay ? (isPlaylistVisible ? "70%" : "100%") : "900px"}
-                                                        height={isBigDisplay ? "800px" : "500px"}
+                                                        height={isBigDisplay ? (isPlaylistVisible ? "800px" : "945px") : "500px"}
                                                         playing={playing} // 자동 재생 on
                                                         // muted={true} // 자동 재생 on
                                                         controls={true} // 플레이어 컨트롤 노출 여부
@@ -243,14 +243,14 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                         <div>
                                                             <ReactPlayer
                                                                 url={`https://www.youtube.com/watch?v=${contentData.playlist.videos[i].youtubeId}?start=${contentData.playlist.videos[i].start_s}&end=${contentData.playlist.videos[i].end_s}`}
-                                                                width={isBigDisplay ? "100%" : "900px"}
-                                                                height={isBigDisplay ? "1000px" : "500px"}
+                                                                width={isBigDisplay ? (isPlaylistVisible ? "70%" : "100%") : "900px"}
+                                                                height={isBigDisplay ? (isPlaylistVisible ? "800px" : "945px") : "500px"}
                                                                 playing={playing} // 자동 재생 on
                                                                 controls={true} // 플레이어 컨트롤 노출 여부
                                                                 pip={true} // pip 모드 설정 여부
                                                             />
                                                             <div className="row text-start pt-10">
-                                                                <div className="pt-1 fs-4">{decodeHTML(contentData.playlist.videos[i].videoTitle)}</div>
+                                                                <div className="pt-1 fs-4" style={{width: "1400px"}}>{decodeHTML(contentData.playlist.videos[i].videoTitle)}</div>
                                                             </div>
                                                             <div className="d-flex fw-light ms-0">
                                                                 재생 시간: {contentData.playlist.videos[i].duration ? toHHMMSS(contentData.playlist.videos[i].duration) : "duration 없음"}
@@ -280,8 +280,8 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                                 ? `https://www.youtube.com/watch?v=${clickedVideo.youtubeId}?start=${clickedVideo.start_s}&end=${clickedVideo.end_s}`
                                                                 : `https://www.youtube.com/watch?v=${contentData.playlist.videos[0].youtubeId}?start=${contentData.playlist.videos[0].start_s}&end=${contentData.playlist.videos[0].end_s}`
                                                         }
-                                                        width={isBigDisplay ? "100%" : "900px"}
-                                                        height={isBigDisplay ? "800px" : "500px"}
+                                                        width={isBigDisplay ? (isPlaylistVisible ? "70%" : "100%") : "900px"}
+                                                        height={isBigDisplay ? (isPlaylistVisible ? "800px" : "945px") : "500px"}
                                                         playing={playing} // 자동 재생 on
                                                         // muted={true} // 자동 재생 on
                                                         controls={true} // 플레이어 컨트롤 노출 여부
