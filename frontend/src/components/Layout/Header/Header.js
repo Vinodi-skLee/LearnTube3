@@ -5,7 +5,6 @@ import MenuItems from "./MenuItems";
 import RSMobileMenu from "./RSMobileMenu";
 import CanvasMenu from "./CanvasMenu";
 import TopHeader from "./TopBar";
-import AlarmDetail from "./AlarmDetail";
 
 import normalLogo from "../../../assets/img/logo/lite-logo.png";
 import darkLogo from "../../../assets/img/logo/dark-logo.png";
