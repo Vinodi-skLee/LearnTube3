@@ -12,20 +12,21 @@ import CardGroup from "react-bootstrap/CardGroup";
 import "rc-slider/assets/index.css";
 
 const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, selectVideo, addVideoToCart, deleteVideoFromCart, isAlreadyIncart, newCart, selectPart }) => {
-    const onSelect = useCallback(() => {
+    const onSelect = () => {
         selectPart(video);
-    }, [video]);
+    };
 
-    const onClick = useCallback(() => {
+    const onClick = () => {
         addVideoToCart(video);
         setIsAdded(true);
         newCart[video.id] = video;
-    }, [video]);
+        console.log("newCart : " + newCart[video.id]);
+    };
 
-    const onDelete = useCallback(() => {
+    const onDelete = () => {
         deleteVideoFromCart(video.id);
         delete newCart[video.id];
-    }, [video]);
+    };
 
     //const [isSelected, setIsSelected] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
