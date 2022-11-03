@@ -354,12 +354,12 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                             </div>
                             {/* Playlist 부분 */}
                             {isPlaylistVisible && isBigDisplay ? (
-                            <div className="d-block position-fixed" style={{top: "95px", right: "28%", zIndex: "1001"}}>
+                            <div className="d-block position-fixed" style={{top: "95px", right: "28.1%", zIndex: "1001", border: "1px solid lightgray"}}>
                                 <button onClick={() => setIsPlaylistVisible(!isPlaylistVisible)} style={{fontWeight: "bold", border: "none", background:"white", width: "40px", height: "40px"}}>{'>'}</button>
                             </div>
                             )
                             :
-                            <div className={isBigDisplay ? "d-block position-fixed" : "d-none"} style={{top: "95px", right: "0px", zIndex: "1001"}}>
+                            <div className={isBigDisplay ? "d-block position-fixed" : "d-none"} style={{top: "95px", right: "0px", zIndex: "1001", border: "1px solid lightgray"}}>
                                 <button onClick={() => setIsPlaylistVisible(!isPlaylistVisible)} style={{fontWeight: "bold", border: "none", background:"white", width: "40px", height: "40px"}}>{'<'}</button>
                             </div>
                             }
@@ -407,7 +407,7 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                 <span>&ensp;전체 재생 시간 - {contentData.playlist.totalTime ? toHHMMSS(contentData.playlist.totalTime) : ""}</span>
                                             </div>
                                         </div>
-                                        <div className="video_playlist">
+                                        <div className={isBigDisplay ? "video_playlist_big" : "video_playlist"}>
                                             {contentData.playlist.videos.map((data, i) => (
                                                 // {/* playlist 연속재생 토글버튼 */}
                                                 <>

@@ -488,6 +488,12 @@
     // z-index: 0;
 }
 
+.video_playlist_big {
+    height: 730px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
 .lectureLeftBtn {
     position: fixed;
     bottom: 45%;
