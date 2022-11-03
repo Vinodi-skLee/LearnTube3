@@ -45,10 +45,10 @@ const ContentButton = ({
                 ? "pagination-part shadow-none border-0 contentBtn"
                 : "pagination-part shadow-none border-0 contentBtn_disabled"
             }
-            style={{ cursor: "pointer", backgroundColor: "#a5abbd" }}
+            style={contentNum != 0 ?{ cursor: "pointer"} : null}
           >
             {contentNum != 0 ? (
-              <li onClick={prevContentHandler} style={{ fontSize: "0.9rem" }}>
+              <li onClick={prevContentHandler} style={{ fontSize: "0.9rem", color: "white" }}>
                 <i
                   className="fa fa-play"
                   style={{ transform: "rotate(180deg)" }}
@@ -56,7 +56,7 @@ const ContentButton = ({
                 &ensp;이전 콘텐츠
               </li>
             ) : (
-              <li style={{ fontSize: "0.9rem" }}>
+              <li style={{ fontSize: "0.9rem", color: "rgb(195, 195, 195)" }}>
                 <i
                   className="fa fa-play"
                   style={{
@@ -76,8 +76,9 @@ const ContentButton = ({
             <ul
               className="pagination-part shadow-none border-0 contentBtn"
               // style={{ cursor: "pointer", backgroundColor: "#a5abbd" }}
+              style={contentNum != 0 ?{ cursor: "pointer"} : null}
             >
-              <li style={{ fontSize: "0.9rem" }}>
+              <li style={{ fontSize: "0.9rem", color: "white" }}>
                 <i
                   className="fa fa-play"
                   style={{
@@ -93,7 +94,7 @@ const ContentButton = ({
               className="pagination-part shadow-none border-0 contentBtn_disabled"
               // style={{ cursor: "pointer", backgroundColor: "#a5abbd" }}
             >
-              <li style={{ fontSize: "0.9rem" }}>
+              <li style={{ fontSize: "0.9rem", color: "rgb(195, 195, 195)" }}>
                 <i
                   className="fa fa-play"
                   style={{
@@ -115,8 +116,9 @@ const ContentButton = ({
             <ul
               className="pagination-part shadow-none border-0 contentBtn"
               // style={{ cursor: "pointer", backgroundColor: "#a5abbd" }}
+              style={lectures[lectureNum - 1].contents.length != contentNum + 1 ?{ cursor: "pointer"} : null}
             >
-              <li onClick={nextContentHandler} style={{ fontSize: "0.9rem" }}>
+              <li onClick={nextContentHandler} style={{ fontSize: "0.9rem", color: "white" }}>
                 다음 콘텐츠&ensp;<i className="fa fa-play"></i>
               </li>
             </ul>
@@ -125,7 +127,7 @@ const ContentButton = ({
               className="pagination-part shadow-none border-0 contentBtn_disabled"
               // style={{ cursor: "pointer", backgroundColor: "#a5abbd" }}
             >
-              <li style={{ fontSize: "0.9rem" }}>
+              <li style={{ fontSize: "0.9rem", color: "rgb(195, 195, 195)" }}>
                 다음 콘텐츠&ensp;
                 <i className="fa fa-play"></i>
               </li>
@@ -138,8 +140,9 @@ const ContentButton = ({
             <ul
               className="pagination-part shadow-none border-0 contentBtn"
               // style={{ cursor: "pointer", backgroundColor: "#a5abbd" }}
+              style={lectures[lectureNum - 1].contents.length != contentNum + 1 ?{ cursor: "pointer"} : null}
             >
-              <li style={{ fontSize: "0.9rem" }}>
+              <li style={{ fontSize: "0.9rem", color: "white" }}>
                 다음 콘텐츠&ensp;<i className="fa fa-play"></i>
               </li>
             </ul>
@@ -148,7 +151,7 @@ const ContentButton = ({
               className="pagination-part shadow-none border-0 contentBtn_disabled"
               // style={{ cursor: "pointer", backgroundColor: "#a5abbd" }}
             >
-              <li style={{ fontSize: "0.9rem" }}>
+              <li style={{ fontSize: "0.9rem", color: "rgb(195, 195, 195)" }}>
                 다음 콘텐츠&ensp;
                 <i className="fa fa-play"></i>
               </li>

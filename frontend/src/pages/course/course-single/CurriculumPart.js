@@ -124,7 +124,7 @@ const CurriculumPart = (props) => {
         var seconds = sec_num % 60;
 
         return [hours, minutes, seconds]
-            .map((v) => (v < 10 ? "0" + v : v))
+            .map((v) => (!hours && v < 10 ? "0" + v : v))
             .filter((v, i) => v !== "00" || i > 0)
             .join(":");
     };

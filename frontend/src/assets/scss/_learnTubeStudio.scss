@@ -467,7 +467,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     word-break: break-word;
-
+    height: 50px;
     display: -webkit-box;
     -webkit-line-clamp: 2; // 원하는 라인수
     -webkit-box-orient: vertical;
@@ -490,7 +490,7 @@
 
 .lectureLeftBtn {
     position: fixed;
-    bottom: 50%;
+    bottom: 45%;
     left: 3rem;
     cursor: "pointer";
     background-color: #273857;
@@ -501,18 +501,25 @@
 
 .lectureLeftBtn_disabled {
     position: fixed;
-    bottom: 50%;
+    bottom: 45%;
     left: 3rem;
     cursor: "pointer";
-    background-color: #9a9a9a;
+    background-color: #e9ecef;
     color: #fff;
     font-size: "0.9rem";
     border-radius: 100px;
 }
 
+.lectureLeftBtn:hover {
+    cursor: "pointer";
+    // background-color: "#586789";
+    border: 2px solid #273857;
+    // background-color: lightblue;
+}
+
 .lectureRightBtn {
     position: fixed;
-    bottom: 50%;
+    bottom: 45%;
     right: 3rem;
     cursor: "pointer";
     background-color: #273857;
@@ -523,15 +530,17 @@
 
 .lectureRightBtn_disabled {
     position: fixed;
-    bottom: 50%;
+    bottom: 45%;
     right: 3rem;
     cursor: "pointer";
-    background-color: #9a9a9a;
+    background-color: #e9ecef;
     color: #fff;
     font-size: "0.9rem";
+    border-radius: 100px;
 }
 
 .lectureRightBtn:hover {
+    cursor: "pointer";
     // background-color: "#586789";
     border: 2px solid #273857;
     // background-color: lightblue;
@@ -540,24 +549,51 @@
 .contentBtn {
     cursor: "pointer";
     // border: 2px solid #273857;
-    background-color: #a5abbd;
-    // color: #fff;
+    background-color: #273857;
+    color: #fff !important;
     font-size: "0.9rem";
 }
 
-.contentBtn:hover {
-    cursor: "pointer";
-    font-size: "0.9rem";
-    // background-color: "#586789";
-    // border-color: #a5abbd;
-    // border: 2px;
-    // background-color: #a5abbd;
-    background-color: #f5e5e2;
-}
+// .contentBtn:hover {
+//     cursor: "pointer";
+//     font-size: "0.9rem";
+//     // background-color: "#586789";
+//     // border-color: #a5abbd;
+//     // border: 2px;
+//     // background-color: #a5abbd;
+//     background-color: #f5e5e2;
+// }
 
 .contentBtn_disabled {
     cursor: "pointer";
-    background-color: gray !important;
-    color: #fff;
+    background-color: #e9ecef !important;
+    color: #ced4da !important;
     font-size: "0.9rem";
 }
+
+.notification{
+    color: white;
+  }
+  
+  .notification:after{
+    content: "";
+    display: block;
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: red;
+    top: 0;
+    right: 0;
+    border-radius: 50%;
+  }
+
+  .my_playlist {
+    // position: relative;
+    // width: 100%;
+    min-height: 100px;
+    max-height: 430px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    // background: #fff;
+    // z-index: 0;
+  }

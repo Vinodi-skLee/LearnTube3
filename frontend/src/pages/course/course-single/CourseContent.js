@@ -42,6 +42,7 @@ const CourseContent = (props) => {
     const [playing, setPlaying] = useState(false);
     const [contentNum, setContentNum] = useState(0);
     const [videoNum, setVideoNum] = useState(0);
+    const [isBigDisplay, setIsBigDisplay] = useState(false);
     useEffect(() => {
         // console.log(contentId);
         const fetchClassRoom = async () => {
@@ -104,12 +105,18 @@ const CourseContent = (props) => {
                 className="pb-100 md-pb-10 gray-bg"
                 // style={{ backgroundColor: "#fff" }}
             >
-                <div className="container">
+                <div className={isBigDisplay ? "p-3" : "container pt-10"} style={{minHeight: "800px"}}>
                     {/* <div className="justify-content-around align-items-center d-flex"> */}
-                    <div className="d-flex align-items-center">
+                    {isBigDisplay ? null : (<div style={{borderBottom: "1px solid lightgray", height: "50px", margin: "10px"}}>
+                        <span style={{fontSize: "20px", marginLeft: "40px", marginBottom: "0px"}}>Course > Curriculum</span>
+                    </div>)}
+                    <div className="d-block">
                         {/* 이전 강의 버튼 */}
-                        <div className=" md-mt-0 p-3">
-                            <ul className={lectureNum != 1 ? "pagination-part border-0 lectureLeftBtn" : "pagination-part border-0 lectureLeftBtn_disabled"}>
+                        <div className=" md-mt-0">
+                            <ul 
+                                className={lectureNum != 1 ? "pagination-part border-0 lectureLeftBtn" : (isBigDisplay ?  "d-none" : "pagination-part border-0 lectureLeftBtn_disabled")}
+                                style={lectureNum != 1 ? {cursor: "pointer"} : null}
+                            >
                                 {lectureNum != 1 ? (
                                     <>
                                         <li onClick={prevLectureHandler} data-for="prevLectureBtnHover" data-tip>
@@ -141,7 +148,7 @@ const CourseContent = (props) => {
                         <div className="pl-0">
                             <div class=" text-center dashboard-tabs">
                                 <div className=" intro-info-tabs border-none row">
-                                    <div className="col-lg-12 col-md-12">
+                                    <div className="">
                                         <div className="widget-area">
                                             <ContentWidget
                                                 className={location.state.classRoomData.className}
@@ -160,6 +167,8 @@ const CourseContent = (props) => {
                                                 setContentId={setContentId}
                                                 videoNum={videoNum}
                                                 setVideoNum={setVideoNum}
+                                                isBigDisplay={isBigDisplay}
+                                                setIsBigDisplay={setIsBigDisplay}
                                             />
                                         </div>
                                     </div>
@@ -170,14 +179,15 @@ const CourseContent = (props) => {
                         <span className="shadow-none orange-color text-center md-mt-0 p-3">
                             <ul
                                 className={
-                                    lectureNum + 1 != lectures.length
+                                    lectureNum != lectures.length
                                         ? "pagination-part shadow-none border-0 lectureRightBtn"
                                         : // style={{ cursor: "pointer", backgroundColor: "#273857" }}
-                                          "pagination-part shadow-none border-0 lectureRightBtn_disabled"
+                                          (isBigDisplay ?  "d-none" : "pagination-part shadow-none border-0 lectureRightBtn_disabled")
                                 }
+                                style={lectureNum + 1 != lectures.length ? {cursor: "pointer"} : null}
                             >
                                 {/* <h>{(lectureNum, lectures.length)}</h> */}
-                                {lectureNum + 1 != lectures.length ? (
+                                {lectureNum != lectures.length ? (
                                     <>
                                         <li onClick={nextLectureHandler} data-for="nextLectureBtnHover" data-tip>
                                             {/* <GrNext size={15} color="#ff614d" /> */}
@@ -195,7 +205,7 @@ const CourseContent = (props) => {
                                             {/* <GrNext size={15} color="#808080" /> */}
                                             <i
                                                 className="fa fa-angle-right fa-lg"
-                                                // style={{ color: "gray" }}
+                                                style={{ color: "#fff" }}
                                             ></i>
                                         </li>{" "}
                                         <ReactTooltip
