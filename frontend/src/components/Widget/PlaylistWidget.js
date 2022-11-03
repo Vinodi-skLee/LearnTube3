@@ -238,7 +238,7 @@ const PlaylistWidget = ({
                         class="text-start pb-1"
                         style={{ fontSize: "0.8rem" }}
                       >
-                        <span>
+                        <span style={{ width: "20px" }}>
                           {videoNum + 1} / {playlistSize}
                           &ensp; &#183;
                         </span>
@@ -286,7 +286,7 @@ const PlaylistWidget = ({
                           >
                             <div
                               className="d-flex align-items-center pe-3"
-                              style={{ fontSize: "0.8rem" }}
+                              style={{ fontSize: "0.8rem", width: "10px" }}
                             >
                               {i !== videoNum ? (
                                 <>{i + 1}</>
@@ -326,12 +326,18 @@ const PlaylistWidget = ({
                               className="d-flex row pt-0 ps-3 "
                               style={{ width: "100%" }}
                             >
-                              <div className="playlist-title d-flex row pt-0 ps-3 fw-light text-start">
+                              <div
+                                className="playlist-title d-flex row pt-0 ps-3 fw-light text-start"
+                                style={{ height: "50px" }}
+                              >
                                 {selectedVideo[i].newTitle
                                   ? selectedVideo[i].newTitle
                                   : selectedVideo[i].title}
                               </div>
-                              <div className="playlist-title d-flex row pt-0 ps-3 fw-light">
+                              <div
+                                className="d-flex row pt-0 "
+                                style={{ fontSize: "0.8rem" }}
+                              >
                                 시작:{" "}
                                 {selectedVideo[i].start_s
                                   ? toHHMMSS(selectedVideo[i].start_s)
