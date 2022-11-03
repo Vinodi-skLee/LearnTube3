@@ -6,14 +6,14 @@ import mediaIcon from "../../assets/img/icon/mediaIcon.png";
 import ContentButton from "./ContentButton/ContentButton";
 import ReactTooltip from "react-tooltip";
 import { TbRectangle } from "react-icons/tb";
-const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content, i, j, lectures, contentData, contentNum, setContentNum, videos, contentId, setContentId, videoNum, setVideoNum }) => {
+const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content, i, j, lectures, contentData, contentNum, setContentNum, videos, contentId, setContentId, videoNum, setVideoNum, isBigDisplay, setIsBigDisplay }) => {
     const [isSelected, setIsSelected] = useState(false);
     const [clickedVideo, setClickedVideo] = useState();
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [repeatVideo, setRepeatVideo] = useState(false);
-    const [isBigDisplay, setIsBigDisplay] = useState(false);
     const [playing, setPlaying] = useState(false);
+    const [isPlaylistVisible, setIsPlaylistVisible] = useState(true);
 
     // console.log(videos[0]);
 
@@ -63,7 +63,7 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
         var seconds = sec_num % 60;
 
         return [hours, minutes, seconds]
-            .map((v) => (v < 10 ? "0" + v : v))
+            .map((v) => (!hours && v < 10 ? "0" + v : v))
             .filter((v, i) => v !== "00" || i > 0)
             .join(":");
     };
@@ -91,6 +91,12 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
     const handleBigDisplay = () => {
         setIsBigDisplay(!isBigDisplay);
         console.log(isBigDisplay);
+    };
+
+    function decodeHTML (words) {
+        var decode = require('decode-html');
+        console.log(decode(words));
+        return decode(words);
     };
     // const nextLectureHandler = () => {
     //     if (lectureNum <= lectures.length) {
@@ -135,11 +141,11 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
 
                 {clickedVideo ? (
                     <div>
-                        <div className="row p-10 text-start pt-30">
+                        <div className="row p-10 text-start">
                             {/* {"큰화면 아이콘"} */}
                             {isBigDisplay ? (
                                 <div
-                                    className="d-flex justify-content-start align-items-center pb-1"
+                                    className="d-flex justify-content-start align-items-center pb-1 mt-2 ml-2"
                                     // className="d-flex justify-content-end align-items-center"
                                     style={{ color: "gray", cursor: "pointer" }}
                                 >
@@ -157,9 +163,9 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                             ) : (
                                 <>
                                     <div
-                                        className="d-flex justify-content-start align-items-center pb-1"
+                                        className="d-flex justify-content-start align-items-center pb-1 mt-2"
                                         // className="d-flex justify-content-end align-items-center"
-                                        style={{ color: "black", cursor: "pointer" }}
+                                        style={{ color: "black", cursor: "pointer", marginLeft: "-37px" }}
                                     >
                                         <i className="fa fa-television" onClick={handleBigDisplay}>
                                             &ensp;영화관 모드
@@ -180,7 +186,8 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                     </div>
                                 </>
                             )}
-                            <div className={isBigDisplay ? null : "col-md-8 col-sm-12"}>
+                            <div className={isBigDisplay ? "d-block" : "d-flex justify-content-center"}>
+                            <div className={isBigDisplay ? null : "col-md-8 col-sm-12 mr-40"}>
                                 {/* 큰화면일때 화면구성 */}
                                 {/* //연속재생 false일때 */}
                                 {repeatVideo === false ? (
@@ -194,7 +201,7 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                                 ? `https://www.youtube.com/watch?v=${clickedVideo.youtubeId}?start=${clickedVideo.start_s}&end=${clickedVideo.end_s}`
                                                                 : `https://www.youtube.com/watch?v=${contentData.playlist.videos[i].youtubeId}?start=${contentData.playlist.videos[i].start_s}&end=${contentData.playlist.videos[i].end_s}`
                                                         }
-                                                        width={isBigDisplay ? "100%" : "100%"}
+                                                        width={isBigDisplay ? (isPlaylistVisible ? "70%" : "100%") : "900px"}
                                                         height={isBigDisplay ? "800px" : "500px"}
                                                         playing={playing} // 자동 재생 on
                                                         // muted={true} // 자동 재생 on
@@ -204,7 +211,7 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                     />{" "}
                                                     {/* 동영상 제목, 재생시간/구간 */}
                                                     <div className="row text-start pt-10">
-                                                        <div className="pt-1 fs-4">{contentData.playlist.videos ? clickedVideo.videoTitle : contentData.playlist.videos[i].videoTitle}</div>
+                                                        <div className="pt-1 fs-4">{contentData.playlist.videos ? decodeHTML(clickedVideo.videoTitle) : decodeHTML(contentData.playlist.videos[i].videoTitle)}</div>
                                                     </div>
                                                     <div className="d-flex fw-light ms-0">
                                                         {contentData.playlist.videos ? (
@@ -236,14 +243,14 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                         <div>
                                                             <ReactPlayer
                                                                 url={`https://www.youtube.com/watch?v=${contentData.playlist.videos[i].youtubeId}?start=${contentData.playlist.videos[i].start_s}&end=${contentData.playlist.videos[i].end_s}`}
-                                                                width={isBigDisplay ? "100%" : "100%"}
-                                                                height={isBigDisplay ? "800px" : "500px"}
+                                                                width={isBigDisplay ? "100%" : "900px"}
+                                                                height={isBigDisplay ? "1000px" : "500px"}
                                                                 playing={playing} // 자동 재생 on
                                                                 controls={true} // 플레이어 컨트롤 노출 여부
                                                                 pip={true} // pip 모드 설정 여부
                                                             />
                                                             <div className="row text-start pt-10">
-                                                                <div className="pt-1 fs-4">{contentData.playlist.videos[i].videoTitle}</div>
+                                                                <div className="pt-1 fs-4">{decodeHTML(contentData.playlist.videos[i].videoTitle)}</div>
                                                             </div>
                                                             <div className="d-flex fw-light ms-0">
                                                                 재생 시간: {contentData.playlist.videos[i].duration ? toHHMMSS(contentData.playlist.videos[i].duration) : "duration 없음"}
@@ -273,7 +280,7 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                                 ? `https://www.youtube.com/watch?v=${clickedVideo.youtubeId}?start=${clickedVideo.start_s}&end=${clickedVideo.end_s}`
                                                                 : `https://www.youtube.com/watch?v=${contentData.playlist.videos[0].youtubeId}?start=${contentData.playlist.videos[0].start_s}&end=${contentData.playlist.videos[0].end_s}`
                                                         }
-                                                        width={isBigDisplay ? "100%" : "100%"}
+                                                        width={isBigDisplay ? "100%" : "900px"}
                                                         height={isBigDisplay ? "800px" : "500px"}
                                                         playing={playing} // 자동 재생 on
                                                         // muted={true} // 자동 재생 on
@@ -283,7 +290,7 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                     />
 
                                                     <div className="row text-start ">
-                                                        <div className="pt-1 fs-4">{contentData.playlist.videos ? clickedVideo.videoTitle : contentData.playlist.videos[0].videoTitle}</div>
+                                                        <div className="pt-1 fs-4">{contentData.playlist.videos ? decodeHTML(clickedVideo.videoTitle) : decodeHTML(contentData.playlist.videos[0].videoTitle)}</div>
                                                     </div>
                                                     <div className="d-flex fw-light ms-0">
                                                         {contentData.playlist.videos ? (
@@ -325,7 +332,7 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                             />{" "}
                                                             <div className="row">
                                                                 <div className="row text-start pt-10">
-                                                                    <div className="pt-1 fs-4">{contentData.playlist.videos[i].videoTitle}</div>
+                                                                    <div className="pt-1 fs-4">{decodeHTML(contentData.playlist.videos[i].videoTitle)}</div>
                                                                 </div>
                                                                 <div className="d-flex fw-light ms-0">
                                                                     재생 시간: {contentData.playlist.videos[i].duration ? toHHMMSS(contentData.playlist.videos[i].duration) : "duration 없음"}
@@ -346,9 +353,20 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                 )}
                             </div>
                             {/* Playlist 부분 */}
+                            {isPlaylistVisible && isBigDisplay ? (
+                            <div className="d-block position-fixed" style={{top: "95px", right: "28%", zIndex: "1001"}}>
+                                <button onClick={() => setIsPlaylistVisible(!isPlaylistVisible)} style={{fontWeight: "bold", border: "none", background:"white", width: "40px", height: "40px"}}>{'>'}</button>
+                            </div>
+                            )
+                            :
+                            <div className={isBigDisplay ? "d-block position-fixed" : "d-none"} style={{top: "95px", right: "0px", zIndex: "1001"}}>
+                                <button onClick={() => setIsPlaylistVisible(!isPlaylistVisible)} style={{fontWeight: "bold", border: "none", background:"white", width: "40px", height: "40px"}}>{'<'}</button>
+                            </div>
+                            }
                             <div
-                                className={isBigDisplay ? "pt-20" : "col-md-4 col-sm-12 "}
+                                className={isBigDisplay ? (isPlaylistVisible ? "pt-20 position-fixed" : "d-none") : "col-md-4 col-sm-12 ml-40"}
                                 // style={{ height: "430px" }}
+                                style={isBigDisplay ? {top: "75px", right:"0px", zIndex: "1000", width: "540px"} : null}
                             >
                                 <div
                                     class="d-flex text-start fs-6 fw-bold p-3 pb-0"
@@ -421,7 +439,7 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                     >
                                                         {/* {contentData.playlist.videos[i].youtubeId} */}
                                                         <div className="d-flex align-items-center pe-3" style={{ fontSize: "0.8rem" }}>
-                                                            {i !== videoNum ? <>{i + 1}</> : <i className="fa fa-caret-right fa-lg" style={{ padding: "0.1rem" }}></i>}
+                                                            {i !== videoNum ? <span style={{width: "10px"}}>{i + 1}</span> : <span style={{width: "10px"}}>▶</span>}
                                                         </div>
                                                         <span className="d-flex position-relative justify-content-start" style={{ maxWidth: "30%" }}>
                                                             <img src={`https://img.youtube.com/vi/${contentData.playlist.videos[i].youtubeId}/mqdefault.jpg`} />
@@ -439,7 +457,7 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                             </span>
                                                         </span>
                                                         <div className="d-flex row pt-0 ps-3 " style={{ width: "100%" }}>
-                                                            <div className="playlist-title">{contentData.playlist.videos[i].videoTitle}</div>
+                                                            <div className="playlist-title">{decodeHTML(contentData.playlist.videos[i].videoTitle)}</div>
                                                         </div>
                                                     </div>
                                                 </>
@@ -465,6 +483,7 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                         setVideoNum={setVideoNum}
                                     />
                                 </div>
+                            </div>
                             </div>
                         </div>{" "}
                     </div>
