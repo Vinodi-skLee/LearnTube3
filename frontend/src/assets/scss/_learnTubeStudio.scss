@@ -489,7 +489,7 @@
 }
 
 .video_playlist_big {
-    height: 730px;
+    max-height: 730px;
     overflow-x: hidden;
     overflow-y: auto;
 }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import ModalVideo from "react-modal-video";
 import Modal from "react-modal";
 import axios from "axios";
@@ -29,27 +29,53 @@ const CurriculumPart = (props) => {
     const [noticeIdx, setNoticeIdx] = useState(0);
 
     const [showMore, setShowMore] = useState(false);
+    const [contentVideoNum, setContentVideoNum] = useState({});
 
     let notices = props.classRoomData.notices;
+    let history = useHistory();
 
-    const isTakeCheck = () => {
-        if (props.classRoomData.isTake === false && props.classRoomData.instructor.userId != userId) {
+    console.log("isTakeCheck? " + props.classRoomData.isTake);
+    console.log("isWaiting? " + props.isWaiting);
+
+    const isTakeCheck = (e) => {
+        if ((props.isWaiting == true || props.classRoomData.isTake === false)&& props.classRoomData.instructor.userId != userId) {
             alert("수강 신청이 필요합니다. ");
-
-            window.reload();
-            return;
+            e.preventDefault(); //to prevent the Link to action
         }
     };
 
     const clickModalHandler = (params) => {
-        if (props.classRoomData.isTake === false && props.classRoomData.instructor.userId != userId) {
+        if ((props.isWaiting == true || props.classRoomData.isTake === false) && props.classRoomData.instructor.userId != userId) {
             alert("수강 신청이 필요합니다. ");
             setIsOpen(isOpen);
             return;
         } else {
+            console.log(params);
             setNoticeIdx(params);
+            console.log(noticeIdx);
         }
     };
+
+    useEffect(() => {
+        const fetchContentData = async (contentId) => {
+            try {
+                const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/content?contentId=${contentId}`);
+                // console.log(res.data);
+                contentVideoNum[contentId] = res.data.playlist.videos.length;
+                setContentVideoNum({...contentVideoNum}, contentVideoNum[contentId]);
+                // console.log(contentData);
+            } catch (err) {
+                console.log("err >> ", err);
+            }
+        };
+        props.classRoomData.lectures.map((lecture) => {
+            lecture.contents.map((content) => {
+                fetchContentData(content.contentId);
+            })
+        })
+        console.log(contentVideoNum);
+    }, []);
+    
 
     const createLecture = async (e) => {
         let body = {
@@ -88,7 +114,7 @@ const CurriculumPart = (props) => {
         let body = {
             contentId: e,
         };
-        if (window.confirm("강의 차수 내에 컨텐츠가 삭제됩니다. 정말 삭제하시겠습니까?") == true) {
+        if (window.confirm("강의 차수 내에 콘텐츠가 삭제됩니다. 정말 삭제하시겠습니까?") == true) {
             const response = await axios
                 .post(`${process.env.REACT_APP_SERVER_URL}/api/content/delete`, JSON.stringify(body), {
                     headers: {
@@ -123,10 +149,34 @@ const CurriculumPart = (props) => {
         var minutes = Math.floor(sec_num / 60) % 60;
         var seconds = sec_num % 60;
 
-        return [hours, minutes, seconds]
-            .map((v) => (!hours && v < 10 ? "0" + v : v))
-            .filter((v, i) => v !== "00" || i > 0)
-            .join(":");
+        var total = "";
+
+        if(hours != 0){
+            total += hours;
+            if(minutes < 10)
+                total += ":0" + minutes;
+            else
+                total += ":" + minutes;
+            if(seconds < 10)
+                total += ":0" + seconds;
+            else
+                total += ":" + seconds;
+        }
+        else if(minutes != 0){
+            total += minutes;
+            if(seconds < 10)
+                total += ":0" + seconds;
+            else
+                total += ":" + seconds;
+        }
+        else total += seconds;
+
+        return total;
+
+        // return [hours, minutes, seconds]
+        //     .map((v, i) => (i != 0 && v < 10 ? "0" + v : v))
+        //     .filter((v, i) => v !== "00" || i > 0)
+        //     .join(":");
     };
 
     const [noticeState, setNoticeState] = useState({
@@ -141,10 +191,14 @@ const CurriculumPart = (props) => {
     const [indexOfLastPost, setIndexOfLastPost] = useState(currentpage * postPerPage);
     const [indexOfFirstPost, setIndexOfFirstPost] = useState(indexOfLastPost - postPerPage);
     const setPage = (e) => {
+        console.log("e " + e);
         setNoticeState({
             start: e * 3 - 3,
             end: e * 3,
         });
+        setNoticeIdx(0);
+        console.log("start" + noticeState.start);
+        console.log("end" + noticeState.end);
         if (!isLoading) setIsLoading(true);
         else setIsLoading(false);
         setCurrentpage(e);
@@ -473,6 +527,7 @@ const CurriculumPart = (props) => {
                                       <AccordionItemPanel className="card-body acc-content">
                                           {Array.isArray(props.classRoomData.lectures)
                                               ? props.classRoomData.lectures[i].contents.map((contents, j) => (
+                                                <>
                                                     <div className="content">
                                                         <div className="clearfix">
                                                             <div className="pull-left">
@@ -484,7 +539,8 @@ const CurriculumPart = (props) => {
                                                                             lectures: lectures,
 
                                                                             classRoomData: props.classRoomData,
-                                                                            i: i,
+                                                                            contentData: props.classRoomData.lectures[i].contents[j],
+                                                                            i: contentVideoNum[props.classRoomData.lectures[i].contents[j].contentId] - 1,
                                                                             j: j,
                                                                         },
                                                                     }}
@@ -503,6 +559,7 @@ const CurriculumPart = (props) => {
                                                                 >
                                                                     {props.classRoomData.lectures[i].contents[j].closeDate ? (
                                                                         <>
+                                                                            <span>영상 {contentVideoNum[props.classRoomData.lectures[i].contents[j].contentId]}개 | </span>
                                                                             {
                                                                                 props.classRoomData.lectures[i].contents[j].playlistDuration
                                                                                     ? toHHMMSS(props.classRoomData.lectures[i].contents[j].playlistDuration)
@@ -545,6 +602,7 @@ const CurriculumPart = (props) => {
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    </>
                                                 ))
                                               : null}
                                       </AccordionItemPanel>

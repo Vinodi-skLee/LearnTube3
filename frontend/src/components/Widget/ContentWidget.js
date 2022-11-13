@@ -14,8 +14,18 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
     const [repeatVideo, setRepeatVideo] = useState(false);
     const [playing, setPlaying] = useState(false);
     const [isPlaylistVisible, setIsPlaylistVisible] = useState(true);
+    const [isContentLoading, setIsContentLoading] = useState(true);
 
     // console.log(videos[0]);
+    console.log(contentData);
+    console.log(contentId);
+    console.log(i);
+    console.log(j);
+    useEffect(() => {
+        if(contentData.id === contentId)
+            setIsContentLoading(false);
+
+    }, [contentData]);
 
     useEffect(() => {
         if (videos) setClickedVideo(videos[0]);
@@ -139,7 +149,7 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                     </>
                 ) : null}
 
-                {clickedVideo ? (
+                {clickedVideo && !isContentLoading ? (
                     <div>
                         <div className="row p-10 text-start">
                             {/* {"큰화면 아이콘"} */}
@@ -147,10 +157,10 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                 <div
                                     className="d-flex justify-content-start align-items-center pb-1 mt-2 ml-2"
                                     // className="d-flex justify-content-end align-items-center"
-                                    style={{ color: "gray", cursor: "pointer" }}
+                                    style={{ color: "black", cursor: "pointer" }}
                                 >
                                     <i className="fa fa-television" onClick={handleBigDisplay}>
-                                        &ensp;기본 모드
+                                        &ensp;작게 보기
                                     </i>
                                     {/* <TbRectangle onClick={handleBigDisplay} data-for="handleSmDisplay" data-tip />
                                     <ReactTooltip
@@ -168,7 +178,7 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                         style={{ color: "black", cursor: "pointer", marginLeft: "-37px" }}
                                     >
                                         <i className="fa fa-television" onClick={handleBigDisplay}>
-                                            &ensp;영화관 모드
+                                            &ensp;크게 보기
                                         </i>
                                         {/* <TbRectangle
                                             className="fa-lg"
@@ -240,6 +250,7 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                             <>
                                                 {contentData.playlist.videos ? (
                                                     <>
+                                                    {console.log(contentData)}
                                                         <div>
                                                             <ReactPlayer
                                                                 url={`https://www.youtube.com/watch?v=${contentData.playlist.videos[i].youtubeId}?start=${contentData.playlist.videos[i].start_s}&end=${contentData.playlist.videos[i].end_s}`}
