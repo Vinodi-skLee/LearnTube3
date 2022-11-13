@@ -18,9 +18,9 @@ function CourseDetailsPart() {
   ]);
   const [takesData, setTakesData] = useState();
   const [waiting, setWaiting] = useState([]);
-  const uid = location.state.userId;
-  const [valid, setValid] = useState(false);
-  console.log("uid", uid);
+  // const uid = location.state.userId;
+  const [isWaiting, setIsWaiting] = useState(false);
+  // console.log("uid", uid);
   console.log("userId", userId);
   //console.log("cid in detail part " + cid);
   const joinClass = () => {
@@ -51,7 +51,8 @@ function CourseDetailsPart() {
       // console.log(takesData);
       fetchJoinClass();
       alert("신청 되었습니다.");
-      window.location.href = "/learntube/dashboard-main";
+      // window.location.href = "/learntube/dashboard-main";
+      window.location.reload();
     }
   };
 
@@ -59,14 +60,14 @@ function CourseDetailsPart() {
     if (location.state) {
       // console.log("uid", uid);
       {
-        uid
-          ? SetUserId(uid)
+        userId
+          ? SetUserId(userId)
           : SetUserId(window.sessionStorage.getItem("userId"));
       }
 
       // console.log("userId", userId);
       if (userId) {
-        //console.log(cid);
+        console.log("cid: " + cid);
         const fetchClassRoom = async () => {
           try {
             const res1 = await axios.get(
@@ -78,16 +79,28 @@ function CourseDetailsPart() {
             const res3 = await axios.get(
               `${process.env.REACT_APP_SERVER_URL}/api/classroom/wait-list?classId=${cid}`
             );
-
+            console.log("data ?? ");
             console.log(res1.data);
             setClassRoomData(res1.data);
+            console.log(res2.data);
             setStudents(res2.data);
+            console.log(res3.data);
             setWaiting(res3.data);
-            setValid(waiting.find((e) => e.userId == userId));
-            console.log(valid);
-            console.log("waiting:", waiting);
+            for(const prop in res3.data){
+              waiting[prop] = res3.data[prop];
+              if(res3.data[prop].userId == userId)
+                setIsWaiting(true);
+            }
+            // waiting.map((data) => {
+            //   console.log(data.userId);
+            //   console.log(userId);
+            //   if(data.userId == userId)
+            //     setValid(true);
+            // });
+            // console.log("valid? " + valid);
+            console.log("waiting: " + waiting);
           } catch (err) {
-            console.log("err >> ", err);
+            console.log("err >> " + err);
           }
         };
         fetchClassRoom();
@@ -123,7 +136,7 @@ function CourseDetailsPart() {
                 </div>
               ) : null}
               {classRoomData.instructor.userId != userId &&
-              classRoomData.isTake === false ? (
+              classRoomData.isTake === false && !isWaiting ? (
                 <div className="col">
                   <Button
                     id="joinBtn"
@@ -141,12 +154,26 @@ function CourseDetailsPart() {
                     수강신청
                   </Button>
                 </div>
-              ) : null}
+              ) : 
+                  ( isWaiting ? (<Button
+                    style={{
+                      float: "right",
+                      width: "10rem",
+                      height: "50px",
+                      marginRight: "40px",
+                      marginTop: "50px",
+                      background: "#273875",
+                    }}
+                  >
+                    수강 대기중
+                  </Button>
+              ) : null)}
               <div className="row clearfix">
                 <div className="col-lg-8 md-mb-50">
                   <CurriculumPart
                     classRoomData={classRoomData}
                     userId={userId}
+                    isWaiting={isWaiting}
                   />
                 </div>
                 <div className="video-column col-lg-4">

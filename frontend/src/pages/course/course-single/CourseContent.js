@@ -105,10 +105,11 @@ const CourseContent = (props) => {
                 className="pb-100 md-pb-10 gray-bg"
                 // style={{ backgroundColor: "#fff" }}
             >
-                <div className={isBigDisplay ? "p-3" : "container pt-10"} style={{minHeight: "800px"}}>
+                <div className={isBigDisplay ? "p-3" : "container pt-10"} style={{minHeight: "600px"}}>
                     {/* <div className="justify-content-around align-items-center d-flex"> */}
-                    {isBigDisplay ? null : (<div style={{borderBottom: "1px solid lightgray", height: "50px", margin: "10px"}}>
-                        <span style={{fontSize: "20px", marginLeft: "40px", marginBottom: "0px"}}>Course > Curriculum</span>
+                    {isBigDisplay ? null : (<div className="d-flex" style={{width: "100%", borderBottom: "1px solid lightgray", margin: "10px", width: "100%"}}>
+                        <span style={{width: "100%", fontSize: "20px", marginBottom: "0px"}}>Course > Curriculum</span>
+                        <span style={{width: "120px"}}>강의 ( {lectureNum} / {lectures.length} )</span>
                     </div>)}
                     <div className="d-block">
                         {/* 이전 강의 버튼 */}

@@ -67,16 +67,19 @@ const Header = (props) => {
     setAlarmVisible(!alarmVisible);
   };
 
-  const [waitList, setWaitList] = useState();
-  const [managedClassroom, setManagedClassroom] = useState();
+  const [waitList, setWaitList] = useState([]);
+  const [managedClassroom, setManagedClassroom] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
 
     const fetchManagesClassRoom = async () => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/manages?userId=${userId}`);
-            console.log(response.data);
-            setManagedClassroom(response.data);
+            // await setManagedClassroom(response.data);
+            // console.log(response.data);
+            for(const prop in response.data){
+              managedClassroom[prop] = response.data[prop];
+            }
         } catch (err) {
             console.log("err >> ", err);
         }
@@ -84,43 +87,63 @@ const Header = (props) => {
 
   const fetchWaitList = async (cid) => {
     try {
-      const res1 = await axios.get(
+      const response = await axios.get(
         `${process.env.REACT_APP_SERVER_URL}/api/classroom/wait-list?classId=${cid}`
         )
-        console.log(res1.data);
-        setWaitList(res1.data);
-        setIsLoading(false);
+        for(const prop in response.data){
+          waitList[prop] = response.data[prop];
+        }
       } catch (err) {
         console.log("err > ", err);
       }
-      console.log(waitList);
     };
 
   function putclassId(cid) {
-    setTimeout(() => {
       for(var i=0; i<waitList.length; i++){
         waitList[i]["classId"] = cid;
       }
-      setWaitList(waitList);
       setNewAlarm(true);
-    }, 1000)
   }
 
   useEffect(() => {
-    setIsLoading(true);
-    if (userId) {
-        fetchManagesClassRoom();
-          if(managedClassroom){
-              managedClassroom.map((classroom)=> {
-                  console.log(classroom.classId);
-                  fetchWaitList(classroom.classId).then(() =>{
-                    putclassId(classroom.classId);
-              });
-              })
-          }
-        
-    }
-    }, []);
+    const interval = setInterval(() => {
+      if (userId) {
+       fetchManagesClassRoom();
+      //  console.log(managedClassroom);
+         if(managedClassroom){
+             managedClassroom.map((classroom)=> {
+                //  console.log(classroom);
+                 fetchWaitList(classroom.classId).then(() =>{
+                  //  console.log(waitList);
+                   setIsLoading(false);
+                   putclassId(classroom.classId);
+             });
+             })
+         }
+       }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [userId]);
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //      if (userId) {
+  //       fetchManagesClassRoom();
+  //       console.log(managedClassroom);
+  //         if(managedClassroom){
+  //             managedClassroom.map((classroom)=> {
+  //                 console.log(classroom);
+  //                 fetchWaitList(classroom.classId).then(() =>{
+  //                   console.log(waitList);
+  //                   setIsLoading(false);
+  //                   putclassId(classroom.classId);
+  //             });
+  //             })
+  //         }
+  //       }
+  //    }, 5000);
+  //    return () => clearInterval(interval);
+  // }, []);
 
   // const alarmShrink = () => {
   //   setAlarmVisible(false);
@@ -239,12 +262,14 @@ const Header = (props) => {
                           className="nav-expander"
                           href="#"
                         > */}
-                        {userId && newAlarm ? (
+                        {userId ?
+                        ( newAlarm ? (
                           <FaBell
                             size="24"
                             style={{ color: "white" }}
                             className="mr-10"
-                            onClick={alarmExpand}
+                            onMouseOver={alarmExpand}
+                            onMouseLeave={alarmExpand}
                           />
                         )
                         :
@@ -252,9 +277,13 @@ const Header = (props) => {
                           <FaBell
                             size="24"
                             className="mr-10 notification"
-                            onClick={alarmExpand}
+                            onMouseOver={alarmExpand}
+                            onMouseLeave={alarmExpand}
                           />
                         )
+                        )
+                        :
+                        null
                       }
                         {userId ? (
                           <BsFillPersonFill
@@ -299,7 +328,10 @@ const Header = (props) => {
                 }}
                 className={waitList ? null : "mt-10 pb-10 border-bottom border-dark"}
               >
-                  {waitList ?
+                  {isLoading ?
+                  (<div style={{width: "350px", borderBottom: "1px solid black", padding: "10px 0px"}}><span style={{marginLeft: "10px"}}>로딩중 ...</span></div>)
+                  :
+                  (waitList ?
                     waitList.map((waiting, i) => (
                         <li style={{borderBottom: "1px solid black", padding: "5px 0px 5px 15px"}} onClick={() => console.log(waiting.classId)}>
                           <Link to={{
@@ -311,8 +343,9 @@ const Header = (props) => {
                             {waiting.username + " 님께서 수강신청하셨습니다."}</Link></li>
                     ))
                     :
-                    (<span style={{padding: "5px 0px 5px 15px"}}>새로운 알림이 없습니다</span>)
-                  }
+                    (<div style={{width: "350px", borderBottom: "1px solid black", padding: "10px 0px"}}><span style={{marginLeft: "10px"}}>새로운 알림이 없습니다.</span></div>)
+                  )
+                }
               </ul>
             </div>
           )
