@@ -8,7 +8,9 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -35,6 +37,7 @@ public class MyPlaylistDto {
             VideoDto tempVideo = new VideoDto(video.getId(), video.getPlaylist().getId(), video.getYoutubeId(),video.getTitle(),video.getNewTitle(),video.getStart_s(),video.getEnd_s(),video.getTag(),video.getSeq(),video.getMaxLength(),video.getDuration());
             newVideos.add(tempVideo);
         }
+        newVideos = newVideos.stream().sorted(Comparator.comparing(VideoDto::getSeq)).collect(Collectors.toList());
         return new PlaylistResponse(this.playlistId, this.name, this.description, this.userName, this.thumbnail, this.totalDuration, this.createdAt, newVideos);
     }
 
