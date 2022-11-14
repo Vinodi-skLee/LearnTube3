@@ -17,10 +17,10 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, selectVi
     };
 
     const onClick = () => {
-        addVideoToCart(video);
         setIsAdded(true);
+        addVideoToCart(video);
         newCart[video.id] = video;
-        console.log("newCart : " + newCart[video.id]);
+        // console.log("newCart : " + newCart[video.id]);
     };
 
     const onDelete = () => {
@@ -31,6 +31,7 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, selectVi
     //const [isSelected, setIsSelected] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
     const [isMouseOn, setIsMouseOn] = useState(0);
+    const [alreadyCart, setAlreadyCart] = useState(false);
 
     const [searchedVideos, setSearchedVideos] = useState([]);
     useEffect(function () {
@@ -77,48 +78,51 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, selectVi
             </Card.Footer>
           </Card>
         </CardGroup> */}
+
             <div
-                className={"search-block mouse-on"}
-                style={isMouseOn ? { background: "lightgray" } : { background: "transparent" }}
+                className="search-block mouse-on"
+                style={isAdded || isAlreadyIncart || isMouseOn ? { background: "#d3daf2" } : { background: "transparent" }}
                 onMouseOver={() => setIsMouseOn(1)}
                 onMouseOut={() => setIsMouseOn(0)}
             >
-                <div onMouseDown={onSelect}>
-                    {/* <div className="m-0 col-md-3 col-sm-12 d-flex justify-content-center"> */}
-                    <img className="img-fluid search-img" src={snippet.thumbnails.medium.url} alt={snippet.title} />
-                </div>
-                <div
-                    className="col-sm-12 search-text"
-                    // className="col-md-8 col-sm-12 search-text"
-                    onMouseDown={selectVideo}
-                >
-                    <div className="search-title" onMouseDown={onSelect}>
-                        {snippet.title ? snippet.title : "영상제목"}
+                <div>
+                    <div onMouseDown={onSelect}>
+                        {/* <div className="m-0 col-md-3 col-sm-12 d-flex justify-content-center"> */}
+                        <img className="img-fluid search-img" src={snippet.thumbnails.medium.url} alt={snippet.title} />
                     </div>
-                    <div className="fw-light search-channel" onMouseDown={onSelect}>
-                        <span>
-                            {snippet.channelTitle ? snippet.channelTitle : "채널명"} | {snippet.publishTime ? snippet.publishTime.slice(0, 10) : "등록일"}
-                        </span>
+                    <div
+                        className="col-sm-12 search-text"
+                        // className="col-md-8 col-sm-12 search-text"
+                        onMouseDown={selectVideo}
+                    >
+                        <div className="search-title" onMouseDown={onSelect}>
+                            {snippet.title ? snippet.title : "영상제목"}
+                        </div>
+                        <div className="fw-light search-channel" onMouseDown={onSelect}>
+                            <span>
+                                {snippet.channelTitle ? snippet.channelTitle : "채널명"} | {snippet.publishTime ? snippet.publishTime.slice(0, 10) : "등록일"}
+                            </span>
+                        </div>
+                        <div className="search-description" onMouseDown={onSelect}>
+                            {snippet.description ? snippet.description : "영상설명"}
+                        </div>
                     </div>
-                    <div className="search-description" onMouseDown={onSelect}>
-                        {snippet.description ? snippet.description : "영상설명"}
+                    <div className="d-flex justify-content-between align-items-center">
+                        {isInterestVideo ? (
+                            <i className="fa fa-heart" onClick={heartBtnHandler} style={{ color: "red" }}></i>
+                        ) : (
+                            <i className="fa fa-heart" onClick={heartBtnHandler} style={{ color: "gray" }}></i>
+                        )}
+                        {isAdded || isAlreadyIncart ? (
+                            <Button onMouseDown={onDelete} className="cart-out">
+                                -
+                            </Button>
+                        ) : (
+                            <Button onMouseDown={onClick} className="cart-in">
+                                담기
+                            </Button>
+                        )}
                     </div>
-                </div>
-                <div className="d-flex justify-content-between align-items-center">
-                    {isInterestVideo ? (
-                        <i className="fa fa-heart" onClick={heartBtnHandler} style={{ color: "red" }}></i>
-                    ) : (
-                        <i className="fa fa-heart" onClick={heartBtnHandler} style={{ color: "gray" }}></i>
-                    )}
-                    {isAdded || isAlreadyIncart ? (
-                        <Button onMouseDown={onDelete} className="cart-out">
-                            -
-                        </Button>
-                    ) : (
-                        <Button onMouseDown={onClick} className="cart-in">
-                            담기
-                        </Button>
-                    )}
                 </div>
             </div>
         </>

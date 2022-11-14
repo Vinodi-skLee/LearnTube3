@@ -1,21 +1,17 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import YoutubeBoard from "../../components/Events/YoutubeBoard";
 import "rc-slider/assets/index.css";
 
-const YoutubeVideoListWidget = ({ videos, selectVideo, nextPageToken, prevPageToken, getToken, addVideoToCart, deleteVideoFromCart, cart, selectPart }) => {
+const YoutubeVideoListWidget = ({ videos, selectVideo, getToken, addVideoToCart, deleteVideoFromCart, cart, selectPart, isInPlaylist, newCart }) => {
     const [searchedVideos, setSearchedVideos] = useState([]);
-    const [newCart, setNewCart] = useState({});
 
-    const clickPageToken = (value) => {
-        getToken(value);
-    };
+    // const clickPageToken = (value) => {
+    //     getToken(value);
+    // };
     useEffect(
         function () {
             setSearchedVideos(videos);
-            // console.log(videos);
-            // console.log(searchedVideos);
         },
         [videos]
     );
@@ -31,10 +27,11 @@ const YoutubeVideoListWidget = ({ videos, selectVideo, nextPageToken, prevPageTo
         <div className="search-box mt-20">
             <div id="rs-popular-course" className="rs-popular-courses list-view style1 course-view-style orange-style rs-inner-blog md-pt-70 text-start">
                 <div>
-                    <div className="course-part search-result clearfix row" style={{ margin: "0px 30px" }}>
+                    <div className="course-part search-result clearfix row" style={{ margin: "0px 50px" }}>
                         {searchedVideos.map(function (video) {
                             //console.log(video.id);
                             let isAlreadyIncart = newCart.hasOwnProperty(video.id);
+
                             //if(newCart.hasOwnProperty(video.id)) console.log(video.snippet.title+" "+isAlreadyIncart);
 
                             //console.log(video.snippet.title+" "+isAlreadyIncart);
@@ -49,6 +46,8 @@ const YoutubeVideoListWidget = ({ videos, selectVideo, nextPageToken, prevPageTo
                                     isAlreadyIncart={isAlreadyIncart}
                                     newCart={newCart}
                                     selectPart={selectPart}
+                                    cart={cart}
+                                    isInPlaylist={isInPlaylist}
                                     //duration={video.contentDetails.duration}
                                     //viewCount ={video.statistics.viewCount}
                                 />
