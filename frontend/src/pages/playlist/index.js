@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 import Header from "../../components/Layout/Header/Header";
 import Footer from "../../components/Layout/Footer/Footer";
@@ -56,6 +56,46 @@ const Playlist = () => {
     const [isEmpty, setIsEmpty] = useState(false);
     const [lastSeq, setLastSeq] = useState(0);
     const [videoNum, setVideoNum] = useState(0);
+
+    const [classroomList, setClassroomList] = useState(null);
+    const [classroomData, setClassroomData] = useState();
+    const [classTempData, setClassTempData] = useState([{}]);
+    useEffect(() => {
+        if (userId) {
+            const fetchManagesClassRoom = async () => {
+                try {
+                    const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/manages?userId=${userId}`);
+                    console.log("playlist idx page", response.data);
+                    setClassroomList(response.data);
+                } catch (err) {
+                    console.log("err >> ", err);
+                }
+            };
+            fetchManagesClassRoom();
+        }
+    }, []);
+    useEffect(() => {
+        if (classroomList) {
+            for (let i = 0; i < classroomList.length; i++) {
+                console.log("aa");
+                const fetchClassRoom = async () => {
+                    try {
+                        const res1 = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom?userId=${userId}&classId=${classroomList[i].classId}`);
+                        console.log(res1.data);
+                        setClassTempData([...classTempData, res1.data]);
+                    } catch (err) {
+                        console.log("err >> ", err);
+                    }
+                };
+                fetchClassRoom();
+            }
+        }
+        console.log(classTempData);
+    }, []);
+    useEffect(() => {
+        // console.log("playlist idx", videoNum);
+    }, [videoNum]);
+    useEffect(() => {}, [classroomList]);
     useEffect(() => {
         const fetchMyPlaylists = async () => {
             try {
@@ -133,27 +173,28 @@ const Playlist = () => {
     };
 
     const handleSubmit = async () => {
-        let updateRequest = {
-            videoId: selectedVideo[videoNum].id,
-            youtubeId: selectedVideo[videoNum].youtubeId,
-            title: selectedVideo[videoNum].title,
-            newTitle: selectedVideo[videoNum].title.newTitle,
-            start_s: selectedVideo[videoNum].title.start_s,
-            end_s: selectedVideo[videoNum].title.end_s,
-            duration: selectedVideo[videoNum].title.duration,
-            seq: videoNum,
-            tag: selectedVideo[videoNum].tag,
-        };
-        console.log("seq", videoNum);
-        const response2 = await axios
-            .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist_video/update`, updateRequest, {
-                method: "POST",
-                headers: {
-                    // Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-            })
-            .then((res) => console.log(res));
+        // for (let j = 0; j < selectedVideo.length; j++) {
+        // let updateRequest = {
+        //     videoId: selectedVideo[videoNum].id,
+        //     youtubeId: selectedVideo[videoNum].youtubeId,
+        //     title: selectedVideo[videoNum].title,
+        //     newTitle: selectedVideo[videoNum].title.newTitle,
+        //     start_s: selectedVideo[videoNum].title.start_s,
+        //     end_s: selectedVideo[videoNum].title.end_s,
+        //     duration: selectedVideo[videoNum].title.duration,
+        //     seq: videoNum,
+        //     tag: selectedVideo[videoNum].tag,
+        // };
+        // console.log("seq", videoNum);
+        // const response2 = await axios
+        //     .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist_video/update`, updateRequest, {
+        //         method: "POST",
+        //         headers: {
+        //             // Accept: "application/json",
+        //             "Content-Type": "application/json",
+        //         },
+        //     })
+        //     .then((res) => console.log(res));
         const response = await axios
             .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/update`, JSON.stringify(updatePlaylistData), {
                 method: "POST",
@@ -162,9 +203,10 @@ const Playlist = () => {
                 },
             })
             .then((res) => console.log(res));
-        alert(updatePlaylistTitle + "로 playlist 정보가 업데이트 되었습니다.");
-
-        window.location.reload();
+        // }
+        alert("플레이리스트가 수정되었습니다.");
+        // alert(updatePlaylistTitle + "로 playlist 정보가 업데이트 되었습니다.");
+        // window.location.reload();
     };
 
     const findSearchData = async (e) => {
@@ -212,7 +254,7 @@ const Playlist = () => {
                             <div className="col-lg-12 col-md-12">
                                 <div className="widget-area">
                                     <div className="mt-0 mb-0 ">
-                                        <div className="row justify-content-between align-items-center" style={{ height: "110px" }}>
+                                        <div className="row justify-content-between align-items-center" style={!isEditMode ? { height: "110px" } : { paddingTop: "45px" }}>
                                             <div className="col d-flex">
                                                 <h3 className="fs-4 text-start">
                                                     {isSelected ? "LearnTube Studio > " : "LearnTube Studio"}
@@ -262,82 +304,7 @@ const Playlist = () => {
                                             </div>
 
                                             {isEditMode ? (
-                                                <div
-                                                    className="col d-flex justify-content-end align-items-center"
-                                                    // style={{ height: "135px" }}
-                                                    onClick={() => {
-                                                        setUpdatePlaylist(true);
-                                                    }}
-                                                >
-                                                    {/* <Link
-                            to={{
-                              pathname:
-                                "/learntube/learntube-studio/youtubeSearch",
-                              state: {
-                                playlistName: selectedPlaylist,
-                                playlistId: playlistId,
-                                update: true,
-                                existingVideo: selectedVideo,
-                                lastSeq: lastSeq,
-                              },
-                            }}
-                          >
-                            <Button
-                              onClick={(e) => {
-                                checkPlaylistName(e, selectedPlaylist);
-                              }}
-                              style={{
-                                marginLeft: "10px",
-                                // height: "40px",
-                                backgroundColor: "#ff7d4b",
-                              }}
-                            >
-                              비디오 추가
-                            </Button>
-                          </Link> */}
-
-                                                    <Button
-                                                        onClick={() => {
-                                                            setIsEditMode(false);
-                                                            setUpdatePlaylist(false);
-                                                        }}
-                                                        style={{
-                                                            marginLeft: "10px",
-                                                            // height: "40px",
-                                                            backgroundColor: "#7cbdb5",
-                                                        }}
-                                                    >
-                                                        취소
-                                                    </Button>
-                                                    <Button
-                                                        onClick={() => {
-                                                            setIsEditMode(false);
-                                                            // setUpdatePlaylist(false);
-                                                            setUpdatePlaylist(!updatePlaylist);
-
-                                                            handleSubmit();
-                                                        }}
-                                                        style={{
-                                                            marginLeft: "10px",
-                                                            // height: "40px",
-                                                            backgroundColor: "#ff7d4b",
-                                                        }}
-                                                    >
-                                                        저장
-                                                    </Button>
-                                                    {/* <Button
-                            onClick={() => {
-                              setUpdatePlaylist(true);
-                            }}
-                            style={{
-                              marginLeft: "10px",
-                              height: "40px",
-                              backgroundColor: "#ff7d4b",
-                            }}
-                          >
-                            제목 수정
-                          </Button> */}
-                                                </div>
+                                                <div>{/* 원래 여기에 저장, 수정 버튼 있었음 */}</div>
                                             ) : (
                                                 <>
                                                     {playlistData ? (
@@ -384,6 +351,7 @@ const Playlist = () => {
                                                                                 )}
                                                                             </Form.Select>
                                                                         </div>
+
                                                                         {/* )}  */}
 
                                                                         {/* <div
@@ -468,55 +436,6 @@ const Playlist = () => {
                                                                     selectedPlaylist={selectedPlaylist}
                                                                     selectedVideo={selectedVideo}
                                                                 />{" "}
-                                                                {isSelected ? (
-                                                                    <Link
-                                                                        to={{
-                                                                            pathname: "/learntube/learntube-studio/youtubeSearch",
-                                                                            state: {
-                                                                                playlistName: selectedPlaylist,
-                                                                                playlistId: playlistId,
-                                                                                update: true,
-                                                                                existingVideo: selectedVideo,
-                                                                                lastSeq: lastSeq,
-                                                                            },
-                                                                        }}
-                                                                    >
-                                                                        {/* 비디오 추가 */}
-                                                                        <div
-                                                                            onClick={(e) => {
-                                                                                checkPlaylistName(e, selectedPlaylist);
-                                                                            }}
-                                                                            className="ms-1 d-flex rounded-circle align-items-center justify-content-center"
-                                                                            style={{
-                                                                                background: "#ff7d4b",
-                                                                                color: "white",
-                                                                                padding: "15px",
-                                                                                width: "2.5rem",
-                                                                                height: "2.5rem",
-                                                                                cursor: "pointer",
-                                                                            }}
-                                                                        >
-                                                                            <i className="fa fa-plus" data-for="addVideo" data-tip></i>
-                                                                            <ReactTooltip
-                                                                                id="addVideo"
-                                                                                getContent={(dataTip) => "비디오 추가"}
-                                                                                // style={{ width: "20px" }}
-                                                                            />
-                                                                        </div>
-                                                                        {/* <Button
-                                      onClick={(e) => {
-                                        checkPlaylistName(e, selectedPlaylist);
-                                      }}
-                                      style={{
-                                        marginLeft: "10px",
-                                        // height: "40px",
-                                        backgroundColor: "#ff7d4b",
-                                      }}
-                                    >
-                                      비디오 추가
-                                    </Button> */}
-                                                                    </Link>
-                                                                ) : null}
                                                             </div>
                                                         </>
                                                     ) : (
@@ -526,7 +445,9 @@ const Playlist = () => {
                                             )}
                                         </div>
                                         {/* <hr class="solid mt-0 mb-0"></hr> */}
+                                        {/* <Link to="/learntube/learntube-studio/playlist"> */}
                                         <PlaylistWidget
+                                            userId={userId}
                                             playlistData={playlistData}
                                             isSelected={isSelected}
                                             selectedPlaylist={selectedPlaylist}
@@ -542,8 +463,9 @@ const Playlist = () => {
                                             clickedVideo={clickedVideo}
                                             setClickedVideo={setClickedVideo}
                                             updatePlaylist={updatePlaylist}
-                                            deletePlaylist={deletePlaylist}
                                             setUpdatePlaylist={setUpdatePlaylist}
+                                            deletePlaylist={deletePlaylist}
+                                            updatePlaylistTitle={updatePlaylistTitle}
                                             setUpdatePlaylistTitle={setUpdatePlaylistTitle}
                                             handlePlaylistChange={handlePlaylistChange}
                                             searched={searched}
@@ -551,7 +473,15 @@ const Playlist = () => {
                                             searchData={searchData}
                                             videoNum={videoNum}
                                             setVideoNum={setVideoNum}
+                                            classroomList={classroomList}
+                                            setClassroomList={setClassroomList}
+                                            classroomData={classroomData}
+                                            setClassroomData={setClassroomData}
+                                            lastSeq={lastSeq}
+                                            setLastSeq={setLastSeq}
+                                            checkPlaylistName={checkPlaylistName}
                                         />
+                                        {/* </Link> */}
                                         {/* {isEditMode ? (
                       <div className="d-flex justify-content-end">
                         <Button

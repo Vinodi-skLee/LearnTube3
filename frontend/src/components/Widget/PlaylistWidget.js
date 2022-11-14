@@ -6,8 +6,10 @@ import ReactTooltip from "react-tooltip";
 import ReactPlayer from "react-player";
 import mediaIcon from "../../assets/img/icon/mediaIcon.png";
 import logo from "../../assets/img/logo/img-background.png";
-
+import { TbCurrencyKroneSwedish } from "react-icons/tb";
+import { Link, useParams } from "react-router-dom";
 const PlaylistWidget = ({
+    userId,
     playlistData,
     isSelected,
     selectedPlaylist,
@@ -26,22 +28,52 @@ const PlaylistWidget = ({
     searched,
     setSearchMode,
     deletePlaylist,
-    setUpdatePlaylist,
+    updatePlaylistTitle,
     setUpdatePlaylistTitle,
     handlePlaylistChange,
     videoNum,
     setVideoNum,
+    classroomList,
+    setClassroomList,
+    classroomData,
+    setClassroomData,
+    updatePlaylist,
+    setUpdatePlaylist,
+    lastSeq,
+    setLastSeq,
+    checkPlaylistName,
 }) => {
     const [isVideoClicked, setIsVideoClicked] = useState(isClicked);
     const [startTime, setStartTime] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [cardView, setCardView] = useState(false);
+    const [videoIdx, setvideoIdx] = useState();
     //   console.log(selectedVideo[videoNum]);
+    // console.log(playlistData);
+    useEffect(() => {
+        console.log(classroomList);
+        // if (classroomList) {
+        //     for (let i = 0; i < classroomList.length; i++) {
+        //         console.log("aa");
+        //         const fetchClassRoom = async () => {
+        //             try {
+        //                 const res1 = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom?userId=${userId}&classId=${classroomList[i].classId}`);
+        //                 console.log(res1.data);
+        //                 setClassroomData([...classroomData, res1.data]);
+        //             } catch (err) {
+        //                 console.log("err >> ", err);
+        //             }
+        //         };
+        //         fetchClassRoom();
+        //     }
+        // }
+        console.log(classroomData);
+    }, [classroomList, classroomData]);
     useEffect(() => {
         setUpdatePlaylistTitle(savedPlaylistName);
         // console.log("savedPlaylistName", savedPlaylistName);
         // console.log("updatePlaylistTitle", updatePlaylistTitle);
-    }, [savedPlaylistName]);
+    }, [savedPlaylistName, setVideoNum, videoNum, setSelectedVideo, selectedVideo]);
 
     //   console.log(clickedVideo);
 
@@ -57,7 +89,57 @@ const PlaylistWidget = ({
         setStartTime(video.start_s);
         setEndTime(video.end_s);
         setVideoNum(i);
+        console.log(i);
         console.log(videoNum);
+    };
+    const updatePlaylistData = {
+        playlistId: playlistId,
+        playlistName: updatePlaylistTitle,
+        description: "",
+    };
+    const handleSubmit = async () => {
+        for (let j = 0; j < selectedVideo.length; j++) {
+            console.log(selectedVideo[j]);
+            selectedVideo[j].seq = j;
+            console.log(selectedVideo[j].seq);
+            // console.log(selectedVideo[j].videoNum);
+            // selectedVideo[videoNum];
+            let updateRequest = {
+                videoId: selectedVideo[j].id,
+                youtubeId: selectedVideo[j].youtubeId,
+                title: selectedVideo[j].title,
+                newTitle: selectedVideo[j].title.newTitle,
+                start_s: selectedVideo[j].title.start_s,
+                end_s: selectedVideo[j].title.end_s,
+                duration: selectedVideo[j].title.duration,
+                seq: j,
+                tag: selectedVideo[j].tag,
+            };
+            console.log("seq", j);
+            const response2 = await axios
+                .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist_video/update`, updateRequest, {
+                    method: "POST",
+                    headers: {
+                        // Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                })
+                .then((res) => console.log(res));
+
+            // }
+            // alert("플레이리스트가 수정되었습니다.");
+        }
+        const response = await axios
+            .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/update`, JSON.stringify(updatePlaylistData), {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+            .then((res) => console.log(res));
+        // alert(updatePlaylistTitle + "로 playlist 정보가 업데이트 되었습니다.");
+        alert("플레이리스트가 수정되었습니다.");
+        // window.location.reload();
     };
 
     const toHHMMSS = (secs) => {
@@ -86,23 +168,63 @@ const PlaylistWidget = ({
         e.dataTransfer.setData("text/html", e.target);
     };
 
-    const _onDragEnd = (e) => {
+    const _onDragEnd = async (e) => {
         e.target.classList.remove("grabbing");
-
         e.dataTransfer.dropEffect = "move";
+        console.log(e.currentTarget.dataset.position);
+        setVideoNum(e.currentTarget.dataset.position);
+        //여기서부터
+        // for (let j = 0; j < selectedVideo.length; j++) {
+        //     console.log(selectedVideo[j]);
+        //     selectedVideo[j].seq = j;
+        //     console.log(selectedVideo[j].seq);
+        //     // console.log(selectedVideo[j].videoNum);
+        //     // selectedVideo[videoNum];
+        //     let updateRequest = {
+        //         videoId: selectedVideo[j].id,
+        //         youtubeId: selectedVideo[j].youtubeId,
+        //         title: selectedVideo[j].title,
+        //         newTitle: selectedVideo[j].title.newTitle,
+        //         start_s: selectedVideo[j].title.start_s,
+        //         end_s: selectedVideo[j].title.end_s,
+        //         duration: selectedVideo[j].title.duration,
+        //         seq: j,
+        //         tag: selectedVideo[j].tag,
+        //     };
+        //     console.log("seq", videoNum);
+        //     const response2 = await axios
+        //         .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist_video/update`, updateRequest, {
+        //             method: "POST",
+        //             headers: {
+        //                 // Accept: "application/json",
+        //                 "Content-Type": "application/json",
+        //             },
+        //         })
+        //         .then((res) => console.log(res));
+
+        // }
+        //여기까지
+        // setClickedVideo(video);
+        // setStartTime(video.start_s);
+        // setEndTime(video.end_s);
+        // setVideoNum(i);
+        // console.log(i);
+
+        console.log("bb");
     };
 
-    const _onDrop = (e, i) => {
+    const _onDrop = (e) => {
         let grabPosition = Number(grab.dataset.position);
         let targetPosition = Number(e.target.dataset.position);
-
         let _selectedVideo = [...selectedVideo];
         _selectedVideo[grabPosition] = _selectedVideo.splice(targetPosition, 1, _selectedVideo[grabPosition])[0];
-
         setSelectedVideo(_selectedVideo);
+        console.log("aa");
     };
     return (
-        <div className="row justify-content-center">
+        <div
+        // className="row justify-content-center"
+        >
             {!isSelected ? (
                 <div className="pt-1 pb-3 justify-content-end btn-toolbar">
                     <div className="btn-group" style={{ display: "block" }}>
@@ -159,15 +281,156 @@ const PlaylistWidget = ({
                     </div>
                 </div>
             ) : (
-                <></>
+                <>
+                    {isEditMode ? (
+                        <div
+                            className="col d-flex justify-content-end align-items-center pb-3"
+                            // style={{ height: "135px" }}
+                            onClick={() => {
+                                setUpdatePlaylist(true);
+                            }}
+                        >
+                            {/* {isSelected ? ( */}
+                            {/* <Link
+                                to={{
+                                    pathname: "/learntube/learntube-studio/youtubeSearch",
+                                    state: {
+                                        playlistName: selectedPlaylist,
+                                        playlistId: playlistId,
+                                        update: true,
+                                        existingVideo: selectedVideo,
+                                        lastSeq: lastSeq,
+                                    },
+                                }}
+                            >*/}
+                            {/* 비디오 추가 */}
+                            {/*<div
+                                    onClick={(e) => {
+                                        checkPlaylistName(e, selectedPlaylist);
+                                    }}
+                                    className="ms-1 d-flex rounded-circle align-items-center justify-content-center"
+                                    style={{
+                                        background: "#ff7d4b",
+                                        color: "white",
+                                        padding: "15px",
+                                        width: "2.5rem",
+                                        height: "2.5rem",
+                                        cursor: "pointer",
+                                    }}
+                                    data-for="addVideo"
+                                    data-tip
+                                >
+                                    <i className="fa fa-plus" data-for="addVideo" data-tip></i>
+                                    <ReactTooltip
+                                        id="addVideo"
+                                        getContent={(dataTip) => "비디오 추가"}
+                                        // style={{ width: "20px" }}
+                                    />
+                                </div>
+                                {/* <Button
+                                      onClick={(e) => {
+                                        checkPlaylistName(e, selectedPlaylist);
+                                      }}
+                                      style={{
+                                        marginLeft: "10px",
+                                        // height: "40px",
+                                        backgroundColor: "#ff7d4b",
+                                      }}
+                                    >
+                                      비디오 추가
+                                    </Button> */}
+                            {/* </Link> */}
+                            <Button
+                                onClick={() => {
+                                    setIsEditMode(false);
+                                    setUpdatePlaylist(false);
+                                }}
+                                style={{
+                                    marginLeft: "10px",
+                                    // height: "40px",
+                                    backgroundColor: "#7cbdb5",
+                                }}
+                            >
+                                취소
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    setIsEditMode(false);
+                                    // setUpdatePlaylist(false);
+                                    setUpdatePlaylist(!updatePlaylist);
+
+                                    handleSubmit();
+                                }}
+                                style={{
+                                    marginLeft: "10px",
+                                    // height: "40px",
+                                    backgroundColor: "#ff7d4b",
+                                }}
+                            >
+                                저장
+                            </Button>
+                        </div>
+                    ) : null}
+                </>
             )}
+
             <hr class="solid mt-0 mb-3"></hr>
             <div className="row">
                 {isSelected ? (
                     <>
                         {clickedVideo ? (
                             <>
-                                <div className="d-flex justify-content-between align-items-center row mb-40" style={{ right: "0px" }}></div>
+                                <div className="d-flex justify-content-between align-items-center row" style={{ right: "0px" }}></div>
+                                <Link
+                                    className="d-flex justify-content-end p-3"
+                                    to={{
+                                        pathname: "/learntube/learntube-studio/youtubeSearch",
+                                        state: {
+                                            playlistName: selectedPlaylist,
+                                            playlistId: playlistId,
+                                            update: true,
+                                            existingVideo: selectedVideo,
+                                        },
+                                    }}
+                                    style={{ padding: "0", margin: "0" }}
+                                >
+                                    {/* 비디오 추가 */}
+                                    <div
+                                        onClick={(e) => {
+                                            checkPlaylistName(e, selectedPlaylist);
+                                        }}
+                                        className="ms-1 d-flex rounded-circle align-items-center justify-content-center"
+                                        style={{
+                                            background: "#ff7d4b",
+                                            color: "white",
+                                            padding: "15px",
+                                            width: "2.5rem",
+                                            height: "2.5rem",
+                                            cursor: "pointer",
+                                        }}
+                                        data-for="addVideo"
+                                        data-tip
+                                    >
+                                        <i className="fa fa-plus" data-for="addVideo" data-tip></i>
+                                        <ReactTooltip
+                                            id="addVideo"
+                                            getContent={(dataTip) => "비디오 추가"}
+                                            // style={{ width: "20px" }}
+                                        />
+                                    </div>
+                                    {/* <Button
+                                      onClick={(e) => {
+                                        checkPlaylistName(e, selectedPlaylist);
+                                      }}
+                                      style={{
+                                        marginLeft: "10px",
+                                        // height: "40px",
+                                        backgroundColor: "#ff7d4b",
+                                      }}
+                                    >
+                                      비디오 추가
+                                    </Button> */}
+                                </Link>
                                 <div
                                     className="col-md-8 col-sm-12"
                                     // style={{ left: "0" }}
@@ -209,89 +472,146 @@ const PlaylistWidget = ({
                                             <div class="d-flex text-start fs-6 fw-bold pt-3 pb-0">{selectedPlaylist ? <>{selectedPlaylist}</> : null}</div>
                                             <div class="text-start" style={{ fontSize: "0.8rem" }}>
                                                 <span style={{ width: "20px" }}>
-                                                    {videoNum + 1} / {playlistSize}
-                                                    &ensp; &#183;
+                                                    {!isEditMode ? (
+                                                        <>
+                                                            {videoNum + 1} / {playlistSize}
+                                                            &ensp; &#183;
+                                                        </>
+                                                    ) : null}
                                                 </span>
                                                 <span>&ensp;전체 재생 시간 - {playlistDuration ? toHHMMSS(playlistDuration) : ""}</span>
                                             </div>
                                         </div>
                                         <div className="my_playlist">
-                                            {selectedVideo.map((data, i) => (
-                                                <>
-                                                    <div
-                                                        key={i}
-                                                        data-position={i}
-                                                        onDragOver={_onDragOver}
-                                                        onDragStart={_onDragStart}
-                                                        onDragEnd={_onDragEnd}
-                                                        onDrop={_onDrop}
-                                                        draggable
-                                                        className="d-flex p-3"
-                                                        onClick={() => selectVideo(data, i)}
-                                                        style={
-                                                            data === clickedVideo
-                                                                ? {
-                                                                      background: "#A5ABBD",
-                                                                      // background: "#e4e8f5",
-                                                                      // borderTop: "1px solid lightgray",
-                                                                      borderLeft: "1px solid lightgray",
-                                                                      borderRight: "1px solid lightgray",
-                                                                      borderBottom: "1px solid lightgray",
-                                                                      // padding: "25px 20px",
-                                                                      width: "100%",
-                                                                  }
-                                                                : {
-                                                                      background: "#fff",
-                                                                      // borderTop: "1px solid lightgray",
-                                                                      borderLeft: "1px solid lightgray",
-                                                                      borderBottom: "1px solid lightgray",
-                                                                      borderRight: "1px solid lightgray",
-                                                                      // padding: "25px 20px",
-                                                                      width: "100%",
-                                                                  }
-                                                        }
-                                                    >
-                                                        <div className="d-flex justify-content-center align-items-center pe-3" style={{ fontSize: "0.8rem", width: "10px" }}>
-                                                            {i !== videoNum ? <>{i + 1}</> : <i className="fa fa-caret-right fa-lg" style={{ padding: "0.1rem" }}></i>}
-                                                        </div>
-                                                        <span className="d-flex position-relative justify-content-start" style={{ maxWidth: "30%" }}>
-                                                            <img src={"https://i.ytimg.com/vi/".concat(selectedVideo[i].youtubeId, "/hqdefault.jpg")} />
-                                                            <span
-                                                                className="position-absolute justify-content-end bg-black text-white m-1 me-1 ps-1 pe-1"
-                                                                style={{
-                                                                    right: "0px",
-                                                                    bottom: "0px",
-                                                                    // display: "flex",
-                                                                    display: "inline-table",
-                                                                    fontSize: "0.5rem",
-                                                                }}
-                                                            >
-                                                                {selectedVideo[i].duration ? toHHMMSS(selectedVideo[i].duration) : ""}
+                                            {selectedVideo
+                                                // .sort((a, b) => (a.seq > b.seq ? 1 : -1))
+                                                .map((data, i) => (
+                                                    <>
+                                                        <div
+                                                            key={i}
+                                                            data-position={i}
+                                                            onDragOver={_onDragOver}
+                                                            onDragStart={_onDragStart}
+                                                            onDragEnd={_onDragEnd}
+                                                            onDrop={_onDrop}
+                                                            draggable
+                                                            className="d-flex p-3"
+                                                            onClick={() => selectVideo(data, i)}
+                                                            style={
+                                                                data === clickedVideo
+                                                                    ? {
+                                                                          background: "#A5ABBD",
+                                                                          // background: "#e4e8f5",
+                                                                          // borderTop: "1px solid lightgray",
+                                                                          borderLeft: "1px solid lightgray",
+                                                                          borderRight: "1px solid lightgray",
+                                                                          borderBottom: "1px solid lightgray",
+                                                                          // padding: "25px 20px",
+                                                                          width: "100%",
+                                                                      }
+                                                                    : {
+                                                                          background: "#fff",
+                                                                          // borderTop: "1px solid lightgray",
+                                                                          borderLeft: "1px solid lightgray",
+                                                                          borderBottom: "1px solid lightgray",
+                                                                          borderRight: "1px solid lightgray",
+                                                                          // padding: "25px 20px",
+                                                                          width: "100%",
+                                                                      }
+                                                            }
+                                                        >
+                                                            <div className="d-flex justify-content-center align-items-center pe-3" style={{ fontSize: "0.8rem", width: "10px" }}>
+                                                                {i + 1}
+                                                                {/* {i !== videoNum ? <>{i + 1}</> : <i className="fa fa-caret-right fa-lg" style={{ padding: "0.1rem" }}></i>} */}
+                                                            </div>
+                                                            <span className="d-flex position-relative justify-content-start" style={{ maxWidth: "30%" }}>
+                                                                <img src={"https://i.ytimg.com/vi/".concat(selectedVideo[i].youtubeId, "/hqdefault.jpg")} />
+                                                                <span
+                                                                    className="position-absolute justify-content-end bg-black text-white m-1 me-1 ps-1 pe-1"
+                                                                    style={{
+                                                                        right: "0px",
+                                                                        bottom: "0px",
+                                                                        // display: "flex",
+                                                                        display: "inline-table",
+                                                                        fontSize: "0.5rem",
+                                                                    }}
+                                                                >
+                                                                    {selectedVideo[i].duration ? toHHMMSS(selectedVideo[i].duration) : ""}
+                                                                </span>
                                                             </span>
-                                                        </span>
-                                                        <div className="d-flex row pt-0 ps-3 " style={{ width: "100%" }}>
-                                                            <div className="playlist-title d-flex row pt-0 ps-3 fw-light text-start" style={{ height: "50px" }}>
-                                                                {selectedVideo[i].newTitle ? selectedVideo[i].newTitle : selectedVideo[i].title}
+                                                            <div className="d-flex row pt-0 ps-3 " style={{ width: "100%" }}>
+                                                                <div className="playlist-title d-flex row pt-0 ps-3 fw-light text-start" style={{ height: "50px" }}>
+                                                                    {selectedVideo[i].newTitle ? selectedVideo[i].newTitle : selectedVideo[i].title}
+                                                                </div>
+                                                                <div className="d-flex row pt-0 ps-3" style={{ fontSize: "0.8rem" }}>
+                                                                    시작: {selectedVideo[i].start_s ? toHHMMSS(selectedVideo[i].start_s) : "00:00"} ~ 종료:{" "}
+                                                                    {selectedVideo[i].end_s ? toHHMMSS(selectedVideo[i].end_s) : toHHMMSS(selectedVideo[i].duration)}{" "}
+                                                                </div>
                                                             </div>
-                                                            <div className="d-flex row pt-0 ps-3" style={{ fontSize: "0.8rem" }}>
-                                                                시작: {selectedVideo[i].start_s ? toHHMMSS(selectedVideo[i].start_s) : "00:00"} ~ 종료:{" "}
-                                                                {selectedVideo[i].end_s ? toHHMMSS(selectedVideo[i].end_s) : toHHMMSS(selectedVideo[i].duration)}{" "}
-                                                            </div>
+                                                            {isEditMode ? (
+                                                                <div className="d-flex align-items-center">
+                                                                    <BsList />
+                                                                </div>
+                                                            ) : null}
                                                         </div>
-                                                        {isEditMode ? (
-                                                            <div className="d-flex align-items-center">
-                                                                <BsList />
-                                                            </div>
-                                                        ) : null}
-                                                    </div>
-                                                </>
-                                            ))}
+                                                    </>
+                                                ))}
                                         </div>
                                     </div>
                                 </>
                             </>
                         ) : (
                             <div>
+                                <Link
+                                    className="d-flex justify-content-end p-3"
+                                    to={{
+                                        pathname: "/learntube/learntube-studio/youtubeSearch",
+                                        state: {
+                                            playlistName: selectedPlaylist,
+                                            playlistId: playlistId,
+                                            update: true,
+                                            existingVideo: selectedVideo,
+                                        },
+                                    }}
+                                    style={{ padding: "0", margin: "0" }}
+                                >
+                                    {/* 비디오 추가 */}
+                                    <div
+                                        onClick={(e) => {
+                                            checkPlaylistName(e, selectedPlaylist);
+                                        }}
+                                        className="ms-1 d-flex rounded-circle align-items-center justify-content-center"
+                                        style={{
+                                            background: "#ff7d4b",
+                                            color: "white",
+                                            padding: "15px",
+                                            width: "2.5rem",
+                                            height: "2.5rem",
+                                            cursor: "pointer",
+                                        }}
+                                        data-for="addVideo"
+                                        data-tip
+                                    >
+                                        <i className="fa fa-plus" data-for="addVideo" data-tip></i>
+                                        <ReactTooltip
+                                            id="addVideo"
+                                            getContent={(dataTip) => "비디오 추가"}
+                                            // style={{ width: "20px" }}
+                                        />
+                                    </div>
+                                    {/* <Button
+                                      onClick={(e) => {
+                                        checkPlaylistName(e, selectedPlaylist);
+                                      }}
+                                      style={{
+                                        marginLeft: "10px",
+                                        // height: "40px",
+                                        backgroundColor: "#ff7d4b",
+                                      }}
+                                    >
+                                      비디오 추가
+                                    </Button> */}
+                                </Link>
                                 <div className="row d-flex mt-70 mb-70 align-items-center">
                                     <img src={mediaIcon} style={{ margin: "auto", width: "200px" }}></img>
                                     <div className="text-align-center fw-normal">비디오가 없습니다</div>
@@ -654,7 +974,6 @@ const PlaylistWidget = ({
                                                                 >
                                                                     {video.videos[0] ? (
                                                                         <>
-                                                                            asdf
                                                                             <img
                                                                                 className="img-fluid"
                                                                                 style={{
