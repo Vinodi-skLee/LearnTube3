@@ -2,23 +2,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
-import Header from "../components/Layout/Header/Header";
-import Footer from "../components/Layout/Footer/Footer";
-import Newsletter from "../components/Common/Newsletter";
-import ScrollToTop from "../components/Common/ScrollTop";
-import OffWrap from "../components/Layout/Header/OffWrap";
-import SiteBreadcrumb from "../components/Common/Breadcumb";
-import SearchModal from "../components/Layout/Header/SearchModal";
 
 // Image
-import favIcon from "../assets/img/fav-orange.png";
-import Logo from "../assets/img/logo/dark-logo.png";
-import footerLogo from "../assets/img/logo/lite-logo.png";
-
-import bannerbg from "../assets/img/breadcrumbs/inner7.jpg";
-import { HiHome } from "react-icons/hi";
 
 export default function Login() {
     const history = useHistory();
@@ -97,7 +82,7 @@ scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/
     useEffect(() => {
         if (userData.userId) {
             history.push({
-                pathname: "/learntube",
+                pathname: "/learntube/dashboard-main",
                 state: { userId: userData.userId },
             });
         }

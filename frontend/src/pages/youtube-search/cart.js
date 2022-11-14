@@ -15,13 +15,13 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
     let tempArray = [];
 
     useEffect(() => {
-        console.log("cart updated!!!!");
         for (const prop in cart) {
             console.log(cart[prop].seq);
             let tempJson = JSON.stringify(cart[prop]);
             tempArray.push(tempJson);
             setCartList(tempArray);
         }
+        console.log("cart updated!!!!");
     }, [cart]);
 
     useEffect(function () {
@@ -142,12 +142,11 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
             }
         }
         window.alert("저장되었습니다!");
-        window.location.reload();
     };
 
     return (
         <React.Fragment>
-            <div className="rs-event orange-style d-flex flex-column" style={{ position: "fixed", bottom: "0", width: "100%" }}>
+            <div className="rs-event orange-style d-flex flex-column" style={{ position: "fixed", bottom: "0", width: "100%", zIndex: "100" }}>
                 {isOpen ? (
                     <>
                         <div className="bg-transparent" style={{ zIndex: "800" }}>

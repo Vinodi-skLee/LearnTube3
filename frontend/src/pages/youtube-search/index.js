@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { useState, useCallback } from "react";
 import { Helmet } from "react-helmet";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Header from "../../components/Layout/Header/Header";
 import Footer from "../../components/Layout/Footer/Footer";
 import OffWrap from "../../components/Layout/Header/OffWrap";
@@ -25,7 +25,7 @@ const YoutubeSearch = () => {
     const location = useLocation();
     const opts = {
         height: "400",
-        width: "800",
+        width: "700",
         playerVars: {
             // https://developers.google.com/youtube/player_parameters
             autoplay: 0,
@@ -33,17 +33,20 @@ const YoutubeSearch = () => {
         },
     };
     let lastSeq;
+    console.log("location.state.lastSeq === " + location.state.lastSeq);
+    console.log("location.state.existingVideo === " + location.state.existingVideo);
     if (!location.state.lastSeq) lastSeq = -1;
     else lastSeq = location.state.lastSeq;
 
     const [newQuery, setNewQuery] = useState("알고리즘");
     const [searchedVideos, setSearchedVideos] = useState([]);
     const [selectedVideo, setSelectedVideo] = useState(null);
-    const [paginatedVideos, setPaginatedVideos] = useState([]);
-    const [realNewViewCount, setNewViewCount] = useState(0);
+    // const [paginatedVideos, setPaginatedVideos] = useState([]);
+    // const [realNewViewCount, setNewViewCount] = useState(0);
     const [realFinalDuration, setFinalDuration] = useState("");
     const [isSelected, setIsSelected] = useState(false);
     const [cart, setCart] = useState(location.state.existingVideo);
+
     const [isChanged, setIsChanged] = useState(false);
     const [newDescription, setNewDescription] = useState("");
     const [playlistName, setPlaylistName] = useState(location.state.playlistName);
@@ -56,7 +59,7 @@ const YoutubeSearch = () => {
     const [endTime, setEndTime] = useState();
     const [playlistId, setPlaylistId] = useState(location.state.playlistId);
     const [endFloatTime, setEndFloatTime] = useState();
-    const [updatePlaylist, setUpdatePlaylist] = useState(false);
+    // const [updatePlaylist, setUpdatePlaylist] = useState(false);
     const [updatePlaylistTitle, setUpdatePlaylistTitle] = useState(playlistName);
     const [duration, setDuration] = useState(0);
     const [isSearchShown, setIsSearchShown] = useState(true);
@@ -64,9 +67,12 @@ const YoutubeSearch = () => {
     const [isOpen, setIsOpen] = useState(false);
     //const [index, setIndex] = useState(Object.keys(existingVideo).length);
     const [isInPlaylist, setIsInPlaylist] = useState(lastSeq);
+    console.log("lastSeq === " + lastSeq);
     const [isStartModified, setIsStartModified] = useState(0);
     const [isEndModified, setIsEndModified] = useState(0);
     const [index, setIndex] = useState(lastSeq + 1);
+    const [newCart, setNewCart] = useState({});
+
     const openModal = () => setIsOpen(!isOpen);
     const initVideo = {
         duration: 0,
@@ -85,9 +91,8 @@ const YoutubeSearch = () => {
         newDescription: "",
     };
 
-    console.log("lastSeq : " + location.state.lastSeq);
-    console.log("isInPlaylist : " + isInPlaylist);
-    console.log("index : " + index);
+    // console.log("isInPlaylist : " + isInPlaylist);
+    // console.log("index : " + index);
 
     const httpClient = axios.create({
         baseURL: "https://www.googleapis.com/youtube/v3",
@@ -95,10 +100,7 @@ const YoutubeSearch = () => {
     });
     const youtube = new Youtube(httpClient);
     let finalDuration = "";
-    let viewCountInt, newViewCount;
-    // const selectVideo = (video) => {
-    //     console.log("video selected");
-    // };
+    // let viewCountInt, newViewCount;
 
     const selectPart = (video) => {
         initVideo.newTitle = newTitle ? newTitle : video.snippet.title;
@@ -109,7 +111,7 @@ const YoutubeSearch = () => {
         initVideo.youtubeId = video.id;
         initVideo.playlistId = playlistId;
         initVideo.duration = customDurationToFloat(video.contentDetails.duration);
-        console.log("duration: " + initVideo.duration);
+        // console.log("duration: " + initVideo.duration);
         initVideo.seq = index;
         initVideo.tag = true;
 
@@ -143,49 +145,7 @@ const YoutubeSearch = () => {
         if (time[2] > 0) finalDuration = time[2] + "시간 " + time[1] + "분 " + time[0] + "초";
         else if (time[1] > 0) finalDuration = time[1] + "분 " + time[0] + "초";
         else finalDuration = time[0] + "초";
-        // let whereH = video.contentDetails.duration.indexOf("H");
-        // let whereM = video.contentDetails.duration.indexOf("M");
-        // let whereS = video.contentDetails.duration.indexOf("S");
-        // let hour, min, sec;
-        // if (whereH > -1) {
-        //   let tempDuration = video.contentDetails.duration.split("H");
-        //   let temp_length = tempDuration[0].length;
-        //   hour = tempDuration[0].substring(2, temp_length);
-        //   finalDuration = finalDuration + hour + "시간 ";
-        // }
-        // if (whereM > -1) {
-        //   let tempDuration = video.contentDetails.duration.split("M");
-        //   let temp_length = tempDuration[0].length;
-        //   if (whereH > -1) {
-        //     min = tempDuration[0].substring(whereH + 1, temp_length);
-        //   } else min = tempDuration[0].substring(2, temp_length);
-        //   finalDuration = finalDuration + min + "분 ";
-        //   console.log(finalDuration);
-        // }
-        // if (whereS > -1) {
-        //   let tempDuration = video.contentDetails.duration.split("S");
-        //   let temp_length = tempDuration[0].length;
-        //   if (whereH > -1 && whereM == -1) {
-        //     sec = tempDuration[0].substring(whereH + 1, temp_length);
-        //   } else if (whereM > -1) {
-        //     sec = tempDuration[0].substring(whereM + 1, temp_length);
-        //   } else sec = tempDuration[0].substring(2, temp_length);
-        //   finalDuration = finalDuration + sec + "초";
-        //   console.log(finalDuration);
-        // }
-        // console.log(finalDuration);
         setFinalDuration(finalDuration);
-        //조회수 커스텀
-        // viewCountInt = parseFloat(video.statistics.viewCount);
-        // if (viewCountInt >= 100000000) {
-        //   newViewCount = (viewCountInt / 100000000.0).toFixed(1) + "억";
-        // } else if (viewCountInt >= 10000) {
-        //   newViewCount = (viewCountInt / 10000.0).toFixed(0) + "만";
-        // } else if (viewCountInt > 1000) {
-        //   newViewCount = (viewCountInt / 1000.0).toFixed(1) + "천";
-        // } else newViewCount = viewCountInt;
-        // console.log(newViewCount);
-        // setNewViewCount(newViewCount);
         openModal();
     };
 
@@ -217,7 +177,7 @@ const YoutubeSearch = () => {
         if (whereS > -1) {
             let tempDuration = durationStringVer.split("S");
             let temp_length = tempDuration[0].length;
-            if (whereH > -1 && whereM == -1) {
+            if (whereH > -1 && whereM === -1) {
                 sec = tempDuration[0].substring(whereH + 1, temp_length);
             } else if (whereM > -1) {
                 sec = tempDuration[0].substring(whereM + 1, temp_length);
@@ -232,7 +192,7 @@ const YoutubeSearch = () => {
     }
 
     const savePart = (video) => {
-        console.log("savePart index: " + index);
+        console.log("video id : " + video.youtubeId);
         var i = Object.keys(cart).find((key) => cart[key].seq === video.seq);
         if (cart[i] === undefined) {
             video.newTitle = newTitle ? newTitle : "";
@@ -250,7 +210,7 @@ const YoutubeSearch = () => {
             }
             cart[index] = video;
             setIndex((index) => index + 1);
-            console.log("in undefined");
+            // console.log("in undefined");
         } else {
             cart[i].newTitle = newTitle ? newTitle : "";
             cart[i].newDescription = newDescription ? newDescription : "";
@@ -264,9 +224,10 @@ const YoutubeSearch = () => {
             } else if (cart[i].tag !== "bothModified" && isEndModified === 1) {
                 cart[i].tag = "endModified";
             }
-            console.log("in existing");
+            // console.log("in existing");
         }
         setCart({ ...cart });
+        newCart[video.youtubeId] = video;
         setIsChanged(true);
         window.alert("저장되었습니다.");
         setIsOpen(false);
@@ -282,13 +243,8 @@ const YoutubeSearch = () => {
         setIsEndModified(0);
     };
 
-    // const incrementIndex = useMemo(
-    //     () => setIndex(index + 1),
-    //     [cart]
-    //   );
-
     const addVideoToCart = (video) => {
-        console.log("add!! index === " + index);
+        // console.log("add!! index === " + index);
         initVideo.seq = index;
         initVideo.newDescription = newDescription;
         initVideo.start_s = startFloatTime ? parseInt(startFloatTime) : 0;
@@ -297,11 +253,8 @@ const YoutubeSearch = () => {
         initVideo.youtubeId = video.id;
         initVideo.playlistId = playlistId;
         initVideo.duration = initVideo.end_s - initVideo.start_s;
-        // if (isNaN(initVideo.end_s) || isNaN(initVideo.start_s)) {
-        //     initVideo.duration = customDurationToFloat(video.contentDetails.duration);
-        // // } else initVideo.duration = parseInt(endFloatTime - startFloatTime);
         cart[index] = initVideo;
-        console.log(cart[index]);
+        // console.log(cart[index]);
         setIndex((index) => index + 1);
         setCart({ ...cart });
         setIsChanged(true);
@@ -321,7 +274,6 @@ const YoutubeSearch = () => {
         if (cart[i].id !== 0) cart[i].deleted = 1;
         else delete cart[i];
         console.log("delete!");
-        console.log("cart === " + cart);
         setIsChanged(true);
         setCart({ ...cart }); //setCart passes on a state change to the Cart component
         window.alert("삭제되었습니다.");
@@ -388,8 +340,6 @@ const YoutubeSearch = () => {
                 .filter((v, i) => v !== "00" || i > 0)
                 .join(":");
         };
-        // console.log("duration");
-        // console.log(duration);
         setCurrentPlayTime(toHHMMSS(currentTime));
     };
 
@@ -507,13 +457,14 @@ const YoutubeSearch = () => {
                             <div>
                                 <YoutubeVideoListWidget
                                     videos={searchedVideos.items}
-                                    nextPageToken={searchedVideos.nextPageToken}
-                                    prevPageToken={searchedVideos.prevPageToken}
                                     getToken={getToken}
                                     addVideoToCart={addVideoToCart}
                                     deleteVideoFromCart={deleteVideoFromCart}
                                     cart={cart}
                                     selectPart={selectPart}
+                                    isInPlaylist={isInPlaylist}
+                                    newCart={newCart}
+                                    setNewCart={setNewCart}
                                 />
                             </div>
                             {isOpen ? (
@@ -554,12 +505,13 @@ const YoutubeSearch = () => {
                                             WebkitOverflowScrolling: "touch",
                                             outline: "none",
                                             padding: "0px",
+                                            width: "800px",
                                             height: "80%",
                                         },
                                     }}
                                 >
-                                    <div className="col-12 mb-20 d-flex justify-content-center" style={{ minHeight: "500px", width: "100%" }}>
-                                        <div style={{ marginTop: "30px" }}>
+                                    <div className="col-12 mb-20 d-flex justify-content-center" style={{ padding: "30px", minHeight: "500px", width: "100%" }}>
+                                        <div>
                                             <h5 className="w-100 mb-10">영상 편집</h5>
                                             <div>
                                                 <div>
@@ -576,16 +528,7 @@ const YoutubeSearch = () => {
                                                         {": "}
                                                         {printDuration(selectedVideo.duration)}
                                                     </div>
-                                                    {/* <div className="d-flex justify-content-start align-items-center mb-10">
-                                                        <button className="time-btn text-center rounded-3 mr-10" onClick={() => onClickStartTime(currentPlayTime)}>
-                                                            시작 시간
-                                                        </button>
-                                                        <div style={{ fontSize: "8pt", color: "lightgray" }}>
-                                                            {startTime
-                                                                ? startTime
-                                                                : timePoint(selectedVideo.start_s)}
-                                                        </div>
-                                                    </div> */}
+
                                                     <div className="d-flex justify-content-center align-items-center mb-20">
                                                         <button className="time-btn text-center" onClick={() => onClickStartTime(currentPlayTime, selectedVideo.end_s)}>
                                                             시작 시간
@@ -643,7 +586,7 @@ const YoutubeSearch = () => {
                                                             />
                                                     </div> */}
                                                     <div className="d-flex justify-content-end align-items-center ml-50 mt-30">
-                                                        <div className="part-save-btn text-center ml-30 rounded-3" role="button" onClick={(e) => savePart(selectedVideo)}>
+                                                        <div className="part-save-btn text-center ml-30 rounded-3" role="button" onClick={() => savePart(selectedVideo)}>
                                                             저장
                                                         </div>
                                                         <div className="part-save-btn text-center rounded-3" style={{ background: "#ff7d4b" }} role="button" onClick={(e) => cancelCart()}>
@@ -658,7 +601,7 @@ const YoutubeSearch = () => {
                             ) : null}
                             <>
                                 {/* 플레이리스트 담은영상 (카트) */}
-                                <div className={"d-flex justify-content-center cart-center w-100"}>
+                                <div>
                                     <Cart
                                         cart={cart}
                                         playlistTitle={playlistName}
