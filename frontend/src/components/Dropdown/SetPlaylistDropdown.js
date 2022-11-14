@@ -146,26 +146,26 @@ export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId,
                                         height: "2.5rem",
                                         cursor: "pointer",
                                     }}
+                                    onClick={() => {
+                                        setIsActive(!isActive);
+                                        setIsEditMode(true);
+                                        setIsEmpty(false);
+                                    }}
+                                    data-for="editPlaylist"
+                                    data-tip
                                 >
-                                    <span className="d-flex align-items-center justify-content-center" data-for="editPlaylist" data-tip>
+                                    <span className="d-flex align-items-center justify-content-center">
                                         <FiEdit
-                                            onClick={() => {
-                                                setIsActive(!isActive);
-                                                setIsEditMode(true);
-                                                setIsEmpty(false);
-                                            }}
                                             style={{
                                                 color: "white",
                                             }}
-                                            data-for="editPlaylist"
-                                            data-tip
-                                        />
-                                        <ReactTooltip
-                                            id="editPlaylist"
-                                            getContent={(dataTip) => "플레이리스트 수정"}
-                                            // style={{ width: "20px" }}
                                         />
                                     </span>
+                                    <ReactTooltip
+                                        id="editPlaylist"
+                                        getContent={(dataTip) => "플레이리스트 수정"}
+                                        // style={{ width: "20px" }}
+                                    />
                                 </li>
                             )}
                         </>
