@@ -33,9 +33,10 @@ const YoutubeSearch = () => {
         },
     };
     let lastSeq;
-    if (!location.state.lastSeq) lastSeq = -1;
-    else lastSeq = location.state.lastSeq;
-
+    // if (!location.state.lastSeq) lastSeq = -1;
+    // else lastSeq = location.state.lastSeq;
+    if (!window.sessionStorage.getItem("lastSeq")) lastSeq = -1;
+    else lastSeq = window.sessionStorage.getItem("lastSeq");
     const [newQuery, setNewQuery] = useState("알고리즘");
     const [searchedVideos, setSearchedVideos] = useState([]);
     const [selectedVideo, setSelectedVideo] = useState(null);
