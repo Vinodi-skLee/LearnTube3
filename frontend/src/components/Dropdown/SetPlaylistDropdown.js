@@ -71,6 +71,7 @@ export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId,
     return (
         <>
             <div
+                className="d-flex align-items-center justify-content-center"
                 // className="justify-items-end menu-container2"
                 ref={dropdownRef}
                 style={
@@ -100,7 +101,7 @@ export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId,
                                     setIsActive(!isActive);
                                     openModal();
                                 }}
-                                className="d-flex rounded-circle align-items-center justify-content-center"
+                                className="rounded-circle p-2"
                                 style={{
                                     background: "#ff7d4b",
                                     color: "white",
@@ -137,11 +138,11 @@ export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId,
                                 </li>
                             ) : (
                                 <li
-                                    className="d-flex rounded-circle align-items-center justify-content-center"
+                                    className="d-flex p-2 rounded-circle align-items-center justify-content-center"
                                     style={{
                                         // color: "white",
                                         background: "#ff7d4b",
-                                        padding: "15px",
+                                        // padding: "15px",
                                         width: "2.5rem",
                                         height: "2.5rem",
                                         cursor: "pointer",

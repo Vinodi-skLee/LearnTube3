@@ -40,8 +40,12 @@ const PlaylistWidget = ({
     updatePlaylist,
     setUpdatePlaylist,
     lastSeq,
-    setLastSeq,
+    // setLastSeq,
     checkPlaylistName,
+    updatePlaylistData,
+    handleTitleSubmit,
+    newTitleChange,
+    setSavedPlaylistName,
 }) => {
     const [isVideoClicked, setIsVideoClicked] = useState(isClicked);
     const [startTime, setStartTime] = useState(null);
@@ -49,31 +53,93 @@ const PlaylistWidget = ({
     const [cardView, setCardView] = useState(false);
     const [videoIdx, setvideoIdx] = useState();
     //   console.log(selectedVideo[videoNum]);
-    // console.log(playlistData);
+    console.log(playlistData);
+    const [classTempData, setClassTempData] = useState([{}]);
+    const [linkData, setLinkData] = useState([{ playlist_id: "", contentName: "" }]);
+    const { playlist_id, contentName } = linkData;
     useEffect(() => {
-        console.log(classroomList);
-        // if (classroomList) {
-        //     for (let i = 0; i < classroomList.length; i++) {
-        //         console.log("aa");
-        //         const fetchClassRoom = async () => {
-        //             try {
-        //                 const res1 = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom?userId=${userId}&classId=${classroomList[i].classId}`);
-        //                 console.log(res1.data);
-        //                 setClassroomData([...classroomData, res1.data]);
-        //             } catch (err) {
-        //                 console.log("err >> ", err);
-        //             }
-        //         };
-        //         fetchClassRoom();
-        //     }
+        if (classroomList) {
+            for (let i = 0; i < classroomList.length; i++) {
+                console.log("aa");
+                const fetchClassRoom = async () => {
+                    try {
+                        const res1 = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom?userId=${userId}&classId=${classroomList[i].classId}`);
+                        console.log(res1.data);
+                        setClassTempData([...classTempData, res1.data]);
+                        // classTempData.concat(res1.data);
+                        console.log(classTempData[1]);
+                    } catch (err) {
+                        console.log("err >> ", err);
+                    }
+                };
+                fetchClassRoom();
+            }
+        }
+    }, []);
+    useEffect(() => {
+        // const classroomList_ = classTempData.map((class, i) => (
+        //     const lecturesList = classTempData.lectures[i].map((lec, j) => (
+        //         const contentList = classTempData.lectures[i].contents[j].map((con, k) => (
+
+        //         ))
+        //     ))
+        // ))
+        for (let i = 1; i < classTempData.length; i++) {
+            for (let j = 0; j < classTempData[i].lectures.length; j++) {
+                for (let k = 0; k < classTempData[i].lectures[j].contents.length; k++) {
+                    setLinkData([
+                        {
+                            ...linkData,
+                            [playlist_id]: classTempData[i].lectures[j].contents[k].playlistId,
+                            [contentName]: classTempData[i].lectures[j].contents[k].contentName,
+                        },
+                    ]);
+
+                    console.log(linkData);
+                }
+            }
+        }
+
+        // <div key={data.playlist_id}></div>)
+        // {
+        //     Array.isArray(classTempData) ? (
+        //         classTempData &&
+        //         classTempData.map(
+        //             (data, i) =>
+        //                 //   Array.isArray(classTempData[i].lectures)
+        //                 //   ?
+        //                 classTempData[i].lectures &&
+        //                 classTempData[i].lectures.map(
+        //                     (data2, j) =>
+        //                         classTempData[i].lectures[j].contents && classTempData[i].lectures[j].contents.map((data3, k) => <div>{classTempData[i].lectures[j].contents[k].playlistId}</div>)
+        //                 )
+        //             //   : null;
+        //         )
+        //     ) : (
+        //         <></>
+        //     );
         // }
-        console.log(classroomData);
-    }, [classroomList, classroomData]);
+    }, [classTempData]);
     useEffect(() => {
-        setUpdatePlaylistTitle(savedPlaylistName);
+        console.log("abc");
+        console.log(linkData[1]);
+        for (let a = 0; a < linkData.length; a++) {
+            console.log(linkData[a]);
+        }
+    }, [classTempData, linkData, setLinkData]);
+    // const linkList =
+    //     playlistData &&
+    //     playlistData.map((playlistData, i) => (
+    //         <li key={playlistData[i].playlistId}>{linkData.filter((data) => data.playlist_id === playlistData[i].playlistId)}</li>
+    //         // console.log(linkData.filter((data) => data.playlist_id === playlistData[i].playlistId));
+    //         // <></>
+    //     ));
+    useEffect(() => {}, [linkData]);
+    useEffect(() => {
+        // setUpdatePlaylistTitle(savedPlaylistName);
         // console.log("savedPlaylistName", savedPlaylistName);
         // console.log("updatePlaylistTitle", updatePlaylistTitle);
-    }, [savedPlaylistName, setVideoNum, videoNum, setSelectedVideo, selectedVideo]);
+    }, [setUpdatePlaylistTitle, savedPlaylistName, setVideoNum, videoNum, setSelectedVideo, selectedVideo]);
 
     //   console.log(clickedVideo);
 
@@ -92,30 +158,31 @@ const PlaylistWidget = ({
         console.log(i);
         console.log(videoNum);
     };
-    const updatePlaylistData = {
-        playlistId: playlistId,
-        playlistName: updatePlaylistTitle,
-        description: "",
-    };
+    // const updatePlaylistData = {
+    //     playlistId: playlistId,
+    //     playlistName: updatePlaylistTitle,
+    //     description: "",
+    // };
     const handleSubmit = async () => {
         for (let j = 0; j < selectedVideo.length; j++) {
             console.log(selectedVideo[j]);
             selectedVideo[j].seq = j;
             console.log(selectedVideo[j].seq);
-            // console.log(selectedVideo[j].videoNum);
             // selectedVideo[videoNum];
             let updateRequest = {
                 videoId: selectedVideo[j].id,
                 youtubeId: selectedVideo[j].youtubeId,
                 title: selectedVideo[j].title,
-                newTitle: selectedVideo[j].title.newTitle,
-                start_s: selectedVideo[j].title.start_s,
-                end_s: selectedVideo[j].title.end_s,
-                duration: selectedVideo[j].title.duration,
+                newTitle: selectedVideo[j].newTitle,
+                start_s: selectedVideo[j].start_s,
+                end_s: selectedVideo[j].end_s,
+                duration: selectedVideo[j].duration,
                 seq: j,
                 tag: selectedVideo[j].tag,
             };
             console.log("seq", j);
+            console.log(updateRequest.end_s);
+
             const response2 = await axios
                 .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist_video/update`, updateRequest, {
                     method: "POST",
@@ -125,10 +192,8 @@ const PlaylistWidget = ({
                     },
                 })
                 .then((res) => console.log(res));
-
-            // }
-            // alert("플레이리스트가 수정되었습니다.");
         }
+
         const response = await axios
             .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/update`, JSON.stringify(updatePlaylistData), {
                 method: "POST",
@@ -137,7 +202,18 @@ const PlaylistWidget = ({
                 },
             })
             .then((res) => console.log(res));
-        // alert(updatePlaylistTitle + "로 playlist 정보가 업데이트 되었습니다.");
+        if (updatePlaylistTitle === undefined) {
+            console.log(selectedPlaylist);
+            console.log(savedPlaylistName);
+            console.log(updatePlaylistTitle);
+            setUpdatePlaylist(selectedPlaylist);
+            setSavedPlaylistName(selectedPlaylist);
+        } else {
+            console.log("abbbbs");
+            setUpdatePlaylistTitle(updatePlaylistTitle);
+            setSavedPlaylistName(updatePlaylistTitle);
+        }
+        // alert(updatePlaylistTitle + "로 playlist 제목이 업데이트 되었습니다.");
         alert("플레이리스트가 수정되었습니다.");
         // window.location.reload();
     };
@@ -158,68 +234,55 @@ const PlaylistWidget = ({
     const [grab, setGrab] = React.useState(null);
 
     const _onDragOver = (e) => {
-        e.preventDefault();
+        if (isEditMode) {
+            e.preventDefault();
+        }
     };
 
     const _onDragStart = (e) => {
-        setGrab(e.target);
-        e.target.classList.add("grabbing");
-        e.dataTransfer.effectAllowed = "move";
-        e.dataTransfer.setData("text/html", e.target);
+        if (isEditMode) {
+            setGrab(e.target);
+            e.target.classList.add("grabbing");
+            e.dataTransfer.effectAllowed = "move";
+            e.dataTransfer.setData("text/html", e.target);
+        }
     };
 
     const _onDragEnd = async (e) => {
-        e.target.classList.remove("grabbing");
-        e.dataTransfer.dropEffect = "move";
-        console.log(e.currentTarget.dataset.position);
-        setVideoNum(e.currentTarget.dataset.position);
-        //여기서부터
-        // for (let j = 0; j < selectedVideo.length; j++) {
-        //     console.log(selectedVideo[j]);
-        //     selectedVideo[j].seq = j;
-        //     console.log(selectedVideo[j].seq);
-        //     // console.log(selectedVideo[j].videoNum);
-        //     // selectedVideo[videoNum];
-        //     let updateRequest = {
-        //         videoId: selectedVideo[j].id,
-        //         youtubeId: selectedVideo[j].youtubeId,
-        //         title: selectedVideo[j].title,
-        //         newTitle: selectedVideo[j].title.newTitle,
-        //         start_s: selectedVideo[j].title.start_s,
-        //         end_s: selectedVideo[j].title.end_s,
-        //         duration: selectedVideo[j].title.duration,
-        //         seq: j,
-        //         tag: selectedVideo[j].tag,
-        //     };
-        //     console.log("seq", videoNum);
-        //     const response2 = await axios
-        //         .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist_video/update`, updateRequest, {
-        //             method: "POST",
-        //             headers: {
-        //                 // Accept: "application/json",
-        //                 "Content-Type": "application/json",
-        //             },
-        //         })
-        //         .then((res) => console.log(res));
-
-        // }
-        //여기까지
-        // setClickedVideo(video);
-        // setStartTime(video.start_s);
-        // setEndTime(video.end_s);
-        // setVideoNum(i);
-        // console.log(i);
-
-        console.log("bb");
+        if (isEditMode) {
+            e.target.classList.remove("grabbing");
+            e.dataTransfer.dropEffect = "move";
+            console.log(e.currentTarget.dataset.position);
+            setVideoNum(e.currentTarget.dataset.position);
+        }
     };
 
     const _onDrop = (e) => {
-        let grabPosition = Number(grab.dataset.position);
-        let targetPosition = Number(e.target.dataset.position);
-        let _selectedVideo = [...selectedVideo];
-        _selectedVideo[grabPosition] = _selectedVideo.splice(targetPosition, 1, _selectedVideo[grabPosition])[0];
-        setSelectedVideo(_selectedVideo);
-        console.log("aa");
+        if (isEditMode) {
+            let grabPosition = Number(grab.dataset.position);
+            let targetPosition = Number(e.target.dataset.position);
+            let _selectedVideo = [...selectedVideo];
+            _selectedVideo[grabPosition] = _selectedVideo.splice(targetPosition, 1, _selectedVideo[grabPosition])[0];
+            setSelectedVideo(_selectedVideo);
+        }
+    };
+    function decodeHTML(words) {
+        var decode = require("decode-html");
+        console.log(decode(words));
+        return decode(words);
+    }
+
+    const handleCancle = () => {
+        let num = 0;
+        for (let count = 0; count < playlistData.length; count++) {
+            if (playlistData[count].playlistId === playlistId) {
+                break;
+            }
+            num++;
+        }
+        setClickedVideo(playlistData[num].videos[0]);
+        setUpdatePlaylistTitle("");
+        setSavedPlaylistName(selectedPlaylist);
     };
     return (
         <div
@@ -344,6 +407,9 @@ const PlaylistWidget = ({
                                 onClick={() => {
                                     setIsEditMode(false);
                                     setUpdatePlaylist(false);
+                                    setVideoNum(0);
+                                    handleCancle();
+                                    selectVideo(selectedVideo[0], 0);
                                 }}
                                 style={{
                                     marginLeft: "10px",
@@ -399,11 +465,11 @@ const PlaylistWidget = ({
                                         onClick={(e) => {
                                             checkPlaylistName(e, selectedPlaylist);
                                         }}
-                                        className="ms-1 d-flex rounded-circle align-items-center justify-content-center"
+                                        className="rounded-circle p-2"
                                         style={{
                                             background: "#ff7d4b",
                                             color: "white",
-                                            padding: "15px",
+                                            // padding: "15px",
                                             width: "2.5rem",
                                             height: "2.5rem",
                                             cursor: "pointer",
@@ -444,7 +510,7 @@ const PlaylistWidget = ({
                                     />
                                     <div className="row">
                                         <div class="row text-start pt-30">
-                                            <div className="pt-5 fs-4">{clickedVideo.newTitle ? clickedVideo.newTitle : clickedVideo.title}</div>
+                                            <div className="pt-5 fs-4">{clickedVideo.newTitle ? decodeHTML(clickedVideo.newTitle) : decodeHTML(clickedVideo.title)}</div>
                                         </div>
                                         <div className="d-flex fw-light ms-0">
                                             재생 시간: {clickedVideo.duration ? toHHMMSS(clickedVideo.duration) : "duration 없음"}
@@ -452,7 +518,7 @@ const PlaylistWidget = ({
                                             {clickedVideo.end_s ? toHHMMSS(clickedVideo.end_s) : toHHMMSS(clickedVideo.duration)}{" "}
                                         </div>
 
-                                        <div class="mt-5 mx-md-3 fs-5 text-start text-muted">{clickedVideo.tag}</div>
+                                        {/* <div class="mt-5 mx-md-3 fs-5 text-start text-muted">{clickedVideo.tag}</div> */}
                                     </div>
                                 </div>
 
@@ -490,15 +556,15 @@ const PlaylistWidget = ({
                                                         <div
                                                             key={i}
                                                             data-position={i}
-                                                            onDragOver={_onDragOver}
-                                                            onDragStart={_onDragStart}
-                                                            onDragEnd={_onDragEnd}
-                                                            onDrop={_onDrop}
+                                                            onDragOver={isEditMode ? _onDragOver : null}
+                                                            onDragStart={isEditMode ? _onDragStart : null}
+                                                            onDragEnd={isEditMode ? _onDragEnd : null}
+                                                            onDrop={isEditMode ? _onDrop : null}
                                                             draggable
-                                                            className="d-flex p-3"
+                                                            className="d-flex pt-1 pb-1 "
                                                             onClick={() => selectVideo(data, i)}
                                                             style={
-                                                                data === clickedVideo
+                                                                data === clickedVideo && !isEditMode
                                                                     ? {
                                                                           background: "#A5ABBD",
                                                                           // background: "#e4e8f5",
@@ -520,13 +586,21 @@ const PlaylistWidget = ({
                                                                       }
                                                             }
                                                         >
-                                                            <div className="d-flex justify-content-center align-items-center pe-3" style={{ fontSize: "0.8rem", width: "10px" }}>
-                                                                {i + 1}
-                                                                {/* {i !== videoNum ? <>{i + 1}</> : <i className="fa fa-caret-right fa-lg" style={{ padding: "0.1rem" }}></i>} */}
+                                                            <div className="d-flex justify-content-center align-items-center ps-3 pe-3" style={{ fontSize: "0.8rem", width: "10px" }}>
+                                                                {/* {i + 1} */}
+                                                                {i === videoNum && !isEditMode ? <span style={{ width: "10px" }}>▶</span> : <span style={{ width: "10px" }}>{i + 1}</span>}
                                                             </div>
-                                                            <span className="d-flex position-relative justify-content-start" style={{ maxWidth: "30%" }}>
-                                                                <img src={"https://i.ytimg.com/vi/".concat(selectedVideo[i].youtubeId, "/hqdefault.jpg")} />
-                                                                <span
+                                                            <span className="d-flex position-relative justify-content-start align-items-center" style={{ maxWidth: "30%" }}>
+                                                                <img
+                                                                    src={"https://i.ytimg.com/vi/".concat(selectedVideo[i].youtubeId, "/hqdefault.jpg")}
+                                                                    style={{
+                                                                        objectFit: "cover",
+                                                                        width: "100%",
+                                                                        height: "80%",
+                                                                        // borderRadius: "5px",
+                                                                    }}
+                                                                />
+                                                                {/* <span
                                                                     className="position-absolute justify-content-end bg-black text-white m-1 me-1 ps-1 pe-1"
                                                                     style={{
                                                                         right: "0px",
@@ -537,11 +611,11 @@ const PlaylistWidget = ({
                                                                     }}
                                                                 >
                                                                     {selectedVideo[i].duration ? toHHMMSS(selectedVideo[i].duration) : ""}
-                                                                </span>
+                                                                </span> */}
                                                             </span>
-                                                            <div className="d-flex row pt-0 ps-3 " style={{ width: "100%" }}>
-                                                                <div className="playlist-title d-flex row pt-0 ps-3 fw-light text-start" style={{ height: "50px" }}>
-                                                                    {selectedVideo[i].newTitle ? selectedVideo[i].newTitle : selectedVideo[i].title}
+                                                            <div className="d-flex row pt-0 ps-3 align-items-center " style={{ width: "100%" }}>
+                                                                <div className="playlist-title d-flex row pt-1 pb-0 ps-3 fw-light text-start" style={{ height: "50px" }}>
+                                                                    {selectedVideo[i].newTitle ? decodeHTML(selectedVideo[i].newTitle) : decodeHTML(selectedVideo[i].title)}
                                                                 </div>
                                                                 <div className="d-flex row pt-0 ps-3" style={{ fontSize: "0.8rem" }}>
                                                                     시작: {selectedVideo[i].start_s ? toHHMMSS(selectedVideo[i].start_s) : "00:00"} ~ 종료:{" "}
@@ -549,7 +623,7 @@ const PlaylistWidget = ({
                                                                 </div>
                                                             </div>
                                                             {isEditMode ? (
-                                                                <div className="d-flex align-items-center">
+                                                                <div className="d-flex align-items-center pe-3">
                                                                     <BsList />
                                                                 </div>
                                                             ) : null}
@@ -630,7 +704,7 @@ const PlaylistWidget = ({
                                                 {playlistData.map(function (video, i) {
                                                     return (
                                                         <div
-                                                            className="p-2 col-lg-3 col-sm-6"
+                                                            className="p-3 col-lg-3 col-sm-6 "
                                                             style={{ cursor: "pointer" }}
                                                             onClick={() => {
                                                                 handlePlaylistChange(playlistData[i].name);
@@ -640,49 +714,52 @@ const PlaylistWidget = ({
                                                             {/* <span className="d-flex position-relative justify-content-start" style={{ maxWidth: "30%" }}> */}
                                                             {/* <div className="d-flex m-0 row-3 justify-content-center"> */}
                                                             <div
-                                                                className="img-part content-part"
-                                                                style={
-                                                                    {
-                                                                        // position: "relative",
-                                                                        // width: "250px",
-                                                                        // height: "120px",
-                                                                    }
-                                                                }
+                                                                className="d-flex position-relative justify-content-center"
+                                                                // style={{ maxWidth: "80%", maxHeight: "80%" }}
+                                                                // className="img-part content-part d-flex justify-content-center"
+                                                                // style={{
+                                                                // position: "relative",
+                                                                // width: "250px",
+                                                                // height: "120px",
+                                                                // }}
                                                             >
                                                                 {video.videos[0] ? (
                                                                     <>
-                                                                        {" "}
-                                                                        <span
-                                                                            className="position-absolute rounded justify-content-end text-white ps-2 pe-2 pt-1 pb-1 m-3 align-items-center"
-                                                                            style={{ backgroundColor: "#ff614d" }}
-                                                                        >
-                                                                            <i
-                                                                                className="fa"
-                                                                                style={{
-                                                                                    zIndex: "0",
-                                                                                    paddingRight: "3px",
-                                                                                }}
+                                                                        <div className="d-flex ">
+                                                                            <span
+                                                                                className="position-absolute rounded justify-content-end text-white ps-2 pe-2 pt-1 pb-1 m-3 align-items-center"
+                                                                                style={{ backgroundColor: "#ff614d" }}
                                                                             >
-                                                                                <span
+                                                                                <i
+                                                                                    className="fa"
                                                                                     style={{
-                                                                                        fontWeight: "bold",
-                                                                                        fontSize: "13px",
-                                                                                        color: "white",
+                                                                                        zIndex: "0",
+                                                                                        paddingRight: "3px",
                                                                                     }}
                                                                                 >
-                                                                                    사용중
-                                                                                </span>
-                                                                            </i>
-                                                                        </span>
+                                                                                    <span
+                                                                                        style={{
+                                                                                            fontWeight: "bold",
+                                                                                            fontSize: "13px",
+                                                                                            color: "white",
+                                                                                        }}
+                                                                                    >
+                                                                                        사용중
+                                                                                    </span>
+                                                                                </i>
+                                                                            </span>
+                                                                        </div>
                                                                         <img
-                                                                            className="img-fluid"
+                                                                            // className="img-fluid"
                                                                             style={{
-                                                                                height: "180px",
+                                                                                objectFit: "cover",
+                                                                                width: "260px",
+                                                                                height: "156px",
                                                                                 borderRadius: "5px",
                                                                             }}
                                                                             src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")}
                                                                         />
-                                                                        <span
+                                                                        {/* <span
                                                                             className="position-absolute justify-content-end bg-black text-white m-3 me-1"
                                                                             style={{
                                                                                 right: "10px",
@@ -692,24 +769,25 @@ const PlaylistWidget = ({
                                                                             }}
                                                                         >
                                                                             {video.totalDuration ? toHHMMSS(video.totalDuration) : ""}
-                                                                        </span>
+                                                                        </span> */}
                                                                     </>
                                                                 ) : (
                                                                     <div
-                                                                        className="course-features-info"
+                                                                        className="course-features-info "
                                                                         style={{
                                                                             backgroundSize: "cover",
                                                                             backgroundImage: `url(${logo})`,
                                                                             borderRadius: "5px",
-                                                                            width: "245px",
-                                                                            height: "auto",
+                                                                            objectFit: "cover",
+                                                                            width: "260px",
+                                                                            height: "156px",
                                                                         }}
                                                                     >
                                                                         <span
                                                                             style={{
                                                                                 display: "inline-block",
                                                                                 height: "180px",
-                                                                                lineHeight: "170px",
+                                                                                lineHeight: "160px",
                                                                                 textAlign: "center",
                                                                                 color: "#404040",
                                                                                 fontWeight: "bold",
@@ -726,11 +804,14 @@ const PlaylistWidget = ({
                                                             <div
                                                                 className="pt-3 px-3"
                                                                 style={{
-                                                                    minHeight: "100px",
-                                                                    maxHeight: "100px",
+                                                                    minHeight: "150px",
+                                                                    maxHeight: "150px",
                                                                 }}
                                                             >
-                                                                <div className="d-flex pl-12 h5">{video.name ? video.name : " - "}</div>
+                                                                {/* 22 */}
+                                                                <div className="d-flex pl-12 h5 pt-1">{video.name ? video.name : " - "}</div>
+                                                                <div className="d-flex pl-12">생성일자: {playlistData[i].createdAt ? playlistData[i].createdAt.split("T")[0] : " - "}</div>
+                                                                <div className="d-flex pl-12">전체시간: {video.totalDuration ? toHHMMSS(video.totalDuration) : " - "}</div>
                                                                 <div className="d-flex pl-12">영상개수: {video.videos.length ? video.videos.length + "개" : " - "}</div>
                                                             </div>
                                                         </div>
@@ -742,7 +823,7 @@ const PlaylistWidget = ({
                                                 {playlistData.map(function (video, i) {
                                                     return (
                                                         <div
-                                                            className="course-part clearfix m-0 p-2 col-lg-6 col-sm-15"
+                                                            className="course-part clearfix m-0 p-3 col-lg-6 col-sm-15"
                                                             style={{ cursor: "pointer" }}
                                                             onClick={() => {
                                                                 handlePlaylistChange(playlistData[i].name);
@@ -751,11 +832,11 @@ const PlaylistWidget = ({
                                                         >
                                                             <div className="d-flex m-0 row-3 justify-content-center">
                                                                 <div
-                                                                    className="img-part content-part"
+                                                                    // className="img-part content-part"
                                                                     style={{
-                                                                        position: "relative",
-                                                                        width: "250px",
-                                                                        height: "170px",
+                                                                        objectFit: "cover",
+                                                                        width: "260px",
+                                                                        height: "156px",
                                                                     }}
                                                                 >
                                                                     {video.videos[0] ? (
@@ -784,14 +865,16 @@ const PlaylistWidget = ({
                                                                                 </i>
                                                                             </span>
                                                                             <img
-                                                                                className="img-fluid"
+                                                                                // className="img-fluid"
                                                                                 style={{
-                                                                                    height: "180px",
+                                                                                    objectFit: "cover",
+                                                                                    width: "260px",
+                                                                                    height: "156px",
                                                                                     borderRadius: "5px",
                                                                                 }}
                                                                                 src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")}
                                                                             />
-                                                                            <span
+                                                                            {/* <span
                                                                                 className="position-absolute justify-content-end bg-black text-white m-3 me-1"
                                                                                 style={{
                                                                                     right: "8px",
@@ -802,16 +885,17 @@ const PlaylistWidget = ({
                                                                                 }}
                                                                             >
                                                                                 {video.totalDuration ? toHHMMSS(video.totalDuration) : ""}
-                                                                            </span>
+                                                                            </span> */}
                                                                         </>
                                                                     ) : (
                                                                         <div
-                                                                            className="img-part content-part"
+                                                                            // className="img-part content-part d-flex justify-content-center"
                                                                             style={{
                                                                                 backgroundSize: "cover",
                                                                                 backgroundImage: `url(${logo})`,
-                                                                                width: "245px",
-                                                                                height: "auto",
+                                                                                objectFit: "cover",
+                                                                                width: "260px",
+                                                                                height: "156px",
                                                                                 borderRadius: "5px",
                                                                             }}
                                                                         >
@@ -819,7 +903,7 @@ const PlaylistWidget = ({
                                                                                 style={{
                                                                                     display: "inline-block",
                                                                                     height: "180px",
-                                                                                    lineHeight: "170px",
+                                                                                    lineHeight: "160px",
                                                                                     textAlign: "center",
                                                                                     color: "#404040",
                                                                                     fontWeight: "bold",
@@ -833,14 +917,22 @@ const PlaylistWidget = ({
                                                                     )}
                                                                 </div>
                                                                 <div
-                                                                    className="pl-12 content-part "
+                                                                    className="pl-12 content-part pt-3 px-3 "
                                                                     style={{
                                                                         width: "50%",
-                                                                        minHeight: "100px",
-                                                                        maxHeight: "100px",
+                                                                        minHeight: "150px",
+                                                                        maxHeight: "150px",
                                                                     }}
                                                                 >
-                                                                    <div className="d-flex pl-12 h5">{video.name ? video.name : "영상제목"}</div>
+                                                                    <div className="d-flex pl-12 h5">{video.name ? video.name : "플레이리스트 제목"}</div>
+
+                                                                    {/* {Array.isArray(linkData)
+                                                                        ? linkData.map((linkData, i) => (
+                                                                              <></>
+                                                                              // {linkData[i].playlist_id===playlistData[i].playlistId ? <h>{linkData[i].contentName}</h>:null}
+                                                                          ))
+                                                                        : null} */}
+                                                                    {/* 11 */}
                                                                     <div className="d-flex pl-12">생성일자: {playlistData[i].createdAt ? playlistData[i].createdAt.split("T")[0] : " - "}</div>
                                                                     <div className="d-flex pl-12">전체시간: {video.totalDuration ? toHHMMSS(video.totalDuration) : " - "}</div>
                                                                     <div className="d-flex pl-12">영상개수: {video.videos.length ? video.videos.length + "개" : " - "}</div>
@@ -870,33 +962,35 @@ const PlaylistWidget = ({
                                                 {searchData.map(function (video, i) {
                                                     return (
                                                         <div
-                                                            className="p-2 col-lg-3 col-sm-6"
+                                                            className="p-2 col-lg-3 col-sm-6 "
                                                             style={{ cursor: "pointer" }}
                                                             onClick={() => {
                                                                 handlePlaylistChange(searchData[i].name);
                                                                 setSearchMode(false);
                                                             }}
                                                         >
-                                                            <div className="d-flex m-0 row-3 justify-content-center">
+                                                            <div className=" justify-content-center">
                                                                 <div
-                                                                    className="img-part content-part"
+                                                                    className="img-part content-part justify-content-center"
                                                                     style={{
-                                                                        position: "relative",
-                                                                        width: "250px",
-                                                                        height: "170px",
+                                                                        objectFit: "cover",
+                                                                        width: "260px",
+                                                                        height: "156px",
                                                                     }}
                                                                 >
                                                                     {video.videos[0] ? (
                                                                         <>
                                                                             <img
-                                                                                className="img-fluid"
+                                                                                // className="img-fluid"
                                                                                 style={{
-                                                                                    height: "180px",
+                                                                                    objectFit: "cover",
+                                                                                    width: "260px",
+                                                                                    height: "156px",
                                                                                     borderRadius: "5px",
                                                                                 }}
                                                                                 src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")}
                                                                             />
-                                                                            <span
+                                                                            {/* <span
                                                                                 className="position-absolute justify-content-end bg-black text-white m-3 me-1"
                                                                                 style={{
                                                                                     right: "10px",
@@ -906,7 +1000,7 @@ const PlaylistWidget = ({
                                                                                 }}
                                                                             >
                                                                                 {video.totalDuration ? toHHMMSS(video.totalDuration) : ""}
-                                                                            </span>
+                                                                            </span> */}
                                                                         </>
                                                                     ) : (
                                                                         <div
@@ -915,15 +1009,16 @@ const PlaylistWidget = ({
                                                                                 backgroundSize: "cover",
                                                                                 backgroundImage: `url(${logo})`,
                                                                                 borderRadius: "5px",
-                                                                                width: "245px",
-                                                                                height: "auto",
+                                                                                objectFit: "cover",
+                                                                                width: "260px",
+                                                                                height: "156px",
                                                                             }}
                                                                         >
                                                                             <span
                                                                                 style={{
                                                                                     display: "inline-block",
                                                                                     height: "180px",
-                                                                                    lineHeight: "170px",
+                                                                                    lineHeight: "160px",
                                                                                     textAlign: "center",
                                                                                     color: "#404040",
                                                                                     fontWeight: "bold",
@@ -940,11 +1035,13 @@ const PlaylistWidget = ({
                                                             <div
                                                                 className="pt-3 px-3"
                                                                 style={{
-                                                                    minHeight: "100px",
-                                                                    maxHeight: "100px",
+                                                                    minHeight: "150px",
+                                                                    maxHeight: "150px",
                                                                 }}
                                                             >
                                                                 <div className="d-flex pl-12 h5">{video.name ? video.name : " - "}</div>
+                                                                <div className="d-flex pl-12">생성일자: {playlistData[i].createdAt ? playlistData[i].createdAt.split("T")[0] : " - "}</div>
+                                                                <div className="d-flex pl-12">전체시간: {video.totalDuration ? toHHMMSS(video.totalDuration) : " - "}</div>
                                                                 <div className="d-flex pl-12">영상개수: {video.videos.length ? video.videos.length + "개" : " - "}</div>
                                                             </div>
                                                         </div>
@@ -967,22 +1064,24 @@ const PlaylistWidget = ({
                                                                 <div
                                                                     className="img-part content-part"
                                                                     style={{
-                                                                        position: "relative",
-                                                                        width: "250px",
-                                                                        height: "170px",
+                                                                        objectFit: "cover",
+                                                                        width: "260px",
+                                                                        height: "156px",
                                                                     }}
                                                                 >
                                                                     {video.videos[0] ? (
                                                                         <>
                                                                             <img
-                                                                                className="img-fluid"
+                                                                                // className="img-fluid"
                                                                                 style={{
-                                                                                    height: "180px",
+                                                                                    objectFit: "cover",
+                                                                                    width: "260px",
+                                                                                    height: "156px",
                                                                                     borderRadius: "5px",
                                                                                 }}
                                                                                 src={"https://i.ytimg.com/vi/".concat(video.videos[0].youtubeId, "/hqdefault.jpg")}
                                                                             />
-                                                                            <span
+                                                                            {/* <span
                                                                                 className="position-absolute justify-content-end bg-black text-white m-3 me-1"
                                                                                 style={{
                                                                                     right: "8px",
@@ -993,7 +1092,7 @@ const PlaylistWidget = ({
                                                                                 }}
                                                                             >
                                                                                 {video.totalDuration ? toHHMMSS(video.totalDuration) : ""}
-                                                                            </span>
+                                                                            </span> */}
                                                                         </>
                                                                     ) : (
                                                                         <div
@@ -1001,16 +1100,17 @@ const PlaylistWidget = ({
                                                                             style={{
                                                                                 backgroundSize: "cover",
                                                                                 backgroundImage: `url(${logo})`,
-                                                                                width: "245px",
-                                                                                height: "auto",
                                                                                 borderRadius: "5px",
+                                                                                objectFit: "cover",
+                                                                                width: "260px",
+                                                                                height: "156px",
                                                                             }}
                                                                         >
                                                                             <span
                                                                                 style={{
                                                                                     display: "inline-block",
                                                                                     height: "180px",
-                                                                                    lineHeight: "170px",
+                                                                                    lineHeight: "160px",
                                                                                     textAlign: "center",
                                                                                     color: "#404040",
                                                                                     fontWeight: "bold",
@@ -1027,11 +1127,11 @@ const PlaylistWidget = ({
                                                                     className="pl-12 content-part "
                                                                     style={{
                                                                         width: "50%",
-                                                                        minHeight: "100px",
-                                                                        maxHeight: "100px",
+                                                                        minHeight: "150px",
+                                                                        maxHeight: "150px",
                                                                     }}
                                                                 >
-                                                                    <div className="d-flex pl-12 h5">{video.name ? video.name : "영상제목"}</div>
+                                                                    <div className="d-flex pl-12 h5">{video.name ? video.name : "플레이리스트 제목"}</div>
                                                                     <div className="d-flex pl-12">생성일자: {searchData[i].createdAt ? searchData[i].createdAt.split("T")[0] : " - "}</div>
                                                                     <div className="d-flex pl-12">전체시간: {video.totalDuration ? toHHMMSS(video.totalDuration) : " - "}</div>
                                                                     <div className="d-flex pl-12">영상개수: {video.videos.length ? video.videos.length + "개" : " - "}</div>

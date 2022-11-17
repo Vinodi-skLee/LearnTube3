@@ -49,23 +49,27 @@ const Playlist = () => {
     const [searchMode, setSearchMode] = useState(false);
     const [clickedVideo, setClickedVideo] = useState({});
     const [playlistDuration, setPlaylistDuration] = useState();
-    const [savedPlaylistName, setSavedPlaylistName] = useState("");
-    const [updatePlaylist, setUpdatePlaylist] = useState(false);
-    const [updatePlaylistTitle, setUpdatePlaylistTitle] = useState(savedPlaylistName);
+    const [savedPlaylistName, setSavedPlaylistName] = useState(""); //before
+    const [updatePlaylist, setUpdatePlaylist] = useState(false); //after
+    const [updatePlaylistTitle, setUpdatePlaylistTitle] = useState(initPlaylistData.name);
     const [searched, setSearched] = useState(false);
     const [isEmpty, setIsEmpty] = useState(false);
-    const [lastSeq, setLastSeq] = useState(0);
+    // const [lastSeq, setLastSeq] = useState(0);
+    let lastSeq = 0;
     const [videoNum, setVideoNum] = useState(0);
-
-    const [classroomList, setClassroomList] = useState(null);
     const [classroomData, setClassroomData] = useState();
-    const [classTempData, setClassTempData] = useState([{}]);
+    // const [classTempData, setClassTempData] = useState([{}]);
+    const [classTempData, setClassTempData] = useState();
+    const [classroomList, setClassroomList] = useState();
+    console.log(selectedPlaylist);
+    console.log(savedPlaylistName);
+    console.log(updatePlaylistTitle);
     useEffect(() => {
         if (userId) {
             const fetchManagesClassRoom = async () => {
                 try {
                     const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/manages?userId=${userId}`);
-                    console.log("playlist idx page", response.data);
+                    console.log("playlist idx - classroomList", response.data);
                     setClassroomList(response.data);
                 } catch (err) {
                     console.log("err >> ", err);
@@ -75,22 +79,23 @@ const Playlist = () => {
         }
     }, []);
     useEffect(() => {
-        if (classroomList) {
-            for (let i = 0; i < classroomList.length; i++) {
-                console.log("aa");
-                const fetchClassRoom = async () => {
-                    try {
-                        const res1 = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom?userId=${userId}&classId=${classroomList[i].classId}`);
-                        console.log(res1.data);
-                        setClassTempData([...classTempData, res1.data]);
-                    } catch (err) {
-                        console.log("err >> ", err);
-                    }
-                };
-                fetchClassRoom();
-            }
-        }
-        console.log(classTempData);
+        // if (classroomList) {
+        //     for (let i = 0; i < classroomList.length; i++) {
+        //         console.log("aa");
+        //         const fetchClassRoom = async () => {
+        //             try {
+        //                 const res1 = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom?userId=${userId}&classId=${classroomList[i].classId}`);
+        //                 console.log(res1.data);
+        //                 setClassTempData([...classTempData, res1.data]);
+        //                 classTempData.concat(res1.data);
+        //             } catch (err) {
+        //                 console.log("err >> ", err);
+        //             }
+        //         };
+        //         fetchClassRoom();
+        //     }
+        // }
+        // console.log(classTempData);
     }, []);
     useEffect(() => {
         // console.log("playlist idx", videoNum);
@@ -108,7 +113,9 @@ const Playlist = () => {
         };
         fetchMyPlaylists();
     }, []);
-    useEffect(() => {}, [playlistData]);
+    useEffect(() => {
+        // setUpdatePlaylistTitle(playlistData.name);
+    }, [playlistData]);
 
     const handlePlaylistChange = (name) => {
         let num = 0;
@@ -123,8 +130,9 @@ const Playlist = () => {
         console.log("playlist data", playlistData[num]);
         console.log(selectedVideo);
         setSelectedVideo(playlistData[num].videos);
-        selectedVideo[Object.keys(selectedVideo).length - 1] ? setLastSeq(selectedVideo[Object.keys(selectedVideo).length - 1].seq) : setLastSeq(0);
-        console.log("lastSeq " + lastSeq);
+        // selectedVideo[Object.keys(selectedVideo).length - 1] ? setLastSeq(selectedVideo[Object.keys(selectedVideo).length - 1].seq) : setLastSeq(0);
+        // console.log("lastSeq " + lastSeq);
+        if (selectedVideo) selectedVideo.length ? (lastSeq = selectedVideo.length) : (lastSeq = 0);
         setClickedVideo(playlistData[num].videos[0]);
         setPlaylistId(playlistData[num].playlistId);
         setSelectedPlaylist(playlistData[num].name);
@@ -169,8 +177,11 @@ const Playlist = () => {
 
     const newTitleChange = (e) => {
         console.log(updatePlaylistTitle);
+        console.log(savedPlaylistName);
+        setSavedPlaylistName(e.target.value);
         setUpdatePlaylistTitle(e.target.value);
     };
+    useEffect(() => {}, [setUpdatePlaylistTitle]);
 
     const handleSubmit = async () => {
         // for (let j = 0; j < selectedVideo.length; j++) {
@@ -178,10 +189,10 @@ const Playlist = () => {
         //     videoId: selectedVideo[videoNum].id,
         //     youtubeId: selectedVideo[videoNum].youtubeId,
         //     title: selectedVideo[videoNum].title,
-        //     newTitle: selectedVideo[videoNum].title.newTitle,
-        //     start_s: selectedVideo[videoNum].title.start_s,
-        //     end_s: selectedVideo[videoNum].title.end_s,
-        //     duration: selectedVideo[videoNum].title.duration,
+        //     newTitle: selectedVideo[videoNum].newTitle,
+        //     start_s: selectedVideo[videoNum].start_s,
+        //     end_s: selectedVideo[videoNum].end_s,
+        //     duration: selectedVideo[videoNum].duration,
         //     seq: videoNum,
         //     tag: selectedVideo[videoNum].tag,
         // };
@@ -195,16 +206,16 @@ const Playlist = () => {
         //         },
         //     })
         //     .then((res) => console.log(res));
-        const response = await axios
-            .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/update`, JSON.stringify(updatePlaylistData), {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-            .then((res) => console.log(res));
+        // const response = await axios
+        //     .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/update`, JSON.stringify(updatePlaylistData), {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //     })
+        //     .then((res) => console.log(res));
         // }
-        alert("플레이리스트가 수정되었습니다.");
+        // alert("플레이리스트가 수정되었습니다.");
         // alert(updatePlaylistTitle + "로 playlist 정보가 업데이트 되었습니다.");
         // window.location.reload();
     };
@@ -266,9 +277,9 @@ const Playlist = () => {
                                                                         type="text"
                                                                         id="updatedTitle"
                                                                         name="updatedTitle"
-                                                                        placeholder={selectedPlaylist}
+                                                                        placeholder={savedPlaylistName}
                                                                         className="border-0"
-                                                                        value={updatePlaylistTitle}
+                                                                        value={savedPlaylistName}
                                                                         onChange={newTitleChange}
                                                                     />
                                                                     {/* <HiCheck
@@ -288,7 +299,8 @@ const Playlist = () => {
                                                                 </>
                                                             ) : (
                                                                 <>
-                                                                    {selectedPlaylist}
+                                                                    {/* {selectedPlaylist} */}
+                                                                    {savedPlaylistName}
                                                                     {/* {selectedPlaylist}
                                   <div class="d-flex text-start fs-6 fw-bold p-3 pb-0">
                                     총 비디오 개수&ensp;{":"}&ensp;
@@ -304,7 +316,7 @@ const Playlist = () => {
                                             </div>
 
                                             {isEditMode ? (
-                                                <div>{/* 원래 여기에 저장, 수정 버튼 있었음 */}</div>
+                                                <div>{/* 원래 여기에 취소, 저장 버튼 (수정눌렀을때 있었음 */}</div>
                                             ) : (
                                                 <>
                                                     {playlistData ? (
@@ -332,10 +344,10 @@ const Playlist = () => {
                                                                                 }}
                                                                             >
                                                                                 {playlistId ? (
-                                                                                    <option>------- Playlist 선택하기 -------</option>
+                                                                                    <option>------- Playlist 이동하기 -------</option>
                                                                                 ) : (
                                                                                     // playlistData.title
-                                                                                    <option>------- Playlist 선택하기 -------</option>
+                                                                                    <option>------- Playlist 이동하기 -------</option>
                                                                                 )}
 
                                                                                 {playlistData ? (
@@ -478,8 +490,11 @@ const Playlist = () => {
                                             classroomData={classroomData}
                                             setClassroomData={setClassroomData}
                                             lastSeq={lastSeq}
-                                            setLastSeq={setLastSeq}
+                                            // setLastSeq={setLastSeq}
                                             checkPlaylistName={checkPlaylistName}
+                                            updatePlaylistData={updatePlaylistData}
+                                            newTitleChange={newTitleChange}
+                                            setSavedPlaylistName={setSavedPlaylistName}
                                         />
                                         {/* </Link> */}
                                         {/* {isEditMode ? (
