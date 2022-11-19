@@ -209,7 +209,7 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                         url={
                                                             contentData.playlist.videos
                                                                 ? `https://www.youtube.com/watch?v=${clickedVideo.youtubeId}?start=${clickedVideo.start_s}&end=${clickedVideo.end_s}`
-                                                                : `https://www.youtube.com/watch?v=${contentData.playlist.videos[i].youtubeId}?start=${contentData.playlist.videos[i].start_s}&end=${contentData.playlist.videos[i].end_s}`
+                                                                : `https://www.youtube.com/watch?v=${contentData.playlist.videos[videoNum].youtubeId}?start=${contentData.playlist.videos[videoNum].start_s}&end=${contentData.playlist.videos[videoNum].end_s}`
                                                         }
                                                         width={isBigDisplay ? (isPlaylistVisible ? "70%" : "100%") : "900px"}
                                                         height={isBigDisplay ? (isPlaylistVisible ? "800px" : "945px") : "500px"}
@@ -221,7 +221,7 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                     />{" "}
                                                     {/* 동영상 제목, 재생시간/구간 */}
                                                     <div className="row text-start pt-10">
-                                                        <div className="pt-1 fs-4">{contentData.playlist.videos ? decodeHTML(clickedVideo.videoTitle) : decodeHTML(contentData.playlist.videos[i].videoTitle)}</div>
+                                                        <div className="pt-1 fs-4">{contentData.playlist.videos ? decodeHTML(clickedVideo.videoTitle) : decodeHTML(contentData.playlist.videos[videoNum].videoTitle)}</div>
                                                     </div>
                                                     <div className="d-flex fw-light ms-0">
                                                         {contentData.playlist.videos ? (
@@ -235,12 +235,12 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                         ) : (
                                                             <>
                                                                 재생 시간:
-                                                                {contentData.playlist.videos[i].duration ? toHHMMSS(contentData.playlist.videos[i].duration) : "duration 없음"}
+                                                                {contentData.playlist.videos[videoNum].duration ? toHHMMSS(contentData.playlist.videos[videoNum].duration) : "duration 없음"}
                                                                 &ensp;| 재생 구간:
-                                                                {contentData.playlist.videos[i].start_s ? toHHMMSS(contentData.playlist.videos[i].start_s) : "00:00"}~
-                                                                {contentData.playlist.videos[i].end_s
-                                                                    ? toHHMMSS(contentData.playlist.videos[i].end_s)
-                                                                    : toHHMMSS(contentData.playlist.videos[i].duration)}
+                                                                {contentData.playlist.videos[videoNum].start_s ? toHHMMSS(contentData.playlist.videos[videoNum].start_s) : "00:00"}~
+                                                                {contentData.playlist.videos[videoNum].end_s
+                                                                    ? toHHMMSS(contentData.playlist.videos[videoNum].end_s)
+                                                                    : toHHMMSS(contentData.playlist.videos[videoNum].duration)}
                                                             </>
                                                         )}
                                                     </div>
@@ -252,8 +252,9 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                     <>
                                                     {console.log(contentData)}
                                                         <div>
+                                                            {console.log("index: " + j)}
                                                             <ReactPlayer
-                                                                url={`https://www.youtube.com/watch?v=${contentData.playlist.videos[i].youtubeId}?start=${contentData.playlist.videos[i].start_s}&end=${contentData.playlist.videos[i].end_s}`}
+                                                                url={`https://www.youtube.com/watch?v=${contentData.playlist.videos[videoNum].youtubeId}?start=${contentData.playlist.videos[videoNum].start_s}&end=${contentData.playlist.videos[videoNum].end_s}`}
                                                                 width={isBigDisplay ? (isPlaylistVisible ? "70%" : "100%") : "900px"}
                                                                 height={isBigDisplay ? (isPlaylistVisible ? "800px" : "945px") : "500px"}
                                                                 playing={playing} // 자동 재생 on
@@ -261,14 +262,14 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                                 pip={true} // pip 모드 설정 여부
                                                             />
                                                             <div className="row text-start pt-10">
-                                                                <div className="pt-1 fs-4" style={{width: "1400px"}}>{decodeHTML(contentData.playlist.videos[i].videoTitle)}</div>
+                                                                <div className="pt-1 fs-4" style={{width: "1400px"}}>{decodeHTML(contentData.playlist.videos[videoNum].videoTitle)}</div>
                                                             </div>
                                                             <div className="d-flex fw-light ms-0">
-                                                                재생 시간: {contentData.playlist.videos[i].duration ? toHHMMSS(contentData.playlist.videos[i].duration) : "duration 없음"}
-                                                                &ensp;| 재생 구간: {contentData.playlist.videos[i].start_s ? toHHMMSS(contentData.playlist.videos[i].start_s) : "00:00"} ~
-                                                                {contentData.playlist.videos[i].end_s
-                                                                    ? toHHMMSS(contentData.playlist.videos[i].end_s)
-                                                                    : toHHMMSS(contentData.playlist.videos[i].duration)}{" "}
+                                                                재생 시간: {contentData.playlist.videos[videoNum].duration ? toHHMMSS(contentData.playlist.videos[videoNum].duration) : "duration 없음"}
+                                                                &ensp;| 재생 구간: {contentData.playlist.videos[videoNum].start_s ? toHHMMSS(contentData.playlist.videos[videoNum].start_s) : "00:00"} ~
+                                                                {contentData.playlist.videos[videoNum].end_s
+                                                                    ? toHHMMSS(contentData.playlist.videos[videoNum].end_s)
+                                                                    : toHHMMSS(contentData.playlist.videos[videoNum].duration)}{" "}
                                                             </div>
                                                         </div>
                                                     </>
@@ -333,7 +334,7 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                     <>
                                                         <div>
                                                             <ReactPlayer
-                                                                url={`https://www.youtube.com/watch?v=${contentData.playlist.videos[i].youtubeId}?start=${contentData.playlist.videos[i].start_s}&end=${contentData.playlist.videos[i].end_s}`}
+                                                                url={`https://www.youtube.com/watch?v=${contentData.playlist.videos[videoNum].youtubeId}?start=${contentData.playlist.videos[videoNum].start_s}&end=${contentData.playlist.videos[videoNum].end_s}`}
                                                                 // width={isBigDisplay ? "100%" : "100%"}
                                                                 // height={isBigDisplay ? "800px" : "500px"}
                                                                 playing={playing} // 자동 재생 on
@@ -343,14 +344,14 @@ const ContentWidget = ({ className, lecture, lectureNum, setLectureNum, content,
                                                             />{" "}
                                                             <div className="row">
                                                                 <div className="row text-start pt-10">
-                                                                    <div className="pt-1 fs-4">{decodeHTML(contentData.playlist.videos[i].videoTitle)}</div>
+                                                                    <div className="pt-1 fs-4">{decodeHTML(contentData.playlist.videos[videoNum].videoTitle)}</div>
                                                                 </div>
                                                                 <div className="d-flex fw-light ms-0">
-                                                                    재생 시간: {contentData.playlist.videos[i].duration ? toHHMMSS(contentData.playlist.videos[i].duration) : "duration 없음"}
-                                                                    &ensp;| 재생 구간: {contentData.playlist.videos[i].start_s ? toHHMMSS(contentData.playlist.videos[i].start_s) : "00:00"} ~
-                                                                    {contentData.playlist.videos[i].end_s
-                                                                        ? toHHMMSS(contentData.playlist.videos[i].end_s)
-                                                                        : toHHMMSS(contentData.playlist.videos[i].duration)}{" "}
+                                                                    재생 시간: {contentData.playlist.videos[videoNum].duration ? toHHMMSS(contentData.playlist.videos[videoNum].duration) : "duration 없음"}
+                                                                    &ensp;| 재생 구간: {contentData.playlist.videos[videoNum].start_s ? toHHMMSS(contentData.playlist.videos[videoNum].start_s) : "00:00"} ~
+                                                                    {contentData.playlist.videos[videoNum].end_s
+                                                                        ? toHHMMSS(contentData.playlist.videos[videoNum].end_s)
+                                                                        : toHHMMSS(contentData.playlist.videos[videoNum].duration)}{" "}
                                                                 </div>
                                                             </div>
                                                         </div>
