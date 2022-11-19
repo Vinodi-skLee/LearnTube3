@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import CourseDashBoard from "../../components/Courses/CourseDashBoard";
 import ClassroomContent from "../../components/Modal/Classroom/CreateClassroom";
+import { Spinner } from "react-bootstrap";
 
 // Course courseImg
 import courseImg1 from "../../assets/img/courses/1.jpg";
@@ -81,25 +82,29 @@ const CoursePartAdmin = (props) => {
                                 </form>
                             </div>
                         </div> */}
-                        {managesData
-                            ? managesData.map((manageData, i) => (
-                                  <div className="course-part clearfix m-0">
-                                      <CourseDashBoard
-                                          courseClass="courses-item"
-                                          courseImg={managesData[i].image}
-                                          courseTitle={managesData[i].className}
-                                          notice={managesData[i].latestNotice}
-                                          progress={0}
-                                          userCount={managesData[i].numberOfTake}
-                                          openDate={managesData[i].classRoomRegDate.split("T")[0]}
-                                          creatorName={managesData[i].instructorName}
-                                          creatorId={managesData[i].instructorId}
-                                          classId={managesData[i].classId}
-                                          userId={userId}
-                                      />
-                                  </div>
-                              ))
-                            : null}
+                        {managesData ? (
+                            managesData.map((manageData, i) => (
+                                <div className="course-part clearfix m-0">
+                                    <CourseDashBoard
+                                        courseClass="courses-item"
+                                        courseImg={managesData[i].image}
+                                        courseTitle={managesData[i].className}
+                                        notice={managesData[i].latestNotice}
+                                        progress={0}
+                                        userCount={managesData[i].numberOfTake}
+                                        openDate={managesData[i].classRoomRegDate.split("T")[0]}
+                                        creatorName={managesData[i].instructorName}
+                                        creatorId={managesData[i].instructorId}
+                                        classId={managesData[i].classId}
+                                        userId={userId}
+                                    />
+                                </div>
+                            ))
+                        ) : (
+                            <div class="text-center" style={{ marginTop: "10%", height: "30rem" }}>
+                                <Spinner animation="grow" variant="secondary" style={{ width: "10rem", height: "10rem" }} />
+                            </div>
+                        )}
                         <div className="pagination-area orange-color text-center mt-30 md-mt-0">
                             <ul className="pagination-part">
                                 <li className="active">
