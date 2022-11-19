@@ -8,79 +8,100 @@ import setIcon from "../../assets/img/icon/settingIcon.png";
 import ReactTooltip from "react-tooltip";
 import { BiNoEntry } from "react-icons/bi";
 import { FiEdit } from "react-icons/fi";
-export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId, initCreatePlaylist, selectedPlaylist, selectedVideo, setIsEmpty, isSelected, isEmpty, setIsEditMode }) {
-    const dropdownRef = useRef(null);
-    const [isActive, setIsActive] = useState(false);
-    const useClick = () => setIsActive(!isActive);
-    const [isOpen, setIsOpen] = useState(false);
-    const openModal = () => setIsOpen(!isOpen);
-    const [isShow, setIsShow] = useState(false);
-    const [createPlaylist, setCreatePlaylist] = useState(initCreatePlaylist);
-    const [playlistName, setPlaylistName] = useState("Playlist 생성");
+export default function SetPlaylistDropdown({
+  playlistId,
+  setPlaylistId,
+  userId,
+  initCreatePlaylist,
+  selectedPlaylist,
+  selectedVideo,
+  setIsEmpty,
+  isSelected,
+  isEmpty,
+  setIsEditMode,
+  isActive,
+  setIsActive,
+}) {
+  const dropdownRef = useRef(null);
+  // const [isActive, setIsActive] = useState(false);
+  const useClick = () => setIsActive(!isActive);
+  const [isOpen, setIsOpen] = useState(false);
+  const openModal = () => setIsOpen(!isOpen);
+  const [isShow, setIsShow] = useState(false);
+  const [createPlaylist, setCreatePlaylist] = useState(initCreatePlaylist);
+  const [playlistName, setPlaylistName] = useState("Playlist 생성");
 
-    useEffect(() => {
-        function handleClickOutside(e) {
-            // 현재 document에서 mousedown 이벤트가 동작하면 호출되는 함수
-            if (!isActive && dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-                setIsActive(isActive);
-            }
+  useEffect(() => {
+    function handleClickOutside(e) {
+      // 현재 document에서 mousedown 이벤트가 동작하면 호출되는 함수
+      if (
+        !isActive &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target)
+      ) {
+        setIsActive(isActive);
+      }
+    }
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [dropdownRef]);
+
+  const checkPlaylistName = (e, selectedPlaylist) => {
+    if (typeof selectedPlaylist != "string") {
+      alert("Playlist를 선택해주세요.");
+      e.preventDefault();
+    }
+  };
+
+  const handleChange = (e) => {
+    setCreatePlaylist({
+      ...createPlaylist,
+      [e.target.name]: e.target.value.trim(),
+      userId: userId,
+    });
+  };
+
+  const handleSubmit = async () => {
+    console.log(JSON.stringify(createPlaylist));
+    let temp;
+    const response = await axios
+      .post(
+        `${process.env.REACT_APP_SERVER_URL}/api/playlist/create`,
+        JSON.stringify(createPlaylist),
+        {
+          method: "POST",
+          headers: {
+            // Accept: "application/json",
+            "Content-Type": "application/json",
+          },
         }
-        document.addEventListener("click", handleClickOutside);
+      )
+      .then(function (res) {
+        console.log(res.data.playlistId);
+        temp = res.data.playlistId;
+        setPlaylistId(temp);
+        setIsShow(true);
+      });
+    console.log(createPlaylist.playlistName);
+    setPlaylistName(createPlaylist.playlistName);
+  };
 
-        return () => {
-            document.removeEventListener("click", handleClickOutside);
-        };
-    }, [dropdownRef]);
-
-    const checkPlaylistName = (e, selectedPlaylist) => {
-        if (typeof selectedPlaylist != "string") {
-            alert("Playlist를 선택해주세요.");
-            e.preventDefault();
+  return (
+    <>
+      <div
+        className="d-flex align-items-center justify-content-center"
+        // className="justify-items-end menu-container2"
+        ref={dropdownRef}
+        style={
+          {
+            // paddingBottom: "60px",
+          }
         }
-    };
-
-    const handleChange = (e) => {
-        setCreatePlaylist({
-            ...createPlaylist,
-            [e.target.name]: e.target.value.trim(),
-            userId: userId,
-        });
-    };
-
-    const handleSubmit = async () => {
-        console.log(JSON.stringify(createPlaylist));
-        let temp;
-        const response = await axios
-            .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/create`, JSON.stringify(createPlaylist), {
-                method: "POST",
-                headers: {
-                    // Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-            })
-            .then(function (res) {
-                console.log(res.data.playlistId);
-                temp = res.data.playlistId;
-                setPlaylistId(temp);
-                setIsShow(true);
-            });
-        console.log(createPlaylist.playlistName);
-        setPlaylistName(createPlaylist.playlistName);
-    };
-
-    return (
-        <>
-            <div
-                className="d-flex align-items-center justify-content-center"
-                // className="justify-items-end menu-container2"
-                ref={dropdownRef}
-                style={
-                    {
-                        // paddingBottom: "60px",
-                    }
-                }
-            >
-                {/* <button
+      >
+        {/* <button
           onClick={useClick}
           className="menu-trigger"
           data-for="setHover"
@@ -88,211 +109,302 @@ export default function SetPlaylistDropdown({ playlistId, setPlaylistId, userId,
         >
           <img className="setIcon" src={setIcon} alt="User avatar" />
         </button> */}
-                {/* <ReactTooltip id="setHover" getContent={(dataTip) => "설정"} /> */}
-                {/* <nav
+        {/* <ReactTooltip id="setHover" getContent={(dataTip) => "설정"} /> */}
+        {/* <nav
         className={`menu2 ${isActive ? "active" : "inactive"}`}
         > */}
-                <ul>
-                    {!isSelected ? (
-                        <li>
-                            {/* 플레이리스트 생성 */}
-                            <div
-                                onClick={() => {
-                                    setIsActive(!isActive);
-                                    openModal();
-                                }}
-                                className="rounded-circle p-2"
-                                style={{
-                                    background: "#ff7d4b",
-                                    color: "white",
-                                    padding: "15px",
-                                    width: "2.5rem",
-                                    height: "2.5rem",
-                                    cursor: "pointer",
-                                }}
-                            >
-                                <i className="fa fa-plus" data-for="createPlaylist" data-tip></i>
-                                <ReactTooltip
-                                    id="createPlaylist"
-                                    getContent={(dataTip) => "플레이리스트 생성"}
-                                    // style={{ width: "20px" }}
-                                />
-                            </div>
-                        </li>
-                    ) : (
-                        <>
-                            {isEmpty ? (
-                                <li>
-                                    <Link
-                                        to={{
-                                            pathname: "/learntube/learntube-studio/youtubeSearch",
-                                            state: {
-                                                playlistName: selectedPlaylist,
-                                                playlistId: playlistId,
-                                                update: true,
-                                                existingVideo: selectedVideo,
-                                            },
-                                        }}
-                                        style={{ padding: "0", margin: "0" }}
-                                    ></Link>
-                                </li>
-                            ) : (
-                                <li
-                                    className="d-flex p-2 rounded-circle align-items-center justify-content-center"
-                                    style={{
-                                        // color: "white",
-                                        background: "#ff7d4b",
-                                        // padding: "15px",
-                                        width: "2.5rem",
-                                        height: "2.5rem",
-                                        cursor: "pointer",
-                                    }}
-                                    onClick={() => {
-                                        setIsActive(!isActive);
-                                        setIsEditMode(true);
-                                        setIsEmpty(false);
-                                    }}
-                                    data-for="editPlaylist"
-                                    data-tip
-                                >
-                                    <span className="d-flex align-items-center justify-content-center">
-                                        <FiEdit
-                                            style={{
-                                                color: "white",
-                                            }}
-                                        />
-                                    </span>
-                                    <ReactTooltip
-                                        id="editPlaylist"
-                                        getContent={(dataTip) => "플레이리스트 수정"}
-                                        // style={{ width: "20px" }}
-                                    />
-                                </li>
-                            )}
-                        </>
-                    )}
-                </ul>
-                {/* </nav> */}
-                <Modal
-                    isOpen={isOpen}
-                    onClose={() => {
-                        openModal();
-                    }}
-                    onRequestClose={() => setIsOpen(false)}
+        <ul>
+          {!isSelected ? (
+            <li>
+              {/* 플레이리스트 생성 */}
+              <div
+                onClick={() => {
+                  setIsActive(!isActive);
+                  openModal();
+                }}
+                className="rounded-circle p-2"
+                style={{
+                  background: "#ff7d4b",
+                  color: "white",
+                  padding: "15px",
+                  width: "2.5rem",
+                  height: "2.5rem",
+                  cursor: "pointer",
+                }}
+              >
+                <i
+                  className="fa fa-plus"
+                  data-for="createPlaylist"
+                  data-tip
+                ></i>
+                <ReactTooltip
+                  id="createPlaylist"
+                  getContent={(dataTip) => "플레이리스트 생성"}
+                  // style={{ width: "20px" }}
+                />
+              </div>
+            </li>
+          ) : (
+            <>
+              {isEmpty ? (
+                <div className="d-flex">
+                  <li
+                    className="d-flex p-2 rounded-circle align-items-center justify-content-center"
                     style={{
-                        overlay: {
-                            position: "fixed",
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            backgroundColor: "rgb(0, 0, 0, 0.20)",
-                            zIndex: 999,
-                        },
-                        content: {
-                            position: "absolute",
-                            top: "23%",
-                            left: "25%",
-                            right: "25%",
-                            bottom: "140px",
-                            background: "#fff",
-                            overflow: "auto",
-                            WebkitOverflowScrolling: "touch",
-                            outline: "none",
-                            padding: "0px",
-                        },
+                      // color: "white",
+                      background: "#ff7d4b",
+                      // padding: "15px",
+                      width: "2.5rem",
+                      height: "2.5rem",
+                      cursor: "pointer",
                     }}
-                >
-                    <div className="">
-                        <div className="register-section ">
-                            <div className="container">
-                                <div className="py-3 px-5">
-                                    <div className="sec-title text-center mb-10">
-                                        <h2 className="title mt-3 mb-10">{playlistName}</h2>
-                                    </div>
-                                    <div className="styled-form">
-                                        <div id="form-messages"></div>
-                                        <form id="contact-form">
-                                            {isShow ? (
-                                                <div></div>
-                                            ) : (
-                                                <div className="row clearfix">
-                                                    <div className="form-group col-lg-12 mb-25">
-                                                        <div className="my-2">
-                                                            Playlist 이름
-                                                            <span className="ms-1" style={{ color: "red" }}>
-                                                                *
-                                                            </span>
-                                                        </div>
-                                                        <input type="text" id="title" name="playlistName" placeholder="제목을 입력하세요" onChange={handleChange} required />
-                                                    </div>
-                                                    <div className="form-group col-lg-12">
-                                                        <div className="my-2">Playlist 설명</div>
-                                                        <textarea
-                                                            type="textarea"
-                                                            id="description"
-                                                            name="description"
-                                                            onChange={handleChange}
-                                                            placeholder="설명을 입력하세요"
-                                                            style={{ height: "80px", borderRadius: "0px" }}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            )}
-                                            {isShow ? (
-                                                <div className="row d-flex justify-content-center ms-3 me-1 mt-3">
-                                                    <button
-                                                        type="submit"
-                                                        className="canclebtn"
-                                                        onClick={() => {
-                                                            setIsShow(false);
-                                                            setPlaylistName("Playlist 생성");
-                                                        }}
-                                                    >
-                                                        <span className="txt">취소</span>
-                                                    </button>
-                                                    <Link
-                                                        className="moveToSearch text-center pt-2 d-flex align-items-center justify-content-center"
-                                                        to={{
-                                                            pathname: "/learntube/learntube-studio/youtubeSearch",
-                                                            state: {
-                                                                playlistName: createPlaylist.playlistName,
-                                                                playlistId: playlistId,
-                                                                update: false,
-                                                            },
-                                                        }}
-                                                    >
-                                                        <span>playlist에 영상 추가하기</span>
-                                                    </Link>
-                                                </div>
-                                            ) : (
-                                                <div className="row d-flex justify-content-end ms-3 me-1 mt-3">
-                                                    <button
-                                                        type="submit"
-                                                        className="canclebtn"
-                                                        onClick={() => {
-                                                            openModal();
-                                                            setIsShow(false);
-                                                            setPlaylistName("Playlist 생성");
-                                                        }}
-                                                        style={{ height: "40px", borderRadius: "5px" }}
-                                                    >
-                                                        <span className="txt">취소</span>
-                                                    </button>
-                                                    <button className="createbtn" onClick={handleSubmit} style={{ height: "40px", borderRadius: "5px" }}>
-                                                        {/* <div className="createbtn text-center d-flex align-items-center justify-content-center" onClick={handleSubmit}> */}
-                                                        <span className="txt">저장</span>
-                                                    </button>
-                                                </div>
-                                            )}
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    onClick={() => {
+                      setIsActive(!isActive);
+                      setIsEditMode(true);
+                      //   setIsEmpty(false);
+                    }}
+                    data-for="editPlaylist"
+                    data-tip
+                  >
+                    <span className="d-flex align-items-center justify-content-center">
+                      <FiEdit
+                        style={{
+                          color: "white",
+                        }}
+                      />
+                    </span>
+                    <ReactTooltip
+                      id="editPlaylist"
+                      getContent={(dataTip) => "플레이리스트 수정"}
+                      // style={{ width: "20px" }}
+                    />
+                  </li>
+                  <Link
+                    className="d-flex justify-content-end"
+                    to={{
+                      pathname: "/learntube/learntube-studio/youtubeSearch",
+                      state: {
+                        playlistName: selectedPlaylist,
+                        playlistId: playlistId,
+                        update: true,
+                        existingVideo: selectedVideo,
+                      },
+                    }}
+                    style={{ padding: "0", margin: "0" }}
+                  >
+                    {/* 비디오 추가 */}
+                    <div
+                      onClick={(e) => {
+                        checkPlaylistName(e, selectedPlaylist);
+                      }}
+                      className="ms-1 d-flex rounded-circle align-items-center justify-content-center"
+                      style={{
+                        background: "#ff7d4b",
+                        color: "white",
+                        padding: "15px",
+                        width: "2.5rem",
+                        height: "2.5rem",
+                        cursor: "pointer",
+                      }}
+                      data-for="addVideo"
+                      data-tip
+                    >
+                      <i
+                        className="fa fa-plus"
+                        data-for="addVideo"
+                        data-tip
+                      ></i>
+                      <ReactTooltip
+                        id="addVideo"
+                        getContent={(dataTip) => "비디오 추가"}
+                        // style={{ width: "20px" }}
+                      />
                     </div>
-                </Modal>
+                    {/* <Button
+                                      onClick={(e) => {
+                                        checkPlaylistName(e, selectedPlaylist);
+                                      }}
+                                      style={{
+                                        marginLeft: "10px",
+                                        // height: "40px",
+                                        backgroundColor: "#ff7d4b",
+                                      }}
+                                    >
+                                      비디오 추가
+                                    </Button> */}
+                  </Link>
+                </div>
+              ) : (
+                <div className="d-flex">
+                  <li
+                    className="d-flex p-2 rounded-circle align-items-center justify-content-center"
+                    style={{
+                      // color: "white",
+                      background: "#ff7d4b",
+                      // padding: "15px",
+                      width: "2.5rem",
+                      height: "2.5rem",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      setIsActive(!isActive);
+                      setIsEditMode(true);
+                      setIsEmpty(false);
+                    }}
+                    data-for="editPlaylist"
+                    data-tip
+                  >
+                    <span className="d-flex align-items-center justify-content-center">
+                      <FiEdit
+                        style={{
+                          color: "white",
+                        }}
+                      />
+                    </span>
+                    <ReactTooltip
+                      id="editPlaylist"
+                      getContent={(dataTip) => "플레이리스트 수정"}
+                      // style={{ width: "20px" }}
+                    />
+                  </li>
+                </div>
+              )}
+            </>
+          )}
+        </ul>
+        {/* </nav> */}
+        <Modal
+          isOpen={isOpen}
+          onClose={() => {
+            openModal();
+          }}
+          onRequestClose={() => setIsOpen(false)}
+          style={{
+            overlay: {
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgb(0, 0, 0, 0.20)",
+              zIndex: 999,
+            },
+            content: {
+              position: "absolute",
+              top: "23%",
+              left: "25%",
+              right: "25%",
+              bottom: "140px",
+              background: "#fff",
+              overflow: "auto",
+              WebkitOverflowScrolling: "touch",
+              outline: "none",
+              padding: "0px",
+            },
+          }}
+        >
+          <div className="">
+            <div className="register-section ">
+              <div className="container">
+                <div className="py-3 px-5">
+                  <div className="sec-title text-center mb-10">
+                    <h2 className="title mt-3 mb-10">{playlistName}</h2>
+                  </div>
+                  <div className="styled-form">
+                    <div id="form-messages"></div>
+                    <form id="contact-form">
+                      {isShow ? (
+                        <div></div>
+                      ) : (
+                        <div className="row clearfix">
+                          <div className="form-group col-lg-12 mb-25">
+                            <div className="my-2">
+                              Playlist 이름
+                              <span className="ms-1" style={{ color: "red" }}>
+                                *
+                              </span>
+                            </div>
+                            <input
+                              type="text"
+                              id="title"
+                              name="playlistName"
+                              placeholder="제목을 입력하세요"
+                              onChange={handleChange}
+                              required
+                            />
+                          </div>
+                          <div className="form-group col-lg-12">
+                            <div className="my-2">Playlist 설명</div>
+                            <textarea
+                              type="textarea"
+                              id="description"
+                              name="description"
+                              onChange={handleChange}
+                              placeholder="설명을 입력하세요"
+                              style={{ height: "80px", borderRadius: "0px" }}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {isShow ? (
+                        <div className="row d-flex justify-content-center ms-3 me-1 mt-3">
+                          <button
+                            type="submit"
+                            className="canclebtn"
+                            onClick={() => {
+                              setIsShow(false);
+                              setPlaylistName("Playlist 생성");
+                            }}
+                          >
+                            <span className="txt">취소</span>
+                          </button>
+                          <Link
+                            className="moveToSearch text-center pt-2 d-flex align-items-center justify-content-center"
+                            to={{
+                              pathname:
+                                "/learntube/learntube-studio/youtubeSearch",
+                              state: {
+                                playlistName: createPlaylist.playlistName,
+                                playlistId: playlistId,
+                                update: false,
+                              },
+                            }}
+                          >
+                            <span>playlist에 영상 추가하기</span>
+                          </Link>
+                        </div>
+                      ) : (
+                        <div className="row d-flex justify-content-end ms-3 me-1 mt-3 align-items-center">
+                          <button
+                            type="submit"
+                            className="canclebtn align-items-center"
+                            onClick={() => {
+                              openModal();
+                              setIsShow(false);
+                              setPlaylistName("Playlist 생성");
+                            }}
+                            // style={{ height: "40px", borderRadius: "5px" }}
+                          >
+                            <span className="txt">취소</span>
+                          </button>
+                          <button
+                            className="createbtn align-items-center"
+                            onClick={handleSubmit}
+                            // style={{ height: "40px", borderRadius: "5px" }}
+                          >
+                            {/* <div className="createbtn text-center d-flex align-items-center justify-content-center" onClick={handleSubmit}> */}
+                            <span className="txt">저장</span>
+                          </button>
+                        </div>
+                      )}
+                    </form>
+                  </div>
+                </div>
+              </div>
             </div>
-        </>
-    );
+          </div>
+        </Modal>
+      </div>
+    </>
+  );
 }
