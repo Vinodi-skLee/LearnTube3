@@ -229,3 +229,23 @@
 .logoutbtn:hover {
   color: black !important;
 }
+
+.alarm-dropdown {
+  visibility: hidden;
+  position: absolute;
+  right: 19%;
+  width: 350px;
+  background: white;
+  border: 1px solid gray;
+  z-index: 999;
+  transition: visibility 0.2s;
+}
+
+
+.alarm-dropdown:hover{
+  visibility: visible;
+}
+
+.alarmbtn:hover ~ .alarm-dropdown{
+  visibility: visible;
+}

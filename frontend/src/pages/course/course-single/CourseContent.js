@@ -43,6 +43,9 @@ const CourseContent = (props) => {
     const [contentNum, setContentNum] = useState(0);
     const [videoNum, setVideoNum] = useState(0);
     const [isBigDisplay, setIsBigDisplay] = useState(false);
+    console.log(lectures);
+    console.log(contentData);
+    console.log(contentId);
     useEffect(() => {
         // console.log(contentId);
         const fetchClassRoom = async () => {
@@ -177,7 +180,7 @@ const CourseContent = (props) => {
                             </div>
                         </div>{" "}
                         {/* 다음 강의 버튼 */}
-                        <span className="shadow-none orange-color text-center md-mt-0 p-3">
+                        <span className={isBigDisplay? "d-none" : "shadow-none orange-color text-center md-mt-0 p-3"}>
                             <ul
                                 className={
                                     lectureNum != lectures.length

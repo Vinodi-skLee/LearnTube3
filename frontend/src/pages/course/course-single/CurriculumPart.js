@@ -537,10 +537,8 @@ const CurriculumPart = (props) => {
                                                                         pathname: "/learntube/content",
                                                                         state: {
                                                                             lectures: lectures,
-
                                                                             classRoomData: props.classRoomData,
-                                                                            contentData: props.classRoomData.lectures[i].contents[j],
-                                                                            i: contentVideoNum[props.classRoomData.lectures[i].contents[j].contentId] - 1,
+                                                                            i: i,
                                                                             j: j,
                                                                         },
                                                                     }}
