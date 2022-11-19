@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import CourseDashBoard from "../../components/Courses/CourseDashBoard";
+import { Spinner } from "react-bootstrap";
 
 // Course courseImg
 import courseImg1 from "../../assets/img/courses/1.jpg";
@@ -70,25 +71,29 @@ const CoursePart = (props) => {
                                 </form>
                             </div>
                         </div> */}
-                        {takesData
-                            ? takesData.map((takeData, i) => (
-                                  <div className="course-part clearfix m-0">
-                                      <CourseDashBoard
-                                          courseClass="courses-item"
-                                          courseImg={takesData[i].image}
-                                          courseTitle={takesData[i].className}
-                                          notice={takesData[i].latestNotice}
-                                          progress={0}
-                                          userCount={takesData[i].numberOfTake}
-                                          openDate={takesData[i].classRoomRegDate.split("T")[0]}
-                                          creatorName={takesData[i].instructorName}
-                                          creatorId={takesData[i].instructorId}
-                                          classId={takesData[i].classId}
-                                          userId={userId}
-                                      />
-                                  </div>
-                              ))
-                            : null}
+                        {takesData ? (
+                            takesData.map((takeData, i) => (
+                                <div className="course-part clearfix m-0">
+                                    <CourseDashBoard
+                                        courseClass="courses-item"
+                                        courseImg={takesData[i].image}
+                                        courseTitle={takesData[i].className}
+                                        notice={takesData[i].latestNotice}
+                                        progress={0}
+                                        userCount={takesData[i].numberOfTake}
+                                        openDate={takesData[i].classRoomRegDate.split("T")[0]}
+                                        creatorName={takesData[i].instructorName}
+                                        creatorId={takesData[i].instructorId}
+                                        classId={takesData[i].classId}
+                                        userId={userId}
+                                    />
+                                </div>
+                            ))
+                        ) : (
+                            <div class="text-center" style={{ marginTop: "10%", height: "30rem" }}>
+                                <Spinner animation="grow" variant="secondary" style={{ width: "10rem", height: "10rem" }} />
+                            </div>
+                        )}
                         <div className="pagination-area orange-color text-center mt-30 md-mt-0">
                             <ul className="pagination-part">
                                 <li className="active">

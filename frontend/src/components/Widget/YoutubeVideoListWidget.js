@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import YoutubeBoard from "../../components/Events/YoutubeBoard";
 import "rc-slider/assets/index.css";
+import { Spinner } from "react-bootstrap";
 
 const YoutubeVideoListWidget = ({ videos, selectVideo, getToken, addVideoToCart, deleteVideoFromCart, cart, selectPart, isInPlaylist, newCart }) => {
     const [searchedVideos, setSearchedVideos] = useState([]);
@@ -65,7 +66,9 @@ const YoutubeVideoListWidget = ({ videos, selectVideo, getToken, addVideoToCart,
             </div>
         </div>
     ) : (
-        <div className="search-box">검색중…</div>
+        <div class="text-center" style={{ marginTop: "10%", height: "30rem" }}>
+            <Spinner animation="grow" variant="secondary" style={{ width: "10rem", height: "10rem" }} />
+        </div>
     );
 };
 

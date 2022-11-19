@@ -14,6 +14,7 @@ import "../../assets/css/courseList.css";
 import image1 from "../../assets/img/courses/7.jpg";
 import image2 from "../../assets/img/courses/8.jpg";
 import image3 from "../../assets/img/courses/9.jpg";
+import { Spinner } from "react-bootstrap";
 
 import bgImg from "../../assets/img/bg/course-shape-bg.jpg";
 const bgStyle = {
@@ -28,6 +29,7 @@ function Courses(props) {
     const userId = window.sessionStorage.getItem("userId");
     const history = useHistory();
     const [images, setImages] = useState([image1, image2, image3]);
+    const [loading, setLoading] = useState(true);
     const [popularClass, setPopularClass] = useState([
         {
             classId: "",
@@ -43,6 +45,7 @@ function Courses(props) {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/popular`);
                 setPopularClass(response.data);
+                setLoading(false);
             } catch (err) {
                 console.log("err >> ", err);
             }
@@ -103,31 +106,39 @@ function Courses(props) {
                             <SectionTitle sectionClass="sec-title" subtitleClass="sub-title primary" subtitle="수강생이 가장 많은" titleClass="title mb-0" title="Popular Courses" />
                         </div>
                     </div>
-                    <Slider {...coursesSliderSettings}>
-                        {popularClass
-                            ? popularClass.map((classes, i) => (
-                                  <div onClick={clickCourse.bind(this, i)}>
-                                      <CourseSingleTwoCopy
-                                          userId={userId}
-                                          courseClass="courses-item mb-30"
-                                          courseImg={popularClass[i].image}
-                                          courseTitle={popularClass[i].className}
-                                          newCourse={"New"}
-                                          openDate={popularClass[i].classRoomRegDate.split("-")[0] + "." + popularClass[i].classRoomRegDate.split("-")[1]}
-                                          creatorName={popularClass[i].instructorName}
-                                          userCount={popularClass[i].numberOfTake}
-                                      />
-                                  </div>
-                              ))
-                            : null}
-                    </Slider>
-                    <div className="view-all-btn text-center pt-20 mb-20 md-pt-10 md-mb-10">
-                        Start Learning With Our Online Courses.
-                        <Link className="title-color" to="/learntube/course">
-                            {" "}
-                            View All Courses
-                        </Link>
-                    </div>
+                    {loading ? (
+                        <div class="text-center" style={{ marginTop: "10%", height: "30rem" }}>
+                            <Spinner animation="grow" variant="secondary" style={{ width: "10rem", height: "10rem" }} />
+                        </div>
+                    ) : (
+                        <>
+                            <Slider {...coursesSliderSettings}>
+                                {popularClass
+                                    ? popularClass.map((classes, i) => (
+                                          <div onClick={clickCourse.bind(this, i)}>
+                                              <CourseSingleTwoCopy
+                                                  userId={userId}
+                                                  courseClass="courses-item mb-30"
+                                                  courseImg={popularClass[i].image}
+                                                  courseTitle={popularClass[i].className}
+                                                  newCourse={"New"}
+                                                  openDate={popularClass[i].classRoomRegDate.split("-")[0] + "." + popularClass[i].classRoomRegDate.split("-")[1]}
+                                                  creatorName={popularClass[i].instructorName}
+                                                  userCount={popularClass[i].numberOfTake}
+                                              />
+                                          </div>
+                                      ))
+                                    : null}
+                            </Slider>
+                            <div className="view-all-btn text-center pt-20 mb-20 md-pt-10 md-mb-10">
+                                Start Learning With Our Online Courses.
+                                <Link className="title-color" to="/learntube/course">
+                                    {" "}
+                                    View All Courses
+                                </Link>
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </React.Fragment>

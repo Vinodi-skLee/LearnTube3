@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import CourseDashBoard from "../../components/Courses/CourseDashBoard";
+import { Spinner } from "react-bootstrap";
 
 // Course courseImg
 import courseImg1 from "../../assets/img/courses/1.jpg";
@@ -76,34 +77,38 @@ const CoursePartClosed = (props) => {
                                 </form>
                             </div>
                         </div> */}
-                        {closedData
-                            ? closedData.map((closedDatas, i) => (
-                                  <div
-                                      className="course-part clearfix m-0"
-                                      onClick={() => {
-                                          history.replace({
-                                              pathname: "../course/course-single",
-                                              state: {
-                                                  classId: closedData[i].classId,
-                                                  userId: props.userId,
-                                              },
-                                          });
-                                      }}
-                                  >
-                                      <CourseDashBoard
-                                          courseClass="courses-item"
-                                          courseImg={closedData[i].image}
-                                          courseTitle={closedData[i].className}
-                                          notice={closedData[i].latestNotice}
-                                          progress={100}
-                                          userCount={closedData[i].numberOfTake}
-                                          openDate={closedData[i].classRoomRegDate.split("T")[0]}
-                                          creatorName={closedData[i].instructorName}
-                                          userId={userId}
-                                      />
-                                  </div>
-                              ))
-                            : null}
+                        {closedData ? (
+                            closedData.map((closedDatas, i) => (
+                                <div
+                                    className="course-part clearfix m-0"
+                                    onClick={() => {
+                                        history.replace({
+                                            pathname: "../course/course-single",
+                                            state: {
+                                                classId: closedData[i].classId,
+                                                userId: props.userId,
+                                            },
+                                        });
+                                    }}
+                                >
+                                    <CourseDashBoard
+                                        courseClass="courses-item"
+                                        courseImg={closedData[i].image}
+                                        courseTitle={closedData[i].className}
+                                        notice={closedData[i].latestNotice}
+                                        progress={100}
+                                        userCount={closedData[i].numberOfTake}
+                                        openDate={closedData[i].classRoomRegDate.split("T")[0]}
+                                        creatorName={closedData[i].instructorName}
+                                        userId={userId}
+                                    />
+                                </div>
+                            ))
+                        ) : (
+                            <div class="text-center" style={{ marginTop: "10%", height: "30rem" }}>
+                                <Spinner animation="grow" variant="secondary" style={{ width: "10rem", height: "10rem" }} />
+                            </div>
+                        )}
                         <div className="pagination-area orange-color text-center mt-30 md-mt-0">
                             <ul className="pagination-part">
                                 <li className="active">
