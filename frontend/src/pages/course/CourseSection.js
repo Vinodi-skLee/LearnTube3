@@ -96,7 +96,7 @@ const CoursePart = (props) => {
 
                         {isLoading ? (
                             <div class="text-center" style={{ marginTop: "10%", height: "30rem" }}>
-                                <Spinner animation="grow" variant="primary" style={{ width: "10rem", height: "10rem" }} />
+                                <Spinner animation="grow" variant="secondary" style={{ width: "10rem", height: "10rem" }} />
                             </div>
                         ) : courses ? (
                             courses.map((course, idx) => {
