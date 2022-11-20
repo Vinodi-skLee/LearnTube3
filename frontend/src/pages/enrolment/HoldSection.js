@@ -5,16 +5,24 @@ import { useLocation } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 //import CourseDashBoard from "../../components/Courses/CourseDashBoard";
+import { Spinner } from "react-bootstrap";
+
 
 
 const HoldPart = (props) => {
   //const [takesData, setTakesData] = useState(null);
+  const userId = window.sessionStorage.getItem("userId");
   const location = useLocation();
-  const [waitList, setWaitList] = useState();
+  // const [waitList, setWaitList] = useState();
   const [sidList, setSidList] = useState([]);
   const [rejectList, setRejectList] = useState([]);
   let cid = location.state.classId;
   const [hasReject, setHasReject] = useState(false);
+
+  const [waitList, setWaitList] = useState([]);
+  const [managedClassroom, setManagedClassroom] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  let index = 0;
   
   
   const acceptAll = async () => {
@@ -118,23 +126,53 @@ const HoldPart = (props) => {
       }
       const confirmDelete = useConfirm("거절하시겠습니까?", pressOkay, cancelOkay);
       const confirmDeleteAll = useConfirm("모두 거절하시겠습니까?", rejectAll,cancelOkay);
+
+      const fetchManagesClassRoom = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/manages?userId=${userId}`);
+            // await setManagedClassroom(response.data);
+            // console.log(response.data);
+            for (const prop in response.data) {
+                managedClassroom[prop] = response.data[prop];
+            }
+            console.log(managedClassroom);
+        } catch (err) {
+            console.log("err >> ", err);
+        }
+    };
+
+    const fetchWaitList = async (cid) => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/wait-list?classId=${cid}`);
+            for (const prop in response.data) {
+                waitList[index] = response.data[prop];
+                waitList[index]["classId"] = cid; 
+                index++;
+            }
+        } catch (err) {
+            console.log("err > ", err);
+        }
+    };
     
       useEffect(() => {
-        if (props.userId) {
-          const fetchWaitList = async () => {
-            try {
-              const res1 = await axios.get(
-                `${process.env.REACT_APP_SERVER_URL}/api/classroom/wait-list?classId=${cid}`
-                );
-                console.log(res1.data);
-                setWaitList(res1.data);
-              } catch (err) {
-                console.log("err >> ", err);
-              }
-            };
-            fetchWaitList();
-          }
-        }, [props.userId]);
+        if (userId) {
+          fetchManagesClassRoom();
+            console.log(managedClassroom);
+            setTimeout(() => {
+                if (managedClassroom) {
+                managedClassroom.map((classroom) => {
+                    console.log(classroom);
+                    fetchWaitList(classroom.classId).then(() => {
+                        console.log(waitList);
+                    });
+                });
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 300);
+            }
+            }, 300);
+        }
+        }, [userId]);
         
     const acceptCheckboxHandler = (e) => {
       
@@ -181,6 +219,13 @@ const HoldPart = (props) => {
       id="rs-popular-course"
       className="rs-popular-courses list-view style1 course-view-style orange-style rs-inner-blog white-bg pb-100 md-pt-70 md-pb-80 text-start"
     >
+      {isLoading ?
+      (
+        <div class="text-center" style={{ marginTop: "10%", height: "30rem" }}>
+                    <Spinner animation="grow" variant="secondary" style={{ width: "10rem", height: "10rem" }} />
+                  </div>
+      )
+      :(
       <div className="container">
         <div className="row">
           <div className="pr-50 md-pr-14">
@@ -194,24 +239,30 @@ const HoldPart = (props) => {
             >
               <thead>
                 <tr>
-                  <th>user name</th>
-                  <th>email</th>
-                  <th>accept</th>
-                  <th>reject</th>
+                  <th>강의실</th>
+                  <th>이름</th>
+                  <th>이메일</th>
+                  <th>허락</th>
+                  <th>거절</th>
                 </tr>
               </thead>
               <tbody>
                 {waitList
                   ? // 여기에 리스트 꾸며줘
-                    waitList.map((waiting, i) => (
+                    waitList.map((waiting) => (
                       <tr>
-                        <td>{waitList[i].username}</td>
-                        <td>{waitList[i].email}</td>
+                        {managedClassroom.map((classroom) => {
+                          console.log(waiting);
+                          if(waiting.classId === classroom.classId)
+                            return (<td>{classroom.className}</td>)
+                        })}
+                        <td>{waiting.username}</td>
+                        <td>{waiting.email}</td>
                         <td>
-                          <input type="radio" name={waitList[i].userId} onClick={acceptCheckboxHandler} value={waitList[i].takeId}/>
+                          <input type="radio" name={waiting.userId} onClick={acceptCheckboxHandler} value={waiting.takeId}/>
                         </td>
                         <td>
-                          <input type="radio" name={waitList[i].userId} onClick={rejectCheckboxHandler} value={waitList[i].takeId}/>
+                          <input type="radio" name={waiting.userId} onClick={rejectCheckboxHandler} value={waiting.takeId}/>
                         </td>
                       </tr>
                     ))
@@ -260,7 +311,8 @@ const HoldPart = (props) => {
             </div>
           </div>
         </div>
-      </div>
+      </div>)
+      }
     </div>
   );
 };

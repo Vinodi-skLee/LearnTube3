@@ -60,10 +60,12 @@ const CurriculumPart = (props) => {
         const fetchContentData = async (contentId) => {
             try {
                 const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/content?contentId=${contentId}`);
-                // console.log(res.data);
-                contentVideoNum[contentId] = res.data.playlist.videos.length;
-                setContentVideoNum({...contentVideoNum}, contentVideoNum[contentId]);
-                // console.log(contentData);
+                console.log(res.data);
+                if(res.data){
+                    res.data.playlist ? contentVideoNum[contentId] = res.data.playlist.videos.length : contentVideoNum[contentId] = 0;
+                    setContentVideoNum({...contentVideoNum}, contentVideoNum[contentId]);
+                    // console.log(contentData);
+                }
             } catch (err) {
                 console.log("err >> ", err);
             }
@@ -545,7 +547,7 @@ const CurriculumPart = (props) => {
                                                                     onClick={isTakeCheck}
                                                                 >
                                                                     <i className="fa fa-play"></i>
-                                                                    {props.classRoomData.lectures[i].contents[j].contentName}
+                                                                    {contents.contentName}
                                                                 </Link>
                                                             </div>
                                                             <div className="pull-right">
@@ -555,13 +557,13 @@ const CurriculumPart = (props) => {
                                                                         paddingTop: "10px",
                                                                     }}
                                                                 >
-                                                                    {props.classRoomData.lectures[i].contents[j].closeDate ? (
+                                                                    {contents.closeDate ? (
                                                                         <>
                                                                             <span>영상 {contentVideoNum[props.classRoomData.lectures[i].contents[j].contentId]}개 | </span>
                                                                             {
-                                                                                props.classRoomData.lectures[i].contents[j].playlistDuration
-                                                                                    ? toHHMMSS(props.classRoomData.lectures[i].contents[j].playlistDuration)
-                                                                                    : ""
+                                                                                contents.playlistDuration
+                                                                                    ? toHHMMSS(contents.playlistDuration)
+                                                                                    : "-"
                                                                                 /* 마감일:
                                                                             {props.classRoomData.lectures[i].contents[j].closeDate.split("T")[0] +
                                                                                 " " +

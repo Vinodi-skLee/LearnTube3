@@ -141,7 +141,7 @@ function CourseDetailsPart() {
                                         height: "50px",
                                         marginRight: "40px",
                                         marginTop: "50px",
-                                        background: "#273875",
+                                        background: "#273857",
                                     }}
                                 >
                                     수강 대기중

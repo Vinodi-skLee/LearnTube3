@@ -52,7 +52,7 @@ const CourseContent = (props) => {
             try {
                 const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/content?contentId=${contentId}`);
                 // console.log(res.data);
-                setContentData(res.data);
+                if(res.data) setContentData(res.data);
                 // console.log(contentData);
             } catch (err) {
                 console.log("err >> ", err);
@@ -111,7 +111,7 @@ const CourseContent = (props) => {
                 <div className={isBigDisplay ? "p-3" : "container pt-10"} style={{minHeight: "600px"}}>
                     {/* <div className="justify-content-around align-items-center d-flex"> */}
                     {isBigDisplay ? null : (<div className="d-flex" style={{width: "100%", borderBottom: "1px solid lightgray", margin: "10px", width: "100%"}}>
-                        <span style={{width: "100%", fontSize: "20px", marginBottom: "0px"}}>Course > Curriculum</span>
+                        <span style={{width: "100%", fontSize: "20px", marginBottom: "0px"}}>Course > {" " + contentData.contentName}</span>
                         <span style={{width: "120px"}}>강의 ( {lectureNum} / {lectures.length} )</span>
                     </div>)}
                     <div className="d-block">
@@ -166,7 +166,7 @@ const CourseContent = (props) => {
                                                 contentData={contentData}
                                                 contentNum={contentNum}
                                                 setContentNum={setContentNum}
-                                                videos={contentData.playlist.videos}
+                                                videos={contentData.playlist ? contentData.playlist.videos : null}
                                                 contentId={contentId}
                                                 setContentId={setContentId}
                                                 videoNum={videoNum}

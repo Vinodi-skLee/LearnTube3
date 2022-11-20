@@ -3,35 +3,89 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 import { useLocation } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
+
 
 const AcceptedPart = (props) => {
   const location = useLocation();
   const [acceptedList, setAcceptedList] = useState([]);
-  let cid = location.state.classId;
-  console.log("cid", cid);
+  // let cid = location.state.classId;
+  // console.log("cid", cid);
+  const userId = window.sessionStorage.getItem("userId");
+  const [managedClassroom, setManagedClassroom] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  let index = 0;
+
+  const fetchManagesClassRoom = async () => {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/manages?userId=${userId}`);
+        // await setManagedClassroom(response.data);
+        // console.log(response.data);
+        for (const prop in response.data) {
+            console.log(prop);
+            managedClassroom[prop] = response.data[prop];
+        }
+        console.log(managedClassroom);
+    } catch (err) {
+        console.log("err >> ", err);
+    }
+  };
+
+  const fetchAcceptedList = async (cid) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/classroom/accepted-list?classId=${cid}`
+      );
+      console.log(response.data);
+      for (const prop in response.data) {
+        acceptedList[index] = response.data[prop];
+        acceptedList[index]["classId"] = cid; 
+        index++;
+    }
+    } catch (err) {
+      console.log("err >> ", err);
+    }
+  };
+
+  // function putclassId(cid) {
+  //   for (var i = index; i < acceptedList.length; i++) {
+  //       acceptedList[i]["classId"] = cid;
+  //   }
+  // }
 
   useEffect(() => {
-    if (props.userId) {
-      const fetchAcceptedList = async () => {
-        try {
-          const result = await axios.get(
-            `${process.env.REACT_APP_SERVER_URL}/api/classroom/accepted-list?classId=${cid}`
-          );
-          console.log(result.data);
-          setAcceptedList(result.data);
-        } catch (err) {
-          console.log("err >> ", err);
-        }
-      };
-      fetchAcceptedList();
+    if (userId) {
+      fetchManagesClassRoom();
+            console.log(managedClassroom);
+            setTimeout(() => {
+                if (managedClassroom) {
+                managedClassroom.map((classroom) => {
+                    console.log(classroom);
+                    fetchAcceptedList(classroom.classId).then(() => {
+                        console.log(classroom.classId);
+                        // putclassId(classroom.classId);
+                    });
+                });
+                setTimeout(() => {
+                  setIsLoading(false);
+              }, 300);
+            }
+            }, 300);
     }
-  }, [props.userId]);
+  }, [userId]);
   // acceptedList 가 데이터 들고온 거임
   return (
     <div
       id="rs-popular-course"
       className="rs-popular-courses list-view style1 course-view-style orange-style rs-inner-blog white-bg pb-100 md-pt-70 md-pb-80 text-start"
     >
+      {isLoading ?
+      (
+        <div class="text-center" style={{ marginTop: "10%", height: "30rem" }}>
+                    <Spinner animation="grow" variant="secondary" style={{ width: "10rem", height: "10rem" }} />
+                  </div>
+      )
+      :(
       <div className="container">
         <div className="row">
           <div className="pr-50 md-pr-14">
@@ -46,17 +100,23 @@ const AcceptedPart = (props) => {
             >
               <thead>
                 <tr>
-                  <th>user name</th>
-                  <th>email</th>
+                  <th>강의실</th>
+                  <th>이름</th>
+                  <th>이메일</th>
                 </tr>
               </thead>
               <tbody>
-                {acceptedList
+                  {acceptedList
                   ? // 여기에 리스트 꾸며줘
-                    acceptedList.map((accepting, i) => (
+                    acceptedList.map((accepted) => (
                       <tr>
-                        <td>{acceptedList[i].username}</td>
-                        <td>{acceptedList[i].email}</td>
+                        {managedClassroom.map((classroom) => {
+                          console.log(accepted);
+                          if(accepted.classId === classroom.classId)
+                            return (<td>{classroom.className}</td>)
+                        })}
+                        <td>{accepted.username}</td>
+                        <td>{accepted.email}</td>
                       </tr>
                     ))
                   : null}
@@ -77,7 +137,8 @@ const AcceptedPart = (props) => {
             </div>
           </div>
         </div>
-      </div>
+      </div>)
+    }
     </div>
   );
 };

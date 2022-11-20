@@ -14,6 +14,7 @@ import productImg2 from "../../../assets/img/shop/2.jpg";
 import Login from "../../../pages/login";
 import { BsFillPersonFill } from "react-icons/bs";
 import { FaBell } from "react-icons/fa";
+import { Spinner } from "react-bootstrap";
 
 const Header = (props) => {
     const {
@@ -74,8 +75,11 @@ const Header = (props) => {
     };
 
     const [waitList, setWaitList] = useState([]);
+    const [isWaiting, setIsWaiting] = useState(false);
     const [managedClassroom, setManagedClassroom] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [index, setIndex] = useState(0);
+    let idx = 0;
 
     const fetchManagesClassRoom = async () => {
         try {
@@ -95,19 +99,25 @@ const Header = (props) => {
         try {
             const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/wait-list?classId=${cid}`);
             for (const prop in response.data) {
-                waitList[prop] = response.data[prop];
+                waitList[idx] = response.data[prop];
+                waitList[idx]["classId"] = cid;
+                setNewAlarm(true);
+                setIsWaiting(true);
+                idx++;
             }
+            setIndex(idx);
+            //window.sessionStorage.setItem("waitlist", JSON.stringify(waitList));
         } catch (err) {
             console.log("err > ", err);
         }
     };
 
-    function putclassId(cid) {
-        for (var i = 0; i < waitList.length; i++) {
-            waitList[i]["classId"] = cid;
-        }
-        setNewAlarm(true);
-    }
+    // function putclassId(cid) {
+    //     for (var i = 0; i < waitList.length; i++) {
+    //         waitList[i]["classId"] = cid;
+    //     }
+    //     setNewAlarm(true);
+    // }
 
     useEffect(() => {
         if (userId) {
@@ -119,14 +129,13 @@ const Header = (props) => {
                     console.log(classroom);
                     fetchWaitList(classroom.classId).then(() => {
                         console.log(waitList);
-                        putclassId(classroom.classId);
                     });
                 });
                 setTimeout(() => {
                     setIsLoading(false);
-                }, 500);
+                }, 300);
             }
-            }, 500);
+            }, 300);
         }
     }, [userId, waitList]);
 
@@ -272,45 +281,46 @@ const Header = (props) => {
                                                 <div>
                                                     {userId ? (
                                                         newAlarm ? (
-                                                            <FaBell className="alarmbtn mr-10" size="24" style={{ color: "white", cursor: "pointer" }} />
+                                                            <>
+                                                            <div className="new-alarm">{index}</div>
+                                                            <FaBell className="alarmbtn mr-10" size="24" />
+                                                            </>
                                                         ) : (
-                                                            <FaBell  className="alarmbtn notification mr-10" size="24" style={{cursor: "pointer"}} />
+                                                            <FaBell  className="alarmbtn mr-10" size="24" />
                                                         )
                                                     ) : null}
-                                                        <div className="alarm-dropdown" style={{top: "42px", right: "50px"}}>
-                                                            <ul
-                                                                style={{
-                                                                    textAlign: "left",
-                                                                    // color: "black !important",
-                                                                    fontSize: "1.1rem",
-                                                                }}
-                                                            >
+                                                        
                                                                 {isLoading ? (
-                                                                    <div style={{ width: "350px", padding: "10px 0px" }}>
-                                                                        <span style={{ marginLeft: "10px" }}>로딩중 ...</span>
+                                                                <div className="alarm-dropdown">
+                                                                    <div class="text-center" style={{ marginTop: "10%", height: "5rem" }}>
+                                                                        <Spinner animation="grow" variant="secondary" style={{ width: "2rem", height: "2rem" }} />
                                                                     </div>
-                                                                ) : (waitList ? (
-                                                                    waitList.map((waiting, i) => (
-                                                                        <li style={{ padding: "5px 0px 5px 15px" }} onClick={() => console.log(waiting.classId)}>
-                                                                            <Link
-                                                                                to={{
-                                                                                    pathname: `/learntube/course/manage`,
-                                                                                    state: {
-                                                                                        classId: waiting.classId,
-                                                                                    },
-                                                                                }}
-                                                                            >
-                                                                                {waiting.username + " 님께서 수강신청하셨습니다."}
-                                                                            </Link>
-                                                                        </li>
-                                                                    ))
+                                                                </div>
                                                                 ) : (
-                                                                    <div style={{ width: "350px", padding: "10px 0px", height: "500px"}}>
-                                                                        <span style={{marginLeft: "10px"}}>새로운 알림이 없습니다.</span>
-                                                                    </div>
-                                                                ))}
-                                                            </ul>
-                                                        </div>
+                                                                    <div className="alarm-dropdown">
+                                                                    {isWaiting ? (
+                                                                        waitList.map((waiting, i) => (
+                                                                            <div className="alarm-border" style={{textAlign: "left", padding: "5px 15px"}} onClick={() => setNewAlarm(false)}>
+                                                                                <Link
+                                                                                    to={{
+                                                                                        pathname: `/learntube/course/manage`,
+                                                                                        state: {
+                                                                                            classId: waiting.classId,
+                                                                                        },
+                                                                                    }}
+                                                                                    style={{
+                                                                                        color: "black",
+                                                                                    }}
+                                                                                >
+                                                                                    {waiting.username + " 님께서 수강신청하셨습니다."}
+                                                                                </Link>
+                                                                                {console.log(waitList)}
+                                                                            </div>
+                                                                        ))
+                                                                    ) : (<div style={{textAlign: "left", padding: "10px 15px", color: "gray"}}>새로운 알림이 없습니다.</div>)
+                                                                    }
+                                                                </div>
+                                                                )}
                                                 </div>
                                                 <div>
                                                     {userId ? <BsFillPersonFill onMouseOver={canvasMenuAdd} size="24" style={{ color: "white" }} /> : null}
