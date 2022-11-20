@@ -109,6 +109,7 @@ const ContentWidget = ({
             setPlaying(true);
             opts2.autoplay = 1;
             setVideoNum(videoNum + 1);
+            setIsContentLoading(false);
         }
     };
     const handleRepeat = () => {
@@ -538,18 +539,17 @@ const ContentWidget = ({
                     </div>
                 ) : (
                     <div>
-                        <div className="row d-flex mt-70 mb-70 align-items-center">
-                            {mediaIcon ? (
-                                <>
-                                    <img src={mediaIcon} style={{ margin: "auto", width: "200px" }}></img>
-                                    <div className="text-align-center fw-normal">콘텐츠가 비었습니다.</div>
-                                </>
-                            ) : (
+                        {isContentLoading ? (
+                            <div class="text-center" style={{ marginTop: "10%", height: "30rem" }}>
+                                <Spinner animation="grow" variant="secondary" style={{ width: "10rem", height: "10rem" }} />
+                            </div>
+                        ) : (
+                            <div>
                                 <div class="text-center" style={{ marginTop: "10%", height: "30rem" }}>
-                                    <Spinner animation="grow" variant="secondary" style={{ width: "10rem", height: "10rem" }} />
+                                    <img src={mediaIcon} style={{ margin: "auto", width: "200px" }}></img>
                                 </div>
-                            )}
-                        </div>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>{" "}
