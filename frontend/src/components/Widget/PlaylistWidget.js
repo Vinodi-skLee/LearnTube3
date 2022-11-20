@@ -846,18 +846,16 @@ const PlaylistWidget = ({
                                     </>
                                 ) : (
                                     <div>
-                                        <div className="row d-flex mt-70 mb-70 align-items-center">
-                                            {playlistData ? (
-                                                <>
-                                                    <img src={mediaIcon} style={{ margin: "auto", width: "200px" }}></img>
-                                                    <div className="text-align-center fw-normal">플레이리스트가 비었습니다.</div>
-                                                </>
-                                            ) : (
-                                                <div class="text-center" style={{ marginTop: "10%", height: "30rem" }}>
-                                                    <Spinner animation="grow" variant="secondary" style={{ width: "10rem", height: "10rem" }} />
-                                                </div>
-                                            )}
-                                        </div>
+                                        {playlistData ? (
+                                            <div className="row d-flex mt-70 mb-70 align-items-center">
+                                                <img src={mediaIcon} style={{ margin: "auto", width: "200px" }}></img>
+                                                <div className="text-align-center fw-normal">플레이리스트가 비었습니다.</div>
+                                            </div>
+                                        ) : (
+                                            <div class="text-center" style={{ marginTop: "10%", height: "30rem" }}>
+                                                <Spinner animation="grow" variant="secondary" style={{ width: "10rem", height: "10rem" }} />
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                             </>
@@ -1052,9 +1050,17 @@ const PlaylistWidget = ({
                                         )}
                                     </>
                                 ) : (
-                                    <div class="text-center" style={{ marginTop: "10%", height: "30rem" }}>
-                                        <Spinner animation="grow" variant="secondary" style={{ width: "10rem", height: "10rem" }} />
-                                    </div>
+                                    <>
+                                        {playlistData ? (
+                                            <div class="text-center" style={{ marginTop: "10%", height: "30rem" }}>
+                                                <Spinner animation="grow" variant="secondary" style={{ width: "10rem", height: "10rem" }} />
+                                            </div>
+                                        ) : (
+                                            <div className="row d-flex mt-70 mb-70 align-items-center">
+                                                <div className="text-align-center fw-normal">플레이리스트가 비었습니다.</div>
+                                            </div>
+                                        )}
+                                    </>
                                 )}
                             </>
                         )}
