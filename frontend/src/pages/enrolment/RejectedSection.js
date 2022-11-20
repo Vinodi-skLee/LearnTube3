@@ -3,36 +3,81 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Table from "react-bootstrap/Table";
 import { useLocation } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
+
 
 const RejectedPart = (props) => {
+  const userId = window.sessionStorage.getItem("userId");
   const location = useLocation();
   const [rejectedList, setRejectedList] = useState([]);
-  let cid = location.state.classId;
-  console.log("cid", cid);
+  const [managedClassroom, setManagedClassroom] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  let index = 0;
+
+  const fetchManagesClassRoom = async () => {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/manages?userId=${userId}`);
+        // await setManagedClassroom(response.data);
+        // console.log(response.data);
+        for (const prop in response.data) {
+            console.log(prop);
+            managedClassroom[prop] = response.data[prop];
+        }
+        console.log(managedClassroom);
+    } catch (err) {
+        console.log("err >> ", err);
+    }
+  };
+
+  const fetchRejectedList = async (cid) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/classroom/rejected-list?classId=${cid}`
+      );
+      console.log(response.data);
+      for (const prop in response.data) {
+        rejectedList[index] = response.data[prop];
+        rejectedList[index]["classId"] = cid; 
+        index++;
+    }
+    } catch (err) {
+      console.log("err >>", err);
+    }
+  };
 
   useEffect(() => {
-    if (props.userId) {
-      const fetchRejectedList = async () => {
-        try {
-          const result = await axios.get(
-            `${process.env.REACT_APP_SERVER_URL}/api/classroom/rejected-list?classId=${cid}`
-          );
-          console.log(result.data);
-          setRejectedList(result.data);
-        } catch (err) {
-          console.log("err >>", err);
-        }
-      };
-      fetchRejectedList();
+    if (userId) {
+      fetchManagesClassRoom();
+            console.log(managedClassroom);
+            setTimeout(() => {
+                if (managedClassroom) {
+                managedClassroom.map((classroom) => {
+                    console.log(classroom);
+                    fetchRejectedList(classroom.classId).then(() => {
+                        console.log(classroom.classId);
+                        // putclassId(classroom.classId);
+                    });
+                });
+                setTimeout(() => {
+                  setIsLoading(false);
+              }, 300);
+            }
+            }, 300);
     }
-  }, [props.userId]);
-  // rejectedList 가 가져온 데이터
+  }, [userId]);
 
   return (
     <div
       id="rs-popular-course"
       className="rs-popular-courses list-view style1 course-view-style orange-style rs-inner-blog white-bg pb-100 md-pt-70 md-pb-80 text-start"
     >
+      {isLoading ?
+      (
+        <div class="text-center" style={{ marginTop: "10%", height: "30rem" }}>
+                    <Spinner animation="grow" variant="secondary" style={{ width: "10rem", height: "10rem" }} />
+                  </div>
+      )
+      :(
       <div className="container">
         <div className="row">
           <div className="pr-50 md-pr-14">
@@ -47,17 +92,23 @@ const RejectedPart = (props) => {
             >
               <thead>
                 <tr>
-                  <th>user name</th>
-                  <th>email</th>
+                  <th>강의실</th>
+                  <th>이름</th>
+                  <th>이메일</th>
                 </tr>
               </thead>
               <tbody>
                 {rejectedList
                   ? // 여기에 리스트 꾸며줘
-                    rejectedList.map((rejecting, i) => (
+                    rejectedList.map((rejected) => (
                       <tr>
-                        <td>{rejectedList[i].username}</td>
-                        <td>{rejectedList[i].email}</td>
+                        {managedClassroom.map((classroom) => {
+                          console.log(rejected);
+                          if(rejected.classId === classroom.classId)
+                            return (<td>{classroom.className}</td>)
+                        })}
+                        <td>{rejected.username}</td>
+                        <td>{rejected.email}</td>
                       </tr>
                     ))
                   : null}
@@ -79,6 +130,7 @@ const RejectedPart = (props) => {
           </div>
         </div>
       </div>
+      )}
     </div>
   );
 };

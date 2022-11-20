@@ -28,6 +28,7 @@ const AllList = ({ classId }) => {
   useEffect(() => {
     if (userId) {
       const fetchWaitList = async () => {
+        console.log(location.state.classId);
         try {
           const res1 = await axios.get(
             `${process.env.REACT_APP_SERVER_URL}/api/classroom/wait-list?classId=${location.state.classId}`
