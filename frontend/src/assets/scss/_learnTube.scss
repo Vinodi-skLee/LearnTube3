@@ -165,8 +165,9 @@
 
 .createbtn {
   width: 80px;
-  height: 100%;
-  padding: 10px 0px;
+  height: 40px;
+  border-radius: 5px;
+  // padding: 10px 0px;
   background-color: $orangeColor;
   color: white;
   border: none;
@@ -180,6 +181,7 @@
   color: white;
   border: none;
   margin-left: 10px;
+  border-radius: 5px;
 }
 
 .searchbtn {

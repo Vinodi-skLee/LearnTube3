@@ -119,12 +119,14 @@ const Header = (props) => {
                     console.log(classroom);
                     fetchWaitList(classroom.classId).then(() => {
                         console.log(waitList);
-                        setIsLoading(false);
                         putclassId(classroom.classId);
                     });
                 });
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 500);
             }
-            }, 1000);
+            }, 500);
         }
     }, [userId, waitList]);
 
@@ -275,20 +277,19 @@ const Header = (props) => {
                                                             <FaBell  className="alarmbtn notification mr-10" size="24" style={{cursor: "pointer"}} />
                                                         )
                                                     ) : null}
-                                                        <div className="alarm-dropdown">
+                                                        <div className="alarm-dropdown" style={{top: "42px", right: "50px"}}>
                                                             <ul
                                                                 style={{
                                                                     textAlign: "left",
                                                                     // color: "black !important",
                                                                     fontSize: "1.1rem",
                                                                 }}
-                                                                className={waitList ? null : "mt-10 pb-10 border-bottom border-dark"}
                                                             >
                                                                 {isLoading ? (
                                                                     <div style={{ width: "350px", padding: "10px 0px" }}>
                                                                         <span style={{ marginLeft: "10px" }}>로딩중 ...</span>
                                                                     </div>
-                                                                ) : waitList ? (
+                                                                ) : (waitList ? (
                                                                     waitList.map((waiting, i) => (
                                                                         <li style={{ padding: "5px 0px 5px 15px" }} onClick={() => console.log(waiting.classId)}>
                                                                             <Link
@@ -304,10 +305,10 @@ const Header = (props) => {
                                                                         </li>
                                                                     ))
                                                                 ) : (
-                                                                    <div style={{ width: "350px", padding: "10px 0px" }}>
-                                                                        <span style={{ marginLeft: "10px" }}>새로운 알림이 없습니다.</span>
+                                                                    <div style={{ width: "350px", padding: "10px 0px", height: "500px"}}>
+                                                                        <span style={{marginLeft: "10px"}}>새로운 알림이 없습니다.</span>
                                                                     </div>
-                                                                )}
+                                                                ))}
                                                             </ul>
                                                         </div>
                                                 </div>
