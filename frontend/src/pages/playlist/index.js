@@ -59,10 +59,8 @@ const Playlist = () => {
   // const [lastSeq, setLastSeq] = useState(0);
   let lastSeq = 0;
   const [videoNum, setVideoNum] = useState(0);
-  const [classroomData, setClassroomData] = useState();
-  // const [classTempData, setClassTempData] = useState([{}]);
-  const [classTempData, setClassTempData] = useState();
-  const [classroomList, setClassroomList] = useState();
+  const [classroomTempData, setClassroomTempData] = useState([{}]);
+  const [managedClassroom, setManagedClassroom] = useState();
   //   console.log(selectedPlaylist);
   //   console.log(savedPlaylistName);
   //   console.log(updatePlaylistTitle);
@@ -74,8 +72,8 @@ const Playlist = () => {
           const response = await axios.get(
             `${process.env.REACT_APP_SERVER_URL}/api/classroom/manages?userId=${userId}`
           );
-          console.log("playlist idx - classroomList", response.data);
-          setClassroomList(response.data);
+          //   console.log("playlist idx - classroomList", response.data);
+          setManagedClassroom(response.data);
         } catch (err) {
           console.log("err >> ", err);
         }
@@ -83,29 +81,11 @@ const Playlist = () => {
       fetchManagesClassRoom();
     }
   }, []);
-  useEffect(() => {
-    // if (classroomList) {
-    //     for (let i = 0; i < classroomList.length; i++) {
-    //         console.log("aa");
-    //         const fetchClassRoom = async () => {
-    //             try {
-    //                 const res1 = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom?userId=${userId}&classId=${classroomList[i].classId}`);
-    //                 console.log(res1.data);
-    //                 setClassTempData([...classTempData, res1.data]);
-    //                 classTempData.concat(res1.data);
-    //             } catch (err) {
-    //                 console.log("err >> ", err);
-    //             }
-    //         };
-    //         fetchClassRoom();
-    //     }
-    // }
-    // console.log(classTempData);
-  }, []);
+
   useEffect(() => {
     // console.log("playlist idx", videoNum);
   }, [videoNum]);
-  useEffect(() => {}, [classroomList]);
+  //   useEffect(() => {}, [managedClassroom]);
   useEffect(() => {
     const fetchMyPlaylists = async () => {
       try {
@@ -147,6 +127,7 @@ const Playlist = () => {
     // console.log("lastSeq " + lastSeq);
     if (selectedVideo)
       selectedVideo.length ? (lastSeq = selectedVideo.length) : (lastSeq = 0);
+    window.sessionStorage.setItem("lastSeq", lastSeq);
     setClickedVideo(playlistData[num].videos[0]);
     setPlaylistId(playlistData[num].playlistId);
     setSelectedPlaylist(playlistData[num].name);
@@ -204,43 +185,6 @@ const Playlist = () => {
     setUpdatePlaylistTitle(e.target.value);
   };
   useEffect(() => {}, [setUpdatePlaylistTitle, setSavedPlaylistName]);
-
-  const handleSubmit = async () => {
-    // for (let j = 0; j < selectedVideo.length; j++) {
-    // let updateRequest = {
-    //     videoId: selectedVideo[videoNum].id,
-    //     youtubeId: selectedVideo[videoNum].youtubeId,
-    //     title: selectedVideo[videoNum].title,
-    //     newTitle: selectedVideo[videoNum].newTitle,
-    //     start_s: selectedVideo[videoNum].start_s,
-    //     end_s: selectedVideo[videoNum].end_s,
-    //     duration: selectedVideo[videoNum].duration,
-    //     seq: videoNum,
-    //     tag: selectedVideo[videoNum].tag,
-    // };
-    // console.log("seq", videoNum);
-    // const response2 = await axios
-    //     .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist_video/update`, updateRequest, {
-    //         method: "POST",
-    //         headers: {
-    //             // Accept: "application/json",
-    //             "Content-Type": "application/json",
-    //         },
-    //     })
-    //     .then((res) => console.log(res));
-    // const response = await axios
-    //     .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/update`, JSON.stringify(updatePlaylistData), {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //     })
-    //     .then((res) => console.log(res));
-    // }
-    // alert("플레이리스트가 수정되었습니다.");
-    // alert(updatePlaylistTitle + "로 playlist 정보가 업데이트 되었습니다.");
-    // window.location.reload();
-  };
 
   const findSearchData = async (e) => {
     try {
@@ -512,6 +456,7 @@ const Playlist = () => {
                     <PlaylistWidget
                       userId={userId}
                       playlistData={playlistData}
+                      setPlaylistData={setPlaylistData}
                       isSelected={isSelected}
                       selectedPlaylist={selectedPlaylist}
                       selectedVideo={selectedVideo}
@@ -536,10 +481,10 @@ const Playlist = () => {
                       searchData={searchData}
                       videoNum={videoNum}
                       setVideoNum={setVideoNum}
-                      classroomList={classroomList}
-                      setClassroomList={setClassroomList}
-                      classroomData={classroomData}
-                      setClassroomData={setClassroomData}
+                      //   classroomList={classroomList}
+                      //   setClassroomList={setClassroomList}
+                      //   classroomData={classroomData}
+                      //   setClassroomData={setClassroomData}
                       lastSeq={lastSeq}
                       // setLastSeq={setLastSeq}
                       checkPlaylistName={checkPlaylistName}
@@ -549,6 +494,7 @@ const Playlist = () => {
                       isActive={isActive}
                       setIsActive={setIsActive}
                       setIsEmpty={setIsEmpty}
+                      managedClassroom={managedClassroom}
                     />
                     {/* </Link> */}
                     {/* {isEditMode ? (
