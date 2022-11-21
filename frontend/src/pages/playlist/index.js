@@ -127,7 +127,6 @@ const Playlist = () => {
     // console.log("lastSeq " + lastSeq);
     if (selectedVideo)
       selectedVideo.length ? (lastSeq = selectedVideo.length) : (lastSeq = 0);
-    window.sessionStorage.setItem("lastSeq", lastSeq);
     setClickedVideo(playlistData[num].videos[0]);
     setPlaylistId(playlistData[num].playlistId);
     setSelectedPlaylist(playlistData[num].name);
@@ -137,6 +136,7 @@ const Playlist = () => {
     setPlaylistDuration(playlistData[num].totalDuration);
     console.log(selectedVideo);
     setIsClicked(false);
+    window.sessionStorage.setItem("lastSeq", lastSeq);
     if (playlistData[num].videos.length == 0) {
       setIsEmpty(true);
       console.log("is empty? === " + isEmpty);
