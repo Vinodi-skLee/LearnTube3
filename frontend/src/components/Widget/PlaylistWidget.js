@@ -96,7 +96,7 @@ const PlaylistWidget = ({
       managedClassroom.map((classroom, i) => {
         classData = JSON.parse(window.sessionStorage.getItem("classroom" + i));
         // console.log(classData.lectures);
-        if (classData.lectures)
+        if (classData && classData.lectures)
           classData.lectures.map((lec, j) => {
             if (lec.contents)
               lec.contents.map((con, j) => {
