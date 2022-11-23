@@ -252,6 +252,7 @@ const YoutubeSearch = () => {
         initVideo.playlistId = playlistId;
         initVideo.duration = initVideo.end_s - initVideo.start_s;
         cart[index] = initVideo;
+        newCart[video.youtubeId] = video;
         // console.log(cart[index]);
         setIndex((index) => index + 1);
         setCart({ ...cart });
@@ -269,8 +270,11 @@ const YoutubeSearch = () => {
 
     const deleteVideoFromCart = (seq) => {
         var i = Object.keys(cart).find((key) => cart[key].seq === seq);
-        if (cart[i].id !== 0) cart[i].deleted = 1;
-        else delete cart[i];
+        var youtubeId = cart[i].youtubeId;
+
+        delete cart[i];
+        delete newCart[youtubeId];
+
         console.log("delete!");
         setIsChanged(true);
         setCart({ ...cart }); //setCart passes on a state change to the Cart component
@@ -459,6 +463,7 @@ const YoutubeSearch = () => {
                                     addVideoToCart={addVideoToCart}
                                     deleteVideoFromCart={deleteVideoFromCart}
                                     cart={cart}
+                                    index={index}
                                     selectPart={selectPart}
                                     isInPlaylist={isInPlaylist}
                                     newCart={newCart}
@@ -611,6 +616,7 @@ const YoutubeSearch = () => {
                                         deleteVideoFromCart={deleteVideoFromCart}
                                         isInPlaylist={isInPlaylist}
                                         setIsInPlaylist={setIsInPlaylist}
+                                        lastSeq={lastSeq}
                                     ></Cart>
                                 </div>
                             </>

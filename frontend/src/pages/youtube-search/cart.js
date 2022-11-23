@@ -6,7 +6,7 @@ import axios from "axios";
 
 import "rc-slider/assets/index.css";
 
-const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, existingVideo, deleteVideoFromCart, isInPlaylist, setIsInPlaylist }) => {
+const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, existingVideo, deleteVideoFromCart, isInPlaylist, setIsInPlaylist, lastSeq }) => {
     const [cartList, setCartList] = useState([]);
     const [playlistName, setPlaylistName] = useState("");
     const [isDeleted, setIsDeleted] = useState(false);
@@ -76,7 +76,8 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
 
     const saveCart = async () => {
         console.log("cartList === " + cartList);
-        for (let temp in cartList) {
+
+        cartList.map(async (data, temp) => {
             let obj = JSON.parse(cartList[temp]);
             console.log("cartList === " + obj);
             if (obj.id === -1) {
@@ -100,7 +101,6 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                         },
                     })
                     .then((res) => console.log(res));
-                temp++;
             } else if (obj.deleted == 1) {
                 let deleteRequest = {
                     playlistId: obj.playlistId,
@@ -115,7 +115,6 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                     .then((res) => console.log(res));
                 setIsInPlaylist(isInPlaylist - 1);
                 setIndex(index - 1);
-                temp++;
             } else {
                 let updateRequest = {
                     playlistId: obj.playlistId,
@@ -138,9 +137,8 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                         },
                     })
                     .then((res) => console.log(res));
-                temp++;
             }
-        }
+        });
         window.alert("저장되었습니다!");
     };
 
@@ -201,25 +199,27 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                                                                         >
                                                                             <i class="fa fa-edit"></i>
                                                                         </button>
-                                                                        <button
-                                                                            onClick={(e) => {
-                                                                                onDeleteClick(video.seq);
-                                                                            }}
-                                                                            style={{
-                                                                                position: "relative",
-                                                                                background: "white",
-                                                                                width: "25px",
-                                                                                height: "25px",
-                                                                                padding: "0",
-                                                                                border: "none",
-                                                                                borderRadius: "50%",
-                                                                                paddingLeft: "0px",
-                                                                                paddingRight: "0px",
-                                                                                marginRight: "4px",
-                                                                            }}
-                                                                        >
-                                                                            <i class="fa fa-trash"></i>
-                                                                        </button>
+                                                                        {i < deleteCount ? (
+                                                                            <button
+                                                                                onClick={(e) => {
+                                                                                    onDeleteClick(video.seq);
+                                                                                }}
+                                                                                style={{
+                                                                                    position: "relative",
+                                                                                    background: "white",
+                                                                                    width: "25px",
+                                                                                    height: "25px",
+                                                                                    padding: "0",
+                                                                                    border: "none",
+                                                                                    borderRadius: "50%",
+                                                                                    paddingLeft: "0px",
+                                                                                    paddingRight: "0px",
+                                                                                    marginRight: "4px",
+                                                                                }}
+                                                                            >
+                                                                                <i class="fa fa-trash"></i>
+                                                                            </button>
+                                                                        ) : null}
                                                                     </div>
                                                                     <img
                                                                         className="img-fluid"
