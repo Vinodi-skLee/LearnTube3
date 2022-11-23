@@ -96,7 +96,7 @@ const PlaylistWidget = ({
       managedClassroom.map((classroom, i) => {
         classData = JSON.parse(window.sessionStorage.getItem("classroom" + i));
         // console.log(classData.lectures);
-        if (classData && classData.lectures)
+        if (playlistData && classData && classData.lectures)
           classData.lectures.map((lec, j) => {
             if (lec.contents)
               lec.contents.map((con, j) => {
@@ -125,6 +125,13 @@ const PlaylistWidget = ({
     return { ...playlistData[i], [key]: value };
   }
   useEffect(() => {
+    if (playlistData)
+      playlistData.map((playlist, i) => {
+        add(i, "used", 0);
+      });
+    console.log(playlistData);
+  }, [playlistData]);
+  useEffect(() => {
     // setUpdatePlaylistTitle(savedPlaylistName);
     // console.log("savedPlaylistName", savedPlaylistName);
     // console.log("updatePlaylistTitle", updatePlaylistTitle);
@@ -134,7 +141,10 @@ const PlaylistWidget = ({
       playlistData.map((playlist, i) => {
         usedPlaylist.map((used, j) => {
           if (used === playlist.playlistId) {
-            console.log(add(i, "used", 1));
+            playlistData[i].used = 1;
+            // add(i, "used", 1);
+            // console.log(add(i, "used", 1));
+            // setPlaylistData([...playlistData, { nale: 2 }]);
             console.log(playlistData[i]);
           }
         });
