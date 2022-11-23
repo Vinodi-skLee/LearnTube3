@@ -76,8 +76,7 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
 
     const saveCart = async () => {
         console.log("cartList === " + cartList);
-
-        cartList.map(async (data, temp) => {
+        for (let temp in cartList) {
             let obj = JSON.parse(cartList[temp]);
             console.log("cartList === " + obj);
             if (obj.id === -1) {
@@ -101,6 +100,7 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                         },
                     })
                     .then((res) => console.log(res));
+                temp++;
             } else if (obj.deleted == 1) {
                 let deleteRequest = {
                     playlistId: obj.playlistId,
@@ -115,6 +115,7 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                     .then((res) => console.log(res));
                 setIsInPlaylist(isInPlaylist - 1);
                 setIndex(index - 1);
+                temp++;
             } else {
                 let updateRequest = {
                     playlistId: obj.playlistId,
@@ -137,9 +138,10 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                         },
                     })
                     .then((res) => console.log(res));
+                temp++;
             }
-        });
-        window.alert("저장되었습니다!");
+        }
+        window.location.href = "/learntube/learntube-studio";
     };
 
     return (
