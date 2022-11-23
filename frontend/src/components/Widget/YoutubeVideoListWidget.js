@@ -4,7 +4,7 @@ import YoutubeBoard from "../../components/Events/YoutubeBoard";
 import "rc-slider/assets/index.css";
 import { Spinner } from "react-bootstrap";
 
-const YoutubeVideoListWidget = ({ videos, selectVideo, getToken, addVideoToCart, deleteVideoFromCart, cart, selectPart, isInPlaylist, newCart }) => {
+const YoutubeVideoListWidget = ({ videos, selectVideo, getToken, addVideoToCart, deleteVideoFromCart, cart, index, selectPart, isInPlaylist, newCart }) => {
     const [searchedVideos, setSearchedVideos] = useState([]);
 
     // const clickPageToken = (value) => {
@@ -42,6 +42,7 @@ const YoutubeVideoListWidget = ({ videos, selectVideo, getToken, addVideoToCart,
                                     video={video}
                                     selectVideo={selectVideo}
                                     videoNew={video}
+                                    index={index}
                                     addVideoToCart={addVideoToCart}
                                     deleteVideoFromCart={deleteVideoFromCart}
                                     isAlreadyIncart={isAlreadyIncart}
