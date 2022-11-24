@@ -10,6 +10,7 @@ import { TbCurrencyKroneSwedish } from "react-icons/tb";
 import { Link, useParams } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import { FiEdit } from "react-icons/fi";
+import { FaCheck } from "react-icons/fa";
 const PlaylistWidget = ({
   userId,
   playlistData,
@@ -53,6 +54,11 @@ const PlaylistWidget = ({
   setIsActive,
   setIsEmpty,
   managedClassroom,
+  usedPlaylist,
+  //   linkClass,
+  //   linkLecture,
+  //   lectureNum,
+  //   contentNum,
 }) => {
   const [isVideoClicked, setIsVideoClicked] = useState(isClicked);
   const [startTime, setStartTime] = useState(null);
@@ -61,57 +67,57 @@ const PlaylistWidget = ({
   const [videoIdx, setvideoIdx] = useState();
   //   console.log(selectedVideo[videoNum]);
   //   console.log(managedClassroom);
-  let classroomData = [];
-  useEffect(() => {
-    // console.log(managedClassroom);
-    if (managedClassroom) {
-      managedClassroom.map((classroom, i) => {
-        // console.log("aa");
-        const fetchClassRoom = async () => {
-          try {
-            const res1 = await axios.get(
-              `${process.env.REACT_APP_SERVER_URL}/api/classroom?userId=${userId}&classId=${classroom.classId}`
-            );
-            // console.log(res1.data);
-            classroomData = [...classroomData, res1.data];
-            window.sessionStorage.setItem(
-              "classroom" + i,
-              JSON.stringify(res1.data)
-            );
-            let data = window.sessionStorage.getItem("classroom");
-            console.log(data);
-          } catch (err) {
-            console.log("err >> ", err);
-          }
-        };
-        fetchClassRoom();
-      });
-    }
-  }, [classroomData]);
+  //   let classroomData = [];
+  //   useEffect(() => {
+  //     // console.log(managedClassroom);
+  //     if (managedClassroom) {
+  //       managedClassroom.map((classroom, i) => {
+  //         // console.log("aa");
+  //         const fetchClassRoom = async () => {
+  //           try {
+  //             const res1 = await axios.get(
+  //               `${process.env.REACT_APP_SERVER_URL}/api/classroom?userId=${userId}&classId=${classroom.classId}`
+  //             );
+  //             // console.log(res1.data);
+  //             classroomData = [...classroomData, res1.data];
+  //             window.sessionStorage.setItem(
+  //               "classroom" + i,
+  //               JSON.stringify(res1.data)
+  //             );
+  //             let data = window.sessionStorage.getItem("classroom");
+  //             console.log(data);
+  //           } catch (err) {
+  //             console.log("err >> ", err);
+  //           }
+  //         };
+  //         fetchClassRoom();
+  //       });
+  //     }
+  //   }, [classroomData]);
 
-  let classData;
-  let usedPlaylist = [];
-  useEffect(() => {
-    if (managedClassroom) {
-      managedClassroom.map((classroom, i) => {
-        classData = JSON.parse(window.sessionStorage.getItem("classroom" + i));
-        // console.log(classData.lectures);
-        if (playlistData && classData && classData.lectures)
-          classData.lectures.map((lec, j) => {
-            if (lec.contents)
-              lec.contents.map((con, j) => {
-                playlistData.map((pl, k) => {
-                  if (con.playlistId === pl.playlistId) {
-                    usedPlaylist = [...usedPlaylist, con.playlistId];
-                    console.log(usedPlaylist);
-                  } //   console.log(pl.playlistId);
-                });
-                // console.log(con.playlistId);
-              });
-          });
-      });
-    }
-  }, [classroomData]);
+  //   let classData;
+  //   let usedPlaylist = [];
+  //   useEffect(() => {
+  //     if (managedClassroom) {
+  //       managedClassroom.map((classroom, i) => {
+  //         classData = JSON.parse(window.sessionStorage.getItem("classroom" + i));
+  //         // console.log(classData.lectures);
+  //         if (playlistData && classData && classData.lectures)
+  //           classData.lectures.map((lec, j) => {
+  //             if (lec.contents)
+  //               lec.contents.map((con, j) => {
+  //                 playlistData.map((pl, k) => {
+  //                   if (con.playlistId === pl.playlistId) {
+  //                     usedPlaylist = [...usedPlaylist, con.playlistId];
+  //                     console.log(usedPlaylist);
+  //                   } //   console.log(pl.playlistId);
+  //                 });
+  //                 // console.log(con.playlistId);
+  //               });
+  //           });
+  //       });
+  //     }
+  //   }, [classroomData]);
   const [usedPl, setUsedPl] = useState({
     playlistId: "",
     used: 0,
@@ -119,46 +125,84 @@ const PlaylistWidget = ({
     className: "",
     contentName: "",
   });
-
+  let linkClass_ = JSON.parse(window.sessionStorage.getItem("linkClass"));
+  let linkClass;
+  let lectureNum = [];
+  //   let contentNum;
+  let lecNumArr = [];
   function add(i, key, value) {
-    playlistData[i][key] = value;
-    return { ...playlistData[i], [key]: value };
+    linkClass_[i][key] = value;
+    return { ...linkClass_[i], [key]: value };
   }
-  useEffect(() => {
-    if (playlistData)
-      playlistData.map((playlist, i) => {
-        add(i, "used", 0);
+  if (linkClass_) {
+    console.log(linkClass_);
+    linkClass_.map((link, i) => {
+      link.lectures.map((lec, j) => {
+        // console.log(lec);
+        lec.contents.map((con, k) => {
+          add(i, "p_id", con.playlistId);
+        });
+
+        lecNumArr = [...lecNumArr, lec.lectureNum];
+        console.log(lec.contentNum);
+        add(i, "lecture_num", lec.lectureNum);
+        lectureNum = [...lectureNum, lec.lectureNum];
+        // lectureNum = 0;
       });
+      window.sessionStorage.setItem("lectureNum", lectureNum);
+
+      console.log(link.className);
+      console.log(link.lectures.lectureNum);
+      //   add(i, "lecture_num", lecNumArr);
+      lecNumArr = [];
+    });
+    linkClass = [...linkClass_].sort((a, b) => (a.p_id > b.p_id ? -1 : 1));
+    // linkClass = [...linkClass_];
+    console.log("linkClass");
+    console.log(linkClass);
+    // lectureNum = JSON.parse(window.sessionStorage.getItem("lectureNum"));
+    console.log(lectureNum);
+    // contentNum = JSON.parse(window.sessionStorage.getItem("contentNum"));
+    // console.log(contentNum);
+  }
+
+  useEffect(() => {
+    // if (playlistData)
+    //   playlistData.map((playlist, i) => {
+    //     add(i, "used", 0);
+    //   });
     console.log(playlistData);
   }, [playlistData]);
-  useEffect(() => {
-    // setUpdatePlaylistTitle(savedPlaylistName);
-    // console.log("savedPlaylistName", savedPlaylistName);
-    // console.log("updatePlaylistTitle", updatePlaylistTitle);
-    console.log(usedPlaylist);
-    console.log(playlistData);
-    if (playlistData)
-      playlistData.map((playlist, i) => {
-        usedPlaylist.map((used, j) => {
-          if (used === playlist.playlistId) {
-            playlistData[i].used = 1;
-            // add(i, "used", 1);
-            // console.log(add(i, "used", 1));
-            // setPlaylistData([...playlistData, { nale: 2 }]);
-            console.log(playlistData[i]);
-          }
-        });
-      });
-  }, [
-    playlistData,
-    setUpdatePlaylistTitle,
-    setSavedPlaylistName,
-    setVideoNum,
-    videoNum,
-    setSelectedVideo,
-    selectedVideo,
-    usedPlaylist,
-  ]);
+  //   useEffect(() => {
+  //     // setUpdatePlaylistTitle(savedPlaylistName);
+  //     // console.log("savedPlaylistName", savedPlaylistName);
+  //     // console.log("updatePlaylistTitle", updatePlaylistTitle);
+  //     console.log(usedPlaylist);
+  //     console.log(playlistData);
+  //     if (playlistData)
+  //       playlistData.map((playlist, i) => {
+  //         usedPlaylist.map((used, j) => {
+  //           if (used === playlist.playlistId) {
+  //             playlistData[i].used = 1;
+  //             // setPlaylistData({ ...playlistData[i] });
+  //             // add(i, "used", 1);
+  //             // console.log(add(i, "used", 1));
+  //             // setPlaylistData([...playlistData, { nale: 2 }]);
+  //             console.log(playlistData[i]);
+  //           }
+  //         });
+  //       });
+  //   }, [
+  //     playlistData,
+  //     setPlaylistData,
+  //     setUpdatePlaylistTitle,
+  //     setSavedPlaylistName,
+  //     setVideoNum,
+  //     videoNum,
+  //     setSelectedVideo,
+  //     selectedVideo,
+  //     usedPlaylist,
+  //   ]);
   useEffect(() => {}, [usedPlaylist, playlistData, setPlaylistData]);
 
   //   console.log(clickedVideo);
@@ -323,6 +367,7 @@ const PlaylistWidget = ({
     >
       {!isSelected ? (
         <div className="pt-1 pb-3 justify-content-end btn-toolbar">
+          {/* <div>툴바</div> */}
           <div className="btn-group" style={{ display: "block" }}>
             <button
               type="button"
@@ -807,71 +852,77 @@ const PlaylistWidget = ({
                       </div>
                     ) : (
                       <div className="row">
-                        {playlistData.map(function (video, i) {
-                          return (
-                            <div
-                              className="course-part clearfix m-0 p-3 col-lg-6 col-sm-15"
-                              style={{ cursor: "pointer" }}
-                              onClick={() => {
-                                handlePlaylistChange(
-                                  playlistData[i].playlistId
-                                );
-                                setSearchMode(false);
-                              }}
-                            >
-                              <div className="d-flex m-0 row-3 justify-content-center">
-                                <div
-                                  // className="img-part content-part"
-                                  style={{
-                                    objectFit: "cover",
-                                    width: "260px",
-                                    height: "156px",
-                                  }}
-                                >
-                                  {video.videos[0] ? (
-                                    <>
-                                      {playlistData[i].used === 1 ? (
-                                        <span
-                                          className="position-absolute rounded justify-content-end text-white ps-2 pe-2 pt-1 pb-1 m-3 align-items-center"
-                                          style={{
-                                            backgroundColor: "#ff614d",
-                                          }}
-                                        >
-                                          <i
-                                            className="fa"
-                                            style={{
-                                              zIndex: "0",
-                                              paddingRight: "3px",
-                                            }}
+                        {playlistData
+                          .sort((a, b) =>
+                            a.playlistId < b.playlistId ? 1 : -1
+                          )
+                          .map(function (video, i) {
+                            return (
+                              <div
+                                className="course-part clearfix m-0 p-3 col-lg-6 col-sm-15"
+                                style={{ cursor: "pointer" }}
+                                onClick={() => {
+                                  handlePlaylistChange(
+                                    playlistData[i].playlistId
+                                  );
+                                  setSearchMode(false);
+                                }}
+                              >
+                                <div className="d-flex m-0 row-3 justify-content-center">
+                                  <div
+                                    // className="img-part content-part"
+                                    style={{
+                                      objectFit: "cover",
+                                      width: "260px",
+                                      height: "156px",
+                                    }}
+                                  >
+                                    {video.videos[0] ? (
+                                      <>
+                                        {playlistData[i].used === 1 ? (
+                                          // 사용중
+                                          <div
+                                            data-for="usedPlaylist"
+                                            data-tip
+                                            className="d-flex justify-content-start"
                                           >
-                                            <span
+                                            <FaCheck
+                                              size="20px"
+                                              color="#ffffff"
+                                              className="position-absolute  justify-content-end m-3 align-items-center"
                                               style={{
-                                                fontWeight: "bold",
-                                                fontSize: "13px",
-                                                color: "white",
+                                                backgroundColor: "#008a4a",
+                                                // backgroundColor: "#21a7d0",
+                                                borderRadius: "50%",
+                                                padding: "0.1rem",
                                               }}
                                             >
-                                              사용중
-                                            </span>
-                                          </i>
-                                        </span>
-                                      ) : null}
-                                      {/* {typeof playlistData[i].playlistId}
+                                              {" "}
+                                            </FaCheck>
+                                            <ReactTooltip
+                                              id="usedPlaylist"
+                                              getContent={(dataTip) =>
+                                                "사용중인 플레이리스트"
+                                              }
+                                            />
+                                          </div>
+                                        ) : null}
+                                        {/* {typeof playlistData[i].playlistId}
                                       {typeof usedPlaylist[0]} */}
-                                      <img
-                                        // className="img-fluid"
-                                        style={{
-                                          objectFit: "cover",
-                                          width: "260px",
-                                          height: "156px",
-                                          borderRadius: "5px",
-                                        }}
-                                        src={"https://i.ytimg.com/vi/".concat(
-                                          video.videos[0].youtubeId,
-                                          "/hqdefault.jpg"
-                                        )}
-                                      />
-                                      {/* <span
+                                        <img
+                                          // className="img-fluid"
+                                          style={{
+                                            objectFit: "cover",
+                                            width: "260px",
+                                            height: "156px",
+                                            borderRadius: "5px",
+                                          }}
+                                          src={"https://i.ytimg.com/vi/".concat(
+                                            video.videos[0].youtubeId,
+                                            "/hqdefault.jpg"
+                                          )}
+                                        />
+                                        {/* <span
                                                                                 className="position-absolute justify-content-end bg-black text-white m-3 me-1"
                                                                                 style={{
                                                                                     right: "8px",
@@ -883,80 +934,160 @@ const PlaylistWidget = ({
                                                                             >
                                                                                 {video.totalDuration ? toHHMMSS(video.totalDuration) : ""}
                                                                             </span> */}
-                                    </>
-                                  ) : (
-                                    <div
-                                      // className="img-part content-part d-flex justify-content-center"
-                                      style={{
-                                        backgroundSize: "cover",
-                                        backgroundImage: `url(${logo})`,
-                                        objectFit: "cover",
-                                        width: "260px",
-                                        height: "156px",
-                                        borderRadius: "5px",
-                                      }}
-                                    >
-                                      <span
+                                      </>
+                                    ) : (
+                                      <div
+                                        // className="img-part content-part d-flex justify-content-center"
                                         style={{
-                                          display: "inline-block",
-                                          height: "180px",
-                                          lineHeight: "160px",
-                                          textAlign: "center",
-                                          color: "#404040",
-                                          fontWeight: "bold",
-                                          fontSize: "18px",
-                                          fontFamily: "Nunito, sans-serif;",
+                                          backgroundSize: "cover",
+                                          backgroundImage: `url(${logo})`,
+                                          objectFit: "cover",
+                                          width: "260px",
+                                          height: "156px",
+                                          borderRadius: "5px",
                                         }}
                                       >
-                                        {video.name}
-                                      </span>
-                                    </div>
-                                  )}
-                                </div>
-                                <div
-                                  className="pl-12 content-part pt-3 px-3 "
-                                  style={{
-                                    width: "50%",
-                                    minHeight: "150px",
-                                    maxHeight: "150px",
-                                  }}
-                                >
-                                  <div className="d-flex pl-12 h5">
-                                    {video.name
-                                      ? video.name
-                                      : "플레이리스트 제목 없음"}
+                                        <span
+                                          style={{
+                                            display: "inline-block",
+                                            height: "180px",
+                                            lineHeight: "160px",
+                                            textAlign: "center",
+                                            color: "#404040",
+                                            fontWeight: "bold",
+                                            fontSize: "18px",
+                                            fontFamily: "Nunito, sans-serif;",
+                                          }}
+                                        >
+                                          {video.name}
+                                        </span>
+                                      </div>
+                                    )}
                                   </div>
-
-                                  {/* {Array.isArray(linkData)
+                                  <div
+                                    className="pl-12 content-part pt-3 px-3 "
+                                    style={{
+                                      width: "50%",
+                                      minHeight: "150px",
+                                      maxHeight: "150px",
+                                    }}
+                                  >
+                                    <div className="d-flex pl-12 h5">
+                                      {video.name
+                                        ? video.name
+                                        : "플레이리스트 제목 없음"}
+                                    </div>
+                                    {/* {Array.isArray(linkData)
                                                                         ? linkData.map((linkData, i) => (
                                                                               <></>
                                                                               // {linkData[i].playlist_id===playlistData[i].playlistId ? <h>{linkData[i].contentName}</h>:null}
                                                                           ))
                                                                         : null} */}
-                                  {/* 11 */}
-                                  <div className="d-flex pl-12">
-                                    생성일자:{" "}
-                                    {playlistData[i].createdAt
-                                      ? playlistData[i].createdAt.split("T")[0]
-                                      : " - "}
-                                  </div>
-                                  <div className="d-flex pl-12">
-                                    전체시간:{" "}
-                                    {video.totalDuration
-                                      ? toHHMMSS(video.totalDuration)
-                                      : " - "}
-                                  </div>
-                                  <div className="d-flex pl-12">
-                                    영상개수:{" "}
-                                    {video.videos.length
-                                      ? video.videos.length + "개"
-                                      : " - "}
+                                    {/* 11 */}
+                                    {/* {usedPlaylist ? ( */}
+                                    {/* {usedPlaylist.map((pl, a) => ( */}
+                                    <>
+                                      {playlistData[i].used === 1 ? (
+                                        <div className="d-flex pl-12">
+                                          {/* 콘텐츠매핑 */}
+                                          {/* <Link
+                                          //   className="popup-videos play-icon"
+                                          to={{
+                                            pathname: "/learntube/content",
+                                            state: {
+                                              lectures:
+                                                linkClass[playlistData[i].idx]
+                                                  .lectures,
+                                              classRoomData:
+                                                linkClass[playlistData[i].idx],
+                                              i: lectureNum[
+                                                playlistData[i].idx
+                                              ],
+                                              j: contentNum[
+                                                playlistData[i].idx
+                                              ],
+                                            },
+                                          }}
+                                        > */}
+                                          {/* 커리큘럼매핑 */}
+                                          <span data-for="linkToCurri" data-tip>
+                                            <Link
+                                              to={{
+                                                pathname:
+                                                  "/learntube/course/course-single",
+                                                state: {
+                                                  classId:
+                                                    linkClass[
+                                                      playlistData[i].idx
+                                                    ].classId,
+                                                },
+                                              }}
+                                            >
+                                              <h>
+                                                {/* {lectureNum.findIndex(
+                                                (x) =>
+                                                  x ===
+                                                  playlistData[i].playlistId
+                                              )} */}
+                                                {/* {playlistData[i].idx} &ensp; */}
+                                                {/* {playlistData[i].playlistId} */}
+                                                {
+                                                  linkClass[playlistData[i].idx]
+                                                    .className
+                                                }
+                                                &ensp;
+                                                {/* {
+                                                  linkClass[playlistData[i].idx]
+                                                    .lecture_num
+                                                }
+                                                강 */}
+                                                {/* 강 >
+                                            {
+                                              linkClass[playlistData[i].idx]
+                                                .lectures[
+                                                lectureNum[playlistData[i].idx]
+                                              ].contents[
+                                                contentNum[playlistData[i].idx]
+                                              ].contentName
+                                            } */}
+                                              </h>
+                                            </Link>
+                                            <ReactTooltip
+                                              id="linkToCurri"
+                                              getContent={(dataTip) =>
+                                                "강의실로 이동"
+                                              }
+                                            />
+                                          </span>
+                                        </div>
+                                      ) : null}
+                                    </>
+
+                                    <div className="d-flex pl-12">
+                                      생성일자:{" "}
+                                      {playlistData[i].createdAt
+                                        ? playlistData[i].createdAt.split(
+                                            "T"
+                                          )[0]
+                                        : " - "}
+                                    </div>
+                                    <div className="d-flex pl-12">
+                                      전체시간:{" "}
+                                      {video.totalDuration
+                                        ? toHHMMSS(video.totalDuration)
+                                        : " - "}
+                                    </div>
+                                    <div className="d-flex pl-12">
+                                      영상개수:{" "}
+                                      {video.videos.length
+                                        ? video.videos.length + "개"
+                                        : " - "}
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          );
-                        })}
+                            );
+                          })}
                       </div>
                     )}
                   </>
