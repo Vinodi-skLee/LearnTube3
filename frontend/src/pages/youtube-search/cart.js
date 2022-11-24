@@ -160,11 +160,16 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                                     <div style={{ color: "white" }}>
                                         <i className="fa fa-play-circle-o" style={{ color: "white" }}></i> <span style={{ color: "white" }}>{playlistName}</span>
                                     </div>
-                                    <Link to={{ pathname: "/learntube/learntube-studio" }}>
-                                        <button className="cart-save-btn text-center rounded" onClick={saveCart}>
-                                            저장
+                                    <div>
+                                        <Link to={{ pathname: "/learntube/learntube-studio" }}>
+                                            <button className="cart-save-btn text-center rounded mr-5" onClick={saveCart}>
+                                                저장
+                                            </button>
+                                        </Link>
+                                        <button className="cart-save-btn text-center rounded" onClick={() => window.history.back()}>
+                                            취소
                                         </button>
-                                    </Link>
+                                    </div>
                                 </div>
                             </div>
                             <div className="d-flex" style={{ overflowX: "scroll", overflowY: "clip", margin: "0px 30px" }}>

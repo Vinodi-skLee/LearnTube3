@@ -76,17 +76,12 @@ scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/
             window.sessionStorage.setItem("userId", userData.userId);
             setUserId(window.sessionStorage.getItem("userId"));
             // console.log("local userid ", userId);
-        }
-    }, [userData]);
-
-    useEffect(() => {
-        if (userData.userId) {
             history.push({
-                pathname: "/learntube/dashboard-main",
+                pathname: "/learntube/",
                 state: { userId: userData.userId },
             });
         }
-    }, [userData.userId]);
+    }, [userData]);
 
     // useEffect(() => {
     //     if (userData.userId) {

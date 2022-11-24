@@ -44,6 +44,20 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, selectVi
         setIsInterestVideo(!isInterestVideo);
     };
 
+    function decodeHTMLEntities(str) {
+        if (str !== undefined && str !== null && str !== "") {
+            str = String(str);
+
+            str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gim, "");
+            str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')&>/gim, "");
+            var element = document.createElement("div");
+            element.innerHTML = str;
+            str = element.textContent;
+            element.textContent = "";
+        }
+        return str;
+    }
+
     // const addCart = useCallback(() =>{
     //     console.log("add to cart");
     //         addVideoToCart(video);
@@ -96,15 +110,15 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, selectVi
                         onMouseDown={selectVideo}
                     >
                         <div className="search-title" onMouseDown={onSelect}>
-                            {snippet.title ? snippet.title : "영상제목"}
+                            {decodeHTMLEntities(snippet.title) ? decodeHTMLEntities(snippet.title) : "영상제목"}
                         </div>
                         <div className="fw-light search-channel" onMouseDown={onSelect}>
                             <span>
-                                {snippet.channelTitle ? snippet.channelTitle : "채널명"} | {snippet.publishTime ? snippet.publishTime.slice(0, 10) : "등록일"}
+                                {decodeHTMLEntities(snippet.channelTitle) ? decodeHTMLEntities(snippet.channelTitle) : "채널명"} | {snippet.publishTime ? snippet.publishTime.slice(0, 10) : "등록일"}
                             </span>
                         </div>
                         <div className="search-description" onMouseDown={onSelect}>
-                            {snippet.description ? snippet.description : "영상설명"}
+                            {decodeHTMLEntities(snippet.description) ? decodeHTMLEntities(snippet.description) : "영상설명"}
                         </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center">

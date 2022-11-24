@@ -429,6 +429,20 @@ const YoutubeSearch = () => {
         // console.log(location.state.playlistName);
     }, []);
 
+    function decodeHTMLEntities(str) {
+        if (str !== undefined && str !== null && str !== "") {
+            str = String(str);
+
+            str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gim, "");
+            str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')&>/gim, "");
+            var element = document.createElement("div");
+            element.innerHTML = str;
+            str = element.textContent;
+            element.textContent = "";
+        }
+        return str;
+    }
+
     return (
         <React.Fragment>
             <Helmet>
@@ -523,7 +537,7 @@ const YoutubeSearch = () => {
                                                 <div>
                                                     <div className="d-flex flex-nowrap justify-content-start align-items-center w-100">
                                                         <div className="fw-bold w-100" style={{ borderBottom: "1px solid gray", fontSize: "16pt", color: "black", padding: "5px 0px" }}>
-                                                            {selectedVideo.title}
+                                                            {decodeHTMLEntities(selectedVideo.title)}
                                                         </div>
                                                     </div>
                                                     <div className="mb-10">
@@ -573,7 +587,7 @@ const YoutubeSearch = () => {
                                                             type="text"
                                                             id="title"
                                                             name="title"
-                                                            placeholder={selectedVideo.newTitle ? selectedVideo.newTitle : selectedVideo.title}
+                                                            placeholder={selectedVideo.newTitle ? decodeHTMLEntities(selectedVideo.newTitle) : decodeHTMLEntities(selectedVideo.title)}
                                                             value={newTitle}
                                                             onChange={titleChange}
                                                         />
