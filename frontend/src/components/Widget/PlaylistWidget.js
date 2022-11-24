@@ -135,7 +135,7 @@ const PlaylistWidget = ({
     return { ...linkClass_[i], [key]: value };
   }
   if (linkClass_) {
-    console.log(linkClass_);
+    // console.log(linkClass_);
     linkClass_.map((link, i) => {
       link.lectures.map((lec, j) => {
         // console.log(lec);
@@ -144,24 +144,24 @@ const PlaylistWidget = ({
         });
 
         lecNumArr = [...lecNumArr, lec.lectureNum];
-        console.log(lec.contentNum);
+        // console.log(lec.contentNum);
         add(i, "lecture_num", lec.lectureNum);
         lectureNum = [...lectureNum, lec.lectureNum];
         // lectureNum = 0;
       });
       window.sessionStorage.setItem("lectureNum", lectureNum);
 
-      console.log(link.className);
-      console.log(link.lectures.lectureNum);
+      //   console.log(link.className);
+      //   console.log(link.lectures.lectureNum);
       //   add(i, "lecture_num", lecNumArr);
       lecNumArr = [];
     });
     linkClass = [...linkClass_].sort((a, b) => (a.p_id > b.p_id ? -1 : 1));
     // linkClass = [...linkClass_];
-    console.log("linkClass");
-    console.log(linkClass);
+    // console.log("linkClass");
+    // console.log(linkClass);
     // lectureNum = JSON.parse(window.sessionStorage.getItem("lectureNum"));
-    console.log(lectureNum);
+    // console.log(lectureNum);
     // contentNum = JSON.parse(window.sessionStorage.getItem("contentNum"));
     // console.log(contentNum);
   }
@@ -171,7 +171,7 @@ const PlaylistWidget = ({
     //   playlistData.map((playlist, i) => {
     //     add(i, "used", 0);
     //   });
-    console.log(playlistData);
+    // console.log(playlistData);
   }, [playlistData]);
   //   useEffect(() => {
   //     // setUpdatePlaylistTitle(savedPlaylistName);
@@ -225,9 +225,9 @@ const PlaylistWidget = ({
 
   const handleSubmit = async () => {
     for (let j = 0; j < selectedVideo.length; j++) {
-      console.log(selectedVideo[j]);
+      //   console.log(selectedVideo[j]);
       selectedVideo[j].seq = j;
-      console.log(selectedVideo[j].seq);
+      //   console.log(selectedVideo[j].seq);
       // selectedVideo[videoNum];
       let updateRequest = {
         videoId: selectedVideo[j].id,
@@ -240,8 +240,8 @@ const PlaylistWidget = ({
         seq: j,
         tag: selectedVideo[j].tag,
       };
-      console.log("seq", j);
-      console.log(updateRequest.end_s);
+      //   console.log("seq", j);
+      //   console.log(updateRequest.end_s);
 
       const response2 = await axios
         .post(
@@ -325,7 +325,7 @@ const PlaylistWidget = ({
     if (isEditMode) {
       e.target.classList.remove("grabbing");
       e.dataTransfer.dropEffect = "move";
-      console.log(e.currentTarget.dataset.position);
+      //   console.log(e.currentTarget.dataset.position);
       setVideoNum(e.currentTarget.dataset.position);
     }
   };
@@ -345,7 +345,7 @@ const PlaylistWidget = ({
   };
   function decodeHTML(words) {
     var decode = require("decode-html");
-    console.log(decode(words));
+    // console.log(decode(words));
     return decode(words);
   }
 
