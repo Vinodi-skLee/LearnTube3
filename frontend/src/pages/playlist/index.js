@@ -34,6 +34,7 @@ const Playlist = () => {
       userName: "",
       thumbnail: "",
       videos: {},
+      used: 0,
     },
   ];
 
@@ -82,9 +83,131 @@ const Playlist = () => {
     }
   }, []);
 
+  let classroomData = [];
+  useEffect(() => {
+    // console.log(managedClassroom);
+    if (managedClassroom) {
+      managedClassroom.map((classroom, i) => {
+        // console.log("aa");
+        const fetchClassRoom = async () => {
+          try {
+            const res1 = await axios.get(
+              `${process.env.REACT_APP_SERVER_URL}/api/classroom?userId=${userId}&classId=${classroom.classId}`
+            );
+            // console.log(res1.data);
+            classroomData = [...classroomData, res1.data];
+            window.sessionStorage.setItem(
+              "classroom" + i,
+              JSON.stringify(res1.data)
+            );
+            // let data = window.sessionStorage.getItem("classroom");
+            // console.log(data);
+          } catch (err) {
+            console.log("err >> ", err);
+          }
+        };
+        fetchClassRoom();
+      });
+    }
+  }, [classroomData]);
+
+  let classData;
+  let usedPlaylist = [];
+  let linkClass = [];
+  //   const [linkClass_, setLinkClass_] = useState();
+  let linkLecture = [];
+  let lectureNum = [];
+  let contentNum = [];
+  //   let linkContent = [];
+
+  function add(i, key, value) {
+    playlistData[i][key] = value;
+    return { ...playlistData[i], [key]: value };
+  }
+
+  useEffect(() => {
+    if (managedClassroom) {
+      managedClassroom.map((classroom, i) => {
+        classData = JSON.parse(window.sessionStorage.getItem("classroom" + i));
+        // console.log(classData);
+        if (playlistData && classData && classData.lectures)
+          classData.lectures.map((lec, j) => {
+            if (lec.contents)
+              lec.contents.map((con, k) => {
+                playlistData
+                  .sort((a, b) => (a.playlistId < b.playlistId ? 1 : -1))
+                  .map((pl, l) => {
+                    if (con.playlistId === pl.playlistId) {
+                      usedPlaylist = [...usedPlaylist, con.playlistId];
+                      // playlistData[i].used = 1;
+                      linkClass = [...linkClass, classData];
+                      window.sessionStorage.setItem(
+                        "linkClass",
+                        JSON.stringify(linkClass)
+                      );
+                      //   console.log(linkClass);
+                      linkLecture = [...linkLecture, lec];
+                      //   console.log(linkLecture);
+                      //   lectureNum = [
+                      //     ...lectureNum,
+                      //     playlistData[i].playlistId,
+                      //   ];
+                      lectureNum = [...lectureNum, j];
+                      //   contentNum = [
+                      //     ...contentNum,
+                      //     playlistData[i].playlistId,
+                      //   ];
+                      contentNum = [...contentNum, k];
+                      //   window.sessionStorage.setItem(
+                      //     "lectureNum",
+                      //     JSON.stringify(lectureNum)
+                      //   );
+                      //   window.sessionStorage.setItem(
+                      //     "contentNum",
+                      //     JSON.stringify(contentNum)
+                      //   );
+                      //   console.log(lectureNum);
+                      //   console.log(contentNum);
+                      //   add(i, "contentId", con.contentId);
+                    } //   console.log(pl.playlistId);
+                  });
+                // console.log(con.playlistId);
+              });
+          });
+      });
+    }
+  }, [classroomData]);
+
+  useEffect(() => {
+    // console.log(usedPlaylist);
+    // console.log(playlistData);
+    let idx = 0;
+    if (playlistData)
+      playlistData.map((playlist, i) => {
+        usedPlaylist.map((used, j) => {
+          if (used === playlist.playlistId) {
+            playlistData[i].used = 1;
+            add(i, "idx", idx);
+            idx++;
+            // console.log(add(i, "used", 1));
+            // console.log(playlistData[i]);
+          }
+        });
+      });
+  }, [
+    playlistData,
+    setPlaylistData,
+    setUpdatePlaylistTitle,
+    setSavedPlaylistName,
+    setVideoNum,
+    videoNum,
+    setSelectedVideo,
+    selectedVideo,
+    usedPlaylist,
+  ]);
   useEffect(() => {
     // console.log("playlist idx", videoNum);
-  }, [videoNum]);
+  }, [videoNum, setPlaylistData]);
   //   useEffect(() => {}, [managedClassroom]);
   useEffect(() => {
     const fetchMyPlaylists = async () => {
@@ -94,8 +217,10 @@ const Playlist = () => {
         );
         // console.log(response.data);
         setPlaylistData(response.data);
+
+        // console.log(playlistData);
       } catch (err) {
-        console.log("err >> ", err);
+        // console.log("err >> ", err);
       }
     };
     fetchMyPlaylists();
@@ -105,28 +230,28 @@ const Playlist = () => {
   }, [playlistData]);
 
   const handlePlaylistChange = (id) => {
-    console.log(typeof id);
+    // console.log(typeof id);
     id *= 1;
     let num = 0;
     for (let count = 0; count < playlistData.length; count++) {
-      console.log(typeof playlistData[count].playlistId);
+      //   console.log(typeof playlistData[count].playlistId);
 
       if (id === playlistData[count].playlistId) {
-        console.log("aaa");
+        // console.log("aaa");
         setSavedPlaylistName(playlistData[count].name);
-        console.log(playlistData[count].name);
+        // console.log(playlistData[count].name);
         break;
       }
       num++;
     }
-    console.log(num);
-    console.log("playlist data", playlistData[num].name);
+    // console.log(num);
+    // console.log("playlist data", playlistData[num].name);
     // console.log(selectedVideo);
     setSelectedVideo(playlistData[num].videos);
     // selectedVideo[Object.keys(selectedVideo).length - 1] ? setLastSeq(selectedVideo[Object.keys(selectedVideo).length - 1].seq) : setLastSeq(0);
     // console.log("lastSeq " + lastSeq);
-    if (selectedVideo)
-      selectedVideo.length ? (lastSeq = selectedVideo.length) : (lastSeq = 0);
+    // if (selectedVideo)
+    selectedVideo.length ? (lastSeq = selectedVideo.length) : (lastSeq = 0);
     setClickedVideo(playlistData[num].videos[0]);
     setPlaylistId(playlistData[num].playlistId);
     setSelectedPlaylist(playlistData[num].name);
@@ -134,20 +259,20 @@ const Playlist = () => {
     setIsSelected(true);
     setSearchMode(false);
     setPlaylistDuration(playlistData[num].totalDuration);
-    console.log(selectedVideo);
+    // console.log(selectedVideo);
     setIsClicked(false);
     window.sessionStorage.setItem("lastSeq", lastSeq);
     if (playlistData[num].videos.length == 0) {
       setIsEmpty(true);
-      console.log("is empty? === " + isEmpty);
+      //   console.log("is empty? === " + isEmpty);
     } else {
       setIsEmpty(false);
-      console.log("is empty? === " + isEmpty);
+      //   console.log("is empty? === " + isEmpty);
     }
   };
 
   const deletePlaylist = () => {
-    console.log(playlistId);
+    // console.log(playlistId);
 
     if (
       window.confirm(
@@ -179,8 +304,8 @@ const Playlist = () => {
   };
 
   const newTitleChange = (e) => {
-    console.log(updatePlaylistTitle);
-    console.log(savedPlaylistName);
+    // console.log(updatePlaylistTitle);
+    // console.log(savedPlaylistName);
     setSavedPlaylistName(e.target.value);
     setUpdatePlaylistTitle(e.target.value);
   };
@@ -195,10 +320,10 @@ const Playlist = () => {
       setSearchData(response.data);
       if (searchData.length == 0) setIsEmpty(true);
       else setIsEmpty(false);
-      console.log(isEmpty);
+      //   console.log(isEmpty);
       setSearched(true);
     } catch (err) {
-      console.log("err >> ", err);
+      //   console.log("err >> ", err);
     }
   };
 
@@ -277,9 +402,13 @@ const Playlist = () => {
                                 </>
                               ) : (
                                 <>
-                                  {updatePlaylistTitle
-                                    ? updatePlaylistTitle
-                                    : savedPlaylistName}
+                                  {isSelected ? (
+                                    <>
+                                      {updatePlaylistTitle
+                                        ? updatePlaylistTitle
+                                        : savedPlaylistName}
+                                    </>
+                                  ) : null}
                                   {/* {selectedPlaylist}
                                   <div class="d-flex text-start fs-6 fw-bold p-3 pb-0">
                                     총 비디오 개수&ensp;{":"}&ensp;
@@ -495,6 +624,11 @@ const Playlist = () => {
                       setIsActive={setIsActive}
                       setIsEmpty={setIsEmpty}
                       managedClassroom={managedClassroom}
+                      usedPlaylist={usedPlaylist}
+                      linkClass={linkClass}
+                      linkLecture={linkLecture}
+                      lectureNum={lectureNum}
+                      contentNum={contentNum}
                     />
                     {/* </Link> */}
                     {/* {isEditMode ? (
