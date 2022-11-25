@@ -5,7 +5,7 @@ class Youtube {
 
     // 검색어(query)를 던졌을때 돌아오는
     async search(query) {
-        console.log("in youtube.js : " + query);
+        // console.log("in youtube.js : " + query);
         const response = await this.youtube.get("search", {
             params: {
                 part: "snippet",
@@ -28,7 +28,7 @@ class Youtube {
                 .then((response3) => Object.assign(item, response3.data.items[0]))
         );
 
-        console.log("youtube.js: ");
+        // console.log("youtube.js: ");
         // console.log(response.data);
 
         return response.data;

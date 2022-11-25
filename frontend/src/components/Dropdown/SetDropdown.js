@@ -53,7 +53,7 @@ export default function SetDropdown(props) {
                 instructionId: userId,
             });
         }
-        console.log(updateClassRoomData);
+        // console.log(updateClassRoomData);
     };
 
     const handleSubmit = async () => {
@@ -229,7 +229,7 @@ export default function SetDropdown(props) {
                             <li>
                                 <button
                                     onClick={() => {
-                                        console.log(props.classRoomData.classId);
+                                        // console.log(props.classRoomData.classId);
                                         history.replace({
                                             pathname: "/learntube/course/manage",
                                             state: {

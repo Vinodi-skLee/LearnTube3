@@ -37,10 +37,10 @@ const ContentWidget = ({
     const [isContentLoading, setIsContentLoading] = useState(true);
 
     // console.log(videos[0]);
-    console.log(contentData);
-    console.log(contentId);
-    console.log(i);
-    console.log(j);
+    // console.log(contentData);
+    // console.log(contentId);
+    // console.log(i);
+    // console.log(j);
     useEffect(() => {
         if (contentData.id === contentId) setIsContentLoading(false);
     }, [contentData]);
@@ -97,8 +97,8 @@ const ContentWidget = ({
     };
 
     const handleVideo = () => {
-        console.log("end");
-        console.log(contentData.playlist.videos[videoNum + 1]);
+        // console.log("end");
+        // console.log(contentData.playlist.videos[videoNum + 1]);
         // selectVideo(contentData.playlist.videos[videoNum + 1]);
         if (contentData.playlist.videos.length != videoNum + 1) {
             setIsSelected(true);
@@ -115,16 +115,16 @@ const ContentWidget = ({
     const handleRepeat = () => {
         setRepeatVideo(!repeatVideo);
         setPlaying(true);
-        console.log(repeatVideo);
+        // console.log(repeatVideo);
     };
     const handleBigDisplay = () => {
         setIsBigDisplay(!isBigDisplay);
-        console.log(isBigDisplay);
+        // console.log(isBigDisplay);
     };
 
     function decodeHTML(words) {
         var decode = require("decode-html");
-        console.log(decode(words));
+        // console.log(decode(words));
         return decode(words);
     }
     // const nextLectureHandler = () => {
@@ -271,9 +271,9 @@ const ContentWidget = ({
                                                 <>
                                                     {contentData.playlist.videos ? (
                                                         <>
-                                                            {console.log(contentData)}
+                                                            {/* {console.log(contentData)} */}
                                                             <div>
-                                                                {console.log("index: " + j)}
+                                                                {/* {console.log("index: " + j)} */}
                                                                 <ReactPlayer
                                                                     url={`https://www.youtube.com/watch?v=${contentData.playlist.videos[videoNum].youtubeId}?start=${contentData.playlist.videos[videoNum].start_s}&end=${contentData.playlist.videos[videoNum].end_s}`}
                                                                     width={isBigDisplay ? (isPlaylistVisible ? "70%" : "100%") : "900px"}

@@ -43,16 +43,16 @@ const CourseContent = (props) => {
     const [contentNum, setContentNum] = useState(0);
     const [videoNum, setVideoNum] = useState(0);
     const [isBigDisplay, setIsBigDisplay] = useState(false);
-    console.log(lectures);
-    console.log(contentData);
-    console.log(contentId);
+    // console.log(lectures);
+    // console.log(contentData);
+    // console.log(contentId);
     useEffect(() => {
         // console.log(contentId);
         const fetchClassRoom = async () => {
             try {
                 const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/content?contentId=${contentId}`);
                 // console.log(res.data);
-                if(res.data) setContentData(res.data);
+                if (res.data) setContentData(res.data);
                 // console.log(contentData);
             } catch (err) {
                 console.log("err >> ", err);
@@ -85,7 +85,7 @@ const CourseContent = (props) => {
             setContentNum(0);
             setPlaying(false);
             setVideoNum(0);
-            console.log("nextLectureHandler", lectureNum);
+            // console.log("nextLectureHandler", lectureNum);
         }
     };
     return (
@@ -108,18 +108,22 @@ const CourseContent = (props) => {
                 className="pb-100 md-pb-10 gray-bg"
                 // style={{ backgroundColor: "#fff" }}
             >
-                <div className={isBigDisplay ? "p-3" : "container pt-10"} style={{minHeight: "600px"}}>
+                <div className={isBigDisplay ? "p-3" : "container pt-10"} style={{ minHeight: "600px" }}>
                     {/* <div className="justify-content-around align-items-center d-flex"> */}
-                    {isBigDisplay ? null : (<div className="d-flex" style={{width: "100%", borderBottom: "1px solid lightgray", margin: "10px", width: "100%"}}>
-                        <span style={{width: "100%", fontSize: "20px", marginBottom: "0px"}}>Course > {" " + contentData.contentName}</span>
-                        <span style={{width: "120px"}}>강의 ( {lectureNum} / {lectures.length} )</span>
-                    </div>)}
+                    {isBigDisplay ? null : (
+                        <div className="d-flex" style={{ width: "100%", borderBottom: "1px solid lightgray", margin: "10px", width: "100%" }}>
+                            <span style={{ width: "100%", fontSize: "20px", marginBottom: "0px" }}>Course > {" " + contentData.contentName}</span>
+                            <span style={{ width: "120px" }}>
+                                강의 ( {lectureNum} / {lectures.length} )
+                            </span>
+                        </div>
+                    )}
                     <div className="d-block">
                         {/* 이전 강의 버튼 */}
                         <div className=" md-mt-0">
-                            <ul 
-                                className={lectureNum != 1 ? "pagination-part border-0 lectureLeftBtn" : (isBigDisplay ?  "d-none" : "pagination-part border-0 lectureLeftBtn_disabled")}
-                                style={lectureNum != 1 ? {cursor: "pointer"} : null}
+                            <ul
+                                className={lectureNum != 1 ? "pagination-part border-0 lectureLeftBtn" : isBigDisplay ? "d-none" : "pagination-part border-0 lectureLeftBtn_disabled"}
+                                style={lectureNum != 1 ? { cursor: "pointer" } : null}
                             >
                                 {lectureNum != 1 ? (
                                     <>
@@ -180,15 +184,17 @@ const CourseContent = (props) => {
                             </div>
                         </div>{" "}
                         {/* 다음 강의 버튼 */}
-                        <span className={isBigDisplay? "d-none" : "shadow-none orange-color text-center md-mt-0 p-3"}>
+                        <span className={isBigDisplay ? "d-none" : "shadow-none orange-color text-center md-mt-0 p-3"}>
                             <ul
                                 className={
                                     lectureNum != lectures.length
                                         ? "pagination-part shadow-none border-0 lectureRightBtn"
                                         : // style={{ cursor: "pointer", backgroundColor: "#273857" }}
-                                          (isBigDisplay ?  "d-none" : "pagination-part shadow-none border-0 lectureRightBtn_disabled")
+                                        isBigDisplay
+                                        ? "d-none"
+                                        : "pagination-part shadow-none border-0 lectureRightBtn_disabled"
                                 }
-                                style={lectureNum + 1 != lectures.length ? {cursor: "pointer"} : null}
+                                style={lectureNum + 1 != lectures.length ? { cursor: "pointer" } : null}
                             >
                                 {/* <h>{(lectureNum, lectures.length)}</h> */}
                                 {lectureNum != lectures.length ? (
@@ -207,10 +213,7 @@ const CourseContent = (props) => {
                                     <>
                                         <li data-for="nextLectureBtnHover" data-tip style={{ backgroundColor: "fff" }}>
                                             {/* <GrNext size={15} color="#808080" /> */}
-                                            <i
-                                                className="fa fa-angle-right fa-lg"
-                                                style={{ color: "#fff" }}
-                                            ></i>
+                                            <i className="fa fa-angle-right fa-lg" style={{ color: "#fff" }}></i>
                                         </li>{" "}
                                         <ReactTooltip
                                             id="nextLectureBtnHover"

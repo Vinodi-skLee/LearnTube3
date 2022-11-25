@@ -37,7 +37,7 @@ const CreateContent = (props) => {
     };
 
     const handleChange = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
 
         //if(playlistOpen)
         setCreateContentData({
@@ -46,7 +46,7 @@ const CreateContent = (props) => {
             lectureId: props.lectureId,
         });
 
-        console.log(createContentData);
+        // console.log(createContentData);
     };
 
     const handlePlaylistChange = (e) => {
@@ -70,7 +70,7 @@ const CreateContent = (props) => {
                 "Content-Type": "application/json",
             },
         });
-        //.then((res) => console.log(res));
+        // .then((res) => console.log(res));
         openModal();
         window.location.reload();
     };

@@ -19,7 +19,7 @@ const YoutubeVideoListWidget = ({ videos, selectVideo, getToken, addVideoToCart,
 
     useEffect(
         function () {
-            console.log(cart);
+            // console.log(cart);
         },
         [cart]
     );

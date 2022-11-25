@@ -7,7 +7,7 @@ const DeleteNotice = (props) => {
     const i = props.i;
 
     const noticeDeleteHandler = (e) => {
-        console.log("notice id ", notices[e].id);
+        // console.log("notice id ", notices[e].id);
         let body = {
             noticeId: notices[e].id,
         };

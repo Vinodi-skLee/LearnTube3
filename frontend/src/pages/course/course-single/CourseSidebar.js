@@ -23,7 +23,7 @@ const CourseSidebar = (props) => {
             try {
                 const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/accepted-list?classId=${cid}`);
 
-                console.log("accepted: ", res.data);
+                // console.log("accepted: ", res.data);
                 setAccepted(res.data);
             } catch (err) {
                 console.log("err >> ", err);
@@ -85,9 +85,9 @@ const CourseSidebar = (props) => {
                             className="students-feature"
                             onClick={() => {
                                 setVisible(!visible);
-                                console.log(visible);
-                                console.log("userId", userId);
-                                console.log("props.userId", props.classRoomData.instructor.userId);
+                                // console.log(visible);
+                                // console.log("userId", userId);
+                                // console.log("props.userId", props.classRoomData.instructor.userId);
                             }}
                         >
                             <i className="fa fa-users"></i>

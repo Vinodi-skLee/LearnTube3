@@ -65,7 +65,7 @@ const YoutubeSearch = () => {
     const [isOpen, setIsOpen] = useState(false);
     //const [index, setIndex] = useState(Object.keys(existingVideo).length);
     const [isInPlaylist, setIsInPlaylist] = useState(lastSeq);
-    console.log("lastSeq === " + lastSeq);
+    // console.log("lastSeq === " + lastSeq);
     const [isStartModified, setIsStartModified] = useState(0);
     const [isEndModified, setIsEndModified] = useState(0);
     const [index, setIndex] = useState(lastSeq + 1);
@@ -133,7 +133,7 @@ const YoutubeSearch = () => {
         // console.log("video selected!!!");
         setSelectedVideo(video);
         setDuration(video.duration);
-        console.log("selectedVideo === " + selectedVideo);
+        // console.log("selectedVideo === " + selectedVideo);
         let time = [0, 0, 0];
         let remain = video.duration;
         for (const x in time) {
@@ -184,13 +184,13 @@ const YoutubeSearch = () => {
         }
         // console.log("sec: " + sec);
 
-        console.log("final: " + durationFloat);
+        // console.log("final: " + durationFloat);
 
         return durationFloat;
     }
 
     const savePart = (video) => {
-        console.log("video id : " + video.youtubeId);
+        // console.log("video id : " + video.youtubeId);
         var i = Object.keys(cart).find((key) => cart[key].seq === video.seq);
         if (cart[i] === undefined) {
             video.newTitle = newTitle ? newTitle : "";
@@ -259,7 +259,7 @@ const YoutubeSearch = () => {
         setIsChanged(true);
         window.alert("저장되었습니다.");
         for (const prop in cart) {
-            console.log("idx: " + cart[prop].seq);
+            // console.log("idx: " + cart[prop].seq);
         }
     };
 
@@ -275,7 +275,7 @@ const YoutubeSearch = () => {
         delete cart[i];
         delete newCart[youtubeId];
 
-        console.log("delete!");
+        // console.log("delete!");
         setIsChanged(true);
         setCart({ ...cart }); //setCart passes on a state change to the Cart component
         window.alert("삭제되었습니다.");
@@ -346,8 +346,8 @@ const YoutubeSearch = () => {
     };
 
     const onClickStartTime = (currentPlayTime, end_t) => {
-        console.log("scurrentFloatTime: " + currentFloatTime);
-        console.log("scurrentPlayTime: " + currentPlayTime);
+        // console.log("scurrentFloatTime: " + currentFloatTime);
+        // console.log("scurrentPlayTime: " + currentPlayTime);
         var t = endFloatTime ? endFloatTime : end_t;
         if (currentFloatTime > t) {
             window.alert("시작 시간을 종료 시간 이전으로 설정해주세요!");
@@ -359,8 +359,8 @@ const YoutubeSearch = () => {
     };
 
     const onClickEndTime = (currentPlayTime, start_t) => {
-        console.log("ecurrentFloatTime: " + currentFloatTime);
-        console.log("ecurrentPlayTime: " + currentPlayTime);
+        // console.log("ecurrentFloatTime: " + currentFloatTime);
+        // console.log("ecurrentPlayTime: " + currentPlayTime);
         var t = startFloatTime ? startFloatTime : start_t;
         if (currentFloatTime < t) {
             window.alert("종료 시간을 시작 시간 이전으로 설정해주세요!");
@@ -395,7 +395,7 @@ const YoutubeSearch = () => {
     };
 
     const printDuration = (time) => {
-        console.log("time === " + time);
+        // console.log("time === " + time);
         var h = "";
         var m = "";
         var s = "";

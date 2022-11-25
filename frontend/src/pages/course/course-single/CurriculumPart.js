@@ -34,11 +34,11 @@ const CurriculumPart = (props) => {
     let notices = props.classRoomData.notices;
     let history = useHistory();
 
-    console.log("isTakeCheck? " + props.classRoomData.isTake);
-    console.log("isWaiting? " + props.isWaiting);
+    // console.log("isTakeCheck? " + props.classRoomData.isTake);
+    // console.log("isWaiting? " + props.isWaiting);
 
     const isTakeCheck = (e) => {
-        if ((props.isWaiting == true || props.classRoomData.isTake === false)&& props.classRoomData.instructor.userId != userId) {
+        if ((props.isWaiting == true || props.classRoomData.isTake === false) && props.classRoomData.instructor.userId != userId) {
             alert("수강 신청이 필요합니다. ");
             e.preventDefault(); //to prevent the Link to action
         }
@@ -50,9 +50,9 @@ const CurriculumPart = (props) => {
             setIsOpen(isOpen);
             return;
         } else {
-            console.log(params);
+            // console.log(params);
             setNoticeIdx(params);
-            console.log(noticeIdx);
+            // console.log(noticeIdx);
         }
     };
 
@@ -60,10 +60,10 @@ const CurriculumPart = (props) => {
         const fetchContentData = async (contentId) => {
             try {
                 const res = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/content?contentId=${contentId}`);
-                console.log(res.data);
-                if(res.data){
-                    res.data.playlist ? contentVideoNum[contentId] = res.data.playlist.videos.length : contentVideoNum[contentId] = 0;
-                    setContentVideoNum({...contentVideoNum}, contentVideoNum[contentId]);
+                // console.log(res.data);
+                if (res.data) {
+                    res.data.playlist ? (contentVideoNum[contentId] = res.data.playlist.videos.length) : (contentVideoNum[contentId] = 0);
+                    setContentVideoNum({ ...contentVideoNum }, contentVideoNum[contentId]);
                     // console.log(contentData);
                 }
             } catch (err) {
@@ -73,11 +73,10 @@ const CurriculumPart = (props) => {
         props.classRoomData.lectures.map((lecture) => {
             lecture.contents.map((content) => {
                 fetchContentData(content.contentId);
-            })
-        })
-        console.log(contentVideoNum);
+            });
+        });
+        // console.log(contentVideoNum);
     }, []);
-    
 
     const createLecture = async (e) => {
         let body = {
@@ -153,25 +152,17 @@ const CurriculumPart = (props) => {
 
         var total = "";
 
-        if(hours != 0){
+        if (hours != 0) {
             total += hours;
-            if(minutes < 10)
-                total += ":0" + minutes;
-            else
-                total += ":" + minutes;
-            if(seconds < 10)
-                total += ":0" + seconds;
-            else
-                total += ":" + seconds;
-        }
-        else if(minutes != 0){
+            if (minutes < 10) total += ":0" + minutes;
+            else total += ":" + minutes;
+            if (seconds < 10) total += ":0" + seconds;
+            else total += ":" + seconds;
+        } else if (minutes != 0) {
             total += minutes;
-            if(seconds < 10)
-                total += ":0" + seconds;
-            else
-                total += ":" + seconds;
-        }
-        else total += seconds;
+            if (seconds < 10) total += ":0" + seconds;
+            else total += ":" + seconds;
+        } else total += seconds;
 
         return total;
 
@@ -193,14 +184,14 @@ const CurriculumPart = (props) => {
     const [indexOfLastPost, setIndexOfLastPost] = useState(currentpage * postPerPage);
     const [indexOfFirstPost, setIndexOfFirstPost] = useState(indexOfLastPost - postPerPage);
     const setPage = (e) => {
-        console.log("e " + e);
+        // console.log("e " + e);
         setNoticeState({
             start: e * 3 - 3,
             end: e * 3,
         });
         setNoticeIdx(0);
-        console.log("start" + noticeState.start);
-        console.log("end" + noticeState.end);
+        // console.log("start" + noticeState.start);
+        // console.log("end" + noticeState.end);
         if (!isLoading) setIsLoading(true);
         else setIsLoading(false);
         setCurrentpage(e);
@@ -529,79 +520,77 @@ const CurriculumPart = (props) => {
                                       <AccordionItemPanel className="card-body acc-content">
                                           {Array.isArray(props.classRoomData.lectures)
                                               ? props.classRoomData.lectures[i].contents.map((contents, j) => (
-                                                <>
-                                                    <div className="content">
-                                                        <div className="clearfix">
-                                                            <div className="pull-left">
-                                                                <Link
-                                                                    className="popup-videos play-icon"
-                                                                    to={{
-                                                                        pathname: "/learntube/content",
-                                                                        state: {
-                                                                            lectures: lectures,
-                                                                            classRoomData: props.classRoomData,
-                                                                            i: i,
-                                                                            j: j,
-                                                                        },
-                                                                    }}
-                                                                    onClick={isTakeCheck}
-                                                                >
-                                                                    <i className="fa fa-play"></i>
-                                                                    {contents.contentName}
-                                                                </Link>
-                                                            </div>
-                                                            <div className="pull-right">
-                                                                <div
-                                                                    className="minutes"
-                                                                    style={{
-                                                                        paddingTop: "10px",
-                                                                    }}
-                                                                >
-                                                                    {contents.closeDate ? (
-                                                                        <>
-                                                                            <span>영상 {contentVideoNum[props.classRoomData.lectures[i].contents[j].contentId]}개 | </span>
-                                                                            {
-                                                                                contents.playlistDuration
-                                                                                    ? toHHMMSS(contents.playlistDuration)
-                                                                                    : "-"
-                                                                                /* 마감일:
+                                                    <>
+                                                        <div className="content">
+                                                            <div className="clearfix">
+                                                                <div className="pull-left">
+                                                                    <Link
+                                                                        className="popup-videos play-icon"
+                                                                        to={{
+                                                                            pathname: "/learntube/content",
+                                                                            state: {
+                                                                                lectures: lectures,
+                                                                                classRoomData: props.classRoomData,
+                                                                                i: i,
+                                                                                j: j,
+                                                                            },
+                                                                        }}
+                                                                        onClick={isTakeCheck}
+                                                                    >
+                                                                        <i className="fa fa-play"></i>
+                                                                        {contents.contentName}
+                                                                    </Link>
+                                                                </div>
+                                                                <div className="pull-right">
+                                                                    <div
+                                                                        className="minutes"
+                                                                        style={{
+                                                                            paddingTop: "10px",
+                                                                        }}
+                                                                    >
+                                                                        {contents.closeDate ? (
+                                                                            <>
+                                                                                <span>영상 {contentVideoNum[props.classRoomData.lectures[i].contents[j].contentId]}개 | </span>
+                                                                                {
+                                                                                    contents.playlistDuration ? toHHMMSS(contents.playlistDuration) : "-"
+                                                                                    /* 마감일:
                                                                             {props.classRoomData.lectures[i].contents[j].closeDate.split("T")[0] +
                                                                                 " " +
                                                                                 props.classRoomData.lectures[i].contents[j].closeDate.split("T")[1].split(":")[0] +
                                                                                 ":" +
                                                                                 props.classRoomData.lectures[i].contents[j].closeDate.split("T")[1].split(":")[1]} */
-                                                                            }
-                                                                        </>
-                                                                    ) : (
-                                                                        <></>
-                                                                    )}
-                                                                    {props.classRoomData.instructor.userId === userId ? (
-                                                                        <>
-                                                                            <div className="pull-right">
-                                                                                <span
-                                                                                    onClick={() => {
-                                                                                        deleteContent(props.classRoomData.lectures[i].contents[j].contentId);
-                                                                                    }}
-                                                                                >
-                                                                                    <i
-                                                                                        className="fa fa-trash"
-                                                                                        style={{
-                                                                                            padding: "5px",
-                                                                                            zIndex: "0",
-                                                                                            cursor: "pointer",
+                                                                                }
+                                                                            </>
+                                                                        ) : (
+                                                                            <></>
+                                                                        )}
+                                                                        {props.classRoomData.instructor.userId === userId ? (
+                                                                            <>
+                                                                                <div className="pull-right">
+                                                                                    <span
+                                                                                        onClick={() => {
+                                                                                            deleteContent(props.classRoomData.lectures[i].contents[j].contentId);
                                                                                         }}
-                                                                                    ></i>
-                                                                                </span>
-                                                                            </div>
-                                                                            <div className="pull-right">
-                                                                                <UpdateContent content={props.classRoomData.lectures[i].contents[j]} userId={userId} />
-                                                                            </div>
-                                                                        </>
-                                                                    ) : null}
+                                                                                    >
+                                                                                        <i
+                                                                                            className="fa fa-trash"
+                                                                                            style={{
+                                                                                                padding: "5px",
+                                                                                                zIndex: "0",
+                                                                                                cursor: "pointer",
+                                                                                            }}
+                                                                                        ></i>
+                                                                                    </span>
+                                                                                </div>
+                                                                                <div className="pull-right">
+                                                                                    <UpdateContent content={props.classRoomData.lectures[i].contents[j]} userId={userId} />
+                                                                                </div>
+                                                                            </>
+                                                                        ) : null}
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
                                                     </>
                                                 ))
                                               : null}

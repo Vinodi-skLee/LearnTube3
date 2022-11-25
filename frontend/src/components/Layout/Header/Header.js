@@ -17,296 +17,252 @@ import { FaBell } from "react-icons/fa";
 import { Spinner } from "react-bootstrap";
 
 const Header = (props) => {
-  const {
-    headerClass,
-    parentMenu,
-    secondParentMenu,
-    activeMenu,
-    headerNormalLogo,
-    headerStickyLogo,
-    mobileNormalLogo,
-    mobileStickyLogo,
-    TopBar,
-    TopBarClass,
-    emailAddress,
-    phoneNumber,
-    Location,
-    CanvasLogo,
-    CanvasClass,
-  } = props;
-  const [menuOpen, setMenuOpen] = useState(false);
+    const {
+        headerClass,
+        parentMenu,
+        secondParentMenu,
+        activeMenu,
+        headerNormalLogo,
+        headerStickyLogo,
+        mobileNormalLogo,
+        mobileStickyLogo,
+        TopBar,
+        TopBarClass,
+        emailAddress,
+        phoneNumber,
+        Location,
+        CanvasLogo,
+        CanvasClass,
+    } = props;
+    const [menuOpen, setMenuOpen] = useState(false);
 
-  const [isVisible, setIsVisible] = useState(false);
-  const userId = window.sessionStorage.getItem("userId");
-  const [alarmVisible, setAlarmVisible] = useState(false);
-  const [newAlarm, setNewAlarm] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+    const userId = window.sessionStorage.getItem("userId");
+    const [alarmVisible, setAlarmVisible] = useState(false);
+    const [newAlarm, setNewAlarm] = useState(false);
 
-  // useEffect(() => {
-  //   // Sticky is displayed after scrolling for 100 pixels
-  //   const toggleVisibility = () => {
-  //     if (window.pageYOffset > 100) {
-  //       setIsVisible(true);
-  //     } else {
-  //       setIsVisible(false);
-  //     }
-  //   };
+    // useEffect(() => {
+    //   // Sticky is displayed after scrolling for 100 pixels
+    //   const toggleVisibility = () => {
+    //     if (window.pageYOffset > 100) {
+    //       setIsVisible(true);
+    //     } else {
+    //       setIsVisible(false);
+    //     }
+    //   };
 
-  //   window.addEventListener("scroll", toggleVisibility);
+    //   window.addEventListener("scroll", toggleVisibility);
 
-  //   return () => window.removeEventListener("scroll", toggleVisibility);
-  // }, []);
+    //   return () => window.removeEventListener("scroll", toggleVisibility);
+    // }, []);
 
-  const searchModalAdd = () => {
-    document.body.classList.add("modal-open");
-  };
+    const searchModalAdd = () => {
+        document.body.classList.add("modal-open");
+    };
 
-  const logout = () => {
-    window.sessionStorage.clear();
-    window.sessionStorage.removeItem("userId");
-    window.location.assign("/learntube");
-  };
+    const logout = () => {
+        window.sessionStorage.clear();
+        window.sessionStorage.removeItem("userId");
+        window.location.assign("/learntube");
+    };
 
-  const canvasMenuAdd = () => {
-    document.body.classList.add("nav-expanded");
-  };
+    const canvasMenuAdd = () => {
+        document.body.classList.add("nav-expanded");
+    };
 
-  const alarmExpand = () => {
-    setAlarmVisible(!alarmVisible);
-  };
+    const alarmExpand = () => {
+        setAlarmVisible(!alarmVisible);
+    };
 
-  const [waitList, setWaitList] = useState([]);
-  const [isWaiting, setIsWaiting] = useState(false);
-  const [managedClassroom, setManagedClassroom] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [index, setIndex] = useState(0);
-  let idx = 0;
+    const [waitList, setWaitList] = useState([]);
+    const [isWaiting, setIsWaiting] = useState(false);
+    const [managedClassroom, setManagedClassroom] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [index, setIndex] = useState(0);
+    let idx = 0;
 
-  const fetchManagesClassRoom = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/classroom/manages?userId=${userId}`
-      );
-      // await setManagedClassroom(response.data);
-      // console.log(response.data);
-      for (const prop in response.data) {
-        managedClassroom[prop] = response.data[prop];
-      }
-      // console.log(managedClassroom);
-    } catch (err) {
-      // console.log("err >> ", err);
-    }
-  };
-
-  const fetchWaitList = async (cid) => {
-    try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/classroom/wait-list?classId=${cid}`
-      );
-      for (const prop in response.data) {
-        waitList[idx] = response.data[prop];
-        waitList[idx]["classId"] = cid;
-        setNewAlarm(true);
-        setIsWaiting(true);
-        idx++;
-      }
-      setIndex(idx);
-      //window.sessionStorage.setItem("waitlist", JSON.stringify(waitList));
-    } catch (err) {
-      // console.log("err > ", err);
-    }
-  };
-
-  // function putclassId(cid) {
-  //     for (var i = 0; i < waitList.length; i++) {
-  //         waitList[i]["classId"] = cid;
-  //     }
-  //     setNewAlarm(true);
-  // }
-
-  useEffect(() => {
-    if (userId) {
-      fetchManagesClassRoom();
-      // console.log(managedClassroom);
-      setTimeout(() => {
-        if (managedClassroom) {
-          managedClassroom.map((classroom) => {
-            // console.log(classroom);
-            fetchWaitList(classroom.classId).then(() => {
-              // console.log(waitList);
-            });
-          });
-          setTimeout(() => {
-            setIsLoading(false);
-          }, 300);
-        }
-      }, 300);
-    }
-  }, [userId, waitList]);
-
-  // useEffect(() => {
-  //     const interval = setInterval(() => {
-  //         if (userId) {
-  //             fetchManagesClassRoom();
-  //             //  console.log(managedClassroom);
-  //             if (managedClassroom) {
-  //                 managedClassroom.map((classroom) => {
-  //                     //  console.log(classroom);
-  //                     fetchWaitList(classroom.classId).then(() => {
-  //                         //  console.log(waitList);
-  //                         setIsLoading(false);
-  //                         putclassId(classroom.classId);
-  //                     });
-  //                 });
-  //             }
-  //         }
-  //     }, 100000);
-  //     return () => clearInterval(interval);
-  // }, [waitList]);
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //      if (userId) {
-  //       fetchManagesClassRoom();
-  //       console.log(managedClassroom);
-  //         if(managedClassroom){
-  //             managedClassroom.map((classroom)=> {
-  //                 console.log(classroom);
-  //                 fetchWaitList(classroom.classId).then(() =>{
-  //                   console.log(waitList);
-  //                   setIsLoading(false);
-  //                   putclassId(classroom.classId);
-  //             });
-  //             })
-  //         }
-  //       }
-  //    }, 5000);
-  //    return () => clearInterval(interval);
-  // }, []);
-
-  // const alarmShrink = () => {
-  //   setAlarmVisible(false);
-  // }
-
-  return (
-    <React.Fragment>
-      <div
-        className={
-          headerClass ? headerClass : "full-width-header home8-style4 main-home"
-        }
-      >
-        <header id="rs-header" className="rs-header">
-          {TopBar ? (
-            <TopHeader
-              topBarClass={TopBarClass}
-              emailAddress={emailAddress}
-              phoneNumber={phoneNumber}
-              Location={Location}
-            />
-          ) : (
-            ""
-          )}
-
-          <div
-            className={
-              isVisible
-                ? "menu-area menu-sticky sticky"
-                : "menu-area menu-sticky"
+    const fetchManagesClassRoom = async () => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/manages?userId=${userId}`);
+            // await setManagedClassroom(response.data);
+            // console.log(response.data);
+            for (const prop in response.data) {
+                managedClassroom[prop] = response.data[prop];
             }
-            style={{ display: "flex", alignItems: "center", height: "60px" }}
-          >
-            <div className="container">
-              <div className="row y-middle">
-                <div className="col-lg-2">
-                  <div className="logo-area hidden-md">
-                    <Link to="/learntube/">
-                      <img
-                        className="normal-logo"
-                        src={headerNormalLogo ? headerNormalLogo : normalLogo}
-                        alt=""
-                      />
-                      <img
-                        className="sticky-logo"
-                        src={headerStickyLogo ? headerStickyLogo : darkLogo}
-                        alt=""
-                      />
-                    </Link>
-                  </div>
-                </div>
-                <div className="col-lg-7 text-start">
-                  <div className="rs-menu-area">
-                    <div className="main-menu">
-                      <div className="mobile-menu md-display-block">
-                        <Link to="/learntube/" className="mobile-normal-logo">
-                          <img
-                            className="normal-logo"
-                            src={
-                              mobileNormalLogo ? mobileNormalLogo : normalLogo
-                            }
-                            alt=""
-                          />
-                        </Link>
-                        <Link to="/learntube/" className="mobile-sticky-logo">
-                          <img
-                            src={mobileNormalLogo ? mobileNormalLogo : darkLogo}
-                            alt="logo"
-                          />
-                        </Link>
-                        <div>
-                          <Link
-                            to="#"
-                            className="rs-menu-toggle"
-                            onClick={() => {
-                              setMenuOpen(!menuOpen);
-                            }}
-                          >
-                            <i className="fa fa-bars"></i>
-                          </Link>
-                          <ul
-                            className="expand-items"
-                            style={{ float: "right" }}
-                          >
-                            <li>
-                              {userId ? (
-                                <button
-                                  id="logoutBtn"
-                                  onClick={logout}
-                                  className="loginbtn btn display-4 mr-30 mb-10 mt-10"
-                                  style={{
-                                    backgroundColor: "#eeeeee",
-                                    color: "#273857",
-                                  }}
-                                >
-                                  로그아웃
-                                </button>
-                              ) : (
-                                <Login />
-                              )}
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <nav className="rs-menu hidden-md text-start">
-                        <ul className="nav-menu">
-                          <MenuItems
-                            parentMenu={parentMenu}
-                            // secondParentMenu={secondParentMenu}
-                            // activeMenu={activeMenu}
-                          />{" "}
-                        </ul>{" "}
-                        {/* <span className="ml-190">
+            // console.log(managedClassroom);
+        } catch (err) {
+            // console.log("err >> ", err);
+        }
+    };
+
+    const fetchWaitList = async (cid) => {
+        try {
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/api/classroom/wait-list?classId=${cid}`);
+            for (const prop in response.data) {
+                waitList[idx] = response.data[prop];
+                waitList[idx]["classId"] = cid;
+                setNewAlarm(true);
+                setIsWaiting(true);
+                idx++;
+            }
+            setIndex(idx);
+            //window.sessionStorage.setItem("waitlist", JSON.stringify(waitList));
+        } catch (err) {
+            // console.log("err > ", err);
+        }
+    };
+
+    // function putclassId(cid) {
+    //     for (var i = 0; i < waitList.length; i++) {
+    //         waitList[i]["classId"] = cid;
+    //     }
+    //     setNewAlarm(true);
+    // }
+
+    useEffect(() => {
+        if (userId) {
+            fetchManagesClassRoom();
+            // console.log(managedClassroom);
+            setTimeout(() => {
+                if (managedClassroom) {
+                    managedClassroom.map((classroom) => {
+                        // console.log(classroom);
+                        fetchWaitList(classroom.classId).then(() => {
+                            // console.log(waitList);
+                        });
+                    });
+                    setTimeout(() => {
+                        setIsLoading(false);
+                    }, 300);
+                }
+            }, 300);
+        }
+    }, [userId, waitList]);
+
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         if (userId) {
+    //             fetchManagesClassRoom();
+    //             //  console.log(managedClassroom);
+    //             if (managedClassroom) {
+    //                 managedClassroom.map((classroom) => {
+    //                     //  console.log(classroom);
+    //                     fetchWaitList(classroom.classId).then(() => {
+    //                         //  console.log(waitList);
+    //                         setIsLoading(false);
+    //                         putclassId(classroom.classId);
+    //                     });
+    //                 });
+    //             }
+    //         }
+    //     }, 100000);
+    //     return () => clearInterval(interval);
+    // }, [waitList]);
+
+    // useEffect(() => {
+    //   const interval = setInterval(() => {
+    //      if (userId) {
+    //       fetchManagesClassRoom();
+    //       console.log(managedClassroom);
+    //         if(managedClassroom){
+    //             managedClassroom.map((classroom)=> {
+    //                 console.log(classroom);
+    //                 fetchWaitList(classroom.classId).then(() =>{
+    //                   console.log(waitList);
+    //                   setIsLoading(false);
+    //                   putclassId(classroom.classId);
+    //             });
+    //             })
+    //         }
+    //       }
+    //    }, 5000);
+    //    return () => clearInterval(interval);
+    // }, []);
+
+    // const alarmShrink = () => {
+    //   setAlarmVisible(false);
+    // }
+
+    return (
+        <React.Fragment>
+            <div className={headerClass ? headerClass : "full-width-header home8-style4 main-home"}>
+                <header id="rs-header" className="rs-header">
+                    {TopBar ? <TopHeader topBarClass={TopBarClass} emailAddress={emailAddress} phoneNumber={phoneNumber} Location={Location} /> : ""}
+
+                    <div className={isVisible ? "menu-area menu-sticky sticky" : "menu-area menu-sticky"} style={{ display: "flex", alignItems: "center", height: "60px" }}>
+                        <div className="container">
+                            <div className="row y-middle">
+                                <div className="col-lg-2">
+                                    <div className="logo-area hidden-md">
+                                        <Link to="/learntube/">
+                                            <img className="normal-logo" src={headerNormalLogo ? headerNormalLogo : normalLogo} alt="" />
+                                            <img className="sticky-logo" src={headerStickyLogo ? headerStickyLogo : darkLogo} alt="" />
+                                        </Link>
+                                    </div>
+                                </div>
+                                <div className="col-lg-7 text-start">
+                                    <div className="rs-menu-area">
+                                        <div className="main-menu">
+                                            <div className="mobile-menu md-display-block">
+                                                <Link to="/learntube/" className="mobile-normal-logo">
+                                                    <img className="normal-logo" src={mobileNormalLogo ? mobileNormalLogo : normalLogo} alt="" />
+                                                </Link>
+                                                <Link to="/learntube/" className="mobile-sticky-logo">
+                                                    <img src={mobileNormalLogo ? mobileNormalLogo : darkLogo} alt="logo" />
+                                                </Link>
+                                                <div>
+                                                    <Link
+                                                        to="#"
+                                                        className="rs-menu-toggle"
+                                                        onClick={() => {
+                                                            setMenuOpen(!menuOpen);
+                                                        }}
+                                                    >
+                                                        <i className="fa fa-bars"></i>
+                                                    </Link>
+                                                    <ul className="expand-items" style={{ float: "right" }}>
+                                                        <li>
+                                                            {userId ? (
+                                                                <button
+                                                                    id="logoutBtn"
+                                                                    onClick={logout}
+                                                                    className="loginbtn btn display-4 mr-30 mb-10 mt-10"
+                                                                    style={{
+                                                                        backgroundColor: "#eeeeee",
+                                                                        color: "#273857",
+                                                                    }}
+                                                                >
+                                                                    로그아웃
+                                                                </button>
+                                                            ) : (
+                                                                <Login />
+                                                            )}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <nav className="rs-menu hidden-md text-start">
+                                                <ul className="nav-menu">
+                                                    <MenuItems
+                                                        parentMenu={parentMenu}
+                                                        // secondParentMenu={secondParentMenu}
+                                                        // activeMenu={activeMenu}
+                                                    />{" "}
+                                                </ul>{" "}
+                                                {/* <span className="ml-190">
                           <Login />{" "}
                         </span> */}
-                      </nav>{" "}
-                    </div>{" "}
-                  </div>{" "}
-                </div>
+                                            </nav>{" "}
+                                        </div>{" "}
+                                    </div>{" "}
+                                </div>
 
-                <div className="col-lg-3 relative text-end hidden-md">
-                  <div className="expand-btn-inner search-icon">
-                    {/* 원래 로그인 헤더 위치 */}
-                    {userId ? null : <Login />}
-                    <ul className="expand-items">
-                      {/* <li className="sidebarmenu-search">
+                                <div className="col-lg-3 relative text-end hidden-md">
+                                    <div className="expand-btn-inner search-icon">
+                                        {/* 원래 로그인 헤더 위치 */}
+                                        {userId ? null : <Login />}
+                                        <ul className="expand-items">
+                                            {/* <li className="sidebarmenu-search">
                         <Link
                           to="#"
                           onClick={searchModalAdd}
@@ -317,120 +273,93 @@ const Header = (props) => {
                           <i className="flaticon-search"></i>
                         </Link>
                       </li> */}
-                      <li>
-                        {/* <a
+                                            <li>
+                                                {/* <a
                           onClick={canvasMenuAdd}
                           id="nav-expander"
                           className="nav-expander"
                           href="#"
                         > */}
-                        <div className="d-flex">
-                          <div>
-                            {userId ? (
-                              newAlarm ? (
-                                <>
-                                  <div className="new-alarm">{index}</div>
-                                  <FaBell
-                                    className="alarmbtn mr-10"
-                                    size="24"
-                                  />
-                                </>
-                              ) : (
-                                <FaBell className="alarmbtn mr-10" size="24" />
-                              )
-                            ) : null}
+                                                <div className="d-flex">
+                                                    <div>
+                                                        {userId ? (
+                                                            newAlarm ? (
+                                                                <>
+                                                                    <div className="new-alarm">{index}</div>
+                                                                    <FaBell className="alarmbtn mr-10" size="24" />
+                                                                </>
+                                                            ) : (
+                                                                <FaBell className="alarmbtn mr-10" size="24" />
+                                                            )
+                                                        ) : null}
 
-                            {isLoading ? (
-                              <div className="alarm-dropdown">
-                                <div
-                                  class="text-center"
-                                  style={{ marginTop: "10%", height: "5rem" }}
-                                >
-                                  <Spinner
-                                    animation="grow"
-                                    variant="secondary"
-                                    style={{ width: "2rem", height: "2rem" }}
-                                  />
-                                </div>
-                              </div>
-                            ) : (
-                              <div className="alarm-dropdown">
-                                {isWaiting ? (
-                                  waitList.map((waiting, i) => (
-                                    <div
-                                      className="alarm-border"
-                                      style={{
-                                        textAlign: "left",
-                                        padding: "5px 15px",
-                                      }}
-                                      onClick={() => setNewAlarm(false)}
-                                    >
-                                      <Link
-                                        to={{
-                                          pathname: `/learntube/course/manage`,
-                                          state: {
-                                            classId: waiting.classId,
-                                          },
-                                        }}
-                                        style={{
-                                          color: "black",
-                                        }}
-                                      >
-                                        {waiting.username +
-                                          " 님께서 수강신청하셨습니다."}
-                                      </Link>
-                                      {console.log(waitList)}
-                                    </div>
-                                  ))
-                                ) : (
-                                  <div
-                                    style={{
-                                      textAlign: "left",
-                                      padding: "10px 15px",
-                                      color: "gray",
-                                    }}
-                                  >
-                                    새로운 알림이 없습니다.
-                                  </div>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                          <div>
-                            {userId ? (
-                              <BsFillPersonFill
-                                onMouseOver={canvasMenuAdd}
-                                size="24"
-                                style={{ color: "white" }}
-                              />
-                            ) : null}
-                          </div>
-                        </div>
+                                                        {isLoading ? (
+                                                            <div className="alarm-dropdown">
+                                                                <div class="text-center" style={{ marginTop: "10%", height: "5rem" }}>
+                                                                    <Spinner animation="grow" variant="secondary" style={{ width: "2rem", height: "2rem" }} />
+                                                                </div>
+                                                            </div>
+                                                        ) : (
+                                                            <div className="alarm-dropdown">
+                                                                {isWaiting ? (
+                                                                    waitList.map((waiting, i) => (
+                                                                        <div
+                                                                            className="alarm-border"
+                                                                            style={{
+                                                                                textAlign: "left",
+                                                                                padding: "5px 15px",
+                                                                            }}
+                                                                            onClick={() => setNewAlarm(false)}
+                                                                        >
+                                                                            <Link
+                                                                                to={{
+                                                                                    pathname: `/learntube/course/manage`,
+                                                                                    state: {
+                                                                                        classId: waiting.classId,
+                                                                                    },
+                                                                                }}
+                                                                                style={{
+                                                                                    color: "black",
+                                                                                }}
+                                                                            >
+                                                                                {waiting.username + " 님께서 수강신청하셨습니다."}
+                                                                            </Link>
+                                                                            {/* {console.log(waitList)} */}
+                                                                        </div>
+                                                                    ))
+                                                                ) : (
+                                                                    <div
+                                                                        style={{
+                                                                            textAlign: "left",
+                                                                            padding: "10px 15px",
+                                                                            color: "gray",
+                                                                        }}
+                                                                    >
+                                                                        새로운 알림이 없습니다.
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <div>{userId ? <BsFillPersonFill onMouseOver={canvasMenuAdd} size="24" style={{ color: "white" }} /> : null}</div>
+                                                </div>
 
-                        {/* <span className="dot1"></span>
+                                                {/* <span className="dot1"></span>
                           <span className="dot2"></span>
                           <span className="dot3"></span> */}
-                        {/* </a> */}
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                                                {/* </a> */}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-          <RSMobileMenu
-            menuOpen={menuOpen}
-            setMenuOpen={setMenuOpen}
-            parentMenu={parentMenu}
-            secondParentMenu={secondParentMenu}
-          />
-          <div
-            onClick={() => setMenuOpen(false)}
-            className={menuOpen ? "body-overlay show" : "body-overlay"}
-          ></div>
-        </header>
-        {/* {alarmVisible ? (
+                    <RSMobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} parentMenu={parentMenu} secondParentMenu={secondParentMenu} />
+                    <div onClick={() => setMenuOpen(false)} className={menuOpen ? "body-overlay show" : "body-overlay"}></div>
+                </header>
+                {/* {alarmVisible ? (
                     <div style={{ display: "block", position: "absolute", right: "19%", width: "350px", background: "white", border: "1px solid gray", borderBottom: "none", zIndex: "999" }}>
                         <ul
                             style={{
@@ -467,17 +396,10 @@ const Header = (props) => {
                         </ul>
                     </div>
                 ) : null} */}
-        <CanvasMenu
-          canvasClass={
-            CanvasClass
-              ? CanvasClass
-              : "right_menu_togle orange_color hidden-md"
-          }
-          canvasLogo={CanvasLogo ? CanvasLogo : darkLogo}
-        />
-      </div>
-    </React.Fragment>
-  );
+                <CanvasMenu canvasClass={CanvasClass ? CanvasClass : "right_menu_togle orange_color hidden-md"} canvasLogo={CanvasLogo ? CanvasLogo : darkLogo} />
+            </div>
+        </React.Fragment>
+    );
 };
 
 export default Header;

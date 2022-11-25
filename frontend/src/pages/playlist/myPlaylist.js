@@ -22,7 +22,7 @@ const MyPlaylist = () => {
 
     const selectPlaylist = (playlist) => {
         setSelectedPlaylist(playlist);
-        console.log(selectedPlaylist);
+        // console.log(selectedPlaylist);
     };
 
     return (

@@ -50,7 +50,7 @@ const CreateNotice = (props) => {
                 })
                 .then((res) => console.log(res));
 
-            console.log("create!!");
+            // console.log("create!!");
             window.location.reload();
         };
         async();

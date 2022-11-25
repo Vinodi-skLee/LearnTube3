@@ -16,12 +16,12 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
 
     useEffect(() => {
         for (const prop in cart) {
-            console.log(cart[prop].seq);
+            // console.log(cart[prop].seq);
             let tempJson = JSON.stringify(cart[prop]);
             tempArray.push(tempJson);
             setCartList(tempArray);
         }
-        console.log("cart updated!!!!");
+        // console.log("cart updated!!!!");
     }, [cart]);
 
     useEffect(function () {
@@ -32,7 +32,7 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
     //한번 로드 후 삭제로 인해 바뀔때 사용하는 useEffect
     useEffect(
         function () {
-            console.log(isDeleted);
+            // console.log(isDeleted);
             setIsDeleted(false);
         },
         [isDeleted]
@@ -75,10 +75,10 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
     };
 
     const saveCart = async () => {
-        console.log("cartList === " + cartList);
+        // console.log("cartList === " + cartList);
         for (let temp in cartList) {
             let obj = JSON.parse(cartList[temp]);
-            console.log("cartList === " + obj);
+            // console.log("cartList === " + obj);
             if (obj.id === -1) {
                 let createRequest = {
                     playlistId: obj.playlistId,

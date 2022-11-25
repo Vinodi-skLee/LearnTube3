@@ -23,7 +23,7 @@ const BannerStyleFour = ({ onGoogleLogin }) => {
     const clientId = "485474785684-amktf48tlk2utjc83ttboi2dlftm1280.apps.googleusercontent.com";
 
     const onSuccess = async (response) => {
-        console.log(response);
+        // console.log(response);
 
         const {
             googleId,
@@ -39,7 +39,7 @@ const BannerStyleFour = ({ onGoogleLogin }) => {
     };
 
     const onFailure = (error) => {
-        console.log(error);
+        // console.log(error);
     };
 
     return (
