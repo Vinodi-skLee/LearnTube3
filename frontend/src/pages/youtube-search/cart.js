@@ -185,7 +185,7 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                                                         <div
                                                             key={`video-${video.seq}`}
                                                             className="d-flex mt-10 mb-10 col-md-2 justify-content-start"
-                                                            style={video.seq == lastSeq - 1 ? { width: "180px", height: "200px", borderRight: "3px solid gray" } : { width: "180px", height: "200px" }}
+                                                            style={video.seq == lastSeq ? { width: "180px", height: "200px", borderRight: "3px solid gray" } : { width: "180px", height: "200px" }}
                                                         >
                                                             <div style={{ position: "relative", width: "100%" }}>
                                                                 <div className="d-flex flex-wrap justify-content-start align-items-center">
