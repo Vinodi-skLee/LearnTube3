@@ -26,12 +26,12 @@ const BannerStyleTwo = () => {
                                 <div className="banner-desc white-color">Every act of conscious learning requires the willingness to suffer an injury to one’s self-esteem.</div>
                                 <ul className="banner-btn">
                                     <li>
-                                        <Link className="readon3" to="/learntube/about">
+                                        <Link className="readon3" to="/about">
                                             Get Started
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link className="readon3 active" to="/learntube/about">
+                                        <Link className="readon3 active" to="/about">
                                             Read More
                                         </Link>
                                     </li>

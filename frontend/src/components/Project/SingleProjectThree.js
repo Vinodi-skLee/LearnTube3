@@ -4,7 +4,7 @@ const SingleProjectThree = (props) => {
     return (
         <div className={props.itemClass}>
             <div className="project-img">
-                <Link to="/learntube/case-study/style-1">
+                <Link to="/case-study/style-1">
                     <img src={props.projectImage} alt={props.Title} />
                 </Link>
             </div>
@@ -13,7 +13,7 @@ const SingleProjectThree = (props) => {
                     <Link to="#">{props.Category}</Link>
                 </p>
                 <h3 className="title mb-0">
-                    <Link to="/learntube/case-study/style-1">{props.Title}</Link>
+                    <Link to="/case-study/style-1">{props.Title}</Link>
                 </h3>
             </div>
         </div>

@@ -53,12 +53,12 @@ const HeaderStyleThree = (props) => {
 
                     <div className={isVisible ? "menu-area menu-sticky sticky" : "menu-area menu-sticky"}>
                         <div className="logo-part hidden-md">
-                            <Link to="/learntube/">
+                            <Link to="/">
                                 <a className="light-logo">
                                     <img src={headerNormalLogo ? headerNormalLogo : normalLogo} alt="" />
                                 </a>
                             </Link>
-                            <Link to="/learntube/">
+                            <Link to="/">
                                 <a className="small-logo">
                                     <img src={headerNormalLogo ? headerNormalLogo : normalLogo} alt="" />
                                 </a>
@@ -73,16 +73,16 @@ const HeaderStyleThree = (props) => {
                                     <div className="cat-menu-inner">
                                         <ul id="cat-menu">
                                             <li>
-                                                <Link to="/learntube/course-categories">Category 1</Link>
+                                                <Link to="/course-categories">Category 1</Link>
                                             </li>
                                             <li>
-                                                <Link to="/learntube/course-categories">Category 2</Link>
+                                                <Link to="/course-categories">Category 2</Link>
                                             </li>
                                             <li>
-                                                <Link to="/learntube/course-categories">Category 3</Link>
+                                                <Link to="/course-categories">Category 3</Link>
                                             </li>
                                             <li>
-                                                <Link to="/learntube/course-categories">Category 4</Link>
+                                                <Link to="/course-categories">Category 4</Link>
                                             </li>
                                         </ul>
                                     </div>
@@ -91,10 +91,10 @@ const HeaderStyleThree = (props) => {
                             <div className="rs-menu-area">
                                 <div className="main-menu">
                                     <div className="mobile-menu md-display-block">
-                                        <Link to="/learntube/" className="mobile-normal-logo">
+                                        <Link to="/" className="mobile-normal-logo">
                                             <img className="normal-logo" src={mobileNormalLogo ? mobileNormalLogo : normalLogo} alt="" />
                                         </Link>
-                                        <Link to="/learntube/" className="mobile-sticky-logo">
+                                        <Link to="/" className="mobile-sticky-logo">
                                             <img src={darkLogo} alt="logo" />
                                         </Link>
                                         <a
@@ -129,12 +129,12 @@ const HeaderStyleThree = (props) => {
                                                                 </Link>
                                                             </div>
                                                             <div className="product-info">
-                                                                <Link to="/learntube/shop/cart">Law Book</Link>
+                                                                <Link to="/shop/cart">Law Book</Link>
                                                                 <br />
                                                                 <span className="quantity">1 × $30.00</span>
                                                             </div>
                                                             <div className="product-image">
-                                                                <Link to="/learntube/shop/cart">
+                                                                <Link to="/shop/cart">
                                                                     <img src={productImg1} alt="Product Image" />
                                                                 </Link>
                                                             </div>
@@ -146,12 +146,12 @@ const HeaderStyleThree = (props) => {
                                                                 </Link>
                                                             </div>
                                                             <div className="product-info">
-                                                                <Link to="/learntube/shop/cart">Spirit Level</Link>
+                                                                <Link to="/shop/cart">Spirit Level</Link>
                                                                 <br />
                                                                 <span className="quantity">1 × $30.00</span>
                                                             </div>
                                                             <div className="product-image">
-                                                                <Link to="/learntube/shop/cart">
+                                                                <Link to="/shop/cart">
                                                                     <img src={productImg2} alt="Product Image" />
                                                                 </Link>
                                                             </div>
@@ -164,10 +164,10 @@ const HeaderStyleThree = (props) => {
                                                     </div>
 
                                                     <div className="cart-btn text-center">
-                                                        <Link className="crt-btn btn1" to="/learntube/shop/cart">
+                                                        <Link className="crt-btn btn1" to="/shop/cart">
                                                             View Cart
                                                         </Link>
-                                                        <Link className="crt-btn btn2" to="/learntube/shop/checkout">
+                                                        <Link className="crt-btn btn2" to="/shop/checkout">
                                                             Check Out
                                                         </Link>
                                                     </div>
@@ -180,7 +180,7 @@ const HeaderStyleThree = (props) => {
                                             </a>
                                         </li>
                                         <li>
-                                            <Link className="apply-btn" to="/learntube/contact">
+                                            <Link className="apply-btn" to="/contact">
                                                 Apply Now
                                             </Link>
                                         </li>

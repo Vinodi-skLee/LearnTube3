@@ -527,7 +527,7 @@ const CurriculumPart = (props) => {
                                                                     <Link
                                                                         className="popup-videos play-icon"
                                                                         to={{
-                                                                            pathname: "/learntube/content",
+                                                                            pathname: "/content",
                                                                             state: {
                                                                                 lectures: lectures,
                                                                                 classRoomData: props.classRoomData,

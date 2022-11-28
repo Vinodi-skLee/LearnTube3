@@ -6,7 +6,7 @@ const CategoriesSingle = (props) => {
     return (
         <div className={itemClass}>
             <div className="cate-images">
-                <Link to={catLink ? catLink : "/learntube/course-categories"}>
+                <Link to={catLink ? catLink : "/course-categories"}>
                     <img src={image} alt={title} />
                 </Link>
             </div>
@@ -16,13 +16,13 @@ const CategoriesSingle = (props) => {
                 </div>
                 <div className="content-wrap">
                     <h2 className="title">
-                        <Link to={catLink ? catLink : "/learntube/course-categories"}>{title}</Link>
+                        <Link to={catLink ? catLink : "/course-categories"}>{title}</Link>
                     </h2>
                     <span className="course-qnty">{quantity}</span>
                     {btnText ? (
                         <>
                             <div className="btn2">
-                                <Link to={catLink ? catLink : "/learntube/course-categories"}>{btnText}</Link>
+                                <Link to={catLink ? catLink : "/course-categories"}>{btnText}</Link>
                             </div>
                         </>
                     ) : (

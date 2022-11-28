@@ -14,12 +14,12 @@ const RecentPost = () => {
             <h3 className="widget-title">Recent Posts</h3>
             <div className="show-featured">
                 <div className="post-img">
-                    <Link to="/learntube/blog/single-post-right-sidebar">
+                    <Link to="/blog/single-post-right-sidebar">
                         <img src={thumb1} alt="" />
                     </Link>
                 </div>
                 <div className="post-desc">
-                    <Link to="/learntube/blog/single-post-right-sidebar">Covid-19 threats the generation</Link>
+                    <Link to="/blog/single-post-right-sidebar">Covid-19 threats the generation</Link>
                     <span className="date">
                         <i className="fa fa-calendar"></i>
                         April 6, 2020
@@ -28,12 +28,12 @@ const RecentPost = () => {
             </div>
             <div className="show-featured">
                 <div className="post-img">
-                    <Link to="/learntube/blog/single-post-right-sidebar">
+                    <Link to="/blog/single-post-right-sidebar">
                         <img src={thumb2} alt="" />
                     </Link>
                 </div>
                 <div className="post-desc">
-                    <Link to="/learntube/blog/single-post-right-sidebar">Soundtrack filma Exclusive Music</Link>
+                    <Link to="/blog/single-post-right-sidebar">Soundtrack filma Exclusive Music</Link>
                     <span className="date">
                         <i className="fa fa-calendar"></i>
                         April 6, 2020
@@ -42,12 +42,12 @@ const RecentPost = () => {
             </div>
             <div className="show-featured">
                 <div className="post-img">
-                    <Link to="/learntube/blog/single-post-right-sidebar">
+                    <Link to="/blog/single-post-right-sidebar">
                         <img src={thumb3} alt="" />
                     </Link>
                 </div>
                 <div className="post-desc">
-                    <Link to="/learntube/blog/single-post-right-sidebar">Soundtrack filma Exclusive Music</Link>
+                    <Link to="/blog/single-post-right-sidebar">Soundtrack filma Exclusive Music</Link>
                     <span className="date">
                         <i className="fa fa-calendar"></i>
                         April 6, 2020
@@ -56,12 +56,12 @@ const RecentPost = () => {
             </div>
             <div className="show-featured">
                 <div className="post-img">
-                    <Link to="/learntube/blog/single-post-right-sidebar">
+                    <Link to="/blog/single-post-right-sidebar">
                         <img src={thumb4} alt="" />
                     </Link>
                 </div>
                 <div className="post-desc">
-                    <Link to="/learntube/blog/single-post-right-sidebar">Given void great you’re good</Link>
+                    <Link to="/blog/single-post-right-sidebar">Given void great you’re good</Link>
                     <span className="date">
                         <i className="fa fa-calendar"></i>
                         April 6, 2020
@@ -70,12 +70,12 @@ const RecentPost = () => {
             </div>
             <div className="show-featured">
                 <div className="post-img">
-                    <Link to="/learntube/blog/single-post-right-sidebar">
+                    <Link to="/blog/single-post-right-sidebar">
                         <img src={thumb5} alt="" />
                     </Link>
                 </div>
                 <div className="post-desc">
-                    <Link to="/learntube/blog/single-post-right-sidebar">Lights winged seasons fish</Link>
+                    <Link to="/blog/single-post-right-sidebar">Lights winged seasons fish</Link>
                     <span className="date">
                         <i className="fa fa-calendar"></i>
                         April 6, 2020

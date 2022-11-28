@@ -73,7 +73,7 @@ const AboutWork = () => {
                             />
                             {/* Section Title End */}
                             <div className="btn-part" data-aos="fade-up" data-aos-duration="1200">
-                                <Link className="readon2" to="/learntube/course">
+                                <Link className="readon2" to="/course">
                                     둘러보기
                                 </Link>
                             </div>

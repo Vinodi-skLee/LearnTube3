@@ -5,13 +5,13 @@ const SinglePostSix = (props) => {
     return (
         <div className={blogClass ? blogClass : "blog-item"}>
             <div className="blog-img">
-                <Link to="/learntube/blog/single-post-right-sidebar">
+                <Link to="/blog/single-post-right-sidebar">
                     <img src={blogImage} alt={blogTitle} />
                 </Link>
             </div>
             <div className="blog-content">
                 <h3 className="blog-title">
-                    <Link to="/learntube/blog/single-post-right-sidebar">{blogTitle ? blogTitle : "University while the lovely valley team work"}</Link>
+                    <Link to="/blog/single-post-right-sidebar">{blogTitle ? blogTitle : "University while the lovely valley team work"}</Link>
                 </h3>
                 <div className="blog-meta">
                     <ul className="btm-cate">
@@ -28,7 +28,7 @@ const SinglePostSix = (props) => {
                         <li>
                             <div className="tag-line">
                                 <i className="fa fa-book"></i>
-                                <Link to="/learntube/blog">{blogCategory ? blogCategory : "University"}</Link>
+                                <Link to="/blog">{blogCategory ? blogCategory : "University"}</Link>
                             </div>
                         </li>
                     </ul>
@@ -39,7 +39,7 @@ const SinglePostSix = (props) => {
                         : "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam... "}
                 </div>
                 <div className={blogButtonClass ? blogButtonClass : "blog-button"}>
-                    <Link to="/learntube/blog/single-post-right-sidebar" className="blog-btn">
+                    <Link to="/blog/single-post-right-sidebar" className="blog-btn">
                         {blogButtonText ? blogButtonText : "Continue Reading"}
                     </Link>
                 </div>

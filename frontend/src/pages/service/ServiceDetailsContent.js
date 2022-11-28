@@ -49,7 +49,7 @@ const ServiceDetailsContent = () => {
                             />
                             {/* Section Title End */}
                             <div className="btn-part mt-46">
-                                <Link to="/learntube/contact">
+                                <Link to="/contact">
                                     <a className="readon learn-more">Contact Us</a>
                                 </Link>
                             </div>

@@ -25,7 +25,7 @@ scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/
         setUserId(null);
         window.sessionStorage.clear();
         window.sessionStorage.removeItem("userId");
-        window.location.assign("/learntube");
+        window.location.assign("/");
     };
 
     useEffect(async () => {
@@ -77,7 +77,7 @@ scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/
             setUserId(window.sessionStorage.getItem("userId"));
             // console.log("local userid ", userId);
             history.push({
-                pathname: "/learntube/",
+                pathname: "/",
                 state: { userId: userData.userId },
             });
         }
@@ -86,7 +86,7 @@ scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/
     // useEffect(() => {
     //     if (userData.userId) {
     //         history.push({
-    //             pathname: "/learntube/learntube-studio",
+    //             pathname: "/learntube-studio",
     //             state: { userId: userData.userId },
     //         });
     //     }
@@ -161,7 +161,7 @@ scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/
     //                                 <input type="text" name="text" placeholder="Password" required />
     //                                 <button type="submit" className="readon submit-btn">login</button>
     //                                 <div className="last-password">
-    //                                     <p>Not registered? <Link to="/learntube/register">Create an account</Link></p>
+    //                                     <p>Not registered? <Link to="/register">Create an account</Link></p>
     //                                 </div>
     //                             </form>
     //                         </div>

@@ -15,7 +15,7 @@ const CourseSingleSeven = (props) => {
                     </li>
                 </ul>
                 <h3 className="title">
-                    <Link to="/learntube/course/course-single">{courseTitle ? courseTitle : "Artificial Intelligence Fundamental Startup Learn"}</Link>
+                    <Link to="/course/course-single">{courseTitle ? courseTitle : "Artificial Intelligence Fundamental Startup Learn"}</Link>
                 </h3>
             </div>
         </div>

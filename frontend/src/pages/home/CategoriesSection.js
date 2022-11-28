@@ -45,7 +45,7 @@ const Categories = () => {
                     </div>
                 </div>
                 <div className="text-center">
-                    <Link className="readon orange-btn main-home" to="/learntube/course-categories">
+                    <Link className="readon orange-btn main-home" to="/course-categories">
                         View All categories{" "}
                     </Link>
                 </div>

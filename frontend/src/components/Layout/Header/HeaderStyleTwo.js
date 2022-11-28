@@ -86,16 +86,16 @@ const HeaderStyleTwo = (props) => {
                                             <div className="cat-menu-inner">
                                                 <ul id="cat-menu">
                                                     <li>
-                                                        <Link to="/learntube/course-categories">Category 1</Link>
+                                                        <Link to="/course-categories">Category 1</Link>
                                                     </li>
                                                     <li>
-                                                        <Link to="/learntube/course-categories">Category 2</Link>
+                                                        <Link to="/course-categories">Category 2</Link>
                                                     </li>
                                                     <li>
-                                                        <Link to="/learntube/course-categories">Category 3</Link>
+                                                        <Link to="/course-categories">Category 3</Link>
                                                     </li>
                                                     <li>
-                                                        <Link to="/learntube/course-categories">Category 4</Link>
+                                                        <Link to="/course-categories">Category 4</Link>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -149,12 +149,12 @@ const HeaderStyleTwo = (props) => {
                                                                         </Link>
                                                                     </div>
                                                                     <div className="product-info">
-                                                                        <Link to="/learntube/shop/cart">Law Book</Link>
+                                                                        <Link to="/shop/cart">Law Book</Link>
                                                                         <br />
                                                                         <span className="quantity">1 × $30.00</span>
                                                                     </div>
                                                                     <div className="product-image">
-                                                                        <Link to="/learntube/shop/cart">
+                                                                        <Link to="/shop/cart">
                                                                             <img src={productImg1} alt="Product Image" />
                                                                         </Link>
                                                                     </div>
@@ -166,12 +166,12 @@ const HeaderStyleTwo = (props) => {
                                                                         </Link>
                                                                     </div>
                                                                     <div className="product-info">
-                                                                        <Link to="/learntube/shop/cart">Spirit Level</Link>
+                                                                        <Link to="/shop/cart">Spirit Level</Link>
                                                                         <br />
                                                                         <span className="quantity">1 × $30.00</span>
                                                                     </div>
                                                                     <div className="product-image">
-                                                                        <Link to="/learntube/shop/cart">
+                                                                        <Link to="/shop/cart">
                                                                             <img src={productImg2} alt="Product Image" />
                                                                         </Link>
                                                                     </div>
@@ -184,10 +184,10 @@ const HeaderStyleTwo = (props) => {
                                                             </div>
 
                                                             <div className="cart-btn text-center">
-                                                                <Link className="crt-btn btn1" to="/learntube/shop/cart">
+                                                                <Link className="crt-btn btn1" to="/shop/cart">
                                                                     View Cart
                                                                 </Link>
-                                                                <Link className="crt-btn btn2" to="/learntube/shop/checkout">
+                                                                <Link className="crt-btn btn2" to="/shop/checkout">
                                                                     Check Out
                                                                 </Link>
                                                             </div>

@@ -11,7 +11,7 @@ const SingleService = (props) => {
                 </div>
                 <div className="services-desc">
                     <h3 className="title">
-                        <Link to="/learntube/course-categories">{Title ? Title : "Web Development"}</Link>
+                        <Link to="/course-categories">{Title ? Title : "Web Development"}</Link>
                     </h3>
                     <p>{Desc ? Desc : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor inci didunt ut labore et dolore magna"}</p>
                 </div>

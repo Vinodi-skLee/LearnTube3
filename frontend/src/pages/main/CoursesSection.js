@@ -89,7 +89,7 @@ function Courses(props) {
     const clickCourse = (i) => {
         if (userId) {
             history.replace({
-                pathname: "/learntube/course/course-single",
+                pathname: "/course/course-single",
                 state: { classId: popularClass[i].classId },
             });
         } else {
@@ -132,7 +132,7 @@ function Courses(props) {
                             </Slider>
                             <div className="view-all-btn text-center pt-20 mb-20 md-pt-10 md-mb-10">
                                 Start Learning With Our Online Courses.
-                                <Link className="title-color" to="/learntube/course">
+                                <Link className="title-color" to="/course">
                                     {" "}
                                     View All Courses
                                 </Link>

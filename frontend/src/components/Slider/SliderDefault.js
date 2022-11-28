@@ -31,7 +31,7 @@ const SliderDefault = () => {
                                 <div className="sl-sub-title">Start to learning today</div>
                                 <h1 className="sl-title">Online Courses From Leading Experts</h1>
                                 <div className="sl-btn">
-                                    <Link className="readon orange-btn main-home" to="/learntube/course">
+                                    <Link className="readon orange-btn main-home" to="/course">
                                         Find Course
                                     </Link>
                                 </div>
@@ -45,7 +45,7 @@ const SliderDefault = () => {
                                 <div className="sl-sub-title">Start to learning today</div>
                                 <h1 className="sl-title">Explore Interests and Career With Courses</h1>
                                 <div className="sl-btn">
-                                    <Link className="readon orange-btn main-home" to="/learntube/course">
+                                    <Link className="readon orange-btn main-home" to="/course">
                                         Find Course
                                     </Link>
                                 </div>

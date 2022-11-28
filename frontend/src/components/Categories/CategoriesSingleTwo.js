@@ -5,7 +5,7 @@ const CategoriesSingleTwo = (props) => {
     const { categoriesClass, iconImg, catLink, title, courseQuantity } = props;
 
     return (
-        <Link className={categoriesClass ? categoriesClass : "categories-item"} to={catLink ? catLink : "/learntube/course-categories"}>
+        <Link className={categoriesClass ? categoriesClass : "categories-item"} to={catLink ? catLink : "/course-categories"}>
             <div className="icon-part">
                 <img src={iconImg} alt={title} />
             </div>

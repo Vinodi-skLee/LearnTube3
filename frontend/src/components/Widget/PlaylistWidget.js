@@ -505,7 +505,7 @@ const PlaylistWidget = ({
                                                 <Link
                                                     className="d-flex justify-content-end"
                                                     to={{
-                                                        pathname: "/learntube/learntube-studio/youtubeSearch",
+                                                        pathname: "/learntube-studio/youtubeSearch",
                                                         state: {
                                                             playlistName: selectedPlaylist,
                                                             playlistId: playlistId,
@@ -872,7 +872,7 @@ const PlaylistWidget = ({
                                                                                     {/* <Link
                                           //   className="popup-videos play-icon"
                                           to={{
-                                            pathname: "/learntube/content",
+                                            pathname: "/content",
                                             state: {
                                               lectures:
                                                 linkClass[playlistData[i].idx]
@@ -892,7 +892,7 @@ const PlaylistWidget = ({
                                                                                     <span data-for="linkToCurri" data-tip>
                                                                                         <Link
                                                                                             to={{
-                                                                                                pathname: "/learntube/course/course-single",
+                                                                                                pathname: "/course/course-single",
                                                                                                 state: {
                                                                                                     classId: linkClass[playlistData[i].idx].classId,
                                                                                                 },

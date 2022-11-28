@@ -1,6 +1,7 @@
 {
 	"name": "educavo-react",
 	"version": "0.1.0",
+	"homepage": "http://www.learntube.kr",
 	"private": true,
 	"dependencies": {
 		"@fortawesome/free-solid-svg-icons": "^6.1.1",

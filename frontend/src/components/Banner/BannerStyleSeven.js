@@ -25,7 +25,7 @@ const BannerStyleSeven = () => {
                         <h1 className="banner-title white-color">Educavo Remote Training</h1>
                         <div className="desc white-color mb-50">Learn At your Own Pace Develope Your Career</div>
                         <div className="banner-btn">
-                            <Link className="readon2 orange banner-style" to="/learntube/about">
+                            <Link className="readon2 orange banner-style" to="/about">
                                 Get Started Now
                             </Link>
                         </div>

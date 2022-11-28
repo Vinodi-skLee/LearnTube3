@@ -7,7 +7,7 @@ const SingleTeam = (props) => {
             <img src={Image} alt={Title} />
             <div className="content-part">
                 <h4 className="name">
-                    <Link to="/learntube/team/team-single">{Title ? Title : "Jhon Pedrocas"}</Link>
+                    <Link to="/team/team-single">{Title ? Title : "Jhon Pedrocas"}</Link>
                 </h4>
                 <span className="designation">{Designation ? Designation : "Professor"}</span>
                 <ul className="social-links">

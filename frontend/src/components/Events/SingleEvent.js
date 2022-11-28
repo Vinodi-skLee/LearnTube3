@@ -11,7 +11,7 @@ const SingleEvent = (props) => {
                 </div>
                 {eventCategory ? (
                     <div className="categorie">
-                        <Link href="/learntube/event/style-1">{eventCategory}</Link>
+                        <Link href="/event/style-1">{eventCategory}</Link>
                     </div>
                 ) : (
                     ""
@@ -32,7 +32,7 @@ const SingleEvent = (props) => {
                         )}
                     </div>
                     <h4 className="title">
-                        <Link to="/learntube/event/style-1">{eventTitle ? eventTitle : "Educational Technology and Mobile Learning"}</Link>
+                        <Link to="/event/style-1">{eventTitle ? eventTitle : "Educational Technology and Mobile Learning"}</Link>
                     </h4>
                     {eventDesc ? <p className="text">{eventDesc}</p> : ""}
                     <div className="event-btm">
@@ -43,7 +43,7 @@ const SingleEvent = (props) => {
                             </div>
                         </div>
                         <div className="btn-part">
-                            <Link to="/learntube/event/style-1">{btnText ? btnText : "Join Event"}</Link>
+                            <Link to="/event/style-1">{btnText ? btnText : "Join Event"}</Link>
                         </div>
                     </div>
                 </div>

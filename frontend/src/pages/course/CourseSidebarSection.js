@@ -139,19 +139,19 @@ const CourseSidebar = () => {
                     <h3 className="widget-title">Course Categories</h3>
                     <ul className="categories">
                         <li>
-                            <Link to="/learntube/course-categories">College</Link>
+                            <Link to="/course-categories">College</Link>
                         </li>
                         <li>
-                            <Link to="/learntube/course-categories">High School</Link>
+                            <Link to="/course-categories">High School</Link>
                         </li>
                         <li>
-                            <Link to="/learntube/course-categories">Primary</Link>
+                            <Link to="/course-categories">Primary</Link>
                         </li>
                         <li>
-                            <Link to="/learntube/course-categories">School</Link>
+                            <Link to="/course-categories">School</Link>
                         </li>
                         <li>
-                            <Link to="/learntube/course-categories">University</Link>
+                            <Link to="/course-categories">University</Link>
                         </li>
                     </ul>
                 </div>

@@ -76,7 +76,7 @@ const CourseDashBoard = ({ courseClass, courseImg, courseTitle, progress, userCo
                             <Link
                                 // className="text-end"s
                                 to={{
-                                    pathname: "/learntube/course/manage",
+                                    pathname: "/course/manage",
                                     state: { classId: classId },
                                 }}
                             >
@@ -93,7 +93,7 @@ const CourseDashBoard = ({ courseClass, courseImg, courseTitle, progress, userCo
                     <h3 className="title" onClick={() => {}}>
                         <Link
                             to={{
-                                pathname: "/learntube/course/course-single",
+                                pathname: "/course/course-single",
                                 state: { classId: classId },
                             }}
                         >

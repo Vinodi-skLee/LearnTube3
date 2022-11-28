@@ -48,7 +48,7 @@ function About() {
                         /> */}
                     {/* Section Title End */}
                     {/* <div className="btn-part" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="150">
-                            <Link className="readon2" to="/learntube/about">
+                            <Link className="readon2" to="/about">
                                 Read More
                             </Link>
                         </div> */}

@@ -29,7 +29,7 @@ const BannerStyleEight = () => {
                                 <div className="sl-sub-title">Freelancer Courses</div>
                                 <h1 className="sl-title">We Proudly Teaching Online Courses With Online Experts.</h1>
                                 <div className="banner-btn">
-                                    <Link className="readon green-banner" to="/learntube/about">
+                                    <Link className="readon green-banner" to="/about">
                                         Get Started
                                     </Link>
                                 </div>

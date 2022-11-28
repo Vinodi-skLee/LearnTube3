@@ -7,19 +7,19 @@ const CategoriesWidget = () => {
             <h3 className="widget-title">Categories</h3>
             <ul>
                 <li>
-                    <Link to="/learntube/blog">College</Link>
+                    <Link to="/blog">College</Link>
                 </li>
                 <li>
-                    <Link to="/learntube/blog">High School</Link>
+                    <Link to="/blog">High School</Link>
                 </li>
                 <li>
-                    <Link to="/learntube/blog">Primary</Link>
+                    <Link to="/blog">Primary</Link>
                 </li>
                 <li>
-                    <Link to="/learntube/blog">School</Link>
+                    <Link to="/blog">School</Link>
                 </li>
                 <li>
-                    <Link to="/learntube/blog">University</Link>
+                    <Link to="/blog">University</Link>
                 </li>
             </ul>
         </div>

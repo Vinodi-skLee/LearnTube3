@@ -21,7 +21,7 @@ const BannerStyleThree = () => {
                                     With Educavo
                                 </h1>
                                 <div className="banner-btn">
-                                    <Link to="/learntube/contact" className="readon2 banner-style">
+                                    <Link to="/contact" className="readon2 banner-style">
                                         Hire a Coach Now
                                     </Link>
                                 </div>

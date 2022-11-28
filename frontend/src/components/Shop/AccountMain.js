@@ -56,7 +56,7 @@ const AccountMain = () => {
                                     Your personal data will be used to support your experience throughout this website, to manage access to your account, and for other purposes described in our{" "}
                                     <a href="#">privacy policy.</a>
                                 </p>
-                                <Link to="/learntube/register" className="btn-shop orange-color">
+                                <Link to="/register" className="btn-shop orange-color">
                                     Register
                                 </Link>
                             </form>

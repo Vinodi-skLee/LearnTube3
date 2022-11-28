@@ -5,14 +5,14 @@ const SinglePostFour = (props) => {
     return (
         <div className={blogClass ? blogClass : "blog-item"}>
             <div className="image-part">
-                <Link to="/learntube/blog/single-post-right-sidebar">
+                <Link to="/blog/single-post-right-sidebar">
                     <img src={blogImage} alt={blogTitle} />
                 </Link>
             </div>
             <div className={contentClass ? contentClass : "blog-content"}>
                 <span className={categoryClass ? categoryClass : "categories uppercase"}>{blogCategory ? blogCategory : "Health"}</span>
                 <h3 className="title mt-10 mb-10">
-                    <Link to="/learntube/blog/single-post-right-sidebar">{blogTitle ? blogTitle : "Open Source Job Report Show More Openings Fewer"}</Link>
+                    <Link to="/blog/single-post-right-sidebar">{blogTitle ? blogTitle : "Open Source Job Report Show More Openings Fewer"}</Link>
                 </h3>
                 <ul className="blog-meta">
                     <li className="admin">

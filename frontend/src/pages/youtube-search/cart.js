@@ -141,7 +141,7 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                 temp++;
             }
         }
-        window.location.href = "/learntube/learntube-studio";
+        window.location.href = "/learntube-studio";
     };
 
     return (
@@ -161,7 +161,7 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                                         <i className="fa fa-play-circle-o" style={{ color: "white" }}></i> <span style={{ color: "white" }}>{playlistName}</span>
                                     </div>
                                     <div>
-                                        <Link to={{ pathname: "/learntube/learntube-studio" }}>
+                                        <Link to={{ pathname: "/learntube-studio" }}>
                                             <button className="cart-save-btn text-center rounded mr-5" onClick={saveCart}>
                                                 저장
                                             </button>

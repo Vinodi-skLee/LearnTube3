@@ -9,7 +9,7 @@ const SingleServiceTwo = (props) => {
             <div className="content-part">
                 <img className="icon-img" src={props.iconImage} alt="Icon Image" />
                 <h4 className="title">
-                    <Link to="/learntube/about-2">{props.Title}</Link>
+                    <Link to="/about-2">{props.Title}</Link>
                 </h4>
             </div>
         </div>

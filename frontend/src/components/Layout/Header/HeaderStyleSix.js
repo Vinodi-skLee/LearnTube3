@@ -45,7 +45,7 @@ const HeaderStyleSix = (props) => {
                             <div className="row y-middle">
                                 <div className="col-lg-2">
                                     <div className="logo-area hidden-md">
-                                        <Link to="/learntube/">
+                                        <Link to="/">
                                             <img className="normal-logo" src={headerNormalLogo ? headerNormalLogo : normalLogo} alt="" />
                                             <img className="sticky-logo" src={headerStickyLogo ? headerStickyLogo : darkLogo} alt="" />
                                         </Link>
@@ -55,10 +55,10 @@ const HeaderStyleSix = (props) => {
                                     <div className="rs-menu-area">
                                         <div className="main-menu">
                                             <div className="mobile-menu md-display-block">
-                                                <Link to="/learntube/" className="mobile-normal-logo">
+                                                <Link to="/" className="mobile-normal-logo">
                                                     <img className="normal-logo" src={mobileNormalLogo ? mobileNormalLogo : normalLogo} alt="" />
                                                 </Link>
-                                                <Link to="/learntube/" className="mobile-sticky-logo">
+                                                <Link to="/" className="mobile-sticky-logo">
                                                     <img src={darkLogo} alt="logo" />
                                                 </Link>
                                                 <Link
@@ -101,12 +101,12 @@ const HeaderStyleSix = (props) => {
                                                                     </Link>
                                                                 </div>
                                                                 <div className="product-info">
-                                                                    <Link to="/learntube/shop/cart">Law Book</Link>
+                                                                    <Link to="/shop/cart">Law Book</Link>
                                                                     <br />
                                                                     <span className="quantity">1 × $30.00</span>
                                                                 </div>
                                                                 <div className="product-image">
-                                                                    <Link to="/learntube/shop/cart">
+                                                                    <Link to="/shop/cart">
                                                                         <img src={productImg1} alt="Product Image" />
                                                                     </Link>
                                                                 </div>
@@ -118,12 +118,12 @@ const HeaderStyleSix = (props) => {
                                                                     </Link>
                                                                 </div>
                                                                 <div className="product-info">
-                                                                    <Link to="/learntube/shop/cart">Spirit Level</Link>
+                                                                    <Link to="/shop/cart">Spirit Level</Link>
                                                                     <br />
                                                                     <span className="quantity">1 × $30.00</span>
                                                                 </div>
                                                                 <div className="product-image">
-                                                                    <Link to="/learntube/shop/cart">
+                                                                    <Link to="/shop/cart">
                                                                         <img src={productImg2} alt="Product Image" />
                                                                     </Link>
                                                                 </div>
@@ -136,10 +136,10 @@ const HeaderStyleSix = (props) => {
                                                         </div>
 
                                                         <div className="cart-btn text-center">
-                                                            <Link className="crt-btn btn1" to="/learntube/shop/cart">
+                                                            <Link className="crt-btn btn1" to="/shop/cart">
                                                                 View Cart
                                                             </Link>
-                                                            <Link className="crt-btn btn2" to="/learntube/shop/checkout">
+                                                            <Link className="crt-btn btn2" to="/shop/checkout">
                                                                 Check Out
                                                             </Link>
                                                         </div>

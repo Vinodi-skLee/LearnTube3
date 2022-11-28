@@ -106,12 +106,12 @@ const Header = (props) => {
                                                                     </Link>
                                                                 </div>
                                                                 <div className="product-info">
-                                                                    <Link to="/learntube/shop/cart">Law Book</Link>
+                                                                    <Link to="/shop/cart">Law Book</Link>
                                                                     <br />
                                                                     <span className="quantity">1 × $30.00</span>
                                                                 </div>
                                                                 <div className="product-image">
-                                                                    <Link to="/learntube/shop/cart">
+                                                                    <Link to="/shop/cart">
                                                                         <img src={productImg1} alt="Product Image" />
                                                                     </Link>
                                                                 </div>
@@ -123,12 +123,12 @@ const Header = (props) => {
                                                                     </Link>
                                                                 </div>
                                                                 <div className="product-info">
-                                                                    <Link to="/learntube/shop/cart">Spirit Level</Link>
+                                                                    <Link to="/shop/cart">Spirit Level</Link>
                                                                     <br />
                                                                     <span className="quantity">1 × $30.00</span>
                                                                 </div>
                                                                 <div className="product-image">
-                                                                    <Link to="/learntube/shop/cart">
+                                                                    <Link to="/shop/cart">
                                                                         <img src={productImg2} alt="Product Image" />
                                                                     </Link>
                                                                 </div>
@@ -141,10 +141,10 @@ const Header = (props) => {
                                                         </div>
 
                                                         <div className="cart-btn text-center">
-                                                            <Link className="crt-btn btn1" to="/learntube/shop/cart">
+                                                            <Link className="crt-btn btn1" to="/shop/cart">
                                                                 View Cart
                                                             </Link>
-                                                            <Link className="crt-btn btn2" to="/learntube/shop/checkout">
+                                                            <Link className="crt-btn btn2" to="/shop/checkout">
                                                                 Check Out
                                                             </Link>
                                                         </div>
@@ -152,7 +152,7 @@ const Header = (props) => {
                                                 </div>
                                             </li>
                                             <li className="user-icon last-icon hidden-lg">
-                                                <Link to="/learntube/shop/my-account">
+                                                <Link to="/shop/my-account">
                                                     <i className="fa fa-user" aria-hidden="true"></i>
                                                 </Link>
                                             </li>

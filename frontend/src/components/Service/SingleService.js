@@ -10,10 +10,10 @@ const SingleService = (props) => {
                     <i className={Icon ? Icon : "flaticon-analysis"}></i>
                 </span>
                 <h4 className="title">
-                    <Link to="/learntube/course-categories">{Title ? Title : "Online Coaching"}</Link>
+                    <Link to="/course-categories">{Title ? Title : "Online Coaching"}</Link>
                 </h4>
                 <p className="desc">{Desc ? Desc : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor inci didunt ut labore et dolore magna"}</p>
-                <Link to="/learntube/course-categories" className="service-btn">
+                <Link to="/course-categories" className="service-btn">
                     {btnText ? btnText : "Read More"} <i className="fa fa-arrow-right"></i>
                 </Link>
             </div>

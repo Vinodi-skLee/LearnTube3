@@ -20,7 +20,7 @@ const CourseSingleTwo = (props) => {
                     </li>
                 </ul>
                 <h3 className="title">
-                    <Link to="/learntube/course/course-single">{courseTitle ? courseTitle : "Become a PHP Master and Make Money Fast"}</Link>
+                    <Link to="/course/course-single">{courseTitle ? courseTitle : "Become a PHP Master and Make Money Fast"}</Link>
                 </h3>
                 <div className="bottom-part">
                     <div className="info-meta">
@@ -37,7 +37,7 @@ const CourseSingleTwo = (props) => {
                         </ul>
                     </div>
                     <div className="btn-part">
-                        <Link to="/learntube/course/course-single">
+                        <Link to="/course/course-single">
                             {props.btnText}
                             <i className="flaticon-right-arrow"></i>
                         </Link>

@@ -12,11 +12,11 @@ const DegreeSingle = (props) => {
             </div>
             <div className="content-part">
                 <h4 className={titleClass2 ? titleClass2 : "title"}>
-                    <Link to="/learntube/course/course-single">{props.title}</Link>
+                    <Link to="/course/course-single">{props.title}</Link>
                 </h4>
                 <p className={descClass ? descClass : "desc"}>{props.desc}</p>
                 <div className="btn-part">
-                    <Link to="/learntube/course/course-single">{btnText ? btnText : "Read More"}</Link>
+                    <Link to="/course/course-single">{btnText ? btnText : "Read More"}</Link>
                 </div>
             </div>
         </div>

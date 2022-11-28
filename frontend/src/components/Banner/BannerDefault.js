@@ -20,7 +20,7 @@ const BannerDefault = () => {
                             suffer an injury to one’s self-esteem during COVID-19.
                         </div>
                         <div className="banner-btn">
-                            <Link className="readon banner-style" to="/learntube/about">
+                            <Link className="readon banner-style" to="/about">
                                 Get Started Now
                             </Link>
                         </div>

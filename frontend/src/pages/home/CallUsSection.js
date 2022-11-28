@@ -30,7 +30,7 @@ const CallUs = () => {
                                 description="Have any idea or project for in your mind call us or schedule a appointment. Our representative will reply you shortly."
                             />
                             <div className="btn-part mt-40">
-                                <Link className="readon lets-talk" to="/learntube/contact">
+                                <Link className="readon lets-talk" to="/contact">
                                     Let's Talk
                                 </Link>
                             </div>

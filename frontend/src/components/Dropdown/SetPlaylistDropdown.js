@@ -170,7 +170,7 @@ export default function SetPlaylistDropdown({
                                     <Link
                                         className="d-flex justify-content-end"
                                         to={{
-                                            pathname: "/learntube/learntube-studio/youtubeSearch",
+                                            pathname: "/learntube-studio/youtubeSearch",
                                             state: {
                                                 playlistName: selectedPlaylist,
                                                 playlistId: playlistId,
@@ -338,7 +338,7 @@ export default function SetPlaylistDropdown({
                                                     <Link
                                                         className="moveToSearch text-center pt-2 d-flex align-items-center justify-content-center"
                                                         to={{
-                                                            pathname: "/learntube/learntube-studio/youtubeSearch",
+                                                            pathname: "/learntube-studio/youtubeSearch",
                                                             state: {
                                                                 playlistName: createPlaylist.playlistName,
                                                                 playlistId: playlistId,

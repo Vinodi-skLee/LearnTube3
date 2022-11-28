@@ -211,7 +211,7 @@ const RSMobileMenu = ({ setMenuOpen, menuOpen, parentMenu, secondParentMenu, hea
                     <ul className="nav-menu">
                         <li>
                             <Link
-                                to="/learntube"
+                                to="/"
                                 onClick={() => {
                                     openMobileMenu("home");
                                 }}
@@ -241,24 +241,24 @@ const RSMobileMenu = ({ setMenuOpen, menuOpen, parentMenu, secondParentMenu, hea
                                 {userId ? (
                                     <>
                                         <li>
-                                            <Link to="/learntube/dashboard-main" className={location.pathname === "/learntube/dashboard-main" ? "active-menu" : ""}>
+                                            <Link to="/dashboard-main" className={location.pathname === "/dashboard-main" ? "active-menu" : ""}>
                                                 수강중인 강의실
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link to="/learntube/dashboard-admin" className={location.pathname === "/learntube/dashboard-admin" ? "active-menu" : ""}>
+                                            <Link to="/dashboard-admin" className={location.pathname === "/dashboard-admin" ? "active-menu" : ""}>
                                                 관리중인 강의실
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link to="/learntube/dashboard-closed" className={location.pathname === "/learntube/dashboard-closed" ? "active-menu" : ""}>
+                                            <Link to="/dashboard-closed" className={location.pathname === "/dashboard-closed" ? "active-menu" : ""}>
                                                 종료된 강의실
                                             </Link>
                                         </li>
                                     </>
                                 ) : (
                                     <li>
-                                        <Link to="#" className={location.pathname === "/learntube/dashboard-main" ? "active-menu" : ""}>
+                                        <Link to="#" className={location.pathname === "/dashboard-main" ? "active-menu" : ""}>
                                             로그인이 필요합니다
                                         </Link>
                                     </li>
@@ -267,7 +267,7 @@ const RSMobileMenu = ({ setMenuOpen, menuOpen, parentMenu, secondParentMenu, hea
                         </li>
                         <li>
                             <Link
-                                to="/learntube/course"
+                                to="/course"
                                 onClick={() => {
                                     openMobileMenu("course");
                                 }}
@@ -285,7 +285,7 @@ const RSMobileMenu = ({ setMenuOpen, menuOpen, parentMenu, secondParentMenu, hea
                         </li>
                         <li>
                             <Link
-                                to="/learntube/learntube-studio"
+                                to="/learntube-studio"
                                 onClick={() => {
                                     openMobileMenu("learntube-studio");
                                 }}
@@ -295,7 +295,7 @@ const RSMobileMenu = ({ setMenuOpen, menuOpen, parentMenu, secondParentMenu, hea
                             </Link>
                             {/* <ul className={course ? "sub-menu current-menu" : "sub-menu"}>
                                 <li>
-                                    <Link to="/learntube/course" className={location.pathname === "/learntube/course" ? "active-menu" : ""}>
+                                    <Link to="/course" className={location.pathname === "/course" ? "active-menu" : ""}>
                                         Courses One
                                     </Link>
                                 </li>

@@ -21,7 +21,7 @@ const BannerStyleSix = () => {
                         <div className="sl-sub-title">World Leading University</div>
                         <h1 className="sl-title">Educavo University In Canada</h1>
                         <div className="sl-btn">
-                            <Link className="readon yellow-btn" to="/learntube/about">
+                            <Link className="readon yellow-btn" to="/about">
                                 Discover More
                             </Link>
                         </div>

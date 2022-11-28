@@ -14,14 +14,14 @@ const SingleServiceFive = (props) => {
             <div className="services-content">
                 <div className="services-text">
                     <h3 className="title">
-                        <Link to="/learntube/course-categories">{props.Title}</Link>
+                        <Link to="/course-categories">{props.Title}</Link>
                     </h3>
                 </div>
                 <div className="services-desc">
                     <p>{props.Text}</p>
                 </div>
                 <div className={btnClass ? btnClass : "services-button"}>
-                    <Link to="/learntube/course-categories">{props.serviceBtn}</Link>
+                    <Link to="/course-categories">{props.serviceBtn}</Link>
                 </div>
             </div>
         </div>

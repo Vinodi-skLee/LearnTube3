@@ -27,7 +27,7 @@ const BannerStyleFive = () => {
                                     Every act of conscious learning requires the willingness to suffer an injury to one’s self-esteem. That is why young children
                                 </div>
                                 <div className="btn-part">
-                                    <Link className="readon border-less" to="/learntube/about">
+                                    <Link className="readon border-less" to="/about">
                                         Get Started Now
                                     </Link>
                                 </div>

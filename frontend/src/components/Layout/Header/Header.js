@@ -63,7 +63,7 @@ const Header = (props) => {
     const logout = () => {
         window.sessionStorage.clear();
         window.sessionStorage.removeItem("userId");
-        window.location.assign("/learntube");
+        window.location.assign("/");
     };
 
     const canvasMenuAdd = () => {
@@ -194,7 +194,7 @@ const Header = (props) => {
                             <div className="row y-middle">
                                 <div className="col-lg-2">
                                     <div className="logo-area hidden-md">
-                                        <Link to="/learntube/">
+                                        <Link to="/">
                                             <img className="normal-logo" src={headerNormalLogo ? headerNormalLogo : normalLogo} alt="" />
                                             <img className="sticky-logo" src={headerStickyLogo ? headerStickyLogo : darkLogo} alt="" />
                                         </Link>
@@ -204,10 +204,10 @@ const Header = (props) => {
                                     <div className="rs-menu-area">
                                         <div className="main-menu">
                                             <div className="mobile-menu md-display-block">
-                                                <Link to="/learntube/" className="mobile-normal-logo">
+                                                <Link to="/" className="mobile-normal-logo">
                                                     <img className="normal-logo" src={mobileNormalLogo ? mobileNormalLogo : normalLogo} alt="" />
                                                 </Link>
-                                                <Link to="/learntube/" className="mobile-sticky-logo">
+                                                <Link to="/" className="mobile-sticky-logo">
                                                     <img src={mobileNormalLogo ? mobileNormalLogo : darkLogo} alt="logo" />
                                                 </Link>
                                                 <div>
@@ -313,7 +313,7 @@ const Header = (props) => {
                                                                         >
                                                                             <Link
                                                                                 to={{
-                                                                                    pathname: `/learntube/course/manage`,
+                                                                                    pathname: `/course/manage`,
                                                                                     state: {
                                                                                         classId: waiting.classId,
                                                                                     },
@@ -378,7 +378,7 @@ const Header = (props) => {
                                     <li className={alarmVisible ? "d-block" : "d-none"}style={{ borderBottom: "1px solid black", padding: "5px 0px 5px 15px" }} onClick={() => console.log(waiting.classId)}>
                                         <Link
                                             to={{
-                                                pathname: `/learntube/course/manage`,
+                                                pathname: `/course/manage`,
                                                 state: {
                                                     classId: waiting.classId,
                                                 },

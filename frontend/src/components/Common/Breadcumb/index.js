@@ -13,14 +13,14 @@ const SiteBreadcrumb = (props) => {
                 <h1 className={titleClass ? titleClass : "page-title"}>{pageTitle ? pageTitle : "Breadcrumbs"}</h1>
                 <ul>
                     <li>
-                        <Link to="/learntube/" className="active">
+                        <Link to="/" className="active">
                             {parentCategory ? parentCategory : "Home"}
                         </Link>
                     </li>
                     {pageCategory ? (
                         <>
                             <li>
-                                <Link to="/learntube/" className="active">
+                                <Link to="/" className="active">
                                     {pageCategory ? pageCategory : "Category"}
                                 </Link>
                             </li>

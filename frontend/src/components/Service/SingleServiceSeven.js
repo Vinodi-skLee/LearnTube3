@@ -11,7 +11,7 @@ const SingleServiceFour = (props) => {
                 <div className="services-text">
                     <div className="services-title">
                         <h2 className="title">
-                            <Link to={catLink ? catLink : "/learntube/course-categories"}>{serviceTitle ? serviceTitle : "Web Development"}</Link>
+                            <Link to={catLink ? catLink : "/course-categories"}>{serviceTitle ? serviceTitle : "Web Development"}</Link>
                         </h2>
                     </div>
                     <p className="text">{serviceDesc ? serviceDesc : "Lorem ipsum dolor sit amet, conseced tetur adipiscing elit, sed do eiusmod tempor dolore magna mere jan "}</p>

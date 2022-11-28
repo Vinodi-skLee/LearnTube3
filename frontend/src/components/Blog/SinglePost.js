@@ -5,7 +5,7 @@ const SinglePost = (props) => {
     return (
         <div className={blogClass ? blogClass : "blog-item mb-44"}>
             <div className="image-part">
-                <Link to="/learntube/blog/single-post-right-sidebar">
+                <Link to="/blog/single-post-right-sidebar">
                     <img src={blogImage} alt={blogTitle} />
                 </Link>
             </div>
@@ -19,7 +19,7 @@ const SinglePost = (props) => {
                     </li>
                 </ul>
                 <h3 className="title">
-                    <Link to="/learntube/blog/single-post-right-sidebar">{blogTitle ? blogTitle : "Open Source Job Report Show More Openings Fewer "}</Link>
+                    <Link to="/blog/single-post-right-sidebar">{blogTitle ? blogTitle : "Open Source Job Report Show More Openings Fewer "}</Link>
                 </h3>
                 <div className="desc">
                     {blogDesc
@@ -30,12 +30,12 @@ const SinglePost = (props) => {
                     <div className="cat-list">
                         <ul className="post-categories">
                             <li>
-                                <Link to="/learntube/blog">{blogCategory ? blogCategory : "Application Testing"}</Link>
+                                <Link to="/blog">{blogCategory ? blogCategory : "Application Testing"}</Link>
                             </li>
                         </ul>
                     </div>
                     <div className={blogButtonClass ? blogButtonClass : "rs-view-btn"}>
-                        <Link to="/learntube/blog/single-post-right-sidebar">{blogButtonText ? blogButtonText : "Read More"}</Link>
+                        <Link to="/blog/single-post-right-sidebar">{blogButtonText ? blogButtonText : "Read More"}</Link>
                     </div>
                 </div>
             </div>

@@ -67,7 +67,7 @@ const HeaderStyleFive = (props) => {
                                 <div className="col-lg-3">
                                     <div className="logo-cat-wrap">
                                         <div className="logo-part pr-96">
-                                            <Link to="/learntube/">
+                                            <Link to="/">
                                                 <img className="normal-logo" src={headerNormalLogo ? headerNormalLogo : normalLogo} alt="" />
                                                 <img className="sticky-logo" src={headerStickyLogo ? headerStickyLogo : yellowLogo} alt="" />
                                             </Link>
@@ -78,10 +78,10 @@ const HeaderStyleFive = (props) => {
                                     <div className="rs-menu-area">
                                         <div className="main-menu pr-80 md-pr-14">
                                             <div className="mobile-menu md-display-block">
-                                                <Link to="/learntube/" className="mobile-normal-logo">
+                                                <Link to="/" className="mobile-normal-logo">
                                                     <img className="normal-logo" src={mobileNormalLogo ? mobileNormalLogo : normalLogo} alt="" />
                                                 </Link>
-                                                <Link to="/learntube/" className="mobile-sticky-logo">
+                                                <Link to="/" className="mobile-sticky-logo">
                                                     <img src={yellowLogo} alt="logo" />
                                                 </Link>
                                                 <Link
@@ -116,12 +116,12 @@ const HeaderStyleFive = (props) => {
                                                                         </Link>
                                                                     </div>
                                                                     <div className="product-info">
-                                                                        <Link to="/learntube/shop/cart">Law Book</Link>
+                                                                        <Link to="/shop/cart">Law Book</Link>
                                                                         <br />
                                                                         <span className="quantity">1 × $30.00</span>
                                                                     </div>
                                                                     <div className="product-image">
-                                                                        <Link to="/learntube/shop/cart">
+                                                                        <Link to="/shop/cart">
                                                                             <img src={productImg1} alt="Product Image" />
                                                                         </Link>
                                                                     </div>
@@ -133,12 +133,12 @@ const HeaderStyleFive = (props) => {
                                                                         </Link>
                                                                     </div>
                                                                     <div className="product-info">
-                                                                        <Link to="/learntube/shop/cart">Spirit Level</Link>
+                                                                        <Link to="/shop/cart">Spirit Level</Link>
                                                                         <br />
                                                                         <span className="quantity">1 × $30.00</span>
                                                                     </div>
                                                                     <div className="product-image">
-                                                                        <Link to="/learntube/shop/cart">
+                                                                        <Link to="/shop/cart">
                                                                             <img src={productImg2} alt="Product Image" />
                                                                         </Link>
                                                                     </div>
@@ -151,10 +151,10 @@ const HeaderStyleFive = (props) => {
                                                             </div>
 
                                                             <div className="cart-btn text-center">
-                                                                <Link className="crt-btn btn1" to="/learntube/shop/cart">
+                                                                <Link className="crt-btn btn1" to="/shop/cart">
                                                                     View Cart
                                                                 </Link>
-                                                                <Link className="crt-btn btn2" to="/learntube/shop/checkout">
+                                                                <Link className="crt-btn btn2" to="/shop/checkout">
                                                                     Check Out
                                                                 </Link>
                                                             </div>

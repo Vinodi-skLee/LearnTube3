@@ -23,14 +23,14 @@ const SingleServiceFlipTwo = (props) => {
                     <div className="back-front-content">
                         <div className="back-title-part">
                             <h3 className="back-title">
-                                <Link to="/learntube/course-categories">{props.Title}</Link>
+                                <Link to="/course-categories">{props.Title}</Link>
                             </h3>
                         </div>
                         <div className="back-desc-part">
                             <p className="back-desc">{props.TextDesc}</p>
                         </div>
                         <div className="back-btn-part">
-                            <Link to="/learntube/course-categories" className={props.ButtonClass}>
+                            <Link to="/course-categories" className={props.ButtonClass}>
                                 {" "}
                                 {props.ButtonText}
                             </Link>

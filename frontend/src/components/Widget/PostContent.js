@@ -27,7 +27,7 @@ const PostContent = ({}) => {
                     <li className="Post-cate">
                         <div className="tag-line">
                             <i className="fa fa-book"></i>
-                            <Link to="/learntube/blog">Strategy</Link>
+                            <Link to="/blog">Strategy</Link>
                         </div>
                     </li>
                     <li className="post-comment">

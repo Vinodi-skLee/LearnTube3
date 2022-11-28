@@ -35,7 +35,7 @@ const Cta = (props) => {
                 />
                 {/* Section Title End */}
                 <div className="btn-part" data-aos="fade-up" data-aos-duration="1200" data-aos-delay="150">
-                    <Link className="readon2" to={btnLink ? btnLink : "/learntube/contact"}>
+                    <Link className="readon2" to={btnLink ? btnLink : "/contact"}>
                         {btnText ? btnText : "Apply Now"}
                     </Link>
                 </div>

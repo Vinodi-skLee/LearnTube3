@@ -4,7 +4,7 @@ const SingleProject = (props) => {
     return (
         <div className={props.itemClass}>
             <div className="project-img">
-                <Link href={"/learntube/case-study/style-1"}>
+                <Link href={"/case-study/style-1"}>
                     <a>
                         <img src={props.projectImage} alt={props.Title} />
                     </a>
@@ -12,7 +12,7 @@ const SingleProject = (props) => {
             </div>
             <div className="project-content">
                 <h3 className="title">
-                    <Link href={"/learntube/case-study/style-1"}>
+                    <Link href={"/case-study/style-1"}>
                         <a>{props.Title}</a>
                     </Link>
                 </h3>

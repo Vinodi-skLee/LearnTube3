@@ -6,7 +6,7 @@ const SinglePostFive = (props) => {
         <div className={blogClass ? blogClass : "row align-items-center no-gutter white-bg blog-item mb-30"}>
             <div className={ImgOrder == "last" ? "col-md-6 order-last" : "col-md-6"}>
                 <div className="image-part">
-                    <Link to="/learntube/blog/single-post-right-sidebar">
+                    <Link to="/blog/single-post-right-sidebar">
                         <img src={blogImage} alt={blogTitle} />
                     </Link>
                 </div>
@@ -22,7 +22,7 @@ const SinglePostFive = (props) => {
                         </li>
                     </ul>
                     <h3 className="title">
-                        <Link to="/learntube/blog/single-post-right-sidebar">{blogTitle ? blogTitle : "Open Source Job Report Show More Openings Fewer"}</Link>
+                        <Link to="/blog/single-post-right-sidebar">{blogTitle ? blogTitle : "Open Source Job Report Show More Openings Fewer"}</Link>
                     </h3>
                     <p className="txt">{blogDesc ? blogDesc : "We denounce with righteous indige nation and..."}</p>
                 </div>

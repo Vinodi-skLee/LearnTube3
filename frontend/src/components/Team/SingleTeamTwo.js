@@ -32,7 +32,7 @@ const SingleTeamTwo = (props) => {
             </div>
             <div className="team-content text-center">
                 <h4 className="person-name">
-                    <Link to="/learntube/team/team-single">{props.Title}</Link>
+                    <Link to="/team/team-single">{props.Title}</Link>
                 </h4>
                 <span className="designation">{props.Designation}</span>
             </div>

@@ -17,7 +17,7 @@ const Service = () => {
                                 title="Our Working Process -  How We Work For Our Customers"
                             />
                             <div className="btn-part mt-40">
-                                <Link to="/learntube/contact" className="readon learn-more contact-us">
+                                <Link to="/contact" className="readon learn-more contact-us">
                                     Contact Us
                                 </Link>
                             </div>

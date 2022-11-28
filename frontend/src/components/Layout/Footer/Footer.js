@@ -13,7 +13,7 @@ const Footer = (props) => {
                     <div className="row">
                         <div className="col-lg-4 col-md-12 col-sm-12 footer-widget md-mb-30">
                             <div className="footer-logo mb-10">
-                                <Link to="/learntube/" as="/learntube/">
+                                <Link to="/" as="/">
                                     <img src={Logo ? Logo : Logo} alt="Logo" />
                                 </Link>
                             </div>
@@ -52,13 +52,13 @@ const Footer = (props) => {
                             <h5 className="widget-title">NAVIGATION</h5>
                             <ul className="site-map p-0 m-0">
                                 <li>
-                                    <Link to="/learntube/">Main</Link>
+                                    <Link to="/">Main</Link>
                                 </li>
                                 <li>
-                                    <Link to="/learntube/course">Courses</Link>
+                                    <Link to="/course">Courses</Link>
                                 </li>
                                 <li>
-                                    <Link to="/learntube/learntube-studio">LearnTube Studio</Link>
+                                    <Link to="/learntube-studio">LearnTube Studio</Link>
                                 </li>
                             </ul>
                         </div>

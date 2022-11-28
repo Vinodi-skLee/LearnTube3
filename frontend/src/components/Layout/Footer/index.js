@@ -15,7 +15,7 @@ const Footer = (props) => {
                     <div className="row">
                         <div className="col-xl-3 col-lg-3 col-md-4">
                             <div className="footer-logo">
-                                <Link to="/learntube/">
+                                <Link to="/">
                                     <img src={footerLogo ? footerLogo : footerLogo1} alt="Logo" />
                                 </Link>
                             </div>
@@ -49,19 +49,19 @@ const Footer = (props) => {
                             <h3 className="widget-title">IT Services</h3>
                             <ul className="site-map">
                                 <li>
-                                    <Link to="/learntube/course-categories">Software Development</Link>
+                                    <Link to="/course-categories">Software Development</Link>
                                 </li>
                                 <li>
-                                    <Link to="/learntube/course-categories">Web Development</Link>
+                                    <Link to="/course-categories">Web Development</Link>
                                 </li>
                                 <li>
-                                    <Link to="/learntube/course-categories">Analytic Solutions</Link>
+                                    <Link to="/course-categories">Analytic Solutions</Link>
                                 </li>
                                 <li>
-                                    <Link to="/learntube/course-categories">Cloud and DevOps</Link>
+                                    <Link to="/course-categories">Cloud and DevOps</Link>
                                 </li>
                                 <li>
-                                    <Link to="/learntube/course-categories">Product Design</Link>
+                                    <Link to="/course-categories">Product Design</Link>
                                 </li>
                             </ul>
                         </div>

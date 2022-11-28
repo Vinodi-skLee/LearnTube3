@@ -11,7 +11,7 @@ const SingleEventThree = (props) => {
                 </div>
                 <div className="content-part">
                     <h4 className="title">
-                        <Link to="/learntube/event/style-1">{eventTitle ? eventTitle : "Educational Technology and Mobile Learning"}</Link>
+                        <Link to="/event/style-1">{eventTitle ? eventTitle : "Educational Technology and Mobile Learning"}</Link>
                     </h4>
                     {eventDesc ? <p className="text">{eventDesc}</p> : ""}
                     <div className="address">

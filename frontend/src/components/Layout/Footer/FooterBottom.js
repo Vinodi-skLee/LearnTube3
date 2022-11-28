@@ -19,17 +19,17 @@ const FooterBottom = () => {
                     {/* <div className="col-lg-6 text-end md-text-left">
                         <ul className="copy-right-menu">
                             <li>
-                                <Link to="/learntube/event" as="/learntube/event">
+                                <Link to="/event" as="/event">
                                     Event
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/learntube/blog" as="/learntube/blog">
+                                <Link to="/blog" as="/blog">
                                     Blog
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/learntube/contact" as="/learntube/contact">
+                                <Link to="/contact" as="/contact">
                                     Contact
                                 </Link>
                             </li>

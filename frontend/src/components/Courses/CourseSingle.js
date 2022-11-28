@@ -6,7 +6,7 @@ const CourseSingle = (props) => {
         <div className={props.itemClass}>
             <div className="courses-grid">
                 <div className="img-part">
-                    <Link to="/learntube/course/course-single">
+                    <Link to="/course/course-single">
                         <img src={props.image} alt={props.title} />
                     </Link>
                 </div>
@@ -27,7 +27,7 @@ const CourseSingle = (props) => {
                         <span className="price">{props.pricing}</span>
                     </div>
                     <h3 className="title">
-                        <Link to="/learntube/course/course-single">{props.title}</Link>
+                        <Link to="/course/course-single">{props.title}</Link>
                     </h3>
                     <ul className="meta-part">
                         <li className="user">

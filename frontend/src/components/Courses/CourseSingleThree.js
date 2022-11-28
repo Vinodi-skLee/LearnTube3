@@ -8,7 +8,7 @@ const CourseSingleThree = (props) => {
         <div className={courseClass ? courseClass : "course-wrap"}>
             <div className="front-part">
                 <div className="img-part">
-                    <Link to="/learntube/course/course-single">
+                    <Link to="/course/course-single">
                         <img src={courseImg} alt={courseTitle} />
                     </Link>
                 </div>
@@ -17,7 +17,7 @@ const CourseSingleThree = (props) => {
                         {courseCategory ? courseCategory : "Artificial Intelligence"}
                     </Link>
                     <h4 className="title">
-                        <Link to="/learntube/course/course-single">{courseTitle ? courseTitle : "Artificial Intelligence Fundamental Startup Learn"}</Link>
+                        <Link to="/course/course-single">{courseTitle ? courseTitle : "Artificial Intelligence Fundamental Startup Learn"}</Link>
                     </h4>
                 </div>
             </div>
@@ -27,7 +27,7 @@ const CourseSingleThree = (props) => {
                         {courseCategory ? courseCategory : "Artificial Intelligence"}
                     </Link>
                     <h4 className="title">
-                        <Link to="/learntube/course/course-single">{courseTitle ? courseTitle : "Artificial Intelligence Fundamental Startup Learn"}</Link>
+                        <Link to="/course/course-single">{courseTitle ? courseTitle : "Artificial Intelligence Fundamental Startup Learn"}</Link>
                     </h4>
                     <ul className="course-meta">
                         <li className="course-user">
@@ -45,7 +45,7 @@ const CourseSingleThree = (props) => {
                 </div>
             </div>
             <div className="price-btn">
-                <Link to="/learntube/course/course-single">
+                <Link to="/course/course-single">
                     {coursePrice ? coursePrice : "$55.00"} <i className="flaticon-next"></i>
                 </Link>
             </div>

@@ -231,7 +231,7 @@ export default function SetDropdown(props) {
                                     onClick={() => {
                                         // console.log(props.classRoomData.classId);
                                         history.replace({
-                                            pathname: "/learntube/course/manage",
+                                            pathname: "/course/manage",
                                             state: {
                                                 classId: props.classRoomData.classId,
                                             },

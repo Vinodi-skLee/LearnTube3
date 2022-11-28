@@ -24,7 +24,7 @@ const CourseSingleFour = (props) => {
                     </li>
                 </ul>
                 <h3 className="title">
-                    <Link to="/learntube/course/course-single">{courseTitle ? courseTitle : "Introduction to Quantitativ and Qualitative."}</Link>
+                    <Link to="/course/course-single">{courseTitle ? courseTitle : "Introduction to Quantitativ and Qualitative."}</Link>
                 </h3>
                 <div className="bottom-part">
                     <div className="info-meta">
@@ -38,7 +38,7 @@ const CourseSingleFour = (props) => {
                         </ul>
                     </div>
                     <div className="btn-part">
-                        <Link to="/learntube/course/course-single">
+                        <Link to="/course/course-single">
                             {btnText ? btnText : "Apply Now"} <i className="flaticon-next"></i>
                         </Link>
                     </div>

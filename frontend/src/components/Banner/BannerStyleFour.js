@@ -50,7 +50,7 @@ const BannerStyleFour = ({ onGoogleLogin }) => {
                     <div className="row relative">
                         <div className="row">
                             <div className="banner-btn z-index-1" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="600">
-                                {/* <Link className="readon2 banner-style" to="/learntube/login"> */}
+                                {/* <Link className="readon2 banner-style" to="/login"> */}
                                 {/* <button className="readon2 banner-style"> */}
                                 {/* <Login /> */}
                                 {/* Sign In */}

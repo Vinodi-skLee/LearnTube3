@@ -46,7 +46,7 @@ function CourseDetailsPart() {
             // console.log(takesData);
             fetchJoinClass();
             alert("신청 되었습니다.");
-            // window.location.href = "/learntube/dashboard-main";
+            // window.location.href = "/dashboard-main";
             window.location.reload();
         }
     };
@@ -110,7 +110,7 @@ function CourseDetailsPart() {
                             {classRoomData.instructor.userId == userId ? (
                                 <div className="col">
                                     <SetDropdown classRoomData={classRoomData} students={students} userId={userId} />
-                                    {/* <Link to="/learntube/course/course-single/manage">
+                                    {/* <Link to="/course/course-single/manage">
                                         <Button style={{ float: "right", width: "8rem", minWidth: "6rem", marginRight: "1.5rem", marginTop: "3.15rem" }}>수강생 관리</Button>
                                     </Link> */}
                                 </div>

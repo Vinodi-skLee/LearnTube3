@@ -11,10 +11,10 @@ const EventsShort = (props) => {
             </div>
             <div className="content-part">
                 <div className="categorie">
-                    <Link to={catLink1 ? catLink1 : "/learntube/event/style-1"}>{props.cat1}</Link> & <Link to={catLink2 ? catLink2 : "/learntube/event/style-1"}>{props.cat2}</Link>
+                    <Link to={catLink1 ? catLink1 : "/event/style-1"}>{props.cat1}</Link> & <Link to={catLink2 ? catLink2 : "/event/style-1"}>{props.cat2}</Link>
                 </div>
                 <h4 className={titleClass ? titleClass : "title mb-0"}>
-                    <a href={titleLink ? titleLink : "/learntube/event/style-1"}>{props.title}</a>
+                    <a href={titleLink ? titleLink : "/event/style-1"}>{props.title}</a>
                 </h4>
             </div>
         </div>

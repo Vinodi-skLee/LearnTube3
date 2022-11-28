@@ -12,7 +12,7 @@ const SingleServiceThree = (props) => {
                     <img src={serviceIcon} alt="images" />
                 </div>
                 <h4 className="title">
-                    <Link to="/learntube/course-categories">{Title ? Title : "Kindergarten"}</Link>
+                    <Link to="/course-categories">{Title ? Title : "Kindergarten"}</Link>
                 </h4>
                 <p className="desc">{Desc ? Desc : "Lorem ipsum dolor sit amet,consectetur adipisic ing elit, sed eius .incididunt"}</p>
             </div>
