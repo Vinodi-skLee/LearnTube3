@@ -1,11 +1,22 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import FooterBottom from "./FooterBottom";
 
 import Logo from "../../../assets/img/logo/Learntube-logos_transparent.png";
 
 const Footer = (props) => {
     const { footerClass, footerTopClass } = props;
+    const history = useHistory();
+    let id = window.sessionStorage.getItem("userId");
+    const clickLearntubeStudio = () => {
+        if (id) {
+            history.replace({
+                pathname: "/learntube-studio",
+            });
+        } else {
+            alert("로그인이 필요합니다.");
+        }
+    };
     return (
         <footer className={footerClass ? footerClass : "rs-footer"}>
             <div className={`footer-top ${footerTopClass}`}>
@@ -58,7 +69,9 @@ const Footer = (props) => {
                                     <Link to="/course">Courses</Link>
                                 </li>
                                 <li>
-                                    <Link to="/learntube-studio">LearnTube Studio</Link>
+                                    <a onClick={clickLearntubeStudio} style={{ cursor: "pointer" }}>
+                                        LearnTube Studio
+                                    </a>
                                 </li>
                             </ul>
                         </div>

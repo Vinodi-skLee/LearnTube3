@@ -1,16 +1,17 @@
-import React, { useEffect, memo } from "react";
-import { useState, useCallback } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useCallback, useEffect, memo } from "react";
+import { Link, useHistory } from "react-router-dom";
 import ScrollToTop from "../../components/Common/ScrollTop";
 import axios from "axios";
 
 import "rc-slider/assets/index.css";
+import { BiBracket } from "react-icons/bi";
 
 const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, existingVideo, deleteVideoFromCart, isInPlaylist, setIsInPlaylist, lastSeq }) => {
     const [cartList, setCartList] = useState([]);
     const [playlistName, setPlaylistName] = useState("");
     const [isDeleted, setIsDeleted] = useState(false);
     const [isOpen, setIsOpen] = useState(true);
+    const history = useHistory();
 
     let tempArray = [];
 
@@ -75,10 +76,10 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
     };
 
     const saveCart = async () => {
-        // console.log("cartList === " + cartList);
+        console.log("cartList === " + cartList);
         for (let temp in cartList) {
             let obj = JSON.parse(cartList[temp]);
-            // console.log("cartList === " + obj);
+            console.log("cartList === " + obj.id);
             if (obj.id === -1) {
                 let createRequest = {
                     playlistId: obj.playlistId,
@@ -100,13 +101,13 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                         },
                     })
                     .then((res) => console.log(res));
-                temp++;
-            } else if (obj.deleted == 1) {
+                ++temp;
+            } else if (obj.deleted === 1) {
                 let deleteRequest = {
                     playlistId: obj.playlistId,
                     videoId: obj.id,
                 };
-                const response = await axios
+                const response1 = await axios
                     .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist_video/delete`, deleteRequest, {
                         headers: {
                             "Content-Type": `application/json`,
@@ -115,7 +116,7 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                     .then((res) => console.log(res));
                 setIsInPlaylist(isInPlaylist - 1);
                 setIndex(index - 1);
-                temp++;
+                ++temp;
             } else {
                 let updateRequest = {
                     playlistId: obj.playlistId,
@@ -129,7 +130,7 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                     seq: temp,
                     tag: obj.tag,
                 };
-                const response = await axios
+                const response2 = await axios
                     .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist_video/update`, updateRequest, {
                         method: "POST",
                         headers: {
@@ -138,10 +139,10 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                         },
                     })
                     .then((res) => console.log(res));
-                temp++;
+                ++temp;
             }
         }
-        window.location.href = "/learntube-studio";
+        window.location.replace("/learntube-studio");
     };
 
     return (
@@ -184,7 +185,7 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                                                         <div
                                                             key={`video-${video.seq}`}
                                                             className="d-flex mt-10 mb-10 col-md-2 justify-content-start"
-                                                            style={video.seq == isInPlaylist ? { width: "180px", height: "200px", borderRight: "3px solid gray" } : { width: "180px", height: "200px" }}
+                                                            style={video.seq == lastSeq - 1 ? { width: "180px", height: "200px", borderRight: "3px solid gray" } : { width: "180px", height: "200px" }}
                                                         >
                                                             <div style={{ position: "relative", width: "100%" }}>
                                                                 <div className="d-flex flex-wrap justify-content-start align-items-center">
