@@ -141,34 +141,10 @@ const ContentWidget = ({
     //     }
     // };
     return (
+        <>
         <div>
             <div>
-                {!isBigDisplay ? (
-                    <>
-                        {/* {contentData ? (
-                            <div>
-                                {contentData.contentDescription ? (
-                                    <div className="d-flex justify-content-between text-start pt-5 ">
-                                        {contentData.contentDescription}
-                                        <div className="d-flex row">
-                                            {contentData.openDate ? (
-                                                <div className="text-start fw-light ">
-                                                    학습 기간 : {contentData.openDate.split("T")[0]} {contentData.openDate.split("T")[1].substring(0, 5)} ~ {contentData.closeDate.split("T")[0]}{" "}
-                                                    {contentData.closeDate.split("T")[1].substring(0, 5)}
-                                                </div>
-                                            ) : (
-                                                <div></div>
-                                            )}
-                                        </div>
-                                    </div>
-                                ) : null}
-                            </div>
-                        ) : null} */}
-                        {/* <hr class="solid mt-20 mb-50"></hr> */}
-                    </>
-                ) : null}
-
-                {clickedVideo && !isContentLoading ? (
+                {clickedVideo && !isContentLoading && videos ? (
                     <div>
                         <div className="row p-10 text-start">
                             {/* {"큰화면 아이콘"} */}
@@ -554,6 +530,7 @@ const ContentWidget = ({
                 )}
             </div>{" "}
         </div>
+        </>
     );
 };
 

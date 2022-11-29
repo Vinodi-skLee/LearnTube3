@@ -55,46 +55,68 @@ const CreateContent = (props) => {
             [e.target.name]: e.target.value.trim(),
             userId: props.userId,
         });
+        console.log(createPlaylist);
     };
     const handleSubmit = async () => {
         //console.log(playlistId);
-        if (newPlaylistOpen) {
-            setCreateContentData({
-                ...createContentData,
-            });
-        }
-        const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/content`, JSON.stringify(createContentData), {
-            method: "POST",
-            headers: {
-                // Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-        });
-        // .then((res) => console.log(res));
-        openModal();
-        window.location.reload();
-    };
-    const handleNewSubmit = async () => {
-        //console.log(JSON.stringify(createPlaylist));
-        let temp;
-        const response = await axios
-            .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/create`, JSON.stringify(createPlaylist), {
+        // if (newPlaylistOpen) {
+        //     setCreateContentData({
+        //         ...createContentData,
+        //     });
+        // }
+        // if(createContentData.contentName === ""){
+        //     window.alert("강의실 제목을 입력해 주세요.");
+        //     return 0;
+        // }
+        if(createContentData.contentName){
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/content`, JSON.stringify(createContentData), {
                 method: "POST",
                 headers: {
                     // Accept: "application/json",
                     "Content-Type": "application/json",
                 },
-            })
-            .then(function (res) {
-                //console.log(res.data.playlistId);
-                temp = res.data.playlistId;
-                setPlaylistId(temp);
-                createContentData.playlistId = temp;
-                //console.log(createContentData);
-                handleSubmit();
-                //handleSubmit();
             });
-
+            // .then((res) => console.log(res));
+            openModal();
+            window.location.reload();
+        }
+    };
+    const handleNewSubmit = async () => {
+        // console.log(createPlaylist);
+        // if(createContentData.contentName === ""){
+        //     window.alert("강의실 제목을 입력해 주세요.");
+        //     return 0;
+        // }
+        // if(createPlaylist === undefined || createPlaylist.playlistName === ""){
+        //     window.alert("플레이리스트 이름을 입력해 주세요.");
+        //     return 0;
+        // }
+        //console.log(JSON.stringify(createPlaylist));
+        if(createContentData.contentName && createPlaylist){
+            let temp;
+            const response = await axios
+                .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/create`, JSON.stringify(createPlaylist), {
+                    method: "POST",
+                    headers: {
+                        // Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                })
+                .then(function (res) {
+                    //console.log(res.data.playlistId);
+                    temp = res.data.playlistId;
+                    setPlaylistId(temp);
+                    // createContentData.playlistId = temp;
+                    setCreateContentData({
+                        ...createContentData,
+                        playlistId: temp,
+                    });
+                    //console.log(createContentData);
+                    handleSubmit();
+                    //handleSubmit();
+                });
+                setCreateContentData(initCreateContentData);
+        }
         //handleSubmit();
     };
     //console.log(playlistId);
@@ -165,9 +187,9 @@ const CreateContent = (props) => {
                                             <div className="form-group col-lg-12">
                                                 <div className="my-2">
                                                     내용
-                                                    <span className="ms-1" style={{ color: "red" }}>
+                                                    {/* <span className="ms-1" style={{ color: "red" }}>
                                                         *
-                                                    </span>
+                                                    </span> */}
                                                 </div>
                                                 <textarea
                                                     type="textarea"
@@ -189,34 +211,32 @@ const CreateContent = (props) => {
                                                         border: "none",
                                                         boxShadow: "0 0 30px #eee",
                                                     }}
-                                                    required
                                                 />
                                             </div>
                                             <div className="form-group col-lg-12">
                                                 <div className="my-2">
                                                     공개일
-                                                    <span className="ms-1" style={{ color: "red" }}>
+                                                    {/* <span className="ms-1" style={{ color: "red" }}>
                                                         *
-                                                    </span>
+                                                    </span> */}
                                                 </div>
-                                                <input type="datetime-local" id="openDate" name="openDate" onChange={handleChange} required />
+                                                <input type="datetime-local" id="openDate" name="openDate" onChange={handleChange}/>
                                             </div>
                                             <div className="form-group col-lg-12">
                                                 <div className="my-2">
                                                     마감일
-                                                    <span className="ms-1" style={{ color: "red" }}>
+                                                    {/* <span className="ms-1" style={{ color: "red" }}>
                                                         *
-                                                    </span>
+                                                    </span> */}
                                                 </div>
-                                                <input type="datetime-local" id="closeDate" name="closeDate" onChange={handleChange} required />
+                                                <input type="datetime-local" id="closeDate" name="closeDate" onChange={handleChange}/>
                                             </div>
                                             <div className="row">
                                                 <div className="col-6">
                                                     <li
                                                         className="fa fa-check"
                                                         onClick={() => {
-                                                            setPlaylistOpen(true);
-                                                            setNewPlaylistOpen(false);
+                                                            setPlaylistOpen(!playlistOpen);
                                                             loadPlaylists();
                                                         }}
                                                         style={{
@@ -236,8 +256,8 @@ const CreateContent = (props) => {
                                                 <div
                                                     className="col-6"
                                                     onClick={() => {
-                                                        setPlaylistOpen(false);
-                                                        setNewPlaylistOpen(true);
+                                                        setPlaylistOpen(!playlistOpen);
+                                                        setNewPlaylistOpen(!newPlaylistOpen);
                                                     }}
                                                 >
                                                     <li
@@ -257,7 +277,7 @@ const CreateContent = (props) => {
                                                     Playlist 만들기
                                                 </div>
                                             </div>
-                                            {playlistOpen === true ? (
+                                            {playlistOpen === true && newPlaylistOpen == false ? (
                                                 <div>
                                                     <div class="dropdown show" style={{ marginBottom: "20px" }}>
                                                         <FormSelect aria-label="SelectBox" id="playlistId" name="playlistId" onChange={handleChange}>
@@ -273,7 +293,7 @@ const CreateContent = (props) => {
                                                                 : null}
                                                         </FormSelect>
                                                     </div>
-                                                </div>
+                                                </div> 
                                             ) : null}
                                             {newPlaylistOpen === true ? (
                                                 <div className="row clearfix">
@@ -313,7 +333,6 @@ const CreateContent = (props) => {
 
                                         <div className="row d-flex justify-content-end ms-3 me-1 mt-3">
                                             <Button
-                                                type="submit"
                                                 className="canclebtn"
                                                 style={{ padding: "10.5px" }}
                                                 onClick={() => {
@@ -325,7 +344,7 @@ const CreateContent = (props) => {
                                             </Button>
                                             <Button
                                                 className="createbtn"
-                                                type="button"
+                                                type="submit"
                                                 onClick={() => {
                                                     if (newPlaylistOpen) {
                                                         handleNewSubmit();

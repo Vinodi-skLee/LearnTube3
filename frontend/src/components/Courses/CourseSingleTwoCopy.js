@@ -5,7 +5,7 @@ import logo from "../../assets/img/logo/img-background.png";
 
 const CourseSingleTwoCopy = (props) => {
     const { courseId, courseClass, courseImg, courseTitle, userCount, openDate, creatorName } = props;
-
+    console.log(courseId);
     const getDateDiff = (date) => {
         let today = new Date();
         let year = today.getFullYear();
@@ -28,7 +28,7 @@ const CourseSingleTwoCopy = (props) => {
         <div className={courseClass ? courseClass : "courses-item"}>
             <div className="img-part content-part">
                 {courseImg ? (
-                    <img style={{ width: "400px", height: "200px" }} src={courseImg} alt={courseTitle} />
+                        <img style={{ width: "400px", height: "200px", cursor: "pointer" }} src={courseImg} alt={courseTitle}/>
                 ) : (
                     <div
                         className="background-wrap"
@@ -37,6 +37,7 @@ const CourseSingleTwoCopy = (props) => {
                             backgroundSize: "cover",
                             backgroundImage: `url(${logo})`,
                             borderRadius: "5px",
+                            cursor: "pointer",
                         }}
                     >
                         <span
@@ -67,7 +68,7 @@ const CourseSingleTwoCopy = (props) => {
                 ) : null}
             </div>
             <div className="content-part">
-                <h4 className="title title-mk" data-for={courseTitle} data-tip>
+                <h4 className="title title-mk" style={{cursor: "pointer"}} data-for={courseTitle} data-tip>
                     {courseTitle ? courseTitle : "강의의 제목이 설정되지 않았습니다."}
                     {/* <Link
                         to={{
@@ -93,7 +94,7 @@ const CourseSingleTwoCopy = (props) => {
                     </div>
                     <div className="btn-part">
                         <Link to="/course/course-single">
-                            {props.btnText}
+                            {/* {props.btnText} */}
                             <i className="flaticon-right-arrow"></i>
                         </Link>
                     </div>

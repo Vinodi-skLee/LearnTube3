@@ -31,17 +31,19 @@ const ClassroomContent = (props) => {
     };
 
     const handleSubmit = async () => {
-        const response = await axios
-            .post(`${process.env.REACT_APP_SERVER_URL}/api/classroom`, JSON.stringify(createClassRoomData), {
-                method: "POST",
-                headers: {
-                    // Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-            })
-            .then((res) => console.log(res));
-        openModal();
-        window.location.reload();
+        if(createClassRoomData.className !== ""){
+            const response = await axios
+                .post(`${process.env.REACT_APP_SERVER_URL}/api/classroom`, JSON.stringify(createClassRoomData), {
+                    method: "POST",
+                    headers: {
+                        // Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                })
+                .then((res) => console.log(res));
+            openModal();
+            window.location.reload();
+        }
     };
 
     return (
@@ -100,9 +102,6 @@ const ClassroomContent = (props) => {
                                             <div className="form-group col-lg-12">
                                                 <div className="my-2">
                                                     강의실 설명
-                                                    <span className="ms-1" style={{ color: "red" }}>
-                                                        *
-                                                    </span>
                                                 </div>
                                                 <textarea
                                                     type="textarea"
@@ -121,31 +120,24 @@ const ClassroomContent = (props) => {
                                                         border: "none",
                                                         boxShadow: "0 0 30px #eee",
                                                     }}
-                                                    required
                                                 />
                                             </div>
                                         </div>
                                         <div className="form-group col-lg-12 mb-25">
                                             <div className="my-2">
                                                 강의실 이미지
-                                                <span className="ms-1" style={{ color: "red" }}>
-                                                    *
-                                                </span>
                                             </div>
-                                            <input type="text" id="image" name="image" placeholder="이미지 링크 주소를 입력해주세요." onChange={handleChange} required />
+                                            <input type="text" id="image" name="image" placeholder="이미지 링크 주소를 입력해주세요." onChange={handleChange} />
                                         </div>
                                         <div className="form-group col-lg-12">
                                             <div className="my-2">
                                                 강의실 마감일
-                                                <span className="ms-1" style={{ color: "red" }}>
-                                                    *
-                                                </span>
                                             </div>
-                                            <input type="datetime-local" id="closeDate" name="closeDate" onChange={handleChange} required />
+                                            <input type="datetime-local" id="closeDate" name="closeDate" onChange={handleChange} />
                                         </div>
                                         <div className="col-lg-12 mb-25">
                                             <span className="my-2">시청 시간 기능 사용 &nbsp;</span>
-                                            <input type="checkbox" required />
+                                            <input type="checkbox" />
                                         </div>
 
                                         <div className="row d-flex justify-content-end ms-3 me-1 mt-3">
@@ -159,7 +151,7 @@ const ClassroomContent = (props) => {
                                             >
                                                 취소
                                             </Button>
-                                            <Button className="createbtn" type="button" onClick={handleSubmit} style={{ padding: "10.5px" }}>
+                                            <Button className="createbtn" type="submit" onClick={handleSubmit} style={{ padding: "10.5px" }}>
                                                 저장
                                             </Button>
                                         </div>
