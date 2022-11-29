@@ -48,7 +48,6 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
     };
     const [deleteCount, setDeleteCount] = useState(isInPlaylist);
     const onDeleteClick = useCallback((seq) => {
-        setDeleteCount(deleteCount - 1);
         deleteVideoFromCart(seq);
     });
 
@@ -76,11 +75,11 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
     };
 
     const saveCart = async () => {
-        console.log("cartList === " + cartList);
+        // console.log("cartList === " + cartList);
         for (let temp in cartList) {
             let obj = JSON.parse(cartList[temp]);
-            console.log("cartList === " + obj.id);
-            if (obj.id === -1) {
+            // console.log("cartList === " + obj.id);
+            if (obj.id === -1 && obj.deleted !== 1) {
                 let createRequest = {
                     playlistId: obj.playlistId,
                     youtubeId: obj.youtubeId,
@@ -142,7 +141,7 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                 ++temp;
             }
         }
-        window.location.replace("/learntube-studio");
+        window.location.reload();
     };
     function decodeHTMLEntities(str) {
         if (str !== undefined && str !== null && str !== "") {
@@ -195,11 +194,7 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                                             if (video.deleted !== 1) {
                                                 return (
                                                     <>
-                                                        <div
-                                                            key={`video-${video.seq}`}
-                                                            className="d-flex mt-10 mb-10 col-md-2 justify-content-start"
-                                                            style={video.seq === lastSeq ? { width: "180px", height: "200px", borderRight: "3px solid gray" } : { width: "180px", height: "200px" }}
-                                                        >
+                                                        <div key={`video-${video.seq}`} className="d-flex mt-10 mb-10 col-md-2 justify-content-start" style={{ width: "180px", height: "200px" }}>
                                                             <div style={{ position: "relative", width: "100%" }}>
                                                                 <div className="d-flex flex-wrap justify-content-start align-items-center">
                                                                     <div className="d-flex justify-content-end w-100" style={{ position: "absolute", top: "0", zIndex: "5", marginTop: "4px" }}>
@@ -220,7 +215,7 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                                                                         >
                                                                             <i class="fa fa-edit"></i>
                                                                         </button>
-                                                                        {i < deleteCount ? (
+                                                                        {video.seq < deleteCount + 1 ? (
                                                                             <button
                                                                                 onClick={(e) => {
                                                                                     onDeleteClick(video.seq);
