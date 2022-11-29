@@ -326,10 +326,21 @@ const PlaylistWidget = ({
             setSelectedVideo(_selectedVideo);
         }
     };
-    function decodeHTML(words) {
-        var decode = require("decode-html");
-        // console.log(decode(words));
-        return decode(words);
+    function decodeHTML(str) {
+        // var decode = require("decode-html");
+        // // console.log(decode(words));
+        // return decode(words);
+        if (str !== undefined && str !== null && str !== "") {
+            str = String(str);
+
+            str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gim, "");
+            str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')&>/gim, "");
+            var element = document.createElement("div");
+            element.innerHTML = str;
+            str = element.textContent;
+            element.textContent = "";
+        }
+        return str;
     }
 
     const handleCancle = () => {
@@ -467,7 +478,7 @@ const PlaylistWidget = ({
                                     <ReactPlayer
                                         url={`https://www.youtube.com/watch?v=${clickedVideo.youtubeId}?start=${clickedVideo.start_s}&end=${clickedVideo.end_s}`}
                                         width="100%"
-                                        height="500px"
+                                        height="514px"
                                         controls={true} // 플레이어 컨트롤 노출 여부
                                         pip={true} // pip 모드 설정 여부
                                     />
