@@ -29,7 +29,7 @@ const YoutubeVideoListWidget = ({ videos, selectVideo, getToken, addVideoToCart,
             <div id="rs-popular-course" className="rs-popular-courses list-view style1 course-view-style orange-style rs-inner-blog md-pt-70 text-start">
                 <div>
                     <div className="course-part search-result clearfix row" style={{ margin: "0px 50px" }}>
-                        {searchedVideos.map(function (video) {
+                        {searchedVideos.map(function (video, i) {
                             //console.log(video.id);
                             let isAlreadyIncart = newCart.hasOwnProperty(video.id);
 
@@ -38,7 +38,7 @@ const YoutubeVideoListWidget = ({ videos, selectVideo, getToken, addVideoToCart,
                             //console.log(video.snippet.title+" "+isAlreadyIncart);
                             return (
                                 <YoutubeBoard
-                                    key={video.id.videoId}
+                                    key={isAlreadyIncart.videoId}
                                     video={video}
                                     selectVideo={selectVideo}
                                     videoNew={video}

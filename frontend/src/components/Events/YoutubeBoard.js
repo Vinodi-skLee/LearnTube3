@@ -13,12 +13,19 @@ import "rc-slider/assets/index.css";
 
 const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, selectVideo, index, addVideoToCart, deleteVideoFromCart, isAlreadyIncart, cart, newCart, selectPart }) => {
     let indexx = index.slice(0, -1);
+    const [isAdded, setIsAdded] = useState(false);
+    const [isMouseOn, setIsMouseOn] = useState(0);
+    const [alreadyCart, setAlreadyCart] = useState(false);
+    const [searchedVideos, setSearchedVideos] = useState([]);
+    const [isInterestVideo, setIsInterestVideo] = useState(false);
+
     const onSelect = () => {
         selectPart(video);
     };
 
-    const onClick = () => {
+    const onClickAdd = () => {
         setIsAdded(true);
+        console.log(isAdded);
         addVideoToCart(video);
         // console.log("newCart : " + newCart[video.id]);
     };
@@ -29,16 +36,10 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, selectVi
     };
 
     //const [isSelected, setIsSelected] = useState(false);
-    const [isAdded, setIsAdded] = useState(false);
-    const [isMouseOn, setIsMouseOn] = useState(0);
-    const [alreadyCart, setAlreadyCart] = useState(false);
 
-    const [searchedVideos, setSearchedVideos] = useState([]);
     useEffect(function () {
         setSearchedVideos(video);
     });
-
-    const [isInterestVideo, setIsInterestVideo] = useState(false);
 
     const heartBtnHandler = () => {
         setIsInterestVideo(!isInterestVideo);
@@ -132,7 +133,7 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, selectVi
                                 -
                             </Button>
                         ) : (
-                            <Button onMouseDown={onClick} className="cart-in">
+                            <Button onClick={onClickAdd} className="cart-in">
                                 담기
                             </Button>
                         )}
