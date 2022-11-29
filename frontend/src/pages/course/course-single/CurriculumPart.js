@@ -474,7 +474,7 @@ const CurriculumPart = (props) => {
                                 </div>
                             </div>
                         ) : null}
-                        {Array.isArray(props.classRoomData.lectures)
+                        {Array.isArray(props.classRoomData.lectures) 
                             ? props.classRoomData.lectures.map((lectures, i) => (
                                   <AccordionItem className="accordion-item">
                                       <AccordionItemHeading>

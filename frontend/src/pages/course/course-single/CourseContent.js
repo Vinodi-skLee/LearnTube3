@@ -61,6 +61,11 @@ const CourseContent = (props) => {
         fetchClassRoom();
     }, [contentId, lectureNum]);
     const prevLectureHandler = () => {
+        console.log(lectures[lectureNum - 2].contents[0]);
+        if(lectures[lectureNum - 2].contents[0] == undefined){
+            alert("학습 콘텐츠가 없는 강의입니다. 자세한 사항은 강사에게 문의하세요.");
+            return;
+        }
         if (lectureNum != 1) {
             // console.log("prevLectureHandler", lectureNum);
             // console.log(
@@ -75,6 +80,11 @@ const CourseContent = (props) => {
         }
     };
     const nextLectureHandler = () => {
+        console.log(lectures[lectureNum].contents[0]);
+        if(lectures[lectureNum].contents[0] == undefined){
+            alert("학습 콘텐츠가 없는 강의입니다. 자세한 사항은 강사에게 문의하세요.");
+            return;
+        }
         if (lectureNum <= lectures.length) {
             // console.log(
             //   location.state.classRoomData.lectures[lectureNum].contents[0].contentId
@@ -127,7 +137,7 @@ const CourseContent = (props) => {
                             >
                                 {lectureNum != 1 ? (
                                     <>
-                                        <li onClick={prevLectureHandler} data-for="prevLectureBtnHover" data-tip>
+                                        <li onClick={prevLectureHandler} style={{cursor: "pointer"}} data-for="prevLectureBtnHover" data-tip>
                                             {/* <GrPrevious /> */}
                                             <i className="fa fa-angle-left fa-lg" style={{ color: "#fff" }}></i>
                                         </li>{" "}
@@ -199,7 +209,7 @@ const CourseContent = (props) => {
                                 {/* <h>{(lectureNum, lectures.length)}</h> */}
                                 {lectureNum != lectures.length ? (
                                     <>
-                                        <li onClick={nextLectureHandler} data-for="nextLectureBtnHover" data-tip>
+                                        <li onClick={nextLectureHandler} style={{cursor: "pointer"}} data-for="nextLectureBtnHover" data-tip>
                                             {/* <GrNext size={15} color="#ff614d" /> */}
                                             <i className="fa fa-angle-right fa-lg" style={{ color: "#fff" }}></i>
                                         </li>
