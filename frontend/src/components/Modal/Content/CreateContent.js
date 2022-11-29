@@ -56,7 +56,7 @@ const CreateContent = (props) => {
             [e.target.name]: e.target.value.trim(),
             userId: props.userId,
         });
-        console.log(createPlaylist);
+        // console.log(createPlaylist);
     };
     const handleSubmit = async () => {
         //console.log(playlistId);
@@ -69,14 +69,15 @@ const CreateContent = (props) => {
         //     window.alert("강의실 제목을 입력해 주세요.");
         //     return 0;
         // }
-            const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/content`, JSON.stringify(createContentData), {
+        const response = await axios
+            .post(`${process.env.REACT_APP_SERVER_URL}/api/content`, JSON.stringify(createContentData), {
                 method: "POST",
                 headers: {
                     // Accept: "application/json",
                     "Content-Type": "application/json",
                 },
             })
-            .then(function (res){
+            .then(function (res) {
                 openModal();
                 window.location.reload();
             });
@@ -92,16 +93,15 @@ const CreateContent = (props) => {
         //     return 0;
         // }
         //console.log(JSON.stringify(createPlaylist));
-        if(!createContentData.contentName){
+        if (!createContentData.contentName) {
             window.alert("콘텐츠 제목을 입력해 주세요.");
             return;
         }
-        if(newPlaylistOpen){
-            if(!createPlaylist){
+        if (newPlaylistOpen) {
+            if (!createPlaylist) {
                 window.alert("플레이리스트 이름을 입력해 주세요.");
                 return;
-            }
-            else {
+            } else {
                 let temp;
                 const response = await axios
                     .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/create`, JSON.stringify(createPlaylist), {
@@ -125,8 +125,7 @@ const CreateContent = (props) => {
                         //handleSubmit();
                     });
             }
-        }
-        else{
+        } else {
             handleSubmit();
         }
         //handleSubmit();
@@ -232,7 +231,7 @@ const CreateContent = (props) => {
                                                         *
                                                     </span> */}
                                                 </div>
-                                                <input type="datetime-local" id="openDate" name="openDate" onChange={handleChange}/>
+                                                <input type="datetime-local" id="openDate" name="openDate" onChange={handleChange} />
                                             </div>
                                             <div className="form-group col-lg-12">
                                                 <div className="my-2">
@@ -241,7 +240,7 @@ const CreateContent = (props) => {
                                                         *
                                                     </span> */}
                                                 </div>
-                                                <input type="datetime-local" id="closeDate" name="closeDate" onChange={handleChange}/>
+                                                <input type="datetime-local" id="closeDate" name="closeDate" onChange={handleChange} />
                                             </div>
                                             <div className="row">
                                                 <div className="col-6">
@@ -266,9 +265,7 @@ const CreateContent = (props) => {
                                                     ></li>
                                                     Playlist 불러오기
                                                 </div>
-                                                <div
-                                                    className="col-6"
-                                                >
+                                                <div className="col-6">
                                                     <li
                                                         className="fa fa-plus"
                                                         onClick={() => {
@@ -306,7 +303,7 @@ const CreateContent = (props) => {
                                                                 : null}
                                                         </FormSelect>
                                                     </div>
-                                                </div> 
+                                                </div>
                                             ) : null}
                                             {newPlaylistOpen === true ? (
                                                 <div className="row clearfix">
@@ -362,9 +359,9 @@ const CreateContent = (props) => {
                                                 className="createbtn"
                                                 type="button"
                                                 onClick={() => {
-                                                        handleNewSubmit();
-                                                        //console.log(createContentData);
-                                                        // handleSubmit();
+                                                    handleNewSubmit();
+                                                    //console.log(createContentData);
+                                                    // handleSubmit();
                                                 }}
                                                 style={{ padding: "10.5px" }}
                                             >
