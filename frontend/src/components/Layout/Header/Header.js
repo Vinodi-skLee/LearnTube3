@@ -70,6 +70,16 @@ const Header = (props) => {
         document.body.classList.add("nav-expanded");
     };
 
+    const canvasMenuRemove = () => {
+        document.body.classList.remove("nav-expanded");
+    };
+
+    const addAlarmDropdown = () => {
+        document.body.classList.add("alarm-dropdown");
+    };
+    const removeAlarmDropdown = () => {
+        document.body.classList.remove("alarm-dropdown");
+    };
     const alarmExpand = () => {
         setAlarmVisible(!alarmVisible);
     };
@@ -243,15 +253,8 @@ const Header = (props) => {
                                             </div>
                                             <nav className="rs-menu hidden-md text-start">
                                                 <ul className="nav-menu">
-                                                    <MenuItems
-                                                        parentMenu={parentMenu}
-                                                        // secondParentMenu={secondParentMenu}
-                                                        // activeMenu={activeMenu}
-                                                    />{" "}
+                                                    <MenuItems parentMenu={parentMenu} />{" "}
                                                 </ul>{" "}
-                                                {/* <span className="ml-190">
-                          <Login />{" "}
-                        </span> */}
                                             </nav>{" "}
                                         </div>{" "}
                                     </div>{" "}
@@ -259,37 +262,27 @@ const Header = (props) => {
 
                                 <div className="col-lg-3 relative text-end hidden-md">
                                     <div className="expand-btn-inner search-icon">
-                                        {/* 원래 로그인 헤더 위치 */}
                                         {userId ? null : <Login />}
                                         <ul className="expand-items">
-                                            {/* <li className="sidebarmenu-search">
-                        <Link
-                          to="#"
-                          onClick={searchModalAdd}
-                          className="rs-search"
-                          href="#"
-                        >
-                          {" "}
-                          <i className="flaticon-search"></i>
-                        </Link>
-                      </li> */}
                                             <li>
-                                                {/* <a
-                          onClick={canvasMenuAdd}
-                          id="nav-expander"
-                          className="nav-expander"
-                          href="#"
-                        > */}
                                                 <div className="d-flex">
                                                     <div>
                                                         {userId ? (
                                                             newAlarm ? (
                                                                 <>
                                                                     <div className="new-alarm">{index}</div>
-                                                                    <FaBell className="alarmbtn mr-10" size="24" />
+                                                                    <FaBell
+                                                                        className="alarmbtn mr-10"
+                                                                        size="20"
+                                                                        // onMouseOver={{ addAlarmDropdown }} onMouseLeave={{ removeAlarmDropdown }}
+                                                                    />
                                                                 </>
                                                             ) : (
-                                                                <FaBell className="alarmbtn mr-10" size="24" />
+                                                                <FaBell
+                                                                    className="alarmbtn mr-10"
+                                                                    size="20"
+                                                                    // onMouseOver={{ addAlarmDropdown }} onMouseLeave={{ removeAlarmDropdown }}
+                                                                />
                                                             )
                                                         ) : null}
 
@@ -300,14 +293,17 @@ const Header = (props) => {
                                                                 </div>
                                                             </div>
                                                         ) : (
-                                                            <div className="alarm-dropdown">
+                                                            <div
+                                                                className="alarm-dropdown"
+                                                                // className="alarm"
+                                                            >
                                                                 {isWaiting ? (
                                                                     waitList.map((waiting, i) => (
                                                                         <div
                                                                             className="alarm-border"
                                                                             style={{
                                                                                 textAlign: "left",
-                                                                                padding: "5px 15px",
+                                                                                padding: "7px 20px",
                                                                             }}
                                                                             onClick={() => setNewAlarm(false)}
                                                                         >
@@ -341,7 +337,16 @@ const Header = (props) => {
                                                             </div>
                                                         )}
                                                     </div>
-                                                    <div>{userId ? <BsFillPersonFill onMouseOver={canvasMenuAdd} size="24" style={{ color: "white" }} /> : null}</div>
+                                                    <div>
+                                                        {userId ? (
+                                                            <BsFillPersonFill
+                                                                onMouseOver={canvasMenuAdd}
+                                                                // onMouseLeave={canvasMenuRemove}
+                                                                size="24"
+                                                                style={{ color: "white", cursor: "pointer" }}
+                                                            />
+                                                        ) : null}
+                                                    </div>
                                                 </div>
 
                                                 {/* <span className="dot1"></span>

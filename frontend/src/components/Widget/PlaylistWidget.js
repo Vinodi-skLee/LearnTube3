@@ -273,7 +273,7 @@ const PlaylistWidget = ({
             setUpdatePlaylistTitle(updatePlaylistTitle);
             setSavedPlaylistName(updatePlaylistTitle);
         }
-        alert(savedPlaylistName + "로 playlist 제목이 업데이트 되었습니다.");
+        // alert(savedPlaylistName + "로 playlist 제목이 업데이트 되었습니다.");
         alert("플레이리스트가 수정되었습니다.");
         // window.location.reload();
     };
@@ -785,7 +785,7 @@ const PlaylistWidget = ({
                                                                     >
                                                                         {video.videos[0] ? (
                                                                             <>
-                                                                                {playlistData[i].used === 1 ? (
+                                                                                {/* {playlistData[i].used === 1 ? (
                                                                                     // 사용중
                                                                                     <div data-for="usedPlaylist" data-tip className="d-flex justify-content-start">
                                                                                         <FaCheck
@@ -803,7 +803,7 @@ const PlaylistWidget = ({
                                                                                         </FaCheck>
                                                                                         <ReactTooltip id="usedPlaylist" getContent={(dataTip) => "사용중인 플레이리스트"} />
                                                                                     </div>
-                                                                                ) : null}
+                                                                                ) : null} */}
                                                                                 {/* {typeof playlistData[i].playlistId}
                                       {typeof usedPlaylist[0]} */}
                                                                                 <img
