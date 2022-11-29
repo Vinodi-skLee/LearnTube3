@@ -27,7 +27,7 @@ export default function SetPlaylistDropdown({
     const useClick = () => setIsActive(!isActive);
     const [isOpen, setIsOpen] = useState(false);
     const openModal = () => setIsOpen(!isOpen);
-    const [isShow, setIsShow] = useState(false);
+    // const [isShow, setIsShow] = useState(false);
     const [createPlaylist, setCreatePlaylist] = useState(initCreatePlaylist);
     const [playlistName, setPlaylistName] = useState("Playlist 생성");
 
@@ -62,23 +62,25 @@ export default function SetPlaylistDropdown({
 
     const handleSubmit = async () => {
         // console.log(JSON.stringify(createPlaylist));
-        let temp;
-        const response = await axios
-            .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/create`, JSON.stringify(createPlaylist), {
-                method: "POST",
-                headers: {
-                    // Accept: "application/json",
-                    "Content-Type": "application/json",
-                },
-            })
-            .then(function (res) {
-                // console.log(res.data.playlistId);
-                temp = res.data.playlistId;
-                setPlaylistId(temp);
-                setIsShow(true);
-            });
-        // console.log(createPlaylist.playlistName);
-        setPlaylistName(createPlaylist.playlistName);
+        if (createPlaylist.playlistName) {
+            let temp;
+            const response = await axios
+                .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/create`, JSON.stringify(createPlaylist), {
+                    method: "POST",
+                    headers: {
+                        // Accept: "application/json",
+                        "Content-Type": "application/json",
+                    },
+                })
+                .then(function (res) {
+                    // console.log(res.data.playlistId);
+                    temp = res.data.playlistId;
+                    setPlaylistId(temp);
+                    // setIsShow(true);
+                });
+            // console.log(createPlaylist.playlistName);
+            setPlaylistName(createPlaylist.playlistName);
+        }
     };
 
     return (
@@ -297,33 +299,29 @@ export default function SetPlaylistDropdown({
                                     <div className="styled-form">
                                         <div id="form-messages"></div>
                                         <form id="contact-form">
-                                            {isShow ? (
-                                                <div></div>
-                                            ) : (
-                                                <div className="row clearfix">
-                                                    <div className="form-group col-lg-12 mb-25">
-                                                        <div className="my-2">
-                                                            Playlist 이름
-                                                            <span className="ms-1" style={{ color: "red" }}>
-                                                                *
-                                                            </span>
-                                                        </div>
-                                                        <input type="text" id="title" name="playlistName" placeholder="제목을 입력하세요" onChange={handleChange} required />
+                                            <div className="row clearfix">
+                                                <div className="form-group col-lg-12 mb-25">
+                                                    <div className="my-2">
+                                                        Playlist 이름
+                                                        <span className="ms-1" style={{ color: "red" }}>
+                                                            *
+                                                        </span>
                                                     </div>
-                                                    <div className="form-group col-lg-12">
-                                                        <div className="my-2">Playlist 설명</div>
-                                                        <textarea
-                                                            type="textarea"
-                                                            id="description"
-                                                            name="description"
-                                                            onChange={handleChange}
-                                                            placeholder="설명을 입력하세요"
-                                                            style={{ height: "80px", borderRadius: "0px" }}
-                                                        />
-                                                    </div>
+                                                    <input type="text" id="title" name="playlistName" placeholder="제목을 입력하세요" onChange={handleChange} required />
                                                 </div>
-                                            )}
-                                            {isShow ? (
+                                                <div className="form-group col-lg-12">
+                                                    <div className="my-2">Playlist 설명</div>
+                                                    <textarea
+                                                        type="textarea"
+                                                        id="description"
+                                                        name="description"
+                                                        onChange={handleChange}
+                                                        placeholder="설명을 입력하세요"
+                                                        style={{ height: "80px", borderRadius: "0px" }}
+                                                    />
+                                                </div>
+                                            </div>
+                                            {/* {isShow ? (
                                                 <div className="row d-flex justify-content-center ms-3 me-1 mt-3">
                                                     <button
                                                         type="submit"
@@ -349,30 +347,30 @@ export default function SetPlaylistDropdown({
                                                         <span>playlist에 영상 추가하기</span>
                                                     </Link>
                                                 </div>
-                                            ) : (
-                                                <div className="row d-flex justify-content-end ms-3 me-1 mt-3 align-items-center">
-                                                    <button
-                                                        type="submit"
-                                                        className="canclebtn align-items-center"
-                                                        onClick={() => {
-                                                            openModal();
-                                                            setIsShow(false);
-                                                            setPlaylistName("Playlist 생성");
-                                                        }}
-                                                        // style={{ height: "40px", borderRadius: "5px" }}
-                                                    >
-                                                        <span className="txt">취소</span>
-                                                    </button>
-                                                    <button
-                                                        className="createbtn align-items-center"
-                                                        onClick={handleSubmit}
-                                                        // style={{ height: "40px", borderRadius: "5px" }}
-                                                    >
-                                                        {/* <div className="createbtn text-center d-flex align-items-center justify-content-center" onClick={handleSubmit}> */}
-                                                        <span className="txt">저장</span>
-                                                    </button>
-                                                </div>
-                                            )}
+                                            ) : ( */}
+                                            <div className="row d-flex justify-content-end ms-3 me-1 mt-3 align-items-center">
+                                                <button
+                                                    type="submit"
+                                                    className="canclebtn align-items-center"
+                                                    onClick={() => {
+                                                        openModal();
+                                                        // setIsShow(false);
+                                                        setPlaylistName("Playlist 생성");
+                                                    }}
+                                                    // style={{ height: "40px", borderRadius: "5px" }}
+                                                >
+                                                    <span className="txt">취소</span>
+                                                </button>
+                                                <button
+                                                    className="createbtn align-items-center"
+                                                    onClick={handleSubmit}
+                                                    // style={{ height: "40px", borderRadius: "5px" }}
+                                                >
+                                                    {/* <div className="createbtn text-center d-flex align-items-center justify-content-center" onClick={handleSubmit}> */}
+                                                    <span className="txt">저장</span>
+                                                </button>
+                                            </div>
+                                            {/* )} */}
                                         </form>
                                     </div>
                                 </div>
