@@ -4,8 +4,7 @@ import ReactTooltip from "react-tooltip";
 import logo from "../../assets/img/logo/img-background.png";
 
 const CourseSingleTwoCopy = (props) => {
-    const { courseId, courseClass, courseImg, courseTitle, userCount, openDate, creatorName } = props;
-    console.log(courseId);
+    const { courseClass, courseImg, classId, courseTitle, userCount, openDate, creatorName } = props;
     const getDateDiff = (date) => {
         let today = new Date();
         let year = today.getFullYear();
@@ -28,8 +27,17 @@ const CourseSingleTwoCopy = (props) => {
         <div className={courseClass ? courseClass : "courses-item"}>
             <div className="img-part content-part">
                 {courseImg ? (
+                    <Link to={{
+                        pathname: "/course/course-single",
+                        state: {classId: classId}
+                    }}>
                         <img style={{ width: "400px", height: "200px", cursor: "pointer" }} src={courseImg} alt={courseTitle}/>
+                    </Link>
                 ) : (
+                    <Link to={{
+                        pathname: "/course/course-single",
+                        state: {classId: classId}
+                    }}>
                     <div
                         className="background-wrap"
                         style={{
@@ -56,6 +64,7 @@ const CourseSingleTwoCopy = (props) => {
                             {courseTitle}
                         </span>
                     </div>
+                    </Link>
                 )}
                 {getDateDiff(openDate) === "New" ? (
                     <ul className="meta-part new-part">
@@ -93,7 +102,10 @@ const CourseSingleTwoCopy = (props) => {
                         </ul>
                     </div>
                     <div className="btn-part">
-                        <Link to="/course/course-single">
+                        <Link to={{
+                            pathname: "/course/course-single",
+                            state: {classId: classId}
+                        }}>
                             {/* {props.btnText} */}
                             <i className="flaticon-right-arrow"></i>
                         </Link>

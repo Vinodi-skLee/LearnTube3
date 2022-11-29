@@ -548,7 +548,7 @@ const CurriculumPart = (props) => {
                                                                             paddingTop: "10px",
                                                                         }}
                                                                     >
-                                                                        {contents.closeDate ? (
+                                                                        {contentVideoNum[props.classRoomData.lectures[i].contents[j].contentId] ? (
                                                                             <>
                                                                                 <span>영상 {contentVideoNum[props.classRoomData.lectures[i].contents[j].contentId]}개 | </span>
                                                                                 {

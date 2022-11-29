@@ -115,12 +115,13 @@ function Courses(props) {
                             <Slider {...coursesSliderSettings}>
                                 {popularClass
                                     ? popularClass.map((classes, i) => (
-                                          <div onClick={clickCourse.bind(this, i)}>
+                                          <div onClick={() => {clickCourse.bind(this, i);}}>
                                               <CourseSingleTwoCopy
                                                   userId={userId}
                                                   courseClass="courses-item mb-30"
                                                   courseImg={popularClass[i].image}
                                                   courseTitle={popularClass[i].className}
+                                                  classId={popularClass[i].classId}
                                                   newCourse={"New"}
                                                   openDate={popularClass[i].classRoomRegDate.split("-")[0] + "." + popularClass[i].classRoomRegDate.split("-")[1]}
                                                   creatorName={popularClass[i].instructorName}

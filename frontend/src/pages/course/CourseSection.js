@@ -109,7 +109,7 @@ const CoursePart = (props) => {
                                     <div className="col-lg-4 col-md-6" onClick={clickCourse.bind(this, idx)}>
                                         <CourseSingleTwoCopy
                                             courseClass="courses-item mb-30"
-                                            courseId={course.classId}
+                                            classId={course.classId}
                                             courseImg={course.image}
                                             courseTitle={course.className}
                                             userCount={course.numberOfTake}

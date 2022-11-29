@@ -44,6 +44,10 @@ const ClassroomContent = (props) => {
             openModal();
             window.location.reload();
         }
+        else{
+            window.alert("강의실 이름을 입력해 주세요.");
+            return;
+        }
     };
 
     return (
@@ -135,10 +139,10 @@ const ClassroomContent = (props) => {
                                             </div>
                                             <input type="datetime-local" id="closeDate" name="closeDate" onChange={handleChange} />
                                         </div>
-                                        <div className="col-lg-12 mb-25">
+                                        {/* <div className="col-lg-12 mb-25">
                                             <span className="my-2">시청 시간 기능 사용 &nbsp;</span>
                                             <input type="checkbox" />
-                                        </div>
+                                        </div> */}
 
                                         <div className="row d-flex justify-content-end ms-3 me-1 mt-3">
                                             <Button
@@ -151,7 +155,7 @@ const ClassroomContent = (props) => {
                                             >
                                                 취소
                                             </Button>
-                                            <Button className="createbtn" type="submit" onClick={handleSubmit} style={{ padding: "10.5px" }}>
+                                            <Button className="createbtn" type="button" onClick={handleSubmit} style={{ padding: "10.5px" }}>
                                                 저장
                                             </Button>
                                         </div>
