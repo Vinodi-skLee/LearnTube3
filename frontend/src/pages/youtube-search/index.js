@@ -65,7 +65,7 @@ const YoutubeSearch = () => {
     const [isOpen, setIsOpen] = useState(false);
     //const [index, setIndex] = useState(Object.keys(existingVideo).length);
     const [isInPlaylist, setIsInPlaylist] = useState(lastSeq);
-    console.log("lastSeq === " + lastSeq);
+    // console.log("lastSeq === " + lastSeq);
     const [isStartModified, setIsStartModified] = useState(0);
     const [isEndModified, setIsEndModified] = useState(0);
     const [index, setIndex] = useState(lastSeq + 1);

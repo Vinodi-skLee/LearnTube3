@@ -25,12 +25,12 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, selectVi
 
     const onClickAdd = () => {
         setIsAdded(true);
-        console.log(isAdded);
+        // console.log(isAdded);
         addVideoToCart(video);
         // console.log("newCart : " + newCart[video.id]);
     };
 
-    const onDelete = () => {
+    const onDeleteAdd = () => {
         setIsAdded(false);
         deleteVideoFromCart(cart[indexx].seq);
     };
@@ -129,7 +129,7 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, selectVi
                             <i className="fa fa-heart" onClick={heartBtnHandler} style={{ color: "gray" }}></i>
                         )}
                         {isAdded || isAlreadyIncart ? (
-                            <Button onMouseDown={onDelete} className="cart-out">
+                            <Button onClick={onDeleteAdd} className="cart-out">
                                 -
                             </Button>
                         ) : (
