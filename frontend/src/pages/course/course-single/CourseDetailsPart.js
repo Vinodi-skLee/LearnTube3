@@ -12,7 +12,9 @@ function CourseDetailsPart() {
     const [userId, SetUserId] = useState("");
 
     const [classRoomData, setClassRoomData] = useState();
-    const cid = useLocation().state.classId;
+    console.log(location.state.classId);
+    console.log(window.sessionStorage.getItem("cid"));
+    const cid = location.state.classId ? location.state.classId : window.sessionStorage.getItem("cid");
     const [clicked, setClicked] = useState(false);
     const [students, setStudents] = useState([{ userId: "", name: "", email: "" }]);
     const [takesData, setTakesData] = useState();

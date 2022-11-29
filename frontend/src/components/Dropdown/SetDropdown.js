@@ -82,6 +82,7 @@ export default function SetDropdown(props) {
 
     const onDelete = () => {
         if (deleteClassName === props.classRoomData.className) {
+            setIsOnDelete(false);
             if(window.confirm("강의실을 삭제하시겠습니까?")){
                 deleteClassroom();
             }
@@ -139,17 +140,14 @@ export default function SetDropdown(props) {
                 <div className="register-section w-100 h-100">
                         <div className="container">
                             <div className="py-3 px-5">
-                                <div className="sec-title text-center mb-10">
-                                    <h4 className="title mt-3 mb-10">강의실 삭제</h4>
-                                </div>
                                 <div className="styled-form">
                                     <div id="form-messages"></div>
 
                                     <form id="contact-form">
                                         <div className="row clearfix">
                                             <div className="form-group col-lg-12 mb-25">
-                                                <h5 className="my-2">강의실의 제목을 입력해 주세요.</h5>
-                                                <input type="text" id="className" name="className" onChange={handleDeleteChange} />
+                                                <h5 className="my-2">'{props.classRoomData.className}' 강의실을 삭제하시겠습니까?</h5>
+                                                <input type="text" id="className" name="className" placeholder="삭제하려는 현재 강의실 이름을 입력해 주세요." onChange={handleDeleteChange} />
                                             </div>
                                         </div>
                                         <div className="row d-flex justify-content-end ms-3 me-1 mt-10">
@@ -161,7 +159,7 @@ export default function SetDropdown(props) {
                                             >
                                                 취소
                                             </Button>
-                                            <Button className="ml-10 col-2 btn-sm" onClick={() => {onDelete();}}>
+                                            <Button className="ml-10 col-2 btn-sm" style={{background: "red"}} onClick={() => {onDelete();}}>
                                                 삭제
                                             </Button>
                                         </div>

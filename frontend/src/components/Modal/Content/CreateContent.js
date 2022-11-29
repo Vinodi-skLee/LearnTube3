@@ -5,6 +5,7 @@ import axios from "axios";
 import { faCaretSquareDown } from "@fortawesome/free-solid-svg-icons";
 
 const CreateContent = (props) => {
+    window.sessionStorage.setItem("cid", props.classId);
     const [isOpen, setIsOpen] = useState();
     const openModal = () => setIsOpen(!isOpen);
     const [playlistOpen, setPlaylistOpen] = useState(false);
@@ -68,18 +69,17 @@ const CreateContent = (props) => {
         //     window.alert("강의실 제목을 입력해 주세요.");
         //     return 0;
         // }
-        if(createContentData.contentName){
             const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/api/content`, JSON.stringify(createContentData), {
                 method: "POST",
                 headers: {
                     // Accept: "application/json",
                     "Content-Type": "application/json",
                 },
+            })
+            .then(function (res){
+                openModal();
+                window.location.reload();
             });
-            // .then((res) => console.log(res));
-            openModal();
-            window.location.reload();
-        }
     };
     const handleNewSubmit = async () => {
         // console.log(createPlaylist);
@@ -92,30 +92,42 @@ const CreateContent = (props) => {
         //     return 0;
         // }
         //console.log(JSON.stringify(createPlaylist));
-        if(createContentData.contentName && createPlaylist){
-            let temp;
-            const response = await axios
-                .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/create`, JSON.stringify(createPlaylist), {
-                    method: "POST",
-                    headers: {
-                        // Accept: "application/json",
-                        "Content-Type": "application/json",
-                    },
-                })
-                .then(function (res) {
-                    //console.log(res.data.playlistId);
-                    temp = res.data.playlistId;
-                    setPlaylistId(temp);
-                    // createContentData.playlistId = temp;
-                    setCreateContentData({
-                        ...createContentData,
-                        playlistId: temp,
+        if(!createContentData.contentName){
+            window.alert("콘텐츠 제목을 입력해 주세요.");
+            return;
+        }
+        if(newPlaylistOpen){
+            if(!createPlaylist){
+                window.alert("플레이리스트 이름을 입력해 주세요.");
+                return;
+            }
+            else {
+                let temp;
+                const response = await axios
+                    .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/create`, JSON.stringify(createPlaylist), {
+                        method: "POST",
+                        headers: {
+                            // Accept: "application/json",
+                            "Content-Type": "application/json",
+                        },
+                    })
+                    .then(function (res) {
+                        //console.log(res.data.playlistId);
+                        temp = res.data.playlistId;
+                        setPlaylistId(temp);
+                        // createContentData.playlistId = temp;
+                        setCreateContentData({
+                            ...createContentData,
+                            playlistId: temp,
+                        });
+                        //console.log(createContentData);
+                        handleSubmit();
+                        //handleSubmit();
                     });
-                    //console.log(createContentData);
-                    handleSubmit();
-                    //handleSubmit();
-                });
-                setCreateContentData(initCreateContentData);
+            }
+        }
+        else{
+            handleSubmit();
         }
         //handleSubmit();
     };
@@ -237,6 +249,7 @@ const CreateContent = (props) => {
                                                         className="fa fa-check"
                                                         onClick={() => {
                                                             setPlaylistOpen(!playlistOpen);
+                                                            setNewPlaylistOpen(false);
                                                             loadPlaylists();
                                                         }}
                                                         style={{
@@ -255,13 +268,13 @@ const CreateContent = (props) => {
                                                 </div>
                                                 <div
                                                     className="col-6"
-                                                    onClick={() => {
-                                                        setPlaylistOpen(!playlistOpen);
-                                                        setNewPlaylistOpen(!newPlaylistOpen);
-                                                    }}
                                                 >
                                                     <li
                                                         className="fa fa-plus"
+                                                        onClick={() => {
+                                                            setNewPlaylistOpen(!newPlaylistOpen);
+                                                            setPlaylistOpen(false);
+                                                        }}
                                                         style={{
                                                             backgroundColor: "#6483d8",
                                                             border: "0px",
@@ -277,7 +290,7 @@ const CreateContent = (props) => {
                                                     Playlist 만들기
                                                 </div>
                                             </div>
-                                            {playlistOpen === true && newPlaylistOpen == false ? (
+                                            {playlistOpen === true ? (
                                                 <div>
                                                     <div class="dropdown show" style={{ marginBottom: "20px" }}>
                                                         <FormSelect aria-label="SelectBox" id="playlistId" name="playlistId" onChange={handleChange}>
@@ -336,23 +349,22 @@ const CreateContent = (props) => {
                                                 className="canclebtn"
                                                 style={{ padding: "10.5px" }}
                                                 onClick={() => {
-                                                    setPlaylistOpen(false);
                                                     openModal();
+                                                    setCreateContentData(initCreateContentData);
+                                                    setCreatePlaylist(null);
+                                                    setPlaylistOpen(false);
+                                                    setNewPlaylistOpen(false);
                                                 }}
                                             >
                                                 취소
                                             </Button>
                                             <Button
                                                 className="createbtn"
-                                                type="submit"
+                                                type="button"
                                                 onClick={() => {
-                                                    if (newPlaylistOpen) {
                                                         handleNewSubmit();
-
-                                                        createContentData.playlistId(playlistId);
                                                         //console.log(createContentData);
                                                         // handleSubmit();
-                                                    } else handleSubmit();
                                                 }}
                                                 style={{ padding: "10.5px" }}
                                             >

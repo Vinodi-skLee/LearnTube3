@@ -30,8 +30,21 @@ const CourseDashBoard = ({ courseClass, courseImg, courseTitle, progress, userCo
         <div className={courseClass ? courseClass : "courses-item align-items-start"}>
             <div className="img-part content-part" style={{ position: "relative", width: "300px", height: "170px" }}>
                 {courseImg ? (
+                     <Link
+                     to={{
+                         pathname: "/course/course-single",
+                         state: { classId: classId },
+                     }}
+                 >
                     <img style={{ width: "100%", height: "100%" }} src={courseImg} alt={courseTitle} />
+                    </Link>
                 ) : (
+                    <Link
+                    to={{
+                        pathname: "/course/course-single",
+                        state: { classId: classId },
+                    }}
+                >
                     <div
                         className="background-wrap"
                         style={{
@@ -57,6 +70,7 @@ const CourseDashBoard = ({ courseClass, courseImg, courseTitle, progress, userCo
                             {courseTitle}
                         </span>
                     </div>
+                    </Link>
                 )}
                 {getDateDiff(openDate) === "New" ? (
                     <ul className="meta-part new-part">

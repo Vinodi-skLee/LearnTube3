@@ -51,7 +51,16 @@ const UpdateContent = (props) => {
     };
 
     const handleSubmit = async () => {
-        const response = await axios
+        if(!updateContentData.contentName){
+            window.alert("콘텐츠 제목을 입력해 주세요.");
+            return;
+        }
+        else if(newPlaylistOpen && !createPlaylist){
+            window.alert("플레이리스트 이름을 입력해 주세요.");
+            return;
+        }
+        else{
+            const response = await axios
             .post(`${process.env.REACT_APP_SERVER_URL}/api/content/update`, JSON.stringify(updateContentData), {
                 method: "POST",
                 headers: {
@@ -59,8 +68,10 @@ const UpdateContent = (props) => {
                 },
             })
             .then((res) => console.log(res));
-        openModal();
-        window.location.reload();
+            openModal();
+            window.location.reload();
+        }
+        
     };
 
     return (
@@ -126,9 +137,6 @@ const UpdateContent = (props) => {
                                             <div className="form-group col-lg-12">
                                                 <div className="my-2">
                                                     내용
-                                                    <span className="ms-1" style={{ color: "red" }}>
-                                                        *
-                                                    </span>
                                                 </div>
                                                 <textarea
                                                     type="textarea"
@@ -148,24 +156,17 @@ const UpdateContent = (props) => {
                                                         border: "none",
                                                         boxShadow: "0 0 30px #eee",
                                                     }}
-                                                    required
                                                 />
                                             </div>
                                             <div className="form-group col-lg-12">
                                                 <div className="my-2">
                                                     공개일
-                                                    <span className="ms-1" style={{ color: "red" }}>
-                                                        *
-                                                    </span>
                                                 </div>
                                                 <input type="datetime-local" id="openDate" name="openDate" value={updateContentData.openDate} onChange={handleChange} />
                                             </div>
                                             <div className="form-group col-lg-12">
                                                 <div className="my-2">
                                                     마감일
-                                                    <span className="ms-1" style={{ color: "red" }}>
-                                                        *
-                                                    </span>
                                                 </div>
                                                 <input type="datetime-local" id="closeDate" name="closeDate" value={updateContentData.closeDate} onChange={handleChange} />
                                             </div>
@@ -174,7 +175,7 @@ const UpdateContent = (props) => {
                                                     <li
                                                         className="fa fa-check"
                                                         onClick={() => {
-                                                            setPlaylistOpen(true);
+                                                            setPlaylistOpen(!playlistOpen);
                                                             setNewPlaylistOpen(false);
                                                             loadPlaylists();
                                                         }}
@@ -196,7 +197,7 @@ const UpdateContent = (props) => {
                                                     className="col-6"
                                                     onClick={() => {
                                                         setPlaylistOpen(false);
-                                                        setNewPlaylistOpen(true);
+                                                        setNewPlaylistOpen(!newPlaylistOpen);
                                                     }}
                                                 >
                                                     <li
@@ -276,6 +277,10 @@ const UpdateContent = (props) => {
                                                 style={{ padding: "10.5px" }}
                                                 onClick={() => {
                                                     openModal();
+                                                    setUpdateContentData(initUpdateContentData);
+                                                    setCreatePlaylist(null);
+                                                    setPlaylistOpen(false);
+                                                    setNewPlaylistOpen(false);
                                                 }}
                                             >
                                                 취소

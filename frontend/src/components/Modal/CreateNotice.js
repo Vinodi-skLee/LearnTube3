@@ -41,19 +41,26 @@ const CreateNotice = (props) => {
             content: noticeContent,
         };
 
-        const async = async () => {
-            await axios
-                .post(`${process.env.REACT_APP_SERVER_URL}/api/notice`, JSON.stringify(body), {
-                    headers: {
-                        "Content-Type": `application/json`,
-                    },
-                })
-                .then((res) => console.log(res));
+        if(!noticeTitle){
+            window.alert("공지의 제목을 입력해 주세요.");
+            return;
+        }
+        else{
+            const async = async () => {
+                await axios
+                    .post(`${process.env.REACT_APP_SERVER_URL}/api/notice`, JSON.stringify(body), {
+                        headers: {
+                            "Content-Type": `application/json`,
+                        },
+                    })
+                    .then((res) => console.log(res));
 
-            // console.log("create!!");
-            window.location.reload();
-        };
-        async();
+                // console.log("create!!");
+                createNotice();
+                window.location.reload();
+            };
+            async();
+        }
     };
 
     return (
@@ -173,7 +180,6 @@ const CreateNotice = (props) => {
                                                 className="createbtn"
                                                 type="button"
                                                 onClick={() => {
-                                                    createNotice();
                                                     noticeCreateHandler();
                                                 }}
                                                 style={{ padding: "10.5px" }}
