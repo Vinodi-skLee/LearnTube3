@@ -144,6 +144,19 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
         }
         window.location.replace("/learntube-studio");
     };
+    function decodeHTMLEntities(str) {
+        if (str !== undefined && str !== null && str !== "") {
+            str = String(str);
+
+            str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gim, "");
+            str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')&>/gim, "");
+            var element = document.createElement("div");
+            element.innerHTML = str;
+            str = element.textContent;
+            element.textContent = "";
+        }
+        return str;
+    }
 
     return (
         <React.Fragment>
@@ -185,7 +198,7 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                                                         <div
                                                             key={`video-${video.seq}`}
                                                             className="d-flex mt-10 mb-10 col-md-2 justify-content-start"
-                                                            style={video.seq == lastSeq ? { width: "180px", height: "200px", borderRight: "3px solid gray" } : { width: "180px", height: "200px" }}
+                                                            style={video.seq === lastSeq ? { width: "180px", height: "200px", borderRight: "3px solid gray" } : { width: "180px", height: "200px" }}
                                                         >
                                                             <div style={{ position: "relative", width: "100%" }}>
                                                                 <div className="d-flex flex-wrap justify-content-start align-items-center">
@@ -262,7 +275,7 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                                                                             borderBottom: "1px solid gray",
                                                                         }}
                                                                     >
-                                                                        {video.newTitle ? video.newTitle : video.title}
+                                                                        {video.newTitle ? decodeHTMLEntities(video.newTitle) : decodeHTMLEntities(video.title)}
                                                                     </span>
                                                                     <div
                                                                         style={
