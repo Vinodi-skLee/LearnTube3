@@ -3,15 +3,15 @@
     margin-bottom: 3% !important;
 } */
 
-.row-mk{
-    display:flex !important;
+.row-mk {
+    display: flex !important;
     justify-content: space-between;
     margin-bottom: 30px !important;
     align-items: center;
 }
 
 /* 서칭 부분 css */
-.search-wrap-mk [type=search]{
+.search-wrap-mk [type="search"] {
     border: 1px solid #ddd;
     color: #444444;
     padding: 12px 17px;
@@ -21,7 +21,7 @@
     position: relative;
 }
 
-.search-btn-mk{
+.search-btn-mk {
     position: relative;
 }
 
@@ -33,17 +33,17 @@
     position: absolute;
     display: block;
     right: 20%;
-    top: 0; 
+    top: 0;
     z-index: 10;
     font-size: 20px;
     border-radius: 0 5px 5px;
 }
 
 .search-btn-mk button:hover {
-    color: #6483d8;
+    color: #7cbdb5;
 }
 
-.widget-area-mk{
+.widget-area-mk {
     width: 50% !important;
 }
 
@@ -62,7 +62,7 @@
     background: #7cbdb5;
     border: none;
     /* right:0; */
-    float:right;
+    float: right;
     border-radius: 4px;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -71,7 +71,7 @@
 }
 
 .type-form-mk .custom-select-box:before {
-    font-family: 'FontAwesome';
+    font-family: "FontAwesome";
     content: "\f107";
     position: absolute;
     right: 15px;
@@ -96,14 +96,14 @@
 /* .new-part{
     background: #ff5421;
 } */
-.img-part{
+.img-part {
     position: relative;
     margin-bottom: 15px !important;
 }
-.new-part{
+.new-part {
     position: absolute;
     right: 5%;
-    top:5%;
+    top: 5%;
 }
 .info-meta li {
     display: inline;
@@ -112,24 +112,24 @@
     transition: all 0.3s ease;
 }
 
-.user{
+.user {
     border-right: 1px solid black;
 }
 
 .info-meta li.ratings span {
     padding-left: 0px !important;
 }
-.title{
+.title {
     margin: 0 !important;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
 }
-.creatorName{
+.creatorName {
     margin: 0 !important;
     line-height: 1.6;
 }
-.bottom-part{
+.bottom-part {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -139,7 +139,7 @@
 }
 
 .active {
-    color : white;
+    color: white;
     background-color: #6483d8;
     border-radius: 20px;
 }
@@ -148,18 +148,18 @@
     width: 24px;
 }
 
-.pages:hover{
-    color : white;
+.pages:hover {
+    color: white;
     background-color: #d3d3d3;
     border-radius: 20px;
 }
-.arrow{
+.arrow {
     color: gray;
 }
-.arrow:hover{
+.arrow:hover {
     width: 24px;
     height: 24px;
-    color : white;
+    color: white;
     background-color: #d3d3d3;
     border-radius: 20px;
 }

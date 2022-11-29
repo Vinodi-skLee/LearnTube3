@@ -15,10 +15,10 @@ export default function SearchBar(props) {
     };
 
     return (
-        <div className="search-wrap-mk search-btn-mk" style={{ width: "300px" }}>
+        <div className="search-wrap-mk search-btn-mk" style={{ width: "350px" }}>
             <input type="search" placeholder="Searching..." name="s" className="search-input" value={input} onChange={onChange} />
             <button type="submit" value="Search" onClick={onClick}>
-                <i className=" flaticon-search"></i>
+                <i className="search-input fa fa-search"></i>
             </button>
         </div>
     );
