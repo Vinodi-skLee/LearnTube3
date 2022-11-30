@@ -16,122 +16,127 @@ import CourseMain from "../../../pages/dashboard-main/CourseMain";
 import CourseMainAdmin from "../../../pages/dashboard/CourseMainAdmin";
 import CourseMainClosed from "../../../pages/dashboard/CourseMainClosed";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { AiOutlinePlayCircle, AiOutlineSetting, AiOutlineAlert, AiOutlineInbox } from "react-icons/ai";
+import {
+  AiOutlinePlayCircle,
+  AiOutlineSetting,
+  AiOutlineAlert,
+  AiOutlineInbox,
+} from "react-icons/ai";
 import { HiHome } from "react-icons/hi";
 import { BiTrash } from "react-icons/bi";
 const photos = [
-    {
-        src: galleryLogo1,
-        width: 1,
-        height: 1,
-    },
-    {
-        src: galleryLogo2,
-        width: 1,
-        height: 1,
-    },
-    {
-        src: galleryLogo3,
-        width: 1,
-        height: 1,
-    },
-    {
-        src: galleryLogo4,
-        width: 1,
-        height: 1,
-    },
-    {
-        src: galleryLogo5,
-        width: 1,
-        height: 1,
-    },
-    {
-        src: galleryLogo6,
-        width: 1,
-        height: 1,
-    },
+  {
+    src: galleryLogo1,
+    width: 1,
+    height: 1,
+  },
+  {
+    src: galleryLogo2,
+    width: 1,
+    height: 1,
+  },
+  {
+    src: galleryLogo3,
+    width: 1,
+    height: 1,
+  },
+  {
+    src: galleryLogo4,
+    width: 1,
+    height: 1,
+  },
+  {
+    src: galleryLogo5,
+    width: 1,
+    height: 1,
+  },
+  {
+    src: galleryLogo6,
+    width: 1,
+    height: 1,
+  },
 ];
 const userId = window.sessionStorage.getItem("userId");
 let tab1 = "수강중인 강의실",
-    tab2 = "관리중인 강의실",
-    tab3 = "종료된 강의실",
-    tab4 = "강의실 학생 관리",
-    tabStyle = "intro-tabs tabs-box";
+  tab2 = "관리중인 강의실",
+  tab3 = "종료된 강의실",
+  tab4 = "강의실 학생 관리",
+  tabStyle = "intro-tabs tabs-box";
 const CanvasMenu = (props) => {
-    const { canvasClass, canvasLogo } = props;
+  const { canvasClass, canvasLogo } = props;
 
-    const canvasMenuRemove = () => {
-        document.body.classList.remove("nav-expanded");
-    };
+  const canvasMenuRemove = () => {
+    document.body.classList.remove("nav-expanded");
+  };
 
-    const [currentImage, setCurrentImage] = useState(0);
-    const [viewerIsOpen, setViewerIsOpen] = useState(false);
+  const [currentImage, setCurrentImage] = useState(0);
+  const [viewerIsOpen, setViewerIsOpen] = useState(false);
 
-    const openLightbox = useCallback((event, { photo, index }) => {
-        setCurrentImage(index);
-        setViewerIsOpen(true);
-    }, []);
+  const openLightbox = useCallback((event, { photo, index }) => {
+    setCurrentImage(index);
+    setViewerIsOpen(true);
+  }, []);
 
-    const closeLightbox = () => {
-        setCurrentImage(0);
-        setViewerIsOpen(false);
-    };
-    let id = window.sessionStorage.getItem("userId");
-    const history = useHistory();
+  const closeLightbox = () => {
+    setCurrentImage(0);
+    setViewerIsOpen(false);
+  };
+  let id = window.sessionStorage.getItem("userId");
+  const history = useHistory();
 
-    return (
-        <React.Fragment>
-            <nav className={canvasClass} onMouseLeave={canvasMenuRemove}>
-                <div className="d-flex mt-10 mb-10 black-color ps-4 align-items-center">
-                    {window.sessionStorage.getItem("name") ? (
-                        <div>
-                            {window.sessionStorage.getItem("name") + "님"} <HiHome />
-                        </div>
-                    ) : (
-                        window.sessionStorage.getItem("name")
-                    )}
-                </div>
-                <ul
-                    style={{
-                        backgroundColor: "#f8f9fa",
-                        textAlign: "left",
-                        // color: "black !important",
-                        fontSize: "1.1rem",
-                    }}
-                    className="ps-3 mt-10 mb-10 "
-                >
-                    <li className="p-2 ">
-                        <Link to="/dashboard-main" className="mypageBtn">
-                            <AiOutlinePlayCircle />
-                            &ensp;
-                            {tab1}
-                        </Link>
-                    </li>
-                    <li className="p-2 ">
-                        <Link to="/dashboard-admin" className="mypageBtn">
-                            <AiOutlineInbox />
-                            &ensp;
-                            {tab2}
-                        </Link>
-                    </li>
-                    <li className="p-2 ">
-                        <Link to="/dashboard-closed" className="mypageBtn">
-                            <BiTrash />
-                            &ensp;
-                            {tab3}
-                        </Link>
-                    </li>
-                    {/* 
+  return (
+    <React.Fragment>
+      <nav className={canvasClass} onMouseLeave={canvasMenuRemove}>
+        <div className="d-flex mt-10 mb-10 black-color ps-4 align-items-center">
+          {window.sessionStorage.getItem("name") ? (
+            <div style={{ cursor: "pointer" }}>
+              {window.sessionStorage.getItem("name") + "님"} <HiHome />
+            </div>
+          ) : (
+            window.sessionStorage.getItem("name")
+          )}
+        </div>
+        <ul
+          style={{
+            backgroundColor: "#f8f9fa",
+            textAlign: "left",
+            // color: "black !important",
+            fontSize: "1.1rem",
+          }}
+          className="ps-3 mt-10 mb-10 "
+        >
+          <li className="p-2 mypageBtn">
+            <Link to="/dashboard-main" className="mypageBtn">
+              <AiOutlinePlayCircle />
+              &ensp;
+              {tab1}
+            </Link>
+          </li>
+          <li className="p-2 mypageBtn">
+            <Link to="/dashboard-admin" className="mypageBtn">
+              <AiOutlineInbox />
+              &ensp;
+              {tab2}
+            </Link>
+          </li>
+          <li className="p-2 mypageBtn">
+            <Link to="/dashboard-closed" className="mypageBtn">
+              <BiTrash />
+              &ensp;
+              {tab3}
+            </Link>
+          </li>
+          {/* 
           <li className="p-2">
             <AiOutlineSetting />
             {tab4}
           </li> */}
-                </ul>
-                <div className="ps-3 p-0 logoutbtn">
-                    <Login />
-                </div>
+        </ul>
+        <div className="ps-3 p-0 logoutbtn">
+          <Login />
+        </div>
 
-                {/* <TabPanel>
+        {/* <TabPanel>
             <CourseMain userId={userId} />
           </TabPanel>
           <TabPanel>
@@ -140,7 +145,7 @@ const CanvasMenu = (props) => {
           <TabPanel>
             <CourseMainClosed userId={userId} />
           </TabPanel> */}
-                {/* <div className="close-btn">
+        {/* <div className="close-btn">
           <div onClick={canvasMenuRemove} id="nav-close">
             <div className="line">
               <span className="line1"></span>
@@ -148,7 +153,7 @@ const CanvasMenu = (props) => {
             </div>
           </div>
         </div> */}
-                {/* <div className="canvas-logo">
+        {/* <div className="canvas-logo">
           <Link to="/">
             <img src={canvasLogo} alt="logo" />
           </Link>
@@ -204,9 +209,9 @@ const CanvasMenu = (props) => {
             </li>
           </ul>
         </div> */}
-            </nav>
-        </React.Fragment>
-    );
+      </nav>
+    </React.Fragment>
+  );
 };
 
 export default CanvasMenu;
