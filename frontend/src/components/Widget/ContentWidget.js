@@ -122,10 +122,21 @@ const ContentWidget = ({
         // console.log(isBigDisplay);
     };
 
-    function decodeHTML(words) {
-        var decode = require("decode-html");
-        // console.log(decode(words));
-        return decode(words);
+    function decodeHTML(str) {
+        // var decode = require("decode-html");
+        // // console.log(decode(words));
+        // return decode(words);
+        if (str !== undefined && str !== null && str !== "") {
+            str = String(str);
+
+            str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gim, "");
+            str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')&>/gim, "");
+            var element = document.createElement("div");
+            element.innerHTML = str;
+            str = element.textContent;
+            element.textContent = "";
+        }
+        return str;
     }
     // const nextLectureHandler = () => {
     //     if (lectureNum <= lectures.length) {

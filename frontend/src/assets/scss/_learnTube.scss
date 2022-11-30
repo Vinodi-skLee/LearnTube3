@@ -1,294 +1,295 @@
 .classButton {
-    outline: none;
-    border: none;
-    padding: 12px 40px;
-    border-radius: 3px;
-    display: inline-block;
-    text-transform: capitalize;
-    font-size: 16px;
-    font-family: $bodyFont;
-    font-weight: 500;
-    color: $bodyColor;
-    position: relative;
-    overflow: hidden;
-    &.banner-style {
-        padding: 16px 40px;
-    }
-    &.mod {
-        text-transform: uppercase;
-        padding: 14px 31px;
-    }
-    &.transparent {
-        background: transparent;
-        color: $orangeColor;
-        border: 1px solid $orangeColor;
-        &:hover {
-            color: $whiteColor;
-            background: $orangeColor;
-        }
-    }
-    &.orange-transparent {
-        background: transparent;
-        color: $orangeColor;
-        border: 1px solid $orangeColor;
-        &:hover {
-            color: $whiteColor;
-            background: $orangeColor;
-        }
-    }
-    &.orange {
-        background: $orangeColor;
-        &:hover {
-            background: darken($orangeColor, 5%);
-        }
-    }
-
+  outline: none;
+  border: none;
+  padding: 12px 40px;
+  border-radius: 3px;
+  display: inline-block;
+  text-transform: capitalize;
+  font-size: 16px;
+  font-family: $bodyFont;
+  font-weight: 500;
+  color: $bodyColor;
+  position: relative;
+  overflow: hidden;
+  &.banner-style {
+    padding: 16px 40px;
+  }
+  &.mod {
+    text-transform: uppercase;
+    padding: 14px 31px;
+  }
+  &.transparent {
+    background: transparent;
+    color: $orangeColor;
+    border: 1px solid $orangeColor;
     &:hover {
-        background: darken($orangeColor, 5%);
-        color: $whiteColor;
+      color: $whiteColor;
+      background: $orangeColor;
     }
-    &.gym-btn {
-        background: $orangeColor;
-        color: #ffffff;
-        border-radius: 4px;
-        font-weight: 500;
-        font-size: 16px;
-        text-transform: capitalize;
-        padding: 17px 28px;
-        &:hover {
-            opacity: 0.8;
-        }
-        &.get-now {
-            &:hover {
-                background: $whiteColor;
-                color: $orangeColor;
-            }
-        }
+  }
+  &.orange-transparent {
+    background: transparent;
+    color: $orangeColor;
+    border: 1px solid $orangeColor;
+    &:hover {
+      color: $whiteColor;
+      background: $orangeColor;
     }
-    &.cta-btn {
-        background: $orangeColor;
-        color: #ffffff;
-        border-radius: 3px 3px 3px 3px;
-        font-family: "Rubik", Sans-serif;
-        font-size: 16px;
-        font-weight: 500;
-        text-transform: capitalize;
-        padding: 12px 30px 12px 30px;
-        &:hover {
-            color: #f0e3e3;
-            background: #6483d8;
-        }
+  }
+  &.orange {
+    background: $orangeColor;
+    &:hover {
+      background: darken($orangeColor, 5%);
     }
-    &.cta-btn {
-        background: $orangeColor;
-        color: #ffffff;
-        border-radius: 3px 3px 3px 3px;
-        font-family: "Rubik", Sans-serif;
-        font-size: 16px;
-        font-weight: 500;
-        text-transform: capitalize;
-        padding: 12px 30px 12px 30px;
-        &:hover {
-            color: #f0e3e3;
-            background: #6483d8;
-        }
+  }
+
+  &:hover {
+    background: darken($orangeColor, 5%);
+    color: $whiteColor;
+  }
+  &.gym-btn {
+    background: $orangeColor;
+    color: #ffffff;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 16px;
+    text-transform: capitalize;
+    padding: 17px 28px;
+    &:hover {
+      opacity: 0.8;
     }
-    &.apply {
-        padding: 10px 30px 10px 30px;
-        &:hover {
-            color: unset;
-        }
+    &.get-now {
+      &:hover {
+        background: $whiteColor;
+        color: $orangeColor;
+      }
     }
+  }
+  &.cta-btn {
+    background: $orangeColor;
+    color: #ffffff;
+    border-radius: 3px 3px 3px 3px;
+    font-family: "Rubik", Sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: capitalize;
+    padding: 12px 30px 12px 30px;
+    &:hover {
+      color: #f0e3e3;
+      background: #6483d8;
+    }
+  }
+  &.cta-btn {
+    background: $orangeColor;
+    color: #ffffff;
+    border-radius: 3px 3px 3px 3px;
+    font-family: "Rubik", Sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: capitalize;
+    padding: 12px 30px 12px 30px;
+    &:hover {
+      color: #f0e3e3;
+      background: #6483d8;
+    }
+  }
+  &.apply {
+    padding: 10px 30px 10px 30px;
+    &:hover {
+      color: unset;
+    }
+  }
 }
 .dashboard-tabs {
+  position: relative;
+  border: none;
+  .react-tabs__tab {
     position: relative;
-    border: none;
-    .react-tabs__tab {
-        position: relative;
-        text-align: center;
-        width: 32.3%;
-        display: inline-block;
-        button {
-            position: relative;
-            display: block;
-            width: 100%;
-            font-size: 14px;
-            background: none;
-            background: #ffffff;
-            color: #626262;
-            border: none;
-            font-weight: 500;
-            line-height: 24px;
-            padding: 12px 40px 10px;
-            text-transform: capitalize;
-            transition: all 500ms ease;
-        }
-        &:hover,
-        &.react-tabs__tab--selected {
-            button {
-                color: #ffffff;
-                background: #273857;
-                border-color: #273857;
-            }
-        }
+    text-align: center;
+    width: 32.3%;
+    display: inline-block;
+    button {
+      position: relative;
+      display: block;
+      width: 100%;
+      font-size: 14px;
+      background: none;
+      background: #ffffff;
+      color: #626262;
+      border: none;
+      font-weight: 500;
+      line-height: 24px;
+      padding: 12px 40px 10px;
+      text-transform: capitalize;
+      transition: all 500ms ease;
     }
-    .react-tabs__tab-panel {
-        position: relative;
-        overflow: hidden;
-        background-color: #ffffff;
-        .minutes {
-            position: relative;
-            color: #21a7d0;
-            font-size: 14px;
-            font-weight: 500;
-            margin-top: 12px;
-        }
+    &:hover,
+    &.react-tabs__tab--selected {
+      button {
+        color: #ffffff;
+        background: #273857;
+        border-color: #273857;
+      }
     }
+  }
+  .react-tabs__tab-panel {
+    position: relative;
+    overflow: hidden;
+    background-color: #ffffff;
+    .minutes {
+      position: relative;
+      color: #21a7d0;
+      font-size: 14px;
+      font-weight: 500;
+      margin-top: 12px;
+    }
+  }
 }
 
 .btn-my-playlist {
 }
 
 @media #{$lg} {
-    .dashboard-tabs .react-tabs__tab button {
-        padding: 12px 10px 10px;
-    }
-    .btn {
-        padding: 14px 20px;
-    }
+  .dashboard-tabs .react-tabs__tab button {
+    padding: 12px 10px 10px;
+  }
+  .btn {
+    padding: 14px 20px;
+  }
 }
 @media #{$mobile} {
-    .dashboard-tabs .react-tabs__tab {
-        width: 100%;
-    }
+  .dashboard-tabs .react-tabs__tab {
+    width: 100%;
+  }
 }
 
 .createbtn {
-    width: 80px;
-    height: 40px;
-    border-radius: 5px;
-    // padding: 10px 0px;
-    background-color: $orangeColor;
-    color: white;
-    border: none;
-    margin-left: 10px;
+  width: 80px;
+  height: 40px;
+  border-radius: 5px;
+  // padding: 10px 0px;
+  background-color: $orangeColor;
+  color: white;
+  border: none;
+  margin-left: 10px;
 }
 
 .canclebtn {
-    width: 80px;
-    height: 40px;
-    background-color: grey;
-    color: white;
-    border: none;
-    margin-left: 10px;
-    border-radius: 5px;
+  width: 80px;
+  height: 40px;
+  background-color: grey;
+  color: white;
+  border: none;
+  margin-left: 10px;
+  border-radius: 5px;
 }
 
 .searchbtn {
-    padding: 40px 10px 40px;
+  padding: 40px 10px 40px;
+  position: relative;
+  [type="search"] {
+    border: 1px solid #ddd;
+    color: #444444;
+    padding: 12px 17px;
+    width: 100%;
+    border-radius: 5px;
     position: relative;
-    [type="search"] {
-        border: 1px solid #ddd;
-        color: #444444;
-        padding: 12px 17px;
-        width: 100%;
-        border-radius: 5px;
-        position: relative;
+  }
+  button {
+    background: transparent;
+    border: medium none;
+    color: $bodyColor;
+    padding: 11px 15px 12px;
+    position: absolute;
+    display: block;
+    right: 0px;
+    top: 0;
+    z-index: 10;
+    font-size: 20px;
+    border-radius: 0 5px 5px;
+    i {
+      margin-top: 20px;
+      margin-right: 20px;
+      &:before {
+        font-weight: 600;
+        font-size: 18px;
+      }
     }
-    button {
-        background: transparent;
-        border: medium none;
-        color: $bodyColor;
-        padding: 11px 15px 12px;
-        position: absolute;
-        display: block;
-        right: 0px;
-        top: 0;
-        z-index: 10;
-        font-size: 20px;
-        border-radius: 0 5px 5px;
-        i {
-            margin-top: 20px;
-            margin-right: 20px;
-            &:before {
-                font-weight: 600;
-                font-size: 18px;
-            }
-        }
-        &:hover {
-            color: $primaryColor;
-        }
+    &:hover {
+      color: $primaryColor;
     }
+  }
 }
 
 .loginbtn {
-    padding: 9px 18px;
+  padding: 9px 18px;
 }
 
 .logoutbtn {
-    border: none;
+  border: none;
 }
 .logoutbtn:hover {
-    color: black !important;
+  color: black !important;
 }
 
 .alarm {
-    position: absolute;
-    visibility: hidden;
-    top: 44px;
-    right: 50px;
-    width: 300px;
+  position: absolute;
+  visibility: hidden;
+  top: 44px;
+  right: 50px;
+  width: 300px;
 }
 
 .alarm-dropdown {
-    visibility: hidden;
-    position: absolute;
-    top: 44px;
-    // right: 19%;
-    right: 50px;
-    width: 300px;
-    background: white;
-    //   border: 1px solid gray;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px 0 rgb(33 37 41 / 24%);
-    z-index: 999;
-    min-height: 50px;
-    //     transition: visibility 0.2s;
+  visibility: hidden;
+  position: absolute;
+  top: 44px;
+  // right: 19%;
+  right: 50px;
+  width: 300px;
+  background: #f8f9fa;
+  //   border: 1px solid gray;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgb(33 37 41 / 24%);
+  z-index: 999;
+  min-height: 50px;
+  transition: visibility 0.2s;
 }
 
 .alarm-border {
-    border-top: 1px solid lightgray;
+  border-top: 1px solid lightgray;
 }
 
 .alarm-border:first-child {
-    border-top: none;
+  border-top: none;
 }
 
 .alarm-dropdown:hover {
-    visibility: visible;
+  visibility: visible;
 }
 
 .new-alarm {
-    position: absolute;
-    background: red;
-    top: 1px;
-    right: 42px;
-    text-align: center;
-    width: 15px;
-    height: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    border-radius: 50%;
-    color: white;
+  position: absolute;
+  background: red;
+  top: 1px;
+  right: 42px;
+  text-align: center;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
 }
 
 .alarmbtn {
-    cursor: pointer;
-    color: white;
+  cursor: pointer;
+  color: white;
 }
 
 .alarmbtn:hover ~ .alarm-dropdown {
-    visibility: visible;
+  visibility: visible;
 }
