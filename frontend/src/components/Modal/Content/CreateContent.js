@@ -83,16 +83,6 @@ const CreateContent = (props) => {
             });
     };
     const handleNewSubmit = async () => {
-        // console.log(createPlaylist);
-        // if(createContentData.contentName === ""){
-        //     window.alert("강의실 제목을 입력해 주세요.");
-        //     return 0;
-        // }
-        // if(createPlaylist === undefined || createPlaylist.playlistName === ""){
-        //     window.alert("플레이리스트 이름을 입력해 주세요.");
-        //     return 0;
-        // }
-        //console.log(JSON.stringify(createPlaylist));
         if (!createContentData.contentName) {
             window.alert("콘텐츠 제목을 입력해 주세요.");
             return;
@@ -120,7 +110,6 @@ const CreateContent = (props) => {
                             ...createContentData,
                             playlistId: temp,
                         });
-                        //console.log(createContentData);
                         handleSubmit();
                         //handleSubmit();
                     });
@@ -130,7 +119,6 @@ const CreateContent = (props) => {
         }
         //handleSubmit();
     };
-    //console.log(playlistId);
 
     return (
         <>

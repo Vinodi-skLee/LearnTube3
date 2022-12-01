@@ -8,6 +8,7 @@ const UpdateContent = (props) => {
     const openModal = () => setIsOpen(!isOpen);
     const [playlistOpen, setPlaylistOpen] = useState(false);
     const [newPlaylistOpen, setNewPlaylistOpen] = useState(false);
+    const [playlistId, setPlaylistId] = useState(-1);
     const userId = props.userId;
 
     const initUpdateContentData = {
@@ -51,15 +52,6 @@ const UpdateContent = (props) => {
     };
 
     const handleSubmit = async () => {
-        if(!updateContentData.contentName){
-            window.alert("콘텐츠 제목을 입력해 주세요.");
-            return;
-        }
-        else if(newPlaylistOpen && !createPlaylist){
-            window.alert("플레이리스트 이름을 입력해 주세요.");
-            return;
-        }
-        else{
             const response = await axios
             .post(`${process.env.REACT_APP_SERVER_URL}/api/content/update`, JSON.stringify(updateContentData), {
                 method: "POST",
@@ -70,8 +62,45 @@ const UpdateContent = (props) => {
             .then((res) => console.log(res));
             openModal();
             window.location.reload();
-        }
         
+    };
+
+    const handleNewSubmit = async () => {
+        if(!updateContentData.contentName){
+            window.alert("콘텐츠 제목을 입력해 주세요.");
+            return;
+        }
+        if (newPlaylistOpen) {
+            if (!createPlaylist) {
+                window.alert("플레이리스트 이름을 입력해 주세요.");
+                return;
+            } else {
+                let temp;
+                const response = await axios
+                    .post(`${process.env.REACT_APP_SERVER_URL}/api/playlist/create`, JSON.stringify(createPlaylist), {
+                        method: "POST",
+                        headers: {
+                            // Accept: "application/json",
+                            "Content-Type": "application/json",
+                        },
+                    })
+                    .then(function (res) {
+                        //console.log(res.data.playlistId);
+                        temp = res.data.playlistId;
+                        setPlaylistId(temp);
+                        // createContentData.playlistId = temp;
+                        setUpdateContentData({
+                            ...updateContentData,
+                            playlistId: temp,
+                        });
+                        handleSubmit();
+                        //handleSubmit();
+                    });
+            }
+        } else {
+            handleSubmit();
+        }
+        //handleSubmit();
     };
 
     return (
@@ -285,7 +314,7 @@ const UpdateContent = (props) => {
                                             >
                                                 취소
                                             </Button>
-                                            <Button className="createbtn" type="button" onClick={handleSubmit} style={{ padding: "10.5px" }}>
+                                            <Button className="createbtn" type="button" onClick={handleNewSubmit} style={{ padding: "10.5px" }}>
                                                 저장
                                             </Button>
                                         </div>

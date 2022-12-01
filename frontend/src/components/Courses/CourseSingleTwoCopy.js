@@ -77,6 +77,10 @@ const CourseSingleTwoCopy = (props) => {
                 ) : null}
             </div>
             <div className="content-part">
+            <Link to={{
+                        pathname: "/course/course-single",
+                        state: {classId: classId}
+                    }}>
                 <h4 className="title title-mk" style={{cursor: "pointer"}} data-for={courseTitle} data-tip>
                     {courseTitle ? courseTitle : "강의의 제목이 설정되지 않았습니다."}
                     {/* <Link
@@ -89,6 +93,7 @@ const CourseSingleTwoCopy = (props) => {
                     </Link> */}
                 </h4>
                 <ReactTooltip id={courseTitle}>{courseTitle}</ReactTooltip>
+                </Link>
                 <div className="bottom-part">
                     <div className="info-meta">
                         <p className="creatorName">{creatorName ? creatorName : "-"}</p>
