@@ -24,14 +24,12 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, selectVi
     };
 
     const onClickAdd = () => {
-        setIsAdded(true);
         // console.log(isAdded);
         addVideoToCart(video);
         // console.log("newCart : " + newCart[video.id]);
     };
 
     const onDeleteAdd = () => {
-        setIsAdded(false);
         deleteVideoFromCart(cart[indexx].seq);
     };
 
@@ -94,12 +92,7 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, selectVi
           </Card>
         </CardGroup> */}
 
-            <div
-                className="search-block mouse-on"
-                style={isAdded || isAlreadyIncart || isMouseOn ? { background: "#d3daf2" } : { background: "transparent" }}
-                onMouseOver={() => setIsMouseOn(1)}
-                onMouseOut={() => setIsMouseOn(0)}
-            >
+            <div className="search-block mouse-on" style={isMouseOn ? { background: "#d3daf2" } : { background: "transparent" }} onMouseOver={() => setIsMouseOn(1)} onMouseOut={() => setIsMouseOn(0)}>
                 <div>
                     <div onMouseDown={onSelect}>
                         {/* <div className="m-0 col-md-3 col-sm-12 d-flex justify-content-center"> */}
@@ -123,20 +116,20 @@ const YoutubeBoard = memo(({ video, video: { snippet, contentDetails }, selectVi
                         </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center">
-                        {isInterestVideo ? (
-                            <i className="fa fa-heart" onClick={heartBtnHandler} style={{ color: "red" }}></i>
-                        ) : (
-                            <i className="fa fa-heart" onClick={heartBtnHandler} style={{ color: "gray" }}></i>
-                        )}
-                        {isAdded || isAlreadyIncart ? (
+                        {/* {isInterestVideo ? ( */}
+                        {/* <i className="fa fa-heart" onClick={heartBtnHandler} style={{ color: "red" }}></i> */}
+                        {/* ) : ( */}
+                        <i className="fa fa-heart" onClick={heartBtnHandler} style={{ color: "gray" }}></i>
+                        {/* )} */}
+                        {/* {isAdded || isAlreadyIncart ? (
                             <Button onClick={onDeleteAdd} className="cart-out">
                                 -
                             </Button>
-                        ) : (
-                            <Button onClick={onClickAdd} className="cart-in">
-                                담기
-                            </Button>
-                        )}
+                        ) : ( */}
+                        <Button onClick={onClickAdd} className="cart-in">
+                            담기
+                        </Button>
+                        {/* )} */}
                     </div>
                 </div>
             </div>
