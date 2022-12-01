@@ -215,27 +215,26 @@ const Cart = ({ cart, playlistTitle, playlistId, setPart, index, setIndex, exist
                                                                         >
                                                                             <i class="fa fa-edit"></i>
                                                                         </button>
-                                                                        {video.seq < deleteCount + 1 ? (
-                                                                            <button
-                                                                                onClick={(e) => {
-                                                                                    onDeleteClick(video.seq);
-                                                                                }}
-                                                                                style={{
-                                                                                    position: "relative",
-                                                                                    background: "white",
-                                                                                    width: "25px",
-                                                                                    height: "25px",
-                                                                                    padding: "0",
-                                                                                    border: "none",
-                                                                                    borderRadius: "50%",
-                                                                                    paddingLeft: "0px",
-                                                                                    paddingRight: "0px",
-                                                                                    marginRight: "4px",
-                                                                                }}
-                                                                            >
-                                                                                <i class="fa fa-trash"></i>
-                                                                            </button>
-                                                                        ) : null}
+
+                                                                        <button
+                                                                            onClick={(e) => {
+                                                                                onDeleteClick(video.seq);
+                                                                            }}
+                                                                            style={{
+                                                                                position: "relative",
+                                                                                background: "white",
+                                                                                width: "25px",
+                                                                                height: "25px",
+                                                                                padding: "0",
+                                                                                border: "none",
+                                                                                borderRadius: "50%",
+                                                                                paddingLeft: "0px",
+                                                                                paddingRight: "0px",
+                                                                                marginRight: "4px",
+                                                                            }}
+                                                                        >
+                                                                            <i class="fa fa-trash"></i>
+                                                                        </button>
                                                                     </div>
                                                                     <img
                                                                         className="img-fluid"
