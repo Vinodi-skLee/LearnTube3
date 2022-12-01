@@ -247,13 +247,15 @@
   // right: 19%;
   right: 50px;
   width: 300px;
-  background: #f8f9fa;
+  // background: #f8f9fa;
+  background: white;
   //   border: 1px solid gray;
   border-radius: 5px;
   box-shadow: 0 2px 4px 0 rgb(33 37 41 / 24%);
   z-index: 999;
   min-height: 50px;
-  transition: visibility 0.2s;
+  // transition: visibility 0.2s;
+  // opacity: 0;
 }
 
 .alarm-border {
@@ -266,16 +268,18 @@
 
 .alarm-dropdown:hover {
   visibility: visible;
+  // transition: visibility 100ms;
+  // opacity: 1;
 }
 
 .new-alarm {
   position: absolute;
-  background: red;
-  top: 1px;
-  right: 42px;
+  background: #ff5b16;
+  top: 4px;
+  right: 45px;
   text-align: center;
-  width: 15px;
-  height: 15px;
+  width: 6px;
+  height: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -291,5 +295,27 @@
 }
 
 .alarmbtn:hover ~ .alarm-dropdown {
+  visibility: visible;
+}
+
+.header-mypage {
+  visibility: hidden;
+  //   background-image: linear-gradient(90deg, #e2e9f7 0%, #ffffff 100%);
+  background-color: white;
+  // padding: 20px;
+  padding-bottom: 5px;
+  // height: 30%;
+  width: 300px;
+  top: 10;
+  box-shadow: 0 2px 4px 0 rgb(33 37 41 / 24%);
+  right: -400px;
+  z-index: 999999;
+  text-align: center;
+  //   transition: $transition;
+  position: fixed;
+  overflow-y: scroll;
+}
+
+.header-mypage:hover {
   visibility: visible;
 }
