@@ -65,10 +65,6 @@ let tab1 = "수강중인 강의실",
 const CanvasMenu = (props) => {
   const { canvasClass, canvasLogo } = props;
 
-  const canvasMenuRemove = () => {
-    document.body.classList.remove("nav-expanded");
-  };
-
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
 
@@ -86,7 +82,7 @@ const CanvasMenu = (props) => {
 
   return (
     <React.Fragment>
-      <nav className={canvasClass} onMouseLeave={canvasMenuRemove}>
+      <nav className={canvasClass} onMouseLeave={props.canvasMenuRemove}>
         <div className="d-flex mt-10 mb-10 black-color ps-4 align-items-center">
           {window.sessionStorage.getItem("name") ? (
             <div style={{ cursor: "pointer" }}>

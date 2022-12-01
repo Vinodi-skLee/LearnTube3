@@ -74,12 +74,6 @@ const Header = (props) => {
     document.body.classList.remove("nav-expanded");
   };
 
-  const addAlarmDropdown = () => {
-    document.body.classList.add("alarm-dropdown");
-  };
-  const removeAlarmDropdown = () => {
-    document.body.classList.remove("alarm-dropdown");
-  };
   const alarmExpand = () => {
     setAlarmVisible(!alarmVisible);
   };
@@ -310,42 +304,39 @@ const Header = (props) => {
                     <ul className="expand-items">
                       <li>
                         <div className="d-flex">
-                          <div>
+                          <div onMouseOver={canvasMenuRemove}>
                             {userId ? (
                               newAlarm ? (
                                 <>
-                                  <div className="new-alarm">{index}</div>
+                                  {/* <div className="new-alarm">{index}</div> */}
+                                  <div className="new-alarm"></div>
                                   <FaBell
-                                    className="alarmbtn mr-10"
+                                    className=" alarmbtn mr-10"
                                     size="20"
-                                    // onMouseOver={{ addAlarmDropdown }} onMouseLeave={{ removeAlarmDropdown }}
                                   />
                                 </>
                               ) : (
-                                <FaBell
-                                  className="alarmbtn mr-10"
-                                  size="20"
-                                  // onMouseOver={{ addAlarmDropdown }} onMouseLeave={{ removeAlarmDropdown }}
-                                />
+                                <FaBell className="alarmbtn mr-10" size="20" />
                               )
                             ) : null}
 
                             {isLoading ? (
-                              <div className="alarm-dropdown">
-                                <div
-                                  class="text-center"
-                                  style={{ marginTop: "10%", height: "5rem" }}
-                                >
-                                  <Spinner
-                                    animation="grow"
-                                    variant="secondary"
-                                    style={{ width: "2rem", height: "2rem" }}
-                                  />
-                                </div>
-                              </div>
+                              // <div>
+                              //   <div
+                              //     class="text-center"
+                              //     style={{ marginTop: "10%", height: "5rem" }}
+                              //   >
+                              //     <Spinner
+                              //       animation="grow"
+                              //       variant="secondary"
+                              //       style={{ width: "2rem", height: "2rem" }}
+                              //     />
+                              //   </div>
+                              // </div>
+                              <></>
                             ) : (
                               <div
-                                className="alarm-dropdown mypageBtn"
+                                className="alarm-dropdown "
                                 // className="alarm"
                               >
                                 {isWaiting ? (
@@ -372,10 +363,10 @@ const Header = (props) => {
                                         className=" mypageBtn"
                                       >
                                         <div>
-                                          <span style={{ color: "#7cbdb5" }}>
+                                          <span style={{ color: "#007ad4" }}>
                                             {waiting.username}
                                           </span>
-                                          {" 님께서 수강신청하셨습니다."}
+                                          {"님께서 수강신청하셨습니다."}
                                         </div>
                                       </Link>
                                       {/* {console.log(waitList)} */}
@@ -399,6 +390,7 @@ const Header = (props) => {
                           <div>
                             {userId ? (
                               <BsFillPersonFill
+                                // className="header-mypage"
                                 onMouseOver={canvasMenuAdd}
                                 // onMouseLeave={canvasMenuRemove}
                                 size="24"
@@ -475,6 +467,7 @@ const Header = (props) => {
               : "right_menu_togle orange_color hidden-md"
           }
           canvasLogo={CanvasLogo ? CanvasLogo : darkLogo}
+          canvasMenuRemove={canvasMenuRemove}
         />
       </div>
     </React.Fragment>
