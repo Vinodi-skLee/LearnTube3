@@ -273,27 +273,28 @@ const Playlist = () => {
   const deletePlaylist = () => {
     // console.log(playlistId);
 
-    if (
-      window.confirm(
-        '"' + savedPlaylistName + '"' + " 플레이리스트를 정말 삭제하시겠습니까?"
-      ) === true
-    ) {
-      axios
-        .post(
-          `${process.env.REACT_APP_SERVER_URL}/api/playlist/delete`,
-          JSON.stringify(playlistId),
-          {
-            headers: {
-              "Content-Type": `application/json`,
-            },
-          }
-        )
-        .then((res) => console.log(res));
-      alert("플레이리스트가 삭제되었습니다.");
-      window.location.reload();
-    } else {
-      return false;
-    }
+    // if (
+    //   window.confirm(
+    //     '"' + savedPlaylistName + '"' + " 플레이리스트를 정말 삭제하시겠습니까?"
+    //   ) === true
+    // ) {
+    // if (deletePlaylistName === savedPlaylistName) {
+    axios
+      .post(
+        `${process.env.REACT_APP_SERVER_URL}/api/playlist/delete`,
+        JSON.stringify(playlistId),
+        {
+          headers: {
+            "Content-Type": `application/json`,
+          },
+        }
+      )
+      .then((res) => console.log(res));
+    alert("플레이리스트가 삭제되었습니다.");
+    window.location.reload();
+    // } else {
+    //   return false;
+    // }
   };
 
   const updatePlaylistData = {
