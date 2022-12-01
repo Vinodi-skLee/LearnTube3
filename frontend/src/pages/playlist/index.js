@@ -96,10 +96,10 @@ const Playlist = () => {
             );
             // console.log(res1.data);
             classroomData = [...classroomData, res1.data];
-            window.sessionStorage.setItem(
-              "classroom" + i,
-              JSON.stringify(res1.data)
-            );
+            // window.sessionStorage.setItem(
+            //   "classroom" + i,
+            //   JSON.stringify(res1.data)
+            // );
             // let data = window.sessionStorage.getItem("classroom");
             // console.log(data);
           } catch (err) {
@@ -125,55 +125,55 @@ const Playlist = () => {
     return { ...playlistData[i], [key]: value };
   }
 
-  useEffect(() => {
-    if (managedClassroom) {
-      managedClassroom.map((classroom, i) => {
-        classData = JSON.parse(window.sessionStorage.getItem("classroom" + i));
-        // console.log(classData);
-        if (playlistData && classData && classData.lectures)
-          classData.lectures.map((lec, j) => {
-            if (lec.contents)
-              lec.contents.map((con, k) => {
-                playlistData
-                  .sort((a, b) => (a.playlistId < b.playlistId ? 1 : -1))
-                  .map((pl, l) => {
-                    if (con.playlistId === pl.playlistId) {
-                      usedPlaylist = [...usedPlaylist, con.playlistId];
-                      // playlistData[i].used = 1;
-                      linkClass = [...linkClass, classData];
-                      // window.sessionStorage.setItem("linkClass", JSON.stringify(linkClass));
-                      //   console.log(linkClass);
-                      linkLecture = [...linkLecture, lec];
-                      //   console.log(linkLecture);
-                      //   lectureNum = [
-                      //     ...lectureNum,
-                      //     playlistData[i].playlistId,
-                      //   ];
-                      lectureNum = [...lectureNum, j];
-                      //   contentNum = [
-                      //     ...contentNum,
-                      //     playlistData[i].playlistId,
-                      //   ];
-                      contentNum = [...contentNum, k];
-                      //   window.sessionStorage.setItem(
-                      //     "lectureNum",
-                      //     JSON.stringify(lectureNum)
-                      //   );
-                      //   window.sessionStorage.setItem(
-                      //     "contentNum",
-                      //     JSON.stringify(contentNum)
-                      //   );
-                      //   console.log(lectureNum);
-                      //   console.log(contentNum);
-                      //   add(i, "contentId", con.contentId);
-                    } //   console.log(pl.playlistId);
-                  });
-                // console.log(con.playlistId);
-              });
-          });
-      });
-    }
-  }, [classroomData]);
+  // useEffect(() => {
+  //   if (managedClassroom) {
+  //     managedClassroom.map((classroom, i) => {
+  //       classData = JSON.parse(window.sessionStorage.getItem("classroom" + i));
+  //       // console.log(classData);
+  //       if (playlistData && classData && classData.lectures)
+  //         classData.lectures.map((lec, j) => {
+  //           if (lec.contents)
+  //             lec.contents.map((con, k) => {
+  //               playlistData
+  //                 .sort((a, b) => (a.playlistId < b.playlistId ? 1 : -1))
+  //                 .map((pl, l) => {
+  //                   if (con.playlistId === pl.playlistId) {
+  //                     usedPlaylist = [...usedPlaylist, con.playlistId];
+  //                     // playlistData[i].used = 1;
+  //                     linkClass = [...linkClass, classData];
+  //                     // window.sessionStorage.setItem("linkClass", JSON.stringify(linkClass));
+  //                     //   console.log(linkClass);
+  //                     linkLecture = [...linkLecture, lec];
+  //                     //   console.log(linkLecture);
+  //                     //   lectureNum = [
+  //                     //     ...lectureNum,
+  //                     //     playlistData[i].playlistId,
+  //                     //   ];
+  //                     lectureNum = [...lectureNum, j];
+  //                     //   contentNum = [
+  //                     //     ...contentNum,
+  //                     //     playlistData[i].playlistId,
+  //                     //   ];
+  //                     contentNum = [...contentNum, k];
+  //                     //   window.sessionStorage.setItem(
+  //                     //     "lectureNum",
+  //                     //     JSON.stringify(lectureNum)
+  //                     //   );
+  //                     //   window.sessionStorage.setItem(
+  //                     //     "contentNum",
+  //                     //     JSON.stringify(contentNum)
+  //                     //   );
+  //                     //   console.log(lectureNum);
+  //                     //   console.log(contentNum);
+  //                     //   add(i, "contentId", con.contentId);
+  //                   } //   console.log(pl.playlistId);
+  //                 });
+  //               // console.log(con.playlistId);
+  //             });
+  //         });
+  //     });
+  //   }
+  // }, [classroomData]);
 
   useEffect(() => {
     // console.log(usedPlaylist);
@@ -275,7 +275,7 @@ const Playlist = () => {
 
     if (
       window.confirm(
-        savedPlaylistName + " 플레이리스트를 정말 삭제하시겠습니까?"
+        '"' + savedPlaylistName + '"' + " 플레이리스트를 정말 삭제하시겠습니까?"
       ) === true
     ) {
       axios
