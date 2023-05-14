@@ -5,7 +5,7 @@ YouTube에서 원하는 영상들만 골라 강의리스트를 완성하고, 강
 
 ## 참여자
 
-| ![](https://github.com/kimjueun1.png) | ![](https://github.com/Vinodi-skLee.png) | ![](https://github.com/CHANGYUJIN.png) |
+| ![](https://github.com/kimjueun1.png) | ![](https://github.com/Vinodi-skLee.png) | ![](https://github.com/existarr.png) |
 | :--------------------------------------: | :--------------------------------------: | :--------------------------------------: |
 |             **김주은**              |             **이선경**              |             **장유진**              |
 
